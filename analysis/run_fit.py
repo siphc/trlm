@@ -42,6 +42,7 @@ def main() -> None:
     ap.add_argument("--n_follow", type=int, default=20000, help="AFTER exceptions kept")
     ap.add_argument("--n_recall", type=int, default=5000, help="RECALL exceptions kept per head")
     ap.add_argument("--n_total", type=int, default=0, help="if set: one global exception budget (data importance)")
+    ap.add_argument("--save_dense", action="store_true", help="also save the student before pruning")
     ap.add_argument("--n_heads", type=int, default=4)
     ap.add_argument("--no_emit", action="store_true")
     ap.add_argument("--init", default=None, help="student checkpoint to start from")
@@ -91,6 +92,9 @@ def main() -> None:
     fit(st, args.model, steps=args.steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
         tau=args.tau, log_every=200, freeze=freeze)
     log["kl_after_dense_fit"] = evaluate(st, tgt, W_hold)
+    if args.save_dense:
+        torch.save({k: v.detach().cpu() for k, v in st.state_dict().items()},
+                   os.path.join(out, f"student_{args.tag}_dense.pt"))
     freq = np.load(md)["count"] if os.path.exists(md) else np.ones(2000)
     if args.n_total:
         log["pruned"] = prune_global(st, args.n_total, W)

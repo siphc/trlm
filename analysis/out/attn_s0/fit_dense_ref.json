@@ -1,0 +1,45 @@
+{
+ "model": "attn_s0",
+ "tag": "dense_ref",
+ "args": {
+  "model": "attn_s0",
+  "tag": "dense_ref",
+  "device": "mps",
+  "n_windows": 8000,
+  "attn_steps": 800,
+  "steps": 3000,
+  "refit_steps": 0,
+  "class_steps": 1000,
+  "bs": 16,
+  "lr": 0.02,
+  "tau": 0.0,
+  "n_follow": 20000,
+  "n_recall": 5000,
+  "n_total": 40000,
+  "save_dense": true,
+  "n_heads": 4,
+  "no_emit": true,
+  "init": null,
+  "init_follow_from_mean": false,
+  "freeze": ""
+ },
+ "pattern_kl": [
+  0.21119901537895203,
+  0.35421937704086304,
+  0.28191474080085754,
+  0.5452972650527954
+ ],
+ "kl_class_level": 1.6664232540130615,
+ "kl_after_dense_fit": 0.2233333432674408,
+ "pruned": {
+  "follow_exceptions": 1770,
+  "recall_exceptions": [
+   4378,
+   19084,
+   7059,
+   7709
+  ]
+ },
+ "kl_after_prune": 1.998745231628418,
+ "kl_holdout_train": 1.998745231628418
+}
