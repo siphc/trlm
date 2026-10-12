@@ -46,3 +46,12 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - The first two LR runs took 352 s and 702 s, the third 74 s (same config, same device). The slow ones
   ran while the machine was otherwise idle waiting on a human answer; likely macOS throttling/App Nap
   of a background process. Wall time is not a result here, but throughput numbers can be unreliable.
+
+## 2026-10-12 — Vocabulary structure (pre-phase 5, data only)
+
+- 106 of the 2000 tokens never occur in the train stream (byte tokens fully absorbed by BPE merges).
+  The model can only learn to push their logits down; the program can treat them as one category.
+- Ward clustering of train-bigram contexts gives clean word classes (prepositions, modals, past-tense
+  verbs, names, determiners, emotions, colours, word-onset fragments, byte fragments).
+- Class structure alone explains under half of the bigram: KL(data bigram || class->class) = 1.38 nats
+  vs 2.47 for unigram; adding the top-32 exact continuations per token brings it to 0.22-0.26.

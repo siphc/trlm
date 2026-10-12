@@ -1,0 +1,36 @@
+{
+ "model": "models/pilot/budget200M_mlp_s0_lr0.002/final.pt",
+ "tag": "smoke",
+ "args": {
+  "model": "models/pilot/budget200M_mlp_s0_lr0.002/final.pt",
+  "tag": "smoke",
+  "device": "cpu",
+  "n_windows": 300,
+  "attn_steps": 30,
+  "steps": 60,
+  "refit_steps": 20,
+  "bs": 4,
+  "lr": 0.01,
+  "tau": 0.002,
+  "n_heads": 4,
+  "no_emit": false,
+  "init": null
+ },
+ "pattern_kl": [
+  0.3970324695110321,
+  0.9068289399147034,
+  0.9174012541770935,
+  0.5087464451789856
+ ],
+ "kl_after_sparse_fit": 2.200823736190796,
+ "pruned": {
+  "follow_exceptions": 2358763,
+  "recall_exceptions": [
+   1884918,
+   1912261,
+   1967486,
+   1894870
+  ]
+ },
+ "kl_holdout_train": 2.09576545715332
+}
