@@ -138,7 +138,7 @@ def train(cfg: TrainConfig) -> dict:
         opt.load_state_dict(st["opt"])
         scaler.load_state_dict(st["scaler"])
         step = st["step"]
-        torch.set_rng_state(st["torch_rng"])
+        torch.set_rng_state(st["torch_rng"].cpu())  # map_location may have moved it to the GPU
         print(f"resumed from step {step}")
 
     ckpts = set(checkpoint_steps(cfg))

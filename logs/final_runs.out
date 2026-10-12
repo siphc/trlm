@@ -65,3 +65,21 @@ step 32000/32195 tok 524,288,000 lr 2.00e-04 train 2.5661 dev_fast 2.5340 (2602s
 step 32195/32195 tok 527,482,880 lr 2.00e-04 train 2.4615 dev_fast 2.5346 (3174s)
 {"variant": "attn", "seed": 0, "budget_tokens": 527482880, "peak_lr": 0.002, "steps": 32195, "tokens": 527482880, "dev_full_loss": 2.509478500366211, "elapsed": 3174.533365011215, "device": "mps"}
 step 500/32195 tok 8,192,000 lr 2.00e-03 train 3.5380 dev_fast 3.5563 (1120s)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/src/train/runs.py", line 112, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/src/train/runs.py", line 77, in main
+    _run(args.root, f"final/{mid}", args.device, args.amp, variant=variant, seed=seed,
+  File "/Users/svi/Desktop/trlm/src/train/runs.py", line 30, in _run
+    return train(TrainConfig(out=out, device=device, amp=amp, **kw))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/svi/Desktop/trlm/src/train/train.py", line 141, in train
+    torch.set_rng_state(st["torch_rng"])
+  File "/Users/svi/Desktop/trlm/.venv/lib/python3.12/site-packages/torch/random.py", line 36, in set_rng_state
+    default_generator.set_state(new_state)
+TypeError: RNG state must be a torch.ByteTensor
+resumed from step 255
+step 500/32195 tok 8,192,000 lr 2.00e-03 train 3.5380 dev_fast 3.5563 (15s)
+step 1000/32195 tok 16,384,000 lr 2.00e-03 train 3.0727 dev_fast 3.1349 (51s)

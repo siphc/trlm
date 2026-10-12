@@ -179,11 +179,12 @@ def test_batches_depend_only_on_seed_and_step():
     assert len(np.unique(first_epoch)) == len(first_epoch)
 
 
-def test_resume_reproduces_training():
-    base = dict(variant="attn", seed=1, budget_tokens=40 * 64 * 256, device="cpu", eval_every=10**9,
+@pytest.mark.parametrize("device", ["cpu"] + (["mps"] if torch.backends.mps.is_available() else []))
+def test_resume_reproduces_training(device):
+    base = dict(variant="attn", seed=1, budget_tokens=40 * 64 * 256, device=device, eval_every=10**9,
                 log_every=10)
-    full = "models/sanity/resume_full"
-    part = "models/sanity/resume_part"
+    full = f"models/sanity/resume_full_{device}"
+    part = f"models/sanity/resume_part_{device}"
     for d in (full, part):
         shutil.rmtree(d, ignore_errors=True)
     train(TrainConfig(**base, out=full))
@@ -194,7 +195,10 @@ def test_resume_reproduces_training():
     a = load_model(f"{full}/final.pt")
     b = load_model(f"{part}/final.pt")
     for (n, p), (_, q) in zip(a.state_dict().items(), b.state_dict().items()):
-        assert torch.equal(p, q), n
+        if device == "cpu":
+            assert torch.equal(p, q), n
+        else:  # GPU kernels need not be bitwise deterministic; require agreement to fp32 noise
+            assert torch.allclose(p, q, atol=1e-4, rtol=0), (n, float((p - q).abs().max()))
 
 
 def _train_until(cfg: TrainConfig, stop_at: int) -> None:

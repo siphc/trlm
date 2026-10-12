@@ -70,3 +70,9 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   5-token prefix differ from the full-window run by 2.9e-5 (> 1e-5 tolerance) because of different kernel
   shapes. In float64 the difference is 2.5e-14. Fixed the self-test fixture to run in float64; scorer
   unchanged.
+
+## 2026-10-12 — Resume bug on MPS (phase 4)
+
+- Resuming attn_s1 on MPS crashed: `torch.load(..., map_location="mps")` moves the saved CPU RNG state to
+  the GPU and `torch.set_rng_state` rejects it. The resume sanity test only covered CPU. Fixed (`.cpu()`),
+  and the test now runs on MPS too (weights agree within 1e-4).
