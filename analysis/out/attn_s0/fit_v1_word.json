@@ -1,0 +1,30 @@
+{
+ "model": "attn_s0",
+ "tag": "v1_word",
+ "args": {
+  "model": "attn_s0",
+  "tag": "v1_word",
+  "device": "cpu",
+  "n_windows": 400,
+  "attn_steps": 0,
+  "steps": 0,
+  "refit_steps": 0,
+  "class_steps": 0,
+  "bs": 16,
+  "lr": 0.01,
+  "tau": 0.0,
+  "n_follow": 0,
+  "n_recall": 0,
+  "n_heads": 0,
+  "no_emit": false,
+  "init": null,
+  "freeze": "class_follow,follow_exc"
+ },
+ "kl_after_dense_fit": 3.48728289604187,
+ "pruned": {
+  "follow_exceptions": 0,
+  "recall_exceptions": []
+ },
+ "kl_after_prune": 3.48728289604187,
+ "kl_holdout_train": 3.48728289604187
+}

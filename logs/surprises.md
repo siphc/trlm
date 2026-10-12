@@ -55,3 +55,18 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   verbs, names, determiners, emotions, colours, word-onset fragments, byte fragments).
 - Class structure alone explains under half of the bigram: KL(data bigram || class->class) = 1.38 nats
   vs 2.47 for unigram; adding the top-32 exact continuations per token brings it to 0.22-0.26.
+
+## 2026-10-12 — attn_s0 first look (phase 5)
+
+- Zero-ablating one head of attn_s0 costs up to 3.9 nats (head 0) and all four heads 35.6 nats of KL.
+  Head outputs have norms 3.5-7.6 against 2.2 for the token embedding, so the final LayerNorm sees a
+  completely different vector. Zero ablation is meaningless here; the consistency check needs mean
+  ablation. The harness (built in phase 1) only does zero ablation. Raised with the human.
+- Heads 0 and 2 put ~50% / ~34% of attention on the current token itself: most of the model's "bigram"
+  goes through these heads, not through the direct embedding path.
+- Final LayerNorm scale varies 0.57-2.13 across positions (mean 1.13, sd 0.24): a ~4x range in effective
+  temperature that an additive program does not have.
+- Harness self-test with the model wrapper failed the causality check on attn_s0: float32 log-probs for a
+  5-token prefix differ from the full-window run by 2.9e-5 (> 1e-5 tolerance) because of different kernel
+  shapes. In float64 the difference is 2.5e-14. Fixed the self-test fixture to run in float64; scorer
+  unchanged.
