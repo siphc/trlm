@@ -31,3 +31,18 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   cross-entropy, yet KL(model || bigram) = 1.19 nats. The bigram's Dirichlet smoothing gives
   unseen pairs ~1e-10, and the (undertrained, diffuse) model puts mass there. KL(model || program)
   punishes any token the program rules out that the model does not. Programs need a floor.
+
+## 2026-10-12 — Throughput
+
+- On the M4, `torch.set_num_threads(10)` cuts CPU training throughput from 137k to 37k tokens/s
+  (efficiency cores). The torch default (4 threads) is best. MPS gives ~250k tokens/s, which makes the
+  whole pilot plus 10 final runs feasible on the laptop in a few hours.
+
+## 2026-10-12 — Pilot LR check
+
+- Dev loss falls steeply with LR at 12.5M tokens: 3.670 (5e-4), 3.233 (1e-3), 2.917 (2e-3). The best LR is
+  at the top edge of the AGENTS.md grid, so the true optimum is probably higher. Protocol followed
+  (2e-3 chosen); one extra explore point at 4e-3 is run after the ladder for information only.
+- The first two LR runs took 352 s and 702 s, the third 74 s (same config, same device). The slow ones
+  ran while the machine was otherwise idle waiting on a human answer; likely macOS throttling/App Nap
+  of a background process. Wall time is not a result here, but throughput numbers can be unreliable.

@@ -1,6 +1,8 @@
 # Frozen decisions. Mirrors AGENTS.md section 2. Read-only after commit.
 # A change requires human approval, a new version of this file, and a full rerun.
-version: 1
+version: 2
+# v2 (2026-10-12, human-approved): training hardware changed from Google Colab GPU to the
+# laptop's Apple M4 GPU (MPS), fp32 (no autocast). No runs had been made under v1.
 
 data:
   dataset: roneneldan/TinyStories        # original, NOT TinyStoriesV2-GPT4
@@ -50,12 +52,12 @@ training:
   batch_windows: 64                      # 16,384 tokens
   dropout: 0.0
   n_log_checkpoints: 20                  # log-spaced in tokens seen, plus final
-  mixed_precision: fp16_autocast_gpu_only
+  mixed_precision: none                  # MPS runs are fp32 end to end
   fidelity_precision: fp32
 
 hardware:
   development: laptop_cpu
-  training: google_colab_gpu
+  training: apple_m4_mps_fp32          # v1 was google_colab_gpu
 
 eval_sets:
   dev_fast: 200

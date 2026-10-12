@@ -1,0 +1,9 @@
+step 500/762 tok 8,192,000 lr 1.72e-04 train 3.7297 dev_fast 3.7888 (239s)
+step 762/762 tok 12,484,608 lr 5.00e-05 train 3.6530 dev_fast 3.6967 (351s)
+{"variant": "mlp", "seed": 0, "budget_tokens": 12500000, "peak_lr": 0.0005, "steps": 762, "tokens": 12484608, "dev_full_loss": 3.669716728210449, "elapsed": 352.26640605926514, "device": "mps"}
+step 500/762 tok 8,192,000 lr 3.43e-04 train 3.3241 dev_fast 3.3898 (577s)
+step 762/762 tok 12,484,608 lr 1.00e-04 train 3.2186 dev_fast 3.2711 (698s)
+{"variant": "mlp", "seed": 0, "budget_tokens": 12500000, "peak_lr": 0.001, "steps": 762, "tokens": 12484608, "dev_full_loss": 3.2331390686035157, "elapsed": 702.0337719917297, "device": "mps"}
+step 500/762 tok 8,192,000 lr 6.86e-04 train 3.0112 dev_fast 3.0789 (58s)
+step 762/762 tok 12,484,608 lr 2.00e-04 train 2.9100 dev_fast 2.9540 (74s)
+{"variant": "mlp", "seed": 0, "budget_tokens": 12500000, "peak_lr": 0.002, "steps": 762, "tokens": 12484608, "dev_full_loss": 2.9171347198486326, "elapsed": 74.3132791519165, "device": "mps"}

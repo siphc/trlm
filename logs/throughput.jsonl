@@ -1,1 +1,5 @@
 {"device": "cpu", "variant": "mlp", "amp": false, "compile": false, "threads": 4, "steps": 1002, "seconds": 120.1, "tokens_per_sec": 136707, "torch": "2.14.1"}
+{"device": "cpu", "variant": "attn", "amp": false, "compile": false, "threads": 4, "steps": 1274, "seconds": 120.0, "tokens_per_sec": 173937, "torch": "2.14.1"}
+{"device": "mps", "variant": "mlp", "amp": false, "compile": false, "threads": 4, "steps": 1897, "seconds": 120.4, "tokens_per_sec": 258210, "torch": "2.14.1"}
+{"device": "mps", "variant": "attn", "amp": false, "compile": false, "threads": 4, "steps": 2096, "seconds": 186.3, "tokens_per_sec": 184302, "torch": "2.14.1"}
+{"device": "cpu", "variant": "mlp", "amp": false, "compile": false, "threads": 10, "steps": 134, "seconds": 60.0, "tokens_per_sec": 36565, "torch": "2.14.1"}

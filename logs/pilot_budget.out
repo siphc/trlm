@@ -1,0 +1,3 @@
+step 500/3051 tok 8,192,000 lr 1.90e-03 train 2.9413 dev_fast 3.0045 (32s)
+step 1000/3051 tok 16,384,000 lr 1.58e-03 train 2.7621 dev_fast 2.7368 (61s)
+step 1500/3051 tok 24,576,000 lr 1.14e-03 train 2.5631 dev_fast 2.6173 (92s)
