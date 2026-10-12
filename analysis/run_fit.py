@@ -23,7 +23,7 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, model_name, train_windows
-from analysis.student import Student, evaluate, fit, fit_attention, prune_follow_by_kl, prune_to_budget
+from analysis.student import Student, evaluate, fit, fit_attention, prune_follow_by_kl, prune_global, prune_to_budget
 
 
 def main() -> None:
@@ -41,6 +41,7 @@ def main() -> None:
     ap.add_argument("--tau", type=float, default=0.0)
     ap.add_argument("--n_follow", type=int, default=20000, help="AFTER exceptions kept")
     ap.add_argument("--n_recall", type=int, default=5000, help="RECALL exceptions kept per head")
+    ap.add_argument("--n_total", type=int, default=0, help="if set: one global exception budget (data importance)")
     ap.add_argument("--n_heads", type=int, default=4)
     ap.add_argument("--no_emit", action="store_true")
     ap.add_argument("--init", default=None, help="student checkpoint to start from")
@@ -91,8 +92,11 @@ def main() -> None:
         tau=args.tau, log_every=200, freeze=freeze)
     log["kl_after_dense_fit"] = evaluate(st, tgt, W_hold)
     freq = np.load(md)["count"] if os.path.exists(md) else np.ones(2000)
-    log["pruned"] = prune_to_budget(st, 10**9, args.n_recall, freq + 1.0)
-    log["pruned"]["follow_exceptions"] = prune_follow_by_kl(st, args.n_follow, freq + 1.0)
+    if args.n_total:
+        log["pruned"] = prune_global(st, args.n_total, W)
+    else:
+        log["pruned"] = prune_to_budget(st, 10**9, args.n_recall, freq + 1.0)
+        log["pruned"]["follow_exceptions"] = prune_follow_by_kl(st, args.n_follow, freq + 1.0)
     log["kl_after_prune"] = evaluate(st, tgt, W_hold)
     fit(st, args.model, steps=args.refit_steps, bs=args.bs, lr=args.lr * 0.3, device=args.device, tgt=tgt,
         W=W, tau=0.0, log_every=200, seed=5, freeze=freeze)

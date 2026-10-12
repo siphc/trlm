@@ -140,6 +140,51 @@ def prune_follow_by_kl(st: Student, n_follow: int, token_freq: np.ndarray) -> in
     return int(st.follow_mask.sum())
 
 
+@torch.no_grad()
+def data_importance(st: Student, W: torch.Tensor, n_batches: int = 40, bs: int = 16, seed: int = 11):
+    """Expected first-order cost of dropping each exception, measured with the full program on data.
+
+    FOLLOW (t, v): sum over positions i with t_i = t of q_i(v).
+    RECALL^h (s, v): sum over positions i and attended positions j with t_j = s of a^h_ij * q_i(v).
+    Importance = |w| * max(S, S * exp(-w)) (a suppressed token would regain mass exp(-w)), clamped.
+    """
+    dev = st.cls.device
+    S_f = torch.zeros(V, V, device=dev)
+    S_r = torch.zeros(st.H, V, V, device=dev)
+    g = torch.Generator().manual_seed(seed)
+    for _ in range(n_batches):
+        x = W[torch.randint(0, len(W), (bs,), generator=g), :T].to(dev)
+        lp, a = st(x, return_attn=True)
+        q = lp.exp()                                                     # (B, T, V)
+        S_f.index_add_(0, x.reshape(-1), q.reshape(-1, V))
+        for h in range(st.H):
+            m = a[:, h].transpose(1, 2) @ q                               # (B, T_j, V)
+            S_r[h].index_add_(0, x.reshape(-1), m.reshape(-1, V))
+
+    def imp(w, S):
+        return w.abs() * torch.maximum(S, torch.clamp(S * torch.exp(-w), max=S.sum(-1, keepdim=True)))
+
+    return imp(st.follow_exc * st.follow_mask, S_f), torch.stack(
+        [imp(st.recall_exc[h] * st.recall_mask[h], S_r[h]) for h in range(st.H)])
+
+
+def prune_global(st: Student, n_total: int, W: torch.Tensor) -> dict:
+    """Keep the n_total most important exceptions across FOLLOW and all heads' RECALL tables."""
+    i_f, i_r = data_importance(st, W)
+    allimp = torch.cat([i_f.flatten(), i_r.flatten()])
+    with torch.no_grad():
+        if n_total < int((allimp > 0).sum()):
+            thr = torch.topk(allimp, n_total).values[-1]
+        else:
+            thr = torch.tensor(1e-30, device=allimp.device)
+        st.follow_mask *= ((i_f >= thr) & (i_f > 0)).float()
+        st.recall_mask *= ((i_r >= thr) & (i_r > 0)).float()
+        st.follow_exc *= st.follow_mask
+        st.recall_exc *= st.recall_mask
+    return {"follow_exceptions": int(st.follow_mask.sum()),
+            "recall_exceptions": [int(st.recall_mask[h].sum()) for h in range(st.H)]}
+
+
 def model_patterns(tgt: Target, x: torch.Tensor) -> torch.Tensor:
     """The model's own attention weights, (B, H, T, T)."""
     with torch.no_grad():
