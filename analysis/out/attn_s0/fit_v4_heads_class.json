@@ -1,0 +1,43 @@
+{
+ "model": "attn_s0",
+ "tag": "v4_heads_class",
+ "args": {
+  "model": "attn_s0",
+  "tag": "v4_heads_class",
+  "device": "mps",
+  "n_windows": 6000,
+  "attn_steps": 600,
+  "steps": 1500,
+  "refit_steps": 600,
+  "class_steps": 1000,
+  "bs": 16,
+  "lr": 0.02,
+  "tau": 0.0,
+  "n_follow": 20000,
+  "n_recall": 0,
+  "n_heads": 4,
+  "no_emit": false,
+  "init": null,
+  "init_follow_from_mean": false,
+  "freeze": "recall_exc"
+ },
+ "pattern_kl": [
+  0.21096912026405334,
+  0.3511839509010315,
+  0.2905602753162384,
+  0.5384306311607361
+ ],
+ "kl_class_level": 1.6685262727737427,
+ "kl_after_dense_fit": 0.7822644543647767,
+ "pruned": {
+  "follow_exceptions": 20000,
+  "recall_exceptions": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "kl_after_prune": 1.3313914585113524,
+ "kl_holdout_train": 1.1597024202346802
+}
