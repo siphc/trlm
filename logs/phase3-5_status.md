@@ -89,3 +89,23 @@ token-pair entries into a few tens of thousands of readable ones (0.25 → 1.17)
 3. **Readability direction**: the most faithful programs will carry tens of thousands of token-pair entries in
    tables (each literal ≤ 64 numbers, keyed by token text). Is that acceptable, or should I favour fewer,
    rule-like "concept" groups at some cost in KL?
+
+## How to resume (after charging)
+
+State at stop: all processes stopped; repo committed; `program/` holds v4 (dev_fast KL 1.1696).
+attn_s0 is final; attn_s1 has a resume checkpoint at step ~650; probe samples exist for attn_s0 only.
+
+1. Training (skips finished runs, resumes attn_s1):
+
+       nohup caffeinate -dimsu .venv/bin/python -m src.train.runs final --device mps \
+           --budget_tokens 527482880 --peak_lr 0.002 > logs/final_runs.out 2>&1 &
+
+2. Probe samples as models finish (keep it off the CPU while training: it uses 8 threads):
+
+       nohup scripts/probes_as_models_finish.sh > logs/probes_build.out 2>&1 &
+
+3. Discovery on attn_s0 continues with gradual pruning (next step 1 above); fits run on MPS and share the GPU
+   with training, so expect both to slow down.
+
+Also tried before stopping (negative): predicting the final-LayerNorm scale from attention concentration,
+R^2 = 0.18 (`logs/dead_ends.md`).

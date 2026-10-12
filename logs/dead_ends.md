@@ -26,3 +26,14 @@ Format: date, model, hypothesis, what was tried, numbers, why it failed.
   first-order importance of any one entry is a poor guide when most of them are removed at once
   (removing 99.8% is far outside the linear regime). The kept set was 2.6k FOLLOW + 37k RECALL exceptions.
   Next: sparsity has to be built in during fitting (gradual pruning / group structure), not cut afterwards.
+
+## 2026-10-12 attn_s0 — final-LayerNorm scale from attention concentration
+
+- Hypothesis: sigma^2 of the final LayerNorm ~ c + sum_h w_h * focus_h, with focus_h = sum over distinct
+  tokens of (head h's attention mass on that token)^2 (value vectors of different tokens ~orthogonal).
+- Tried: least squares on 24 dev_fast windows (6,144 positions), open-track decomposition.
+- Numbers: R^2 = 0.179; median relative error in sigma 12.9%; coefficients c 0.585, w = 0.779, 0.178, 0.601,
+  0.608 (heads 0-3).
+- Why it failed (so far): value vectors of different tokens are not near-orthogonal, and cross-head terms
+  and the token/position embeddings contribute. A confidence term may still help but needs token-dependent
+  inputs (e.g. per-token value "loudness"), not just attention shape.
