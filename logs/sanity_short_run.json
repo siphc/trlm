@@ -1,0 +1,7 @@
+{
+  "short_run_dev_full_loss": 3.401124282836914,
+  "unigram_dev_full_ce": 5.983575284491826,
+  "bigram_dev_full_ce": 3.5157707504333793,
+  "tokens": 9994240,
+  "device": "mps"
+}

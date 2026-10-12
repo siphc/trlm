@@ -1,0 +1,24 @@
+{
+  "attn": {
+    "wte": 256000,
+    "wpe": 32768,
+    "blocks.0.ln1": 128,
+    "blocks.0.attn": 65536,
+    "ln_f": 128,
+    "total": 354560
+  },
+  "mlp": {
+    "wte": 256000,
+    "wpe": 32768,
+    "blocks.0.ln1": 128,
+    "blocks.0.attn": 65536,
+    "blocks.0.ln2": 128,
+    "blocks.0.mlp": 131072,
+    "ln_f": 128,
+    "total": 485760
+  },
+  "hand_arithmetic": {
+    "attn": 354560,
+    "mlp": 485760
+  }
+}

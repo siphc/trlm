@@ -1,0 +1,77 @@
+# Frozen decisions. Mirrors AGENTS.md section 2. Read-only after commit.
+# A change requires human approval, a new version of this file, and a full rerun.
+version: 1
+
+data:
+  dataset: roneneldan/TinyStories        # original, NOT TinyStoriesV2-GPT4
+  source_format: parquet                 # data/*.parquet (train ~2.12M rows, validation ~22k rows)
+  dev_stories: 20000                     # sampled from official train with seed 0
+  dev_seed: 0
+  test_split: validation                 # official validation split
+  eos_token_id: 0                        # appended after each story
+  packing: concat_shuffled_cross_boundary  # attention crosses story boundaries
+  token_dtype: uint16
+
+tokenizer:
+  type: bpe
+  vocab_size: 2000
+  fit_on: train_minus_dev
+
+model:
+  context_length: 256
+  n_blocks: 1
+  d_model: 128
+  n_heads: 4
+  d_head: 32
+  variants:
+    attn: {mlp: false}
+    mlp: {mlp: true, d_hidden: 512, activation: relu}
+  positions: learned_absolute
+  normalization: pre_layernorm_plus_final_layernorm
+  bias: false                            # no bias terms where the framework allows
+  tied_embeddings: true
+  init_std: 0.02
+  residual_proj_scale: "1/sqrt(2*n_blocks)"
+
+seeds: [0, 1, 2, 3, 4]                   # per variant; seed changes init and data order
+
+training:
+  library: pytorch
+  budget_tokens: null                    # set by the pilot (section 5), identical for all 10 models
+  # Defaults below are tunable only through the pilot.
+  optimizer: adamw
+  betas: [0.9, 0.95]
+  peak_lr: 1.0e-3
+  warmup_frac: 0.01
+  schedule: cosine
+  final_lr_frac: 0.1
+  weight_decay: 0.1                      # not on embeddings or LayerNorm
+  grad_clip: 1.0
+  batch_windows: 64                      # 16,384 tokens
+  dropout: 0.0
+  n_log_checkpoints: 20                  # log-spaced in tokens seen, plus final
+  mixed_precision: fp16_autocast_gpu_only
+  fidelity_precision: fp32
+
+hardware:
+  development: laptop_cpu
+  training: google_colab_gpu
+
+eval_sets:
+  dev_fast: 200
+  dev_full: 2000
+  test_full: 2000
+  probe_samples: 2000                    # sampled per model at temperature 1, fixed seed
+
+replacement_program:
+  libraries: [python_stdlib, numpy]
+  lint_max_numeric_elements_per_literal: 64
+
+metrics:
+  primary: mean_per_token_kl_model_to_program_nats   # KL(model || program) on dev
+  stopping_rule: {relative_improvement_lt: 0.005, consecutive_logged_iterations: 5}
+  test_looks_per_model: 10
+
+tracks:
+  - open
+  - blackbox                             # logits only, separate session, no shared context

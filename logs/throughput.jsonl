@@ -1,0 +1,1 @@
+{"device": "cpu", "variant": "mlp", "amp": false, "compile": false, "threads": 4, "steps": 1002, "seconds": 120.1, "tokens_per_sec": 136707, "torch": "2.14.1"}

@@ -1,0 +1,6 @@
+[2s] stories: train=2099719 dev=20000 test=21990
+[67s] tokenizer fit on 2099719 train-minus-dev stories
+[204s] train: 527,489,811 tokens, 2,060,507 windows
+[205s] dev: 5,031,401 tokens, 19,653 windows
+[206s] test: 5,356,523 tokens, 20,923 windows
+[206s] done
