@@ -129,6 +129,8 @@ def fit_attention(st: Student, tgt: Target, W: torch.Tensor, steps=1500, bs=16, 
     """Stage 1: fit each student head's attention (SALIENCE, PREFER, RECENCY) to the matching model
     head's attention pattern, by KL(model pattern || student pattern) averaged over query positions."""
     params = [st.salience, st.prefer, st.recency]
+    if st.H == 0:
+        return []
     opt = torch.optim.Adam(params, lr=lr)
     g = torch.Generator().manual_seed(seed + 2)
     t0 = time.time()
@@ -156,13 +158,14 @@ def shrink(st: Student, tau: float) -> None:
 
 
 def fit(st: Student, model_id: str, n_windows=6000, steps=3000, bs=16, lr=0.01, l1=0.0, device="mps",
-        log_every=100, seed=0, tgt: Target | None = None, W=None, tau=0.0, freeze_attention=False):
+        log_every=100, seed=0, tgt: Target | None = None, W=None, tau=0.0, freeze_attention=False,
+        freeze=()):
     torch.manual_seed(seed)
     tgt = tgt or Target(model_id, device)
     W = W if W is not None else torch.as_tensor(train_windows(n_windows))
     st.to(device)
-    params = [p for n, p in st.named_parameters()
-              if not (freeze_attention and n in ("salience", "prefer", "recency"))]
+    frozen = set(freeze) | ({"salience", "prefer", "recency"} if freeze_attention else set())
+    params = [p for n, p in st.named_parameters() if n not in frozen]
     opt = torch.optim.Adam(params, lr=lr)
     g = torch.Generator().manual_seed(seed + 1)
     t0 = time.time()

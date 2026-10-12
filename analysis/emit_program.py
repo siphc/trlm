@@ -139,4 +139,18 @@ def emit(st, model_id: str, note: str) -> dict:
                              "Exceptions: pair(RECALL, attended token, CLASS_OF_NEXT={next token: extra vote}).", class_of)
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write("\n".join(lines))
+    for h in range(H, 4):  # heads the student does not model add nothing
+        with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
+            f.write(EMPTY_HEAD)
     return {"follow_exceptions": int((np.abs(exc) >= 0.005).sum())}
+
+
+EMPTY_HEAD = '''"""Empty tables: this head adds nothing in this version of the program."""
+RECENCY_BUCKET_START = [0]
+RECENCY = [0.0]
+SALIENCE = {}
+PREFER = {}
+CLASS_RECALL = {}
+COPY = {}
+RECALL = {}
+'''

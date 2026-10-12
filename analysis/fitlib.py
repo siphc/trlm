@@ -27,6 +27,14 @@ def train_windows(n: int, seed: int = FIT_SEED) -> np.ndarray:
     return np.stack([np.asarray(window(s, int(i))) for i in np.sort(idx)]).astype(np.int64)
 
 
+def model_name(model_id: str) -> str:
+    """Short name for output folders: 'attn_s0' stays, '.../budget200M_x/final.pt' -> 'budget200M_x'."""
+    base = os.path.basename(model_id.rstrip("/"))
+    if base.endswith(".pt"):
+        base = os.path.basename(os.path.dirname(os.path.abspath(model_id)))
+    return base
+
+
 class Target:
     """The model as a fitting target: log-probs and intermediate quantities on a device."""
 

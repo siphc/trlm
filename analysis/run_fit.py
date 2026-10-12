@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import torch
 
-from analysis.fitlib import REPO, Target, train_windows
+from analysis.fitlib import REPO, Target, model_name, train_windows
 from analysis.student import Student, evaluate, fit, fit_attention, prune_to_budget
 
 
@@ -44,11 +44,12 @@ def main() -> None:
     ap.add_argument("--n_heads", type=int, default=4)
     ap.add_argument("--no_emit", action="store_true")
     ap.add_argument("--init", default=None, help="student checkpoint to start from")
+    ap.add_argument("--freeze", default="", help="comma list of Student parameters held at zero, e.g. class_follow")
     args = ap.parse_args()
 
     from program.tables_lib import TOKEN_CLASS
 
-    mname = os.path.basename(args.model.rstrip("/")).replace(".pt", "")
+    mname = model_name(args.model)
     out = os.path.join(REPO, "analysis", "out", mname)
     os.makedirs(out, exist_ok=True)
     torch.manual_seed(0)
@@ -68,6 +69,7 @@ def main() -> None:
     st.to(args.device)
 
     log = {"model": args.model, "tag": args.tag, "args": vars(args)}
+    freeze = tuple(f for f in args.freeze.split(",") if f)
     if not args.init and args.attn_steps:
         log["pattern_kl"] = fit_attention(st, tgt, W, steps=args.attn_steps, bs=args.bs)
     if args.class_steps:  # stage 2a: class-level tables only (exceptions held at zero)
@@ -75,18 +77,18 @@ def main() -> None:
         st.follow_mask.zero_()
         st.recall_mask.zero_()
         fit(st, args.model, steps=args.class_steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt,
-            W=W, log_every=200, seed=3)
+            W=W, log_every=200, seed=3, freeze=freeze)
         log["kl_class_level"] = evaluate(st, tgt, W_hold)
         st.follow_mask.copy_(fm)
         st.recall_mask.copy_(rm)
     fit(st, args.model, steps=args.steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
-        tau=args.tau, log_every=200)
+        tau=args.tau, log_every=200, freeze=freeze)
     log["kl_after_dense_fit"] = evaluate(st, tgt, W_hold)
     freq = np.load(md)["count"] if os.path.exists(md) else np.ones(2000)
     log["pruned"] = prune_to_budget(st, args.n_follow, args.n_recall, freq + 1.0)
     log["kl_after_prune"] = evaluate(st, tgt, W_hold)
     fit(st, args.model, steps=args.refit_steps, bs=args.bs, lr=args.lr * 0.3, device=args.device, tgt=tgt,
-        W=W, tau=0.0, log_every=200, seed=5)
+        W=W, tau=0.0, log_every=200, seed=5, freeze=freeze)
     log["kl_holdout_train"] = evaluate(st, tgt, W_hold)
     print(json.dumps({k: v for k, v in log.items() if k != "args"}, indent=1))
     st.cpu()

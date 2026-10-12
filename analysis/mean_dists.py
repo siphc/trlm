@@ -18,7 +18,7 @@ import os
 import numpy as np
 import torch
 
-from analysis.fitlib import REPO, Target, train_windows
+from analysis.fitlib import REPO, Target, model_name, train_windows
 
 V = 2000
 
@@ -57,7 +57,7 @@ def main() -> None:
     cross_big = float(-(S_big * (big + eps).log()).sum()) / N
     cross_pos = float(-(S_pos * (pos + eps).log()).sum()) / N
     ent = H / N
-    out = os.path.join(REPO, "analysis", "out", os.path.basename(args.model.rstrip("/")).replace(".pt", ""))
+    out = os.path.join(REPO, "analysis", "out", model_name(args.model))
     os.makedirs(out, exist_ok=True)
     np.savez(os.path.join(out, "mean_dists.npz"), uni=uni.numpy(), big=big.numpy(), pos=pos.numpy(),
              count=cnt.numpy())
