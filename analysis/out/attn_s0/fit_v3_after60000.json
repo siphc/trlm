@@ -1,0 +1,32 @@
+{
+ "model": "attn_s0",
+ "tag": "v3_after60000",
+ "args": {
+  "model": "attn_s0",
+  "tag": "v3_after60000",
+  "device": "cpu",
+  "n_windows": 2000,
+  "attn_steps": 0,
+  "steps": 0,
+  "refit_steps": 600,
+  "class_steps": 800,
+  "bs": 16,
+  "lr": 0.05,
+  "tau": 0.0,
+  "n_follow": 60000,
+  "n_recall": 0,
+  "n_heads": 0,
+  "no_emit": true,
+  "init": null,
+  "init_follow_from_mean": true,
+  "freeze": ""
+ },
+ "kl_class_level": 2.4338609313964845,
+ "kl_after_dense_fit": 1.1162046909332275,
+ "pruned": {
+  "follow_exceptions": 60000,
+  "recall_exceptions": []
+ },
+ "kl_after_prune": 1.2963025665283203,
+ "kl_holdout_train": 1.24976243019104
+}

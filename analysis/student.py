@@ -117,6 +117,29 @@ def prune_to_budget(st: Student, n_follow: int, n_recall: int, token_freq: np.nd
             "recall_exceptions": [int(st.recall_mask[h].sum()) for h in range(st.H)]}
 
 
+def follow_importance(st: Student, token_freq: np.ndarray) -> torch.Tensor:
+    """Approximate KL cost of dropping each AFTER exception (t, v):
+    freq(t) * |w| * max(q_with(v|t), q_without(v|t)), q from the FOLLOW scores with and without w."""
+    with torch.no_grad():
+        f = st.follow()
+        w = st.follow_exc * st.follow_mask
+        q_with = torch.softmax(f, -1)
+        q_without = torch.softmax(f - w, -1)
+        fr = torch.as_tensor(token_freq / token_freq.sum(), dtype=f.dtype, device=f.device)
+        return fr[:, None] * w.abs() * torch.maximum(q_with, q_without)
+
+
+def prune_follow_by_kl(st: Student, n_follow: int, token_freq: np.ndarray) -> int:
+    imp = follow_importance(st, token_freq)
+    with torch.no_grad():
+        if n_follow < int((imp > 0).sum()):
+            thr = torch.topk(imp.flatten(), n_follow).values[-1]
+            st.follow_mask *= (imp >= thr).float()
+        st.follow_mask *= (imp > 0).float()
+        st.follow_exc *= st.follow_mask
+    return int(st.follow_mask.sum())
+
+
 def model_patterns(tgt: Target, x: torch.Tensor) -> torch.Tensor:
     """The model's own attention weights, (B, H, T, T)."""
     with torch.no_grad():

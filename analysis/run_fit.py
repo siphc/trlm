@@ -23,7 +23,7 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, model_name, train_windows
-from analysis.student import Student, evaluate, fit, fit_attention, prune_to_budget
+from analysis.student import Student, evaluate, fit, fit_attention, prune_follow_by_kl, prune_to_budget
 
 
 def main() -> None:
@@ -44,6 +44,8 @@ def main() -> None:
     ap.add_argument("--n_heads", type=int, default=4)
     ap.add_argument("--no_emit", action="store_true")
     ap.add_argument("--init", default=None, help="student checkpoint to start from")
+    ap.add_argument("--init_follow_from_mean", action="store_true",
+                    help="set AFTER exceptions to log(mean bigram) minus the class-level part before pruning")
     ap.add_argument("--freeze", default="", help="comma list of Student parameters held at zero, e.g. class_follow")
     args = ap.parse_args()
 
@@ -81,11 +83,16 @@ def main() -> None:
         log["kl_class_level"] = evaluate(st, tgt, W_hold)
         st.follow_mask.copy_(fm)
         st.recall_mask.copy_(rm)
+    if args.init_follow_from_mean:
+        big = torch.as_tensor(np.load(md)["big"], dtype=torch.float32, device=args.device)
+        with torch.no_grad():
+            st.follow_exc.copy_(torch.log(big + 1e-9) - (st.follow() - st.follow_exc * st.follow_mask))
     fit(st, args.model, steps=args.steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
         tau=args.tau, log_every=200, freeze=freeze)
     log["kl_after_dense_fit"] = evaluate(st, tgt, W_hold)
     freq = np.load(md)["count"] if os.path.exists(md) else np.ones(2000)
-    log["pruned"] = prune_to_budget(st, args.n_follow, args.n_recall, freq + 1.0)
+    log["pruned"] = prune_to_budget(st, 10**9, args.n_recall, freq + 1.0)
+    log["pruned"]["follow_exceptions"] = prune_follow_by_kl(st, args.n_follow, freq + 1.0)
     log["kl_after_prune"] = evaluate(st, tgt, W_hold)
     fit(st, args.model, steps=args.refit_steps, bs=args.bs, lr=args.lr * 0.3, device=args.device, tgt=tgt,
         W=W, tau=0.0, log_every=200, seed=5, freeze=freeze)
