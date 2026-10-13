@@ -147,3 +147,11 @@ mean bigram 0.788 (1.315). Same pipeline as v10 (dense fit, non-redundant, re-ce
 Paired v11 - v10 on holdout(200): -0.0129 +- 0.0009 (better on 87% of windows). The gain is not monotone in the
 budget: 0.0045 at round 0, 0.0020 at rounds 8-9, 0.0129 at 60k — better class defaults matter most when few
 exceptions remain. dev_fast (readable emission): 0.4519 (raw emission 0.4500).
+
+## Token-by-class overrides (branch `overrides`, tag-less; final experiment of the distillation track)
+
+OVERRIDES: one value per (first token, TARGET class of the second token), filled by the (exactly lossless) re-centring
+and competing with token-pair exceptions for the same 60k budget (Fisher importance). Same dense student and recipe
+as v11. Final 60k: 25,112 AFTER + 23,011 RECALL exceptions + 5,490 AFTER overrides + 5,387 RECALL overrides.
+Held-out KL 0.4413 vs v11 0.4494 (unpaired, -0.008). Not adopted: the distillation track ended (logs/decisions.md
+item 5) before this was merged; code kept on branch `overrides`.
