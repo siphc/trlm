@@ -18,3 +18,16 @@ of KL(model || program) when the program's head h is mean-ablated / removed.
 Reading: the model's head 0 (and to a lesser degree head 2) is essential because it carries the current
 token's identity (it attends ~49% to self); in v4 that information lives in FOLLOW instead, so program head 0
 is ~10x less important than model head 0. The program's head 0 does not mean what the model's head 0 means.
+
+## 2026-10-12 — attn_s0, program v6 (program_sha 42b1a03981dc1a8e), KL(model || program) = 0.8420 on 50 windows
+
+| head | model self-effect | program self-effect | fidelity loss (mean-abl.) | fidelity loss (removed) |
+|---|---|---|---|---|
+| 0 | 3.0701 | 0.2904 | 0.3008 | 0.2728 |
+| 1 | 0.4161 | 0.1961 | 0.2057 | 0.2338 |
+| 2 | 1.5200 | 0.3552 | 0.3620 | 0.3397 |
+| 3 | 0.5402 | 0.2958 | 0.3038 | 0.2472 |
+
+Same mismatch as v4: the current token's own vote lives in FOLLOW, which in the model is carried by heads 0
+and 2 attending to self. Either route that vote through heads 0/2 or map FOLLOW to "heads 0+2 self-attention
++ direct path" when comparing.

@@ -1,0 +1,32 @@
+{
+ "model": "attn_s0",
+ "program_sha": "42b1a03981dc1a8e",
+ "n_windows": 50,
+ "heads": {
+  "0": {
+   "model_self": 3.070105657232525,
+   "prog_self": 0.2903529121537968,
+   "prog_fid_removed": 0.27283707822179304,
+   "prog_fid_mean": 0.3008032951164956
+  },
+  "1": {
+   "model_self": 0.41612591457167164,
+   "prog_self": 0.1960924760893463,
+   "prog_fid_removed": 0.233754141950949,
+   "prog_fid_mean": 0.20572138097323234
+  },
+  "2": {
+   "model_self": 1.5199509986984865,
+   "prog_self": 0.35516843335395515,
+   "prog_fid_removed": 0.3396983355563381,
+   "prog_fid_mean": 0.3620404000093014
+  },
+  "3": {
+   "model_self": 0.5401686780531955,
+   "prog_self": 0.2958425476866971,
+   "prog_fid_removed": 0.247157896342725,
+   "prog_fid_mean": 0.30376629600285354
+  }
+ },
+ "kl_model_program": 0.8420370116231559
+}

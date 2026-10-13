@@ -25,10 +25,11 @@ from analysis.fitlib import REPO, Target, model_name, train_windows
 from analysis.student import Student, data_importance, evaluate, fit
 
 
-def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | None) -> dict:
+def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | None,
+                 importance_batches: int = 40) -> dict:
     with torch.no_grad():
         if rank == "data":
-            i_f, i_r = data_importance(st, W)
+            i_f, i_r = data_importance(st, W, n_batches=importance_batches)
         else:
             i_f = (st.follow_exc * st.follow_mask).abs()
             i_r = (st.recall_exc * st.recall_mask).abs()
@@ -74,6 +75,8 @@ def main() -> None:
     ap.add_argument("--device", default="mps")
     ap.add_argument("--emit", action="store_true")
     ap.add_argument("--save_rounds", action="store_true", help="save the student after every round")
+    ap.add_argument("--importance_batches", type=int, default=40,
+                    help="batches of 16 windows used to estimate data importance (rare tokens need many)")
     args = ap.parse_args()
 
     from program.tables_lib import TOKEN_CLASS
@@ -92,7 +95,7 @@ def main() -> None:
     print(f"start: {n0:,} exceptions, holdout KL {log['kl_start']:.4f}", flush=True)
     t0 = time.time()
     for r, b in enumerate(budgets):
-        kept = apply_budget(st, int(b), W, args.rank, args.follow_share)
+        kept = apply_budget(st, int(b), W, args.rank, args.follow_share, args.importance_batches)
         kl_cut = evaluate(st, tgt, W_hold)
         steps = args.final_refit_steps if r == len(budgets) - 1 else args.refit_steps
         fit(st, args.model, steps=steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
