@@ -24,3 +24,19 @@ v4 (1.16 held-out with 20k FOLLOW exceptions and class-level heads). The data-im
 FOLLOW (157 left) in favour of RECALL (head 1 keeps the most); masks are monotone, so information cannot move
 back into FOLLOW once its entries are cut. Allocation needs a protected FOLLOW share, and the low-budget
 regime needs a different representation.
+
+## Gradual pruning with 50% of the budget reserved for FOLLOW (tag gp60k_f50)
+
+| round | budget | kept FOLLOW | kept RECALL (h0, h1, h2, h3) | KL after cut | KL after refit |
+|---|---|---|---|---|---|
+| 0 | 9,675,427 | 3,520,000 | 964,079 / 1,586,802 / 1,052,323 / 1,234,509 | 0.2349 | 0.2212 |
+| 1 | 4,680,695 | 2,340,348 | 395,720 / 865,867 / 492,897 / 585,863 | 0.2561 | 0.2403 |
+| 2 | 2,264,386 | 1,132,193 | 162,239 / 467,595 / 231,034 / 271,325 | 0.3177 | 0.2861 |
+| 3 | 1,095,445 | 547,722 | 67,328 / 252,017 / 105,652 / 122,726 | 0.4256 | 0.3702 |
+| 4 | 529,945 | 264,972 | 27,430 / 135,145 / 47,500 / 54,898 | 0.5957 | 0.5019 |
+| 5 | 256,372 | 128,186 | 11,632 / 70,371 / 21,180 / 25,003 | 0.8077 | 0.6759 |
+| 6 | 124,026 | 62,013 | 5,407 / 35,008 / 9,664 / 11,934 | 0.9359 | 0.7987 |
+| 7 | 60,000 | 30,000 | 2,653 / 16,735 / 4,431 / 6,181 | 1.0026 | 0.8435 |
+
+Reserving FOLLOW's share cuts KL at 60k from 1.259 to 0.844 (dev_fast harness: 0.8499, iteration v6) and at
+124k from 1.117 to 0.799. Allocation across components matters as much as the pruning schedule.

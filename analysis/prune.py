@@ -73,6 +73,7 @@ def main() -> None:
     ap.add_argument("--n_windows", type=int, default=8000)
     ap.add_argument("--device", default="mps")
     ap.add_argument("--emit", action="store_true")
+    ap.add_argument("--save_rounds", action="store_true", help="save the student after every round")
     args = ap.parse_args()
 
     from program.tables_lib import TOKEN_CLASS
@@ -100,6 +101,9 @@ def main() -> None:
         row = {"round": r, "budget": int(b), "kept": kept, "kl_after_cut": kl_cut, "kl_after_refit": kl_refit,
                "t": time.time() - t0}
         log["rounds"].append(row)
+        if args.save_rounds:
+            torch.save({k: v.detach().cpu() for k, v in st.state_dict().items()},
+                       os.path.join(REPO, "analysis", "out", model_name(args.model), f"student_{args.tag}_r{r}.pt"))
         print(f"round {r}: budget {b:,}  kept follow {kept['follow']:,} recall {kept['recall']}  "
               f"KL cut {kl_cut:.4f} -> refit {kl_refit:.4f}  ({row['t']:.0f}s)", flush=True)
     out = os.path.join(REPO, "analysis", "out", model_name(args.model))
