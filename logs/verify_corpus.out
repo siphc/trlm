@@ -1,0 +1,10 @@
+build: 112s, peak RSS 4.57 GB
+unigram equal: True
+bigram equal baseline: True
+tables ready 1s; names: 110
+log_follow max diff vs ctx.LBIG: 2.1457672119140625e-06
+PMI_d max diff: [3e-06, 3e-06, 3e-06, 3e-06, 3e-06, 3e-06, 3e-06]
+topic max diff: 0.0
+class successor max diff: 4.2515322462577387e-07
+info max diff: 0.0  cont: 0.0  piece: 0.0  space: 0.0  sentend: 0.0
+trigram contexts mismatching (of 300): 0 | trigram types 10348231 4-gram types 43600807

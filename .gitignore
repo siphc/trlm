@@ -10,3 +10,4 @@ analysis/out/**/*.npz
 analysis/scratch/
 .claude/
 logs/.blackbox_key
+analysis/out/**/*.pkl

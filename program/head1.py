@@ -1,26 +1,83 @@
-"""HEAD 1 of the model's single attention layer: recalls words from far back and votes to repeat them.
+"""RECALL (model head 1): earlier story words that could come next are recalled and vote for themselves, their
+topic and what follows them.
 
-CLAIM (measured on 200 held-out windows by analysis/claims_measure.py; tests/test_head1.py):
-  Role     Head 1 looks far back: mean distance 34 tokens, 61% of its attention more than 8 tokens
-           back, almost none on the previous token (0.8%), nothing (under 0.1%) more than 128 back.
-           Names get 3.3x their share of its attention. It abstains on 28%. A token it attends to
-           votes for itself, typically 18 nats more than for the other words of its TARGET class.
-  Recall   At recall positions (the model's top token appeared earlier in the window, but FOLLOW
-           alone gives it under 5%; one position in five) head 1 raises the log-probability of that
-           token by 1.03 nats, against 0.15 elsewhere (6.9x).
-  Removed  Replacing its votes by their average raises the KL by 0.18 nats; at recall positions
-           top-1 agreement with the model falls from 60% to 38%.
-  Model    Ablating the earlier-token part of the model's head 1 costs 0.42 nats; the program head
-           carries 44% of that, with the same focus on recall positions (model: 1.49 vs 0.29 nats,
-           5.1x). Unlike this head, the model head rarely looks at the current token (4%), and it
-           looks less far back (mean distance 27).
+Where it looks, at position i, for each j <= i (d = i - j tokens back):
+
+    score(j) = - d / MEMORY  +  SALIENCE[group of t_j]  +  SELF_BONUS * [j = i]
+               +  SUCCESSOR * class_successor(t_i, t_j)
+
+MEMORY sets a slow recency decay (attention halves every ~23 tokens). The salience favours names and content
+words over word endings, linkers and sentence ends. class_successor(q, k) (corpus.py) is high when words of k's
+TARGET class often follow words of q's CONTEXT class: after '.', names and sentence openers; after ' the', nouns.
+
+What each attended token s votes for, by its group g:
+
+    COPY[g] * [v = s]  +  TOPIC[g] * topic(s, v)  +  NEXT[g] * PMI_1(s, v)
+
+topic(s, v) (corpus.py) says how much more often v appears 9..24 tokens after s than usual: ' dog' -> ' owner',
+' tail'; ' Lily' -> ' she', ' her'. At the first position of a window the only token it can read is the current one,
+so it votes to repeat it, as the model does there.
+
+CLAIM: (filled in after measurement)
 """
-from .attention import Head
-from .tables import head1 as tables
+import numpy as np
 
-HEAD = Head(tables)
+from .categories import CLASS_SYSTEMS
+from .readers import softmax_rows
+from .vocab import ID
+
+NAME = "head1"
+# Word groups (unions of ATTENTION classes in categories.py); every other token is a CONTENT_WORD.
+GROUPS = {
+    "NAMES": ["NAMES", "NAMES_UNSPACED"],
+    "SENTENCE_ENDS": ["SENTENCE_ENDS"],
+    "WORD_ENDS_AND_LINKERS": ["FRAGMENTS_H", "FRAGMENTS_G", "FRAGMENTS_D", "FRAGMENTS_ENDINGS", "FRAGMENTS_VC",
+                              "FRAGMENTS_SHORT", "SUFFIXES_PLURAL", "SUFFIXES_ING_ED", "LETTERS_LOWER", "LINKERS",
+                              "PREPOSITIONS"],
+    "FUNCTION_WORDS": ["SUBJECT_PRONOUNS", "OBJECT_PRONOUNS", "LINKING_VERBS", "PARTICLES", "DETERMINERS", "MODALS",
+                       "TIME_WORDS", "SENTENCE_STARTS", "ADVERBS"],
+}
+GROUP_NAMES = list(GROUPS) + ["CONTENT_WORDS"]
+# Fitted to model head 1's own attention rows (pattern cross-entropy, 32 TRAIN windows).
+MEMORY = 33.87                                                  # tokens; exp(3.5224)
+SALIENCE = {"NAMES": 0.738, "SENTENCE_ENDS": -0.858, "WORD_ENDS_AND_LINKERS": -0.962, "FUNCTION_WORDS": -0.321,
+            "CONTENT_WORDS": -0.047}
+SELF_BONUS = 0.006
+SUCCESSOR = 0.457
+# Fitted to the model's log-probs with the attention above frozen.
+COPY = {"NAMES": 2.614, "SENTENCE_ENDS": 1.457, "WORD_ENDS_AND_LINKERS": 1.296, "FUNCTION_WORDS": 3.307,
+        "CONTENT_WORDS": 4.986}
+TOPIC = {"NAMES": 3.098, "SENTENCE_ENDS": -0.756, "WORD_ENDS_AND_LINKERS": 2.340, "FUNCTION_WORDS": 1.286,
+         "CONTENT_WORDS": 2.965}
+NEXT = {"NAMES": -0.133, "SENTENCE_ENDS": -0.791, "WORD_ENDS_AND_LINKERS": -0.647, "FUNCTION_WORDS": -0.284,
+        "CONTENT_WORDS": -0.015}
 
 
-def votes(tokens):
-    """Scores this head adds for every next token at each position, shape (n, VOCAB_SIZE)."""
-    return HEAD.votes(tokens)
+def _group_of_tokens():
+    out = np.full(2000, len(GROUPS), dtype=np.int64)            # default: CONTENT_WORDS
+    for g, classes in enumerate(GROUPS.values()):
+        for c in classes:
+            out[[ID[t] for t in CLASS_SYSTEMS["ATTENTION"][c]]] = g
+    return out
+
+
+GROUP = _group_of_tokens()
+
+
+def _per_group(table):
+    return np.array([table[g] for g in GROUP_NAMES])
+
+
+def attention(tokens, stats):
+    n = len(tokens)
+    dist = np.arange(n)[:, None] - np.arange(n)[None, :]
+    score = (-dist / MEMORY + _per_group(SALIENCE)[GROUP[tokens]][None, :] + SELF_BONUS * np.eye(n)
+             + SUCCESSOR * stats.class_successor[tokens[:, None], tokens[None, :]])
+    return softmax_rows(score)
+
+
+def votes(tokens, stats):
+    g = GROUP[tokens]
+    source = (_per_group(TOPIC)[g][:, None] * stats.topic[tokens] + _per_group(NEXT)[g][:, None] * stats.pmi[1][tokens])
+    source[np.arange(len(tokens)), tokens] += _per_group(COPY)[g]
+    return attention(tokens, stats) @ source

@@ -1,36 +1,51 @@
-"""Replacement program for a one-block, attention-only TinyStories language model.
+"""Mechanism program for attn_s0, a one-block, attention-only TinyStories language model.
 
-The whole algorithm, top-down (each step is one module):
+The program explains the model's next-token predictions as a few readable mechanisms. Every token-level number
+comes from statistics of the training stories, counted when the program starts (setup); only a few dozen named
+scalars were fitted to the model, and each attention rule was fitted to the matching model head's own attention.
 
-  1. follow.py   Each token votes for what usually comes right after it, ignoring earlier context.
-  2. head0-3.py  Four attention heads each look back over the text, pick out earlier tokens they
-                 care about, and vote for next tokens related to those tokens.
-  3. The votes are added and turned into next-token probabilities with a softmax.
+The whole algorithm, top-down (one module per mechanism):
 
-Tables live in tables/; vocab.py and categories.py define the tokens and their word classes.
+  setup(corpus)   corpus.py  count the statistics of the training stories
+  predict(tokens) for every position i, add the votes of
+                  follow.py  FOLLOW   what usually comes right after the current token (corpus bigram)
+                  head0.py   LOCAL-0  the last few tokens (steep recency) vote for what follows them at that
+                                      distance (corpus skip-grams)                         [model head 0]
+                  head2.py   LOCAL-2  informative recent words, skipping word pieces, vote the same way [head 2]
+                  head1.py   RECALL   earlier story words that could come next are recalled and vote for
+                                      themselves, their topic and what follows them        [model head 1]
+                  phrase.py  PHRASE   continue the last two or three tokens as a known phrase (corpus 3/4-grams)
+                  and turn the summed votes into probabilities with a softmax.
 
-CLAIM (measured on 200 held-out text windows by analysis/claims_measure.py, checked by
-tests/test_program.py; tests/measurements.py defines every quantity used in the CLAIMs):
-  - The scores are exactly FOLLOW plus the four heads' votes; step 3 adds nothing else.
-  - The program's next-token distribution is 0.45 nats (KL) from the model's, and its top token is
-    the model's top token 69% of the time.
-  - FOLLOW alone is 1.39 nats from the model (top-1 34%). The four heads remove 0.94 nats of that,
-    two thirds.
+Model head 3 is not modelled in this version (logs/mechanism_cards.md: no vote rule tried so far explains it).
+
+CLAIM: (filled in after measurement; see tests/)
 """
 import numpy as np
 
-from . import follow, head0, head1, head2, head3
+from . import corpus as corpus_counts
+from . import follow, head0, head1, head2, phrase
 
-HEADS = [head0, head1, head2, head3]
+STATS = None
+MECHANISMS = [follow, head0, head2, head1, phrase]
 
 
-def predict(tokens):
-    """Log-probabilities, shape (len(tokens), 2000). Row i is the next-token distribution after
-    tokens[: i + 1]."""
-    tokens = np.asarray(tokens, dtype=int)
-    score = follow.votes(tokens)
-    for head in HEADS:
-        score = score + head.votes(tokens)
+def setup(corpus):
+    """Count the training-story statistics once (the harness passes the TRAIN token stream)."""
+    global STATS
+    STATS = corpus_counts.build(corpus)
+
+
+def predict(tokens, off=()):
+    """Log-probabilities, shape (len(tokens), 2000); row i is the next-token distribution after tokens[: i + 1].
+    `off` names mechanisms to switch off (for removal tests)."""
+    if STATS is None:
+        raise RuntimeError("call setup(corpus) first")
+    tokens = np.asarray(tokens, dtype=np.int64)
+    score = np.zeros((len(tokens), 2000))
+    for mechanism in MECHANISMS:
+        if mechanism.NAME not in off:
+            score += mechanism.votes(tokens, STATS)
     return log_softmax(score)
 
 

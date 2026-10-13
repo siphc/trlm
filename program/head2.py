@@ -1,28 +1,51 @@
-"""HEAD 2 of the model's single attention layer: completes phrases from the last few words; opens quotes after 'said,'.
+"""LOCAL-2 (model head 2): reads informative recent words, skipping word pieces and word onsets.
 
-CLAIM (measured on 200 held-out windows by analysis/claims_measure.py; tests/test_head2.py):
-  Role     Head 2 reads the last few tokens: 17% of its attention on the previous token, 37% on 2 to
-           8 back, 10% further (mean distance 5.0), nothing (under 0.1%) more than 40 back. It
-           abstains on 36%. It completes phrases that the current token alone does not settle: after
-           'The moral of the' the program gives ' story' 0.97, and 0.03 without this head.
-  Dialogue After a speech verb and a comma ('Tim said,'), the opening quote is the model's top token at
-           94% of 247 held-out positions; the program gives it 0.87 with head 2 and 0.26 without.
-           Right after a speech verb its removal cost is 3.5x its cost elsewhere.
-  Removed  Replacing its votes by their average raises the KL by 0.19 nats; top-1 agreement with the
-           model falls from 69% to 60%.
-  Model    Ablating the earlier-token part of the model's head 2 costs 0.49 nats; the program head
-           carries 39% of that, with the same speech-verb focus (model: 3.2x; without its head 2 the
-           model's ' story' falls from 0.91 to under 0.01). Some of the model head's work sits in other
-           program heads. Inside split words it matters more than any other model head (0.94 nats),
-           this head only 0.27. The model needs its head 2 for 'm' after 'She had a proble' and for
-           ' eyes' after 'He closed his'; the program needs head 0 and head 3 for them instead.
+Where it looks, at position i, for each j <= i (d = i - j tokens back):
+
+  the current token (j = i):
+      SELF_BASE + SELF_INFO * info_1(t_i) + SELF_CONT * cont(t_i) + SELF_PIECE * piece(t_i)
+  an earlier token (d >= 1):
+      - DECAY * min(d - 1, 11) - DECAY_FAR * max(d - 12, 0) + PREVIOUS * [d = 1]
+      + KEY_INFO * info_{min(d + 1, 8)}(t_j) + KEY_CONT * cont(t_j) + KEY_PIECE * piece(t_j)
+      + KEY_SPACE * space(t_j) + KEY_SENTENCE_END * sentence_end(t_j)
+
+with token features counted from the training stories (corpus.py): info_k(s) is how much s says about the token k
+places later (KL from the unigram, nats), cont(s) the chance that the next token continues the word, piece(s) whether
+s is itself a word piece. In words: it reads the current token when that token is an unfinished word or strongly
+predicts what comes next; otherwise it looks back over the last few tokens (about 25% weaker per token), prefers
+sentence ends and informative words, and skips word pieces and onsets, so inside a split word it reads the words
+before it.
+
+What it votes: the shared skip-gram rule of readers.py.
+
+CLAIM: (filled in after measurement)
 """
-from .attention import Head
-from .tables import head2 as tables
+import numpy as np
 
-HEAD = Head(tables)
+from .readers import skipgram_votes, softmax_rows
+
+NAME = "head2"
+# Fitted to model head 2's own attention rows (pattern cross-entropy, 32 TRAIN windows).
+SELF_BASE, SELF_INFO, SELF_CONT, SELF_PIECE = -0.336, 0.455, 0.588, -1.167
+DECAY, DECAY_FAR, PREVIOUS = 0.290, 0.114, -0.081
+KEY_INFO, KEY_CONT, KEY_PIECE, KEY_SPACE, KEY_SENTENCE_END = 0.529, -1.222, -1.263, -0.369, 0.846
+# Fitted to the model's log-probs with the attention above frozen.
+STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.252, 0.637, 2.346
 
 
-def votes(tokens):
-    """Scores this head adds for every next token at each position, shape (n, VOCAB_SIZE)."""
-    return HEAD.votes(tokens)
+def attention(tokens, stats):
+    n = len(tokens)
+    dist = np.arange(n)[:, None] - np.arange(n)[None, :]
+    self_score = (SELF_BASE + SELF_INFO * stats.info[0][tokens] + SELF_CONT * stats.cont[tokens]
+                  + SELF_PIECE * stats.piece[tokens])
+    recency = (-DECAY * np.clip(dist - 1, 0, 11) - DECAY_FAR * np.clip(dist - 12, 0, None)
+               + PREVIOUS * (dist == 1))
+    key = (KEY_CONT * stats.cont[tokens] + KEY_PIECE * stats.piece[tokens] + KEY_SPACE * stats.space[tokens]
+           + KEY_SENTENCE_END * stats.sentence_end[tokens])
+    informative = KEY_INFO * stats.info[np.clip(dist, 0, 7), tokens[None, :]]
+    score = np.where(dist == 0, self_score[:, None], recency + key[None, :] + informative)
+    return softmax_rows(score)
+
+
+def votes(tokens, stats):
+    return skipgram_votes(attention(tokens, stats), tokens, stats, STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR)

@@ -1,0 +1,2 @@
+corpus statistics computed in 254s -> /Users/svi/Desktop/trlm/analysis/out/corpus_stats_d8.npz
+{'unigram': (2000,), 'n_tokens': (), 'pairs1': (2000, 2000), 'pairs2': (2000, 2000), 'pairs3': (2000, 2000), 'pairs4': (2000, 2000), 'pairs5': (2000, 2000), 'pairs6': (2000, 2000), 'pairs7': (2000, 2000), 'pairs8': (2000, 2000), 'stories_with': (2000,), 'stories_with_twice': (2000,)}

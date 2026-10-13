@@ -1,19 +1,19 @@
 """Word classes. Three class systems; in each, every token belongs to exactly one named class.
 
-ATTENTION_CLASSES  64 classes, used by the attention heads' PREFER tables (which earlier tokens
-                   a head looks at, given the current token). Ward clustering of each token's left and
-                   right neighbours in the TRAIN split (analysis/taxonomy.py), named by hand
-                   (analysis/gen_categories.py).
-CONTEXT_CLASSES    71 classes of tokens after which similar things come next: the rows of
-                   CLASS_FOLLOW and CLASS_RECALL (class of the current or of the attended token) and COPY.
-TARGET_CLASSES     64 classes of tokens that similar contexts predict: the columns of CLASS_FOLLOW and
-                   CLASS_RECALL (class of the next token). Exceptions are grouped by them.
+ATTENTION_CLASSES  64 classes of tokens with similar left and right neighbours in the TRAIN split (Ward
+                   clustering, analysis/taxonomy.py; named by hand, analysis/gen_categories.py). RECALL (head1.py)
+                   pools them into five word groups (names, sentence ends, word ends and linkers, function words,
+                   content words).
+CONTEXT_CLASSES    71 classes of tokens after which similar things come next. FOLLOW's bigram rule blurs each
+                   token's next-token distribution slightly towards its CONTEXT class (corpus.py), and the class
+                   successor table is indexed by the CONTEXT class of the current token.
+TARGET_CLASSES     64 classes of tokens that similar contexts predict: the other index of the class successor
+                   table (is the earlier token the kind of word that comes next?).
 
 CONTEXT and TARGET classes were found together by information-theoretic co-clustering of the TRAIN bigram
-counts (analysis/cocluster.py; no model involved): the row and column classes that keep the most
-information about which token comes next. Each table file in tables/ names the systems it uses.
-Each class has at most 64 tokens so that per-token tables can be written one class at a time.
-Classes and their members are listed most frequent first; names were given by reading the members.
+counts (analysis/cocluster.py; no model involved): the row and column classes that keep the most information
+about which token comes next. Each class has at most 64 tokens. Classes and their members are listed most
+frequent first; names were given by reading the members.
 """
 
 ATTENTION_CLASSES = {

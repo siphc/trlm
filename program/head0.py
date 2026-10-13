@@ -1,27 +1,39 @@
-"""HEAD 0 of the model's single attention layer: passes on the last few tokens and finishes split words.
+"""LOCAL-0 (model head 0): reads the current token and the last few tokens, with a steep recency decay.
 
-CLAIM (measured on 200 held-out windows by analysis/claims_measure.py; tests/test_head0.py):
-  Role     Head 0 abstains on 58% of its attention (the current token: no vote, see attention.py).
-           The rest comes from close by: 19% on the previous token, 17% on 2 to 8 tokens back, 5%
-           further (mean distance 4.2 tokens), and nothing (under 0.1%) more than 48 tokens back.
-  Words    It matters most inside words that the tokenizer splits into pieces: its removal cost there
-           is 2.6x its cost elsewhere (0.34 vs 0.13 nats), more than any other head's (next: head 3,
-           0.30). After 'He had a new shir' (' sh' 'ir', as in 'shirt') the program gives 't' 0.91,
-           and 0.11 without this head.
-  Removed  Replacing its votes by their average raises the KL by 0.15 nats, the least of the four
-           heads; top-1 agreement with the model falls from 69% to 63%.
-  Model    Ablating the earlier-token part of the model's head 0 costs 0.46 nats; the program head
-           carries a third of that, with the same inside-word focus (model: 2.0x; without its head 0
-           the model's 't' after 'He had a new shir' falls from 0.98 to under 0.01). The model head
-           also spends half its attention (49%) on the current token, where it carries that token's
-           own vote; in the program FOLLOW does that part of the job.
+Where it looks, at position i, for each j <= i (d = i - j tokens back):
+
+    score(j) = - SLOPE[shape of t_i] * d  +  SELF_BONUS[shape of t_i] if j = i
+
+The shape of a token is its spelling: a word start (space + letter), a continuation piece (starts with a letter),
+other (punctuation, digits, ...), or the end-of-story token. Attention odds drop by about 25% per token back after
+a word start, faster inside a word, and much more slowly after punctuation; at an end-of-story token it looks almost
+only at itself.
+
+What it votes: the shared skip-gram rule of readers.py (each token read votes for what the stories put that many
+tokens after it).
+
+CLAIM: (filled in after measurement)
 """
-from .attention import Head
-from .tables import head0 as tables
+import numpy as np
 
-HEAD = Head(tables)
+from .readers import skipgram_votes, softmax_rows
+
+NAME = "head0"
+# Fitted to model head 0's own attention rows (pattern cross-entropy, 32 TRAIN windows); index = token shape.
+SHAPES = ["word start", "continuation", "other", "end of story"]
+SLOPE = [0.282, 0.363, 0.105, 0.253]          # attention score lost per token back
+SELF_BONUS = [1.263, 0.504, 1.611, 3.498]     # extra score for the current token itself
+# Fitted to the model's log-probs with the attention above frozen.
+STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.312, 0.856, 4.513
 
 
-def votes(tokens):
-    """Scores this head adds for every next token at each position, shape (n, VOCAB_SIZE)."""
-    return HEAD.votes(tokens)
+def attention(tokens, stats):
+    n = len(tokens)
+    shape = stats.shape[tokens]
+    dist = np.arange(n)[:, None] - np.arange(n)[None, :]
+    score = -np.asarray(SLOPE)[shape][:, None] * dist + np.eye(n) * np.asarray(SELF_BONUS)[shape][:, None]
+    return softmax_rows(score)
+
+
+def votes(tokens, stats):
+    return skipgram_votes(attention(tokens, stats), tokens, stats, STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR)
