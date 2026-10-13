@@ -9,7 +9,9 @@ In the model there is no separate bigram part: the current token's own vote trav
 through heads 0 and 2 attending to the current token, and only their sum is a clean corpus statistic. FOLLOW is
 that sum.
 
-CLAIM: (filled in after measurement)
+CLAIM (tests/test_follow.py): FOLLOW is what the model predicts from the current token alone. On its own it is much
+closer to the model with the earlier-token parts of all four heads replaced by their mean (KL <= 1.35) than to the
+full model (at most 0.8 times that KL).
 """
 NAME = "follow"
 STRENGTH = 0.496   # weight of log P1; fitted to the model's log-probs with all mechanisms together

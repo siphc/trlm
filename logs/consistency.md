@@ -58,3 +58,10 @@ context effect; head 2 is the largest in both. The remaining KL is mostly missin
 
 Same pattern as v7: head 2 largest on both sides; program heads carry 31% (head 0), 42% (head 1), 54% (head 2) and
 46% (head 3) of the model heads' earlier-token effect.
+
+## Mechanism program v1 (2026-10-13)
+
+The distillation-era numbers above do not apply to the mechanism program. Its consistency check (program part removal
+vs earlier-token ablation of the matching model head, plus the share of each head's effect explained) is in
+logs/mech_v1_report.md: program parts move the output 5-10x less than the heads; they explain 44% of head 1's
+earlier-token effect, 21% of heads 0 and 2 together, 4% of head 3.

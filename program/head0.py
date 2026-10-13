@@ -12,7 +12,10 @@ only at itself.
 What it votes: the shared skip-gram rule of readers.py (each token read votes for what the stories put that many
 tokens after it).
 
-CLAIM: (filled in after measurement)
+CLAIM (tests/test_head0.py): LOCAL-0's votes from earlier tokens change the output in the same direction as model
+head 0's earlier-token part (median probability-weighted correlation >= 0.18), and the attention rule is what makes
+them agree (uniform attention: below half of that). It captures only a small part of the head: removing it moves the
+program's output less than a quarter as far as ablating the head moves the model's.
 """
 import numpy as np
 

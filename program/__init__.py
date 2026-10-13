@@ -19,7 +19,8 @@ The whole algorithm, top-down (one module per mechanism):
 
 Model head 3 is not modelled in this version (logs/mechanism_cards.md: no vote rule tried so far explains it).
 
-CLAIM: (filled in after measurement; see tests/)
+CLAIM (tests/test_program.py): on held-out text the five mechanisms together are within 0.62 nats of the model,
+and each is needed: switching one off raises KL by at least 0.05 nats (FOLLOW by at least 1.0).
 """
 import numpy as np
 

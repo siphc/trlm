@@ -1,0 +1,27 @@
+{
+ "n_windows": 64,
+ "seed": 2000,
+ "heads": {
+  "head0": {
+   "model_head": 0,
+   "model_shift": 0.4636440831500226,
+   "program_shift": 0.04336641567866971,
+   "median_weighted_corr": 0.482279895821806,
+   "median_slope_model_on_program": 0.7004296961540354
+  },
+  "head1": {
+   "model_head": 1,
+   "model_shift": 0.4087410993266941,
+   "program_shift": 0.0785843351400234,
+   "median_weighted_corr": 0.6628559963169347,
+   "median_slope_model_on_program": 1.5334376421395106
+  },
+  "head2": {
+   "model_head": 2,
+   "model_shift": 0.492505888246599,
+   "program_shift": 0.05624163381506096,
+   "median_weighted_corr": 0.6402137176609879,
+   "median_slope_model_on_program": 0.9590993394258378
+  }
+ }
+}

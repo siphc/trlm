@@ -1,0 +1,42 @@
+tables ready 1s; names: 110
+loaded 1s
+[     0s] tables ready
+[     1s] FIT inputs and model patterns ready
+[     2s] stage 1 pattern CE card -> refit: {'h0': 1.8785157203674316, 'h1': 3.9675703048706055, 'h2': 1.947045922279358, 'h3': 2.758317708969116} {'h0': 1.8782100677490234, 'h1': 3.967479705810547, 'h2': 1.9466657638549805, 'h3': 2.7575106620788574}
+[    52s] fit V1F frozen head attention (stage 1) + fitted votes: train KL 0.5920 (29 free scalars)
+[   102s] fit V1F without in-context successor term (b_ic = 0, h1 attention re-fitted): train KL 0.5966 (29 free scalars)
+[   153s] fit V1F without successor terms (b_ic = b_class = 0, h1 re-fitted): train KL 0.6086 (29 free scalars)
+[   206s] fit V1F recall votes tied across groups: train KL 0.6019 (17 free scalars)
+[   256s] fit V1F recall topic votes only (no copy, no next): train KL 0.6030 (19 free scalars)
+[   308s] fit V1F without 4-gram: train KL 0.6057 (28 free scalars)
+[   357s] fit V1F without echo: train KL 0.5922 (28 free scalars)
+[   398s] fit V1F without head-0 reader: train KL 0.6001 (26 free scalars)
+[   441s] fit V1F without head-3 reader: train KL 0.5919 (26 free scalars)
+[   513s] fit V1R penalised joint fit lam=0.01: train KL 0.5665 (85 free scalars)
+[   589s] fit V1R penalised joint fit lam=0.03: train KL 0.5697 (85 free scalars)
+[   668s] fit V1R penalised joint fit lam=0.1: train KL 0.5766 (85 free scalars)
+[   675s] eval 16/160
+[   683s] eval 32/160
+[   691s] eval 48/160
+[   698s] eval 64/160
+[   705s] eval 80/160
+[   712s] eval 96/160
+[   719s] eval 112/160
+[   727s] eval 128/160
+[   734s] eval 144/160
+[   741s] eval 160/160
+[   741s] EVAL V1F frozen head attention (stage 1) + fitted votes                             KL 0.5804  vs V1F +0.0000 +- 0.0000  (29 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without in-context successor term (b_ic = 0, h1 attention re-fitted)       KL 0.5850  vs V1F +0.0046 +- 0.0003  (29 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5941334821914528, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without successor terms (b_ic = b_class = 0, h1 re-fitted)                 KL 0.5998  vs V1F +0.0194 +- 0.0013  (29 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.6493633234548686, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F recall votes tied across groups                                            KL 0.5887  vs V1F +0.0083 +- 0.0008  (17 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F recall topic votes only (no copy, no next)                                 KL 0.5901  vs V1F +0.0097 +- 0.0004  (19 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without 4-gram                                                             KL 0.5954  vs V1F +0.0150 +- 0.0004  (28 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without echo                                                               KL 0.5805  vs V1F +0.0002 +- 0.0000  (28 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without head-0 reader                                                      KL 0.5885  vs V1F +0.0081 +- 0.0004  (26 scalars) pattern KL {'h1': 0.5890537748005505, 'h2': 0.4573668626974472, 'h3': 0.8635855657141909}
+[   741s] EVAL V1F without head-3 reader                                                      KL 0.5798  vs V1F -0.0005 +- 0.0003  (26 scalars) pattern KL {'h0': 0.41997891643839397, 'h1': 0.5890537748005505, 'h2': 0.4573668626974472}
+[   741s] EVAL V1R penalised joint fit lam=0.01                                               KL 0.5550  vs V1F -0.0253 +- 0.0012  (85 scalars) pattern KL {'h0': 0.439888650429223, 'h1': 0.7844147063195354, 'h2': 0.592085609687861, 'h3': 0.8961148532260211}
+[   741s] EVAL V1R penalised joint fit lam=0.03                                               KL 0.5582  vs V1F -0.0222 +- 0.0010  (85 scalars) pattern KL {'h0': 0.4275134432108493, 'h1': 0.6917355988627345, 'h2': 0.5243247158426271, 'h3': 0.8787328429532179}
+[   741s] EVAL V1R penalised joint fit lam=0.1                                                KL 0.5651  vs V1F -0.0153 +- 0.0007  (85 scalars) pattern KL {'h0': 0.42259183266910727, 'h1': 0.6222199471574306, 'h2': 0.47535967264822776, 'h3': 0.8648904255534805}
+[   741s] program removal rise (V1F, no refit): {'h0 ctx': 0.028388619422912598, 'h2 ctx': 0.038752615451812744, 'h3 ctx': 0.0009072422981262207, 'all local ctx': 0.14682501554489136, 'h0': 0.08663791418075562, 'h2': 0.07156908512115479, 'h3': 0.001011490821838379, 'recall': 0.08753037452697754, 'phrase': 0.16362214088439941, 'echo': 0.00023353099822998047}
+[   741s] model ablation rise: {'n_windows': 64, 'mean head 0': 2.9844040870666504, 'earlier head 0': 0.47423380613327026, 'mean head 1': 0.44975417852401733, 'earlier head 1': 0.41425803303718567, 'mean head 2': 1.5660606622695923, 'earlier head 2': 0.49051564931869507, 'mean head 3': 0.5168542861938477, 'earlier head 3': 0.3202037215232849}
+[   741s] done

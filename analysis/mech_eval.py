@@ -5,6 +5,7 @@ analysis only; the program itself always rebuilds them in setup().
 
   python -m analysis.mech_eval ledger        # KL with all mechanisms and with each one switched off
   python -m analysis.mech_eval consistency   # program part removal vs the matching model-head ablation
+  python -m analysis.mech_eval claims        # the claim-test statistics, on TRAIN windows
 """
 from __future__ import annotations
 
@@ -64,23 +65,6 @@ def log_softmax(x):
     return x - np.log(np.exp(x).sum(-1, keepdims=True))
 
 
-def earlier_votes(name, tokens, s):
-    """The part of a head's votes that comes from tokens before the current one."""
-    import program.head0, program.head1, program.head2
-    from program.readers import skipgram_votes
-
-    mod = {"head0": program.head0, "head1": program.head1, "head2": program.head2}[name]
-    a = mod.attention(tokens, s)
-    if name == "head1":
-        a = a * (1 - np.eye(len(tokens)))
-        g = mod.GROUP[tokens]
-        src = (mod._per_group(mod.TOPIC)[g][:, None] * s.topic[tokens]
-               + mod._per_group(mod.NEXT)[g][:, None] * s.pmi[1][tokens])
-        src[np.arange(len(tokens)), tokens] += mod._per_group(mod.COPY)[g]
-        return a @ src
-    return skipgram_votes(a, tokens, s, 0.0, mod.STRENGTH_NEAR, mod.STRENGTH_FAR)
-
-
 def ledger(n=64):
     P = program()
     W = train_windows(n, seed=EVAL_SEED)
@@ -105,42 +89,55 @@ def consistency(n=64):
     """For each head: how far the output moves when its earlier-token part is replaced by its mean, in the model
     (harness 'earlier' ablation) and in the program; and whether the two moves point the same way."""
     from harness.common import head_means, load_model
+    from program.tests import measure as M
 
     P = program()
-    s = P.STATS
     W = train_windows(n, seed=EVAL_SEED)
     means = head_means(load_model("attn_s0"), W)
     lp = model_logprobs(W)
     res = {}
     for name, h in HEAD_OF.items():
         lp_abl = model_logprobs(W, ablate_heads=[h], ablation="earlier", means=means)
-        ev = [earlier_votes(name, np.asarray(w[:256]), s) for w in W]
-        mean_ev = np.mean([e.mean(0) for e in ev], axis=0)
-        shift_m, shift_p, corr, slope = [], [], [], []
-        for w, p, pa, e in zip(W, lp, lp_abl, ev):
-            t = np.asarray(w[:256])
-            q = P.predict(t)
-            qa = log_softmax(q - e + mean_ev)
-            shift_m.append(kl(p, pa).mean())
-            shift_p.append(kl(q, qa).mean())
-            dm, dp = p - pa, q - qa
-            dm = dm - dm.mean(-1, keepdims=True)
-            dp = dp - dp.mean(-1, keepdims=True)
-            # probability-weighted correlation over the vocabulary, per position (model's distribution as weight)
-            wgt = np.exp(p)
-            cm = (wgt * dm * dp).sum(-1)
-            vm, vp = (wgt * dm * dm).sum(-1), (wgt * dp * dp).sum(-1)
-            corr.append(np.median(cm / np.sqrt(vm * vp + 1e-30)))
-            slope.append(np.median(cm / (vp + 1e-30)))
-        res[name] = {"model_head": h, "model_shift": float(np.mean(shift_m)), "program_shift": float(np.mean(shift_p)),
-                     "median_weighted_corr": float(np.mean(corr)), "median_slope_model_on_program": float(np.mean(slope))}
+        res[name] = M.compare_with_head(P, W, lp, lp_abl, lambda t: M.earlier_votes(P, name, t))
+        res[name]["uniform attention"] = M.compare_with_head(
+            P, W, lp, lp_abl, lambda t: M.earlier_votes(P, name, t, attention=M.uniform_attention(len(t))))
         print(name, res[name], flush=True)
     return {"n_windows": n, "seed": EVAL_SEED, "heads": res}
 
 
+def claims(n=64):
+    """Every statistic the claim tests check, on TRAIN windows (to set their thresholds)."""
+    from harness.common import head_means, load_model
+    from program.tests import measure as M
+
+    P = program()
+    W = train_windows(n, seed=EVAL_SEED)
+    means = head_means(load_model("attn_s0"), W)
+    lp = model_logprobs(W)
+    abl = {k: model_logprobs(W, ablate_heads=list(hs), ablation="earlier", means=means)
+           for k, hs in {"h0": [0], "h1": [1], "h2": [2], "h3": [3], "h02": [0, 2], "all": [0, 1, 2, 3]}.items()}
+    out = {"removal_rise": M.removal_rise(P, W, lp, [m.NAME for m in P.MECHANISMS])}
+    for name, h in HEAD_OF.items():
+        out[name] = M.compare_with_head(P, W, lp, abl[f"h{h}"], lambda t: M.earlier_votes(P, name, t))
+        out[name]["uniform"] = M.compare_with_head(
+            P, W, lp, abl[f"h{h}"], lambda t: M.earlier_votes(P, name, t, attention=M.uniform_attention(len(t))))
+        print(name, out[name], flush=True)
+    import program.phrase as phrase
+    out["phrase_agreement"] = {k: M.vote_agreement(W, lp, abl[k], lambda t: phrase.votes(t, P.STATS))
+                               for k in ["h02", "h0", "h2", "h1", "h3", "all"]}
+    print("phrase", out["phrase_agreement"], flush=True)
+    follow_only = tuple(m.NAME for m in P.MECHANISMS if m.NAME != "follow")
+    toks = [np.asarray(w[:256], dtype=np.int64) for w in W]
+    q = [P.predict(t, off=follow_only) for t in toks]
+    out["follow"] = {"kl_to_model": float(np.mean([kl(p, qq).mean() for p, qq in zip(lp, q)])),
+                     "kl_to_context_ablated_model": float(np.mean([kl(p, qq).mean() for p, qq in zip(abl["all"], q)]))}
+    print("follow", out["follow"], flush=True)
+    return {"n_windows": n, "seed": EVAL_SEED, **out}
+
+
 if __name__ == "__main__":
     what = sys.argv[1]
-    out = {"ledger": ledger, "consistency": consistency}[what]()
+    out = {"ledger": ledger, "consistency": consistency, "claims": claims}[what]()
     path = os.path.join(REPO, "analysis", "out", f"mech_{what}.json")
     with open(path, "w") as f:
         json.dump(out, f, indent=1)

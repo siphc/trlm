@@ -10,7 +10,9 @@ first position and when the current token ends a story; the 4-gram also when the
 This is a behavioural stand-in, not a single head: heads 0 and 2 make token-pair-specific choices of where to look
 (mostly the previous one or two tokens) that their attention rules miss, and a phrase table reproduces their effect.
 
-CLAIM: (filled in after measurement)
+CLAIM (tests/test_phrase.py): PHRASE stands in for part of heads 0 and 2: its votes agree with the model's change
+when the earlier-token parts of heads 0 and 2 are replaced by their mean (median weighted correlation >= 0.3), at
+least twice as much as with head 1's (the long-range head).
 """
 import numpy as np
 

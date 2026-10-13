@@ -1,0 +1,43 @@
+tables ready 1s; names: 110
+loaded 1s
+[     0s] tables ready
+[     2s] fit L1 FOLLOW: train KL 1.1991
+[    25s] fit L2 + LOCAL readers (heads 0, 2): train KL 0.7605
+[    62s] fit L3 + RECALL (head 1): train KL 0.6909
+[   102s] fit L4 + PHRASE (trigram, 4-gram): train KL 0.5965
+[   128s] fit L3' L2 + PHRASE (no RECALL): train KL 0.6705
+[   184s] fit L5 = L4 + stage 3 (penalised joint fit, lam 0.1): train KL 0.5863
+[   185s] train_eval 16/160
+[   186s] train_eval 32/160
+[   188s] train_eval 48/160
+[   189s] train_eval 64/160
+[   191s] train_eval 80/160
+[   192s] train_eval 96/160
+[   193s] train_eval 112/160
+[   195s] train_eval 128/160
+[   196s] train_eval 144/160
+[   197s] train_eval 160/160
+[   197s] train_eval L1 FOLLOW                                          KL 1.1925 +- 0.0072 top1 0.370 pattern KL {}
+[   197s] train_eval L2 + LOCAL readers (heads 0, 2)                    KL 0.7486 +- 0.0053 top1 0.549 pattern KL {'h0': 0.41997995815369277, 'h2': 0.45736717830591656}
+[   197s] train_eval L3 + RECALL (head 1)                               KL 0.6827 +- 0.0046 top1 0.570 pattern KL {'h0': 0.41997995815369277, 'h1': 0.5941333738866194, 'h2': 0.45736717830591656}
+[   197s] train_eval L4 + PHRASE (trigram, 4-gram)                      KL 0.5845 +- 0.0041 top1 0.623 pattern KL {'h0': 0.41997995815369277, 'h1': 0.5941333738866194, 'h2': 0.45736717830591656}
+[   197s] train_eval L3' L2 + PHRASE (no RECALL)                        KL 0.6547 +- 0.0049 top1 0.599 pattern KL {'h0': 0.41997995815369277, 'h2': 0.45736717830591656}
+[   197s] train_eval L5 = L4 + stage 3 (penalised joint fit, lam 0.1)   KL 0.5757 +- 0.0042 top1 0.626 pattern KL {'h0': 0.4247540180229448, 'h1': 0.615823997740703, 'h2': 0.4772169136335198}
+[   197s] echo: {'model top-1 = current token, position 0': 0.50625, 'model top-1 = current token, positions >= 1': 0.016029411764705882, 'L1 FOLLOW: program top-1 = current token, position 0': 0.025, 'L1 FOLLOW: program top-1 = current token, positions >= 1': 0.03299019607843137, 'L2 + LOCAL readers (heads 0, 2): program top-1 = current token, position 0': 0.025, 'L2 + LOCAL readers (heads 0, 2): program top-1 = current token, positions >= 1': 0.015220588235294118, 'L3 + RECALL (head 1): program top-1 = current token, position 0': 0.425, 'L3 + RECALL (head 1): program top-1 = current token, positions >= 1': 0.015784313725490197, 'L4 + PHRASE (trigram, 4-gram): program top-1 = current token, position 0': 0.475, 'L4 + PHRASE (trigram, 4-gram): program top-1 = current token, positions >= 1': 0.01536764705882353, "L3' L2 + PHRASE (no RECALL): program top-1 = current token, position 0": 0.025, "L3' L2 + PHRASE (no RECALL): program top-1 = current token, positions >= 1": 0.015220588235294118, 'L5 = L4 + stage 3 (penalised joint fit, lam 0.1): program top-1 = current token, position 0': 0.525, 'L5 = L4 + stage 3 (penalised joint fit, lam 0.1): program top-1 = current token, positions >= 1': 0.015294117647058824}
+[   198s] dev_fast 16/200
+[   199s] dev_fast 32/200
+[   200s] dev_fast 48/200
+[   200s] dev_fast 64/200
+[   201s] dev_fast 80/200
+[   202s] dev_fast 96/200
+[   203s] dev_fast 112/200
+[   203s] dev_fast 128/200
+[   204s] dev_fast 144/200
+[   205s] dev_fast 160/200
+[   206s] dev_fast 176/200
+[   206s] dev_fast 192/200
+[   207s] dev_fast 200/200
+[   207s] dev_fast L1 FOLLOW                                          KL 1.1959 +- 0.0065 top1 0.372 pattern KL {}
+[   207s] dev_fast L4 + PHRASE (trigram, 4-gram)                      KL 0.5886 +- 0.0039 top1 0.623 pattern KL {}
+[   207s] dev_fast L5 = L4 + stage 3 (penalised joint fit, lam 0.1)   KL 0.5779 +- 0.0038 top1 0.626 pattern KL {}
+[   207s] done

@@ -1,0 +1,65 @@
+tables ready 1s; names: 110
+loaded 1s
+[     0s] tables ready
+[     1s] fit inputs ready {'x': (32, 256), 'G': (32, 8, 256, 2000), 'F8': (32, 256, 2000), 'FAR': (32, 256, 2000), 'BIG': (32, 256, 2000), 'TRI': (32, 256, 2000), 'QUAD': (32, 256, 2000), 'infod': (32, 256, 256), 'cpp': (32, 256, 256), 'lpic': (32, 256, 256), 'copy': (32, 256, 2000), 'name': (32, 256, 2000), 'band0': (32, 256, 2000), 'band1': (32, 256, 2000), 'band2': (32, 256, 2000), 'band3': (32, 256, 2000), 'band4': (32, 256, 2000)}
+[     1s] card attention pattern KL on 8 FIT windows: {'h0': 0.4179804469023265, 'h1': 0.5897342107372137, 'h2': 0.4483990824971411, 'h3': 0.8589931489225131}
+[     2s] fit A base: bigram: train KL 1.1991 (2 free scalars)
+[     4s] fit B base + fixed skip-grams (L2c): train KL 0.8021 (9 free scalars)
+[    48s] fit C base + 3 local readers, card attention frozen: train KL 0.7580 (11 free scalars)
+[   124s] fit D base + 3 local readers, attention fitted: train KL 0.7222 (58 free scalars)
+[   202s] fit E D + phrase (tri, 4-gram): train KL 0.6338 (60 free scalars)
+[   270s] fit F E + recall (head 1), card attention frozen: train KL 0.5795 (28 free scalars)
+[   358s] fit G E + recall, all fitted: train KL 0.5610 (84 free scalars)
+[   451s] fit H G + window-start echo: train KL 0.5589 (85 free scalars)
+[   459s] fit I fixed-weight L4 (skip + phrase + bands + copy + name): train KL 0.6297 (18 free scalars)
+[   565s] fit J H + bands + copy + name: train KL 0.5514 (92 free scalars)
+[   601s] fit D1 base + 1 local reader (head-2 rule), attention fitted: train KL 0.7451 (17 free scalars)
+[   651s] fit H1 H with one local reader (head-2 rule): train KL 0.5689 (44 free scalars)
+[   744s] fit K H without phrase (no n-gram conjunctions): train KL 0.6443 (83 free scalars)
+[   750s] train-eval 16/160
+[   756s] train-eval 32/160
+[   762s] train-eval 48/160
+[   768s] train-eval 64/160
+[   774s] train-eval 80/160
+[   780s] train-eval 96/160
+[   786s] train-eval 112/160
+[   792s] train-eval 128/160
+[   798s] train-eval 144/160
+[   804s] train-eval 160/160
+[   804s] train-eval A base: bigram                                             KL 1.1925 +- 0.0072 top1 0.370 pattern KL {}
+[   804s] train-eval B base + fixed skip-grams (L2c)                            KL 0.7897 +- 0.0055 top1 0.529 pattern KL {}
+[   804s] train-eval C base + 3 local readers, card attention frozen            KL 0.7460 +- 0.0052 top1 0.548 pattern KL {'h0': 0.4201371461571273, 'h2': 0.45736546203715456, 'h3': 0.8622694268836593}
+[   804s] train-eval D base + 3 local readers, attention fitted                 KL 0.7142 +- 0.0047 top1 0.556 pattern KL {'h0': 0.703713458677367, 'h2': 0.7349178265932133, 'h3': 4.930927044097187}
+[   804s] train-eval E D + phrase (tri, 4-gram)                                 KL 0.6204 +- 0.0043 top1 0.608 pattern KL {'h0': 0.7461502171712262, 'h2': 0.7221862767990086, 'h3': 2.290538914828397}
+[   804s] train-eval F E + recall (head 1), card attention frozen               KL 0.5692 +- 0.0040 top1 0.626 pattern KL {'h0': 0.7461502171712262, 'h1': 0.5893141472789316, 'h2': 0.7221862767990086, 'h3': 2.290538914828397}
+[   804s] train-eval G E + recall, all fitted                                   KL 0.5493 +- 0.0038 top1 0.638 pattern KL {'h0': 0.6176806898561346, 'h1': 0.9213638640904855, 'h2': 0.7380505675924433, 'h3': 2.0517518348662325}
+[   804s] train-eval H G + window-start echo                                    KL 0.5470 +- 0.0038 top1 0.640 pattern KL {'h0': 0.5856359224743287, 'h1': 0.9209116196641194, 'h2': 0.6727692680237702, 'h3': 1.8792728879865304}
+[   804s] train-eval I fixed-weight L4 (skip + phrase + bands + copy + name)    KL 0.6133 +- 0.0040 top1 0.607 pattern KL {}
+[   804s] train-eval J H + bands + copy + name                                  KL 0.5391 +- 0.0037 top1 0.640 pattern KL {'h0': 0.5678185961616328, 'h1': 0.9672335077941419, 'h2': 0.7103687660894105, 'h3': 2.1388743220538196}
+[   804s] train-eval D1 base + 1 local reader (head-2 rule), attention fitted   KL 0.7355 +- 0.0050 top1 0.551 pattern KL {'h2': 0.7385604177568263}
+[   804s] train-eval H1 H with one local reader (head-2 rule)                   KL 0.5578 +- 0.0039 top1 0.636 pattern KL {'h1': 0.9317701857034412, 'h2': 0.7682734208090436}
+[   804s] train-eval K H without phrase (no n-gram conjunctions)                KL 0.6363 +- 0.0042 top1 0.589 pattern KL {'h0': 0.5661328969661577, 'h1': 1.000231733051917, 'h2': 0.6103809999417578, 'h3': 1.989103329262595}
+[   804s] train-eval removal deltas: {'h0': 0.07745534181594849, 'h2': 0.16601455211639404, 'h3': 0.04091596603393555, 'phrase': 0.16465234756469727, 'recall': 0.09006482362747192, 'echo': 3.081560134887695e-05, 'recall:copy only': 0.0726669430732727, 'recall:no copy': 0.003324568271636963}
+[   809s] dev_fast 16/200
+[   813s] dev_fast 32/200
+[   818s] dev_fast 48/200
+[   823s] dev_fast 64/200
+[   827s] dev_fast 80/200
+[   832s] dev_fast 96/200
+[   837s] dev_fast 112/200
+[   841s] dev_fast 128/200
+[   846s] dev_fast 144/200
+[   850s] dev_fast 160/200
+[   855s] dev_fast 176/200
+[   859s] dev_fast 192/200
+[   862s] dev_fast 200/200
+[   862s] dev_fast A base: bigram                                             KL 1.1959 +- 0.0065 top1 0.372 pattern KL {}
+[   862s] dev_fast B base + fixed skip-grams (L2c)                            KL 0.7993 +- 0.0049 top1 0.529 pattern KL {}
+[   862s] dev_fast E D + phrase (tri, 4-gram)                                 KL 0.6273 +- 0.0043 top1 0.606 pattern KL {}
+[   862s] dev_fast H G + window-start echo                                    KL 0.5491 +- 0.0036 top1 0.639 pattern KL {}
+[   862s] dev_fast I fixed-weight L4 (skip + phrase + bands + copy + name)    KL 0.6206 +- 0.0040 top1 0.606 pattern KL {}
+[   862s] dev_fast J H + bands + copy + name                                  KL 0.5411 +- 0.0035 top1 0.642 pattern KL {}
+[   862s] dev_fast H1 H with one local reader (head-2 rule)                   KL 0.5599 +- 0.0036 top1 0.637 pattern KL {}
+[   862s] dev_fast K H without phrase (no n-gram conjunctions)                KL 0.6395 +- 0.0037 top1 0.592 pattern KL {}
+[   862s] dev_fast removal deltas: {'h0': 0.08016419410705566, 'h2': 0.16939681768417358, 'h3': 0.037865638732910156, 'phrase': 0.16677695512771606, 'recall': 0.09554105997085571, 'echo': 1.049041748046875e-05, 'recall:copy only': 0.07764607667922974, 'recall:no copy': 0.004057824611663818}
+[   862s] done

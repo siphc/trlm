@@ -1,0 +1,1647 @@
+{
+ "h0": {
+  "shift": {
+   "all": 0.46132526893833026,
+   "after sentence end": {
+    "share_positions": 0.084716796875,
+    "share_shift": 0.1415477579758197
+   },
+   "current token is a word piece": {
+    "share_positions": 0.1318359375,
+    "share_shift": 0.2305782850634759
+   },
+   "other": {
+    "share_positions": 0.7115478515625,
+    "share_shift": 0.584882305287098
+   },
+   "window position 0": {
+    "share_positions": 0.00390625,
+    "share_shift": 0.00033549315216333843
+   },
+   "word onset (next is likely a piece)": {
+    "share_positions": 0.0679931640625,
+    "share_shift": 0.04265615852144307
+   }
+  },
+  "r2": {
+   "local0": {
+    "all": {
+     "r2": 0.0352,
+     "beta": [
+      0.538
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0208,
+     "beta": [
+      0.458
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0618,
+     "beta": [
+      0.78
+     ]
+    },
+    "other": {
+     "r2": 0.0274,
+     "beta": [
+      0.447
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1126,
+     "beta": [
+      0.522
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0886,
+     "beta": [
+      0.907
+     ]
+    }
+   },
+   "local2": {
+    "all": {
+     "r2": 0.0454,
+     "beta": [
+      0.564
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0307,
+     "beta": [
+      0.732
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0546,
+     "beta": [
+      0.741
+     ]
+    },
+    "other": {
+     "r2": 0.0465,
+     "beta": [
+      0.488
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1743,
+     "beta": [
+      0.772
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1094,
+     "beta": [
+      1.631
+     ]
+    }
+   },
+   "recall": {
+    "all": {
+     "r2": 0.0035,
+     "beta": [
+      -0.115
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.06,
+     "beta": [
+      -0.479
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0054,
+     "beta": [
+      -0.295
+     ]
+    },
+    "other": {
+     "r2": 0.0005,
+     "beta": [
+      -0.038
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0007,
+     "beta": [
+      0.03
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.001,
+     "beta": [
+      0.086
+     ]
+    }
+   },
+   "phrase": {
+    "all": {
+     "r2": 0.0395,
+     "beta": [
+      0.292
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0317,
+     "beta": [
+      0.591
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0581,
+     "beta": [
+      0.38
+     ]
+    },
+    "other": {
+     "r2": 0.0389,
+     "beta": [
+      0.256
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1604,
+     "beta": [
+      0.382
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0291,
+     "beta": [
+      0.256
+     ]
+    }
+   },
+   "local0+local2": {
+    "all": {
+     "r2": 0.0455,
+     "beta": [
+      0.061,
+      0.516
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0309,
+     "beta": [
+      0.074,
+      0.657
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.063,
+     "beta": [
+      0.589,
+      0.221
+     ]
+    },
+    "other": {
+     "r2": 0.0488,
+     "beta": [
+      -0.27,
+      0.686
+     ]
+    },
+    "window position 0": {
+     "r2": 0.2009,
+     "beta": [
+      -0.735,
+      1.592
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1103,
+     "beta": [
+      0.174,
+      1.391
+     ]
+    }
+   },
+   "local0+local2+phrase": {
+    "all": {
+     "r2": 0.0546,
+     "beta": [
+      -0.005,
+      0.396,
+      0.17
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0388,
+     "beta": [
+      0.144,
+      0.271,
+      0.39
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0746,
+     "beta": [
+      0.245,
+      0.282,
+      0.224
+     ]
+    },
+    "other": {
+     "r2": 0.0572,
+     "beta": [
+      -0.293,
+      0.557,
+      0.146
+     ]
+    },
+    "window position 0": {
+     "r2": 0.2322,
+     "beta": [
+      -0.573,
+      1.194,
+      0.206
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1119,
+     "beta": [
+      0.089,
+      1.422,
+      0.068
+     ]
+    }
+   },
+   "local0+local2+recall+phrase": {
+    "all": {
+     "r2": 0.0706,
+     "beta": [
+      0.227,
+      0.332,
+      -0.272,
+      0.154
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1835,
+     "beta": [
+      1.12,
+      -0.078,
+      -0.894,
+      0.442
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0923,
+     "beta": [
+      0.321,
+      0.371,
+      -0.557,
+      0.191
+     ]
+    },
+    "other": {
+     "r2": 0.0623,
+     "beta": [
+      -0.151,
+      0.507,
+      -0.131,
+      0.142
+     ]
+    },
+    "window position 0": {
+     "r2": 0.236,
+     "beta": [
+      -0.669,
+      1.263,
+      0.08,
+      0.223
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1161,
+     "beta": [
+      0.215,
+      1.347,
+      -0.191,
+      0.062
+     ]
+    }
+   }
+  }
+ },
+ "h1": {
+  "shift": {
+   "all": 0.43531909080723397,
+   "after sentence end": {
+    "share_positions": 0.084716796875,
+    "share_shift": 0.09587764347163584
+   },
+   "current token is a word piece": {
+    "share_positions": 0.1318359375,
+    "share_shift": 0.08378944836627623
+   },
+   "other": {
+    "share_positions": 0.7115478515625,
+    "share_shift": 0.7341810677239681
+   },
+   "window position 0": {
+    "share_positions": 0.00390625,
+    "share_shift": 0.00011557534086567476
+   },
+   "word onset (next is likely a piece)": {
+    "share_positions": 0.0679931640625,
+    "share_shift": 0.0860362650972541
+   }
+  },
+  "r2": {
+   "local0": {
+    "all": {
+     "r2": 0.0697,
+     "beta": [
+      0.944
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.082,
+     "beta": [
+      0.96
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0156,
+     "beta": [
+      0.295
+     ]
+    },
+    "other": {
+     "r2": 0.0933,
+     "beta": [
+      1.192
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0548,
+     "beta": [
+      0.209
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0122,
+     "beta": [
+      0.439
+     ]
+    }
+   },
+   "local2": {
+    "all": {
+     "r2": 0.0321,
+     "beta": [
+      0.591
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0248,
+     "beta": [
+      0.696
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0259,
+     "beta": [
+      0.384
+     ]
+    },
+    "other": {
+     "r2": 0.0378,
+     "beta": [
+      0.637
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0502,
+     "beta": [
+      0.238
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0013,
+     "beta": [
+      0.232
+     ]
+    }
+   },
+   "recall": {
+    "all": {
+     "r2": 0.4406,
+     "beta": [
+      1.622
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.5336,
+     "beta": [
+      1.509
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.3314,
+     "beta": [
+      1.735
+     ]
+    },
+    "other": {
+     "r2": 0.4586,
+     "beta": [
+      1.636
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0462,
+     "beta": [
+      0.144
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.2319,
+     "beta": [
+      1.688
+     ]
+    }
+   },
+   "phrase": {
+    "all": {
+     "r2": 0.0094,
+     "beta": [
+      0.177
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0343,
+     "beta": [
+      0.65
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0,
+     "beta": [
+      -0.008
+     ]
+    },
+    "other": {
+     "r2": 0.0134,
+     "beta": [
+      0.217
+     ]
+    },
+    "window position 0": {
+     "r2": 0.003,
+     "beta": [
+      -0.03
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0032,
+     "beta": [
+      0.111
+     ]
+    }
+   },
+   "local0+local2": {
+    "all": {
+     "r2": 0.0774,
+     "beta": [
+      1.46,
+      -0.557
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0916,
+     "beta": [
+      1.356,
+      -0.678
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.027,
+     "beta": [
+      -0.154,
+      0.52
+     ]
+    },
+    "other": {
+     "r2": 0.1161,
+     "beta": [
+      2.261,
+      -1.024
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0549,
+     "beta": [
+      0.177,
+      0.04
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0246,
+     "beta": [
+      1.16,
+      -1.369
+     ]
+    }
+   },
+   "local0+local2+phrase": {
+    "all": {
+     "r2": 0.0784,
+     "beta": [
+      1.487,
+      -0.509,
+      -0.07
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1148,
+     "beta": [
+      1.483,
+      -1.378,
+      0.706
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0384,
+     "beta": [
+      0.103,
+      0.474,
+      -0.168
+     ]
+    },
+    "other": {
+     "r2": 0.1162,
+     "beta": [
+      2.264,
+      -1.007,
+      -0.019
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0958,
+     "beta": [
+      0.071,
+      0.301,
+      -0.135
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0247,
+     "beta": [
+      1.18,
+      -1.376,
+      -0.016
+     ]
+    }
+   },
+   "local0+local2+recall+phrase": {
+    "all": {
+     "r2": 0.441,
+     "beta": [
+      0.108,
+      -0.127,
+      1.615,
+      0.027
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.5691,
+     "beta": [
+      -0.344,
+      -0.724,
+      1.675,
+      0.607
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.3354,
+     "beta": [
+      -0.131,
+      0.201,
+      1.719,
+      -0.065
+     ]
+    },
+    "other": {
+     "r2": 0.4632,
+     "beta": [
+      0.559,
+      -0.402,
+      1.574,
+      0.032
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1111,
+     "beta": [
+      -0.041,
+      0.381,
+      0.093,
+      -0.115
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.2408,
+     "beta": [
+      0.016,
+      -0.682,
+      1.769,
+      0.041
+     ]
+    }
+   }
+  }
+ },
+ "h2": {
+  "shift": {
+   "all": 0.4710189673909496,
+   "after sentence end": {
+    "share_positions": 0.084716796875,
+    "share_shift": 0.03165704138859635
+   },
+   "current token is a word piece": {
+    "share_positions": 0.1318359375,
+    "share_shift": 0.25334850760562605
+   },
+   "other": {
+    "share_positions": 0.7115478515625,
+    "share_shift": 0.6972322298935812
+   },
+   "window position 0": {
+    "share_positions": 0.00390625,
+    "share_shift": 0.0009639168128081125
+   },
+   "word onset (next is likely a piece)": {
+    "share_positions": 0.0679931640625,
+    "share_shift": 0.016798304299388233
+   }
+  },
+  "r2": {
+   "local0": {
+    "all": {
+     "r2": 0.0739,
+     "beta": [
+      0.834
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1136,
+     "beta": [
+      0.56
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0384,
+     "beta": [
+      0.596
+     ]
+    },
+    "other": {
+     "r2": 0.09,
+     "beta": [
+      1.007
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1017,
+     "beta": [
+      0.875
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0272,
+     "beta": [
+      0.313
+     ]
+    }
+   },
+   "local2": {
+    "all": {
+     "r2": 0.1037,
+     "beta": [
+      0.912
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.2344,
+     "beta": [
+      1.059
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0335,
+     "beta": [
+      0.563
+     ]
+    },
+    "other": {
+     "r2": 0.1219,
+     "beta": [
+      0.982
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1899,
+     "beta": [
+      1.42
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0396,
+     "beta": [
+      0.611
+     ]
+    }
+   },
+   "recall": {
+    "all": {
+     "r2": 0.0003,
+     "beta": [
+      0.034
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0102,
+     "beta": [
+      0.103
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0004,
+     "beta": [
+      0.08
+     ]
+    },
+    "other": {
+     "r2": 0.0001,
+     "beta": [
+      0.017
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0769,
+     "beta": [
+      -0.571
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0021,
+     "beta": [
+      0.076
+     ]
+    }
+   },
+   "phrase": {
+    "all": {
+     "r2": 0.062,
+     "beta": [
+      0.392
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1157,
+     "beta": [
+      0.591
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0352,
+     "beta": [
+      0.287
+     ]
+    },
+    "other": {
+     "r2": 0.0723,
+     "beta": [
+      0.435
+     ]
+    },
+    "window position 0": {
+     "r2": 0.597,
+     "beta": [
+      1.3
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0122,
+     "beta": [
+      0.103
+     ]
+    }
+   },
+   "local0+local2": {
+    "all": {
+     "r2": 0.1038,
+     "beta": [
+      -0.032,
+      0.937
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.2375,
+     "beta": [
+      -0.144,
+      1.205
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.039,
+     "beta": [
+      0.462,
+      0.156
+     ]
+    },
+    "other": {
+     "r2": 0.122,
+     "beta": [
+      -0.083,
+      1.043
+     ]
+    },
+    "window position 0": {
+     "r2": 0.2579,
+     "beta": [
+      -2.071,
+      3.731
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0397,
+     "beta": [
+      -0.032,
+      0.655
+     ]
+    }
+   },
+   "local0+local2+phrase": {
+    "all": {
+     "r2": 0.1109,
+     "beta": [
+      -0.095,
+      0.824,
+      0.161
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.2384,
+     "beta": [
+      -0.132,
+      1.137,
+      0.068
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0456,
+     "beta": [
+      0.21,
+      0.201,
+      0.165
+     ]
+    },
+    "other": {
+     "r2": 0.129,
+     "beta": [
+      -0.109,
+      0.897,
+      0.166
+     ]
+    },
+    "window position 0": {
+     "r2": 0.6159,
+     "beta": [
+      -1.106,
+      1.357,
+      1.226
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0415,
+     "beta": [
+      -0.09,
+      0.676,
+      0.046
+     ]
+    }
+   },
+   "local0+local2+recall+phrase": {
+    "all": {
+     "r2": 0.1161,
+     "beta": [
+      0.048,
+      0.784,
+      -0.167,
+      0.151
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.2419,
+     "beta": [
+      -0.052,
+      1.109,
+      -0.073,
+      0.073
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0462,
+     "beta": [
+      0.222,
+      0.215,
+      -0.092,
+      0.159
+     ]
+    },
+    "other": {
+     "r2": 0.1374,
+     "beta": [
+      0.119,
+      0.816,
+      -0.211,
+      0.159
+     ]
+    },
+    "window position 0": {
+     "r2": 0.6357,
+     "beta": [
+      -0.714,
+      1.077,
+      -0.323,
+      1.156
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0415,
+     "beta": [
+      -0.088,
+      0.675,
+      -0.002,
+      0.046
+     ]
+    }
+   }
+  }
+ },
+ "h3": {
+  "shift": {
+   "all": 0.3291792545092099,
+   "after sentence end": {
+    "share_positions": 0.084716796875,
+    "share_shift": 0.10186434846354302
+   },
+   "current token is a word piece": {
+    "share_positions": 0.1318359375,
+    "share_shift": 0.18831146972183857
+   },
+   "other": {
+    "share_positions": 0.7115478515625,
+    "share_shift": 0.6572286229865414
+   },
+   "window position 0": {
+    "share_positions": 0.00390625,
+    "share_shift": 0.0001660350474155796
+   },
+   "word onset (next is likely a piece)": {
+    "share_positions": 0.0679931640625,
+    "share_shift": 0.05242952378066142
+   }
+  },
+  "r2": {
+   "local0": {
+    "all": {
+     "r2": 0.0282,
+     "beta": [
+      0.469
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0226,
+     "beta": [
+      0.423
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0343,
+     "beta": [
+      0.428
+     ]
+    },
+    "other": {
+     "r2": 0.0321,
+     "beta": [
+      0.524
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1269,
+     "beta": [
+      0.331
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0007,
+     "beta": [
+      0.078
+     ]
+    }
+   },
+   "local2": {
+    "all": {
+     "r2": 0.029,
+     "beta": [
+      0.439
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0296,
+     "beta": [
+      0.638
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.03,
+     "beta": [
+      0.405
+     ]
+    },
+    "other": {
+     "r2": 0.0321,
+     "beta": [
+      0.439
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1276,
+     "beta": [
+      0.394
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0001,
+     "beta": [
+      0.036
+     ]
+    }
+   },
+   "recall": {
+    "all": {
+     "r2": 0.0026,
+     "beta": [
+      0.098
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0401,
+     "beta": [
+      0.347
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0,
+     "beta": [
+      0.013
+     ]
+    },
+    "other": {
+     "r2": 0.0013,
+     "beta": [
+      0.065
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0182,
+     "beta": [
+      0.094
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0037,
+     "beta": [
+      -0.158
+     ]
+    }
+   },
+   "phrase": {
+    "all": {
+     "r2": 0.0317,
+     "beta": [
+      0.255
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0,
+     "beta": [
+      -0.006
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0299,
+     "beta": [
+      0.201
+     ]
+    },
+    "other": {
+     "r2": 0.0424,
+     "beta": [
+      0.29
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0895,
+     "beta": [
+      0.17
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0113,
+     "beta": [
+      0.154
+     ]
+    }
+   },
+   "local0+local2": {
+    "all": {
+     "r2": 0.0309,
+     "beta": [
+      0.234,
+      0.255
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0304,
+     "beta": [
+      0.123,
+      0.513
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0348,
+     "beta": [
+      0.331,
+      0.113
+     ]
+    },
+    "other": {
+     "r2": 0.0342,
+     "beta": [
+      0.28,
+      0.233
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1313,
+     "beta": [
+      0.164,
+      0.211
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0015,
+     "beta": [
+      0.216,
+      -0.262
+     ]
+    }
+   },
+   "local0+local2+phrase": {
+    "all": {
+     "r2": 0.0399,
+     "beta": [
+      0.17,
+      0.138,
+      0.166
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0512,
+     "beta": [
+      0.022,
+      1.069,
+      -0.561
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0399,
+     "beta": [
+      0.163,
+      0.143,
+      0.109
+     ]
+    },
+    "other": {
+     "r2": 0.0496,
+     "beta": [
+      0.246,
+      0.045,
+      0.213
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1507,
+     "beta": [
+      0.24,
+      0.024,
+      0.097
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0126,
+     "beta": [
+      -0.004,
+      -0.18,
+      0.176
+     ]
+    }
+   },
+   "local0+local2+recall+phrase": {
+    "all": {
+     "r2": 0.0399,
+     "beta": [
+      0.175,
+      0.136,
+      -0.007,
+      0.166
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.076,
+     "beta": [
+      -0.336,
+      1.197,
+      0.328,
+      -0.58
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0413,
+     "beta": [
+      0.179,
+      0.161,
+      -0.117,
+      0.102
+     ]
+    },
+    "other": {
+     "r2": 0.0503,
+     "beta": [
+      0.306,
+      0.023,
+      -0.055,
+      0.211
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1598,
+     "beta": [
+      0.151,
+      0.088,
+      0.074,
+      0.113
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0182,
+     "beta": [
+      0.134,
+      -0.263,
+      -0.21,
+      0.169
+     ]
+    }
+   }
+  }
+ },
+ "h02": {
+  "shift": {
+   "all": 0.973167228937444,
+   "after sentence end": {
+    "share_positions": 0.084716796875,
+    "share_shift": 0.10576462696553687
+   },
+   "current token is a word piece": {
+    "share_positions": 0.1318359375,
+    "share_shift": 0.22600799934098117
+   },
+   "other": {
+    "share_positions": 0.7115478515625,
+    "share_shift": 0.637623160684634
+   },
+   "window position 0": {
+    "share_positions": 0.00390625,
+    "share_shift": 0.0007112813936343891
+   },
+   "word onset (next is likely a piece)": {
+    "share_positions": 0.0679931640625,
+    "share_shift": 0.029892931615213638
+   }
+  },
+  "r2": {
+   "local0": {
+    "all": {
+     "r2": 0.1219,
+     "beta": [
+      1.415
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0888,
+     "beta": [
+      1.102
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.121,
+     "beta": [
+      1.397
+     ]
+    },
+    "other": {
+     "r2": 0.1295,
+     "beta": [
+      1.497
+     ]
+    },
+    "window position 0": {
+     "r2": 0.1496,
+     "beta": [
+      1.289
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1132,
+     "beta": [
+      1.237
+     ]
+    }
+   },
+   "local2": {
+    "all": {
+     "r2": 0.1667,
+     "beta": [
+      1.526
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1599,
+     "beta": [
+      1.949
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.1074,
+     "beta": [
+      1.33
+     ]
+    },
+    "other": {
+     "r2": 0.1895,
+     "beta": [
+      1.518
+     ]
+    },
+    "window position 0": {
+     "r2": 0.2621,
+     "beta": [
+      2.028
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1466,
+     "beta": [
+      2.278
+     ]
+    }
+   },
+   "recall": {
+    "all": {
+     "r2": 0.001,
+     "beta": [
+      -0.086
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.0261,
+     "beta": [
+      -0.368
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.0022,
+     "beta": [
+      -0.24
+     ]
+    },
+    "other": {
+     "r2": 0.0001,
+     "beta": [
+      -0.028
+     ]
+    },
+    "window position 0": {
+     "r2": 0.0415,
+     "beta": [
+      -0.51
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0024,
+     "beta": [
+      0.16
+     ]
+    }
+   },
+   "phrase": {
+    "all": {
+     "r2": 0.1161,
+     "beta": [
+      0.707
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1078,
+     "beta": [
+      1.272
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.1159,
+     "beta": [
+      0.687
+     ]
+    },
+    "other": {
+     "r2": 0.1272,
+     "beta": [
+      0.714
+     ]
+    },
+    "window position 0": {
+     "r2": 0.5841,
+     "beta": [
+      1.562
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.0415,
+     "beta": [
+      0.369
+     ]
+    }
+   },
+   "local0+local2": {
+    "all": {
+     "r2": 0.1667,
+     "beta": [
+      0.014,
+      1.515
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1601,
+     "beta": [
+      -0.087,
+      2.038
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.1235,
+     "beta": [
+      1.042,
+      0.411
+     ]
+    },
+    "other": {
+     "r2": 0.1914,
+     "beta": [
+      -0.379,
+      1.796
+     ]
+    },
+    "window position 0": {
+     "r2": 0.3356,
+     "beta": [
+      -2.617,
+      4.947
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1469,
+     "beta": [
+      0.135,
+      2.092
+     ]
+    }
+   },
+   "local0+local2+phrase": {
+    "all": {
+     "r2": 0.1853,
+     "beta": [
+      -0.12,
+      1.273,
+      0.344
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.1686,
+     "beta": [
+      -0.002,
+      1.571,
+      0.471
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.1475,
+     "beta": [
+      0.408,
+      0.524,
+      0.414
+     ]
+    },
+    "other": {
+     "r2": 0.2088,
+     "beta": [
+      -0.431,
+      1.511,
+      0.323
+     ]
+    },
+    "window position 0": {
+     "r2": 0.6222,
+     "beta": [
+      -1.567,
+      2.366,
+      1.333
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1504,
+     "beta": [
+      -0.018,
+      2.149,
+      0.123
+     ]
+    }
+   },
+   "local0+local2+recall+phrase": {
+    "all": {
+     "r2": 0.2077,
+     "beta": [
+      0.268,
+      1.166,
+      -0.454,
+      0.317
+     ]
+    },
+    "after sentence end": {
+     "r2": 0.299,
+     "beta": [
+      1.078,
+      1.184,
+      -0.991,
+      0.53
+     ]
+    },
+    "current token is a word piece": {
+     "r2": 0.1635,
+     "beta": [
+      0.501,
+      0.632,
+      -0.68,
+      0.373
+     ]
+    },
+    "other": {
+     "r2": 0.2246,
+     "beta": [
+      -0.043,
+      1.373,
+      -0.358,
+      0.311
+     ]
+    },
+    "window position 0": {
+     "r2": 0.6291,
+     "beta": [
+      -1.286,
+      2.165,
+      -0.233,
+      1.283
+     ]
+    },
+    "word onset (next is likely a piece)": {
+     "r2": 0.1536,
+     "beta": [
+      0.114,
+      2.07,
+      -0.201,
+      0.116
+     ]
+    }
+   }
+  }
+ }
+}

@@ -18,7 +18,9 @@ topic(s, v) (corpus.py) says how much more often v appears 9..24 tokens after s 
 ' tail'; ' Lily' -> ' she', ' her'. At the first position of a window the only token it can read is the current one,
 so it votes to repeat it, as the model does there.
 
-CLAIM: (filled in after measurement)
+CLAIM (tests/test_head1.py): RECALL's votes from earlier tokens change the output in the same direction as model
+head 1's earlier-token part (median probability-weighted correlation >= 0.5), and more so than the same votes with
+uniform attention over earlier tokens.
 """
 import numpy as np
 
@@ -76,8 +78,13 @@ def attention(tokens, stats):
     return softmax_rows(score)
 
 
-def votes(tokens, stats):
+def recalled_votes(tokens, stats):
+    """Row j: what token t_j votes for when it is recalled."""
     g = GROUP[tokens]
     source = (_per_group(TOPIC)[g][:, None] * stats.topic[tokens] + _per_group(NEXT)[g][:, None] * stats.pmi[1][tokens])
     source[np.arange(len(tokens)), tokens] += _per_group(COPY)[g]
-    return attention(tokens, stats) @ source
+    return source
+
+
+def votes(tokens, stats):
+    return attention(tokens, stats) @ recalled_votes(tokens, stats)

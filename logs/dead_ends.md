@@ -73,3 +73,33 @@ analysis/scratch/ (deleted for disk space after logging). Paired SEs on holdout(
 - **More classes / overlapping class systems instead of exceptions**: K=128 1.221 at 84k numbers, K=256 0.936 at 331k,
   two systems 1.254 at 43k, vs 64 classes + 20k exceptions 0.968 at 43k.
 - **Absolute-position terms**: at most 0.044 in the exact model.
+
+## 2026-10-13 attn_s0 — mechanism program v1 ("explain, don't fit"; corpus statistics + named scalars)
+
+Numbers: 160 held-out TRAIN windows, paired against the reference variant V1F (KL 0.5804; analysis/scratch/spec_v1/
+v1ablate.py and v1ablate_results.json; the spec_v1 scripts, logs and results are force-added to git). Adoption bar: gain >= 0.005 and >= 3 SE (>= 0.01 for a
+new component).
+
+- **Head-3 reader** (skip-gram votes, distance-matched like heads 0 and 2, attention rule fitted to head 3's own
+  pattern, pattern KL 0.86): removing it changes KL by -0.0005 +- 0.0003 (it slightly hurts). Head 3's votes are not
+  skip-grams of what it reads; head 3 stays unexplained (model cost: mean ablation 0.517, earlier part 0.320).
+- **Echo** (a separate vote for the current token): removal +0.0002 +- 0.0000. RECALL already repeats the current token
+  at window position 0, the only place the model does (top-1 = current token: 51% at position 0, 1.6% elsewhere).
+- **In-context successor term in RECALL attention** (prefer earlier tokens that followed an earlier copy of the
+  current token, an induction-like rule): +0.0046 +- 0.0003 when removed, below the bar; dropped. The class successor
+  term stays (both removed: +0.0194 +- 0.0013; head 1 pattern KL 0.589 -> 0.649).
+- **RECALL votes tied across word groups** (3 instead of 15 vote scalars): +0.0083 +- 0.0008; **topic votes only**
+  (no copy, no next): +0.0097 +- 0.0004. Both rejected; per-group votes kept.
+- **End-of-story sink for RECALL** (extra salience for token 0): -0.0013 +- 0.0005, below the bar; not adopted, although
+  it fits head 1's attention much better (pattern KL 0.594 -> 0.543) and the first token after a story boundary
+  (1.355 -> 0.985). Candidate if a later fidelity gate is relaxed for pattern-faithful terms.
+- **Attention fitted freely to the output** instead of to each head's own pattern: about 0.03 better (dev_fast 0.549)
+  but repurposes the heads (head 3's decay turns negative, pattern KL 0.86 -> 4.93; head 1 0.59 -> 0.92). Rejected as
+  unfaithful. The penalised joint fit (KL + lam * pattern cross-entropy) gains 0.025 / 0.022 / 0.015 at lam 0.01 / 0.03 /
+  0.1, with head 1 pattern KL 0.784 / 0.692 / 0.622 (frozen: 0.589). Only lam >= 0.1 keeps patterns within +0.03.
+- **Cancellation as the reason the program's head parts are weak** (consistency check: earlier-token removal moves
+  the program 0.04-0.08 nats, the model 0.41-0.49): adding a "copy what the head reads" direction to each head's
+  votes raises the pooled weighted R^2 of the model head's earlier-token effect only for head 0 (0.035 -> 0.060,
+  coefficient -9.7) and not at all for heads 1 (0.441) and 2 (0.104) (analysis/cancellation.py, 32 TRAIN windows).
+  The heads are not large opposing copy votes that net out; most of what heads 0 and 2 do from earlier tokens is
+  simply not skip-gram voting.
