@@ -143,10 +143,8 @@ def emit(st, model_id: str, note: str) -> dict:
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write("\n".join(lines))
     conf = sd.get("log_conf", np.zeros(len(TOKENS)))
-    lines = head + ["# Log scale factor for all votes after each current token (0 = unchanged, +0.69 = doubled).", ""]
-    lines += per_token_block("CONFIDENCE", conf, "CONFIDENCE[class][token]: votes are multiplied by exp(value).")
-    with open(os.path.join(tdir, "confidence.py"), "w") as f:
-        f.write("\n".join(lines))
+    if np.abs(conf).max() > 0:
+        raise NotImplementedError("CONFIDENCE was fitted: re-add program/confidence.py (removed as a no-op) first")
 
     for h in range(H, 4):  # heads the student does not model add nothing
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:

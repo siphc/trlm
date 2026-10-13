@@ -355,12 +355,14 @@ def shrink(st: Student, tau: float) -> None:
 
 def fit(st: Student, model_id: str, n_windows=6000, steps=3000, bs=16, lr=0.01, l1=0.0, device="mps",
         log_every=100, seed=0, tgt: Target | None = None, W=None, tau=0.0, freeze_attention=False,
-        freeze=()):
+        freeze=(), train_conf: bool = False):
     torch.manual_seed(seed)
     tgt = tgt or Target(model_id, device)
     W = W if W is not None else torch.as_tensor(train_windows(n_windows))
     st.to(device)
     frozen = set(freeze) | ({"salience", "prefer", "recency"} if freeze_attention else set())
+    if not train_conf:  # CONFIDENCE gave nothing on v9 (design-panel probe); keep it out unless asked
+        frozen.add("log_conf")
     params = [p for n, p in st.named_parameters() if n not in frozen]
     opt = torch.optim.Adam(params, lr=lr)
     g = torch.Generator().manual_seed(seed + 1)
@@ -395,3 +397,44 @@ def evaluate(st: Student, tgt: Target, W: torch.Tensor, bs: int = 16) -> float:
         tot += float((p_log.exp() * (p_log - st(x))).sum(-1).sum())
         n += x.numel()
     return tot / n
+
+
+SPARSE = ("follow_exc", "recall_exc")
+
+
+def save_student(st: Student, path: str) -> None:
+    """Save a Student compactly: exception tables as (flat index, value) pairs of their kept entries
+    (a 60k-entry student is ~1 MB instead of 160 MB); everything else as is."""
+    sd = {k: v.detach().cpu() for k, v in st.state_dict().items()}
+    out = {"format": "sparse-v1", "n_heads": st.H, "n_classes": st.K}
+    for name, mask in (("follow_exc", "follow_mask"), ("recall_exc", "recall_mask")):
+        m = sd.pop(mask).flatten() != 0
+        w = sd.pop(name).flatten()
+        idx = torch.nonzero(m).flatten()
+        out[name] = {"shape": tuple(st.state_dict()[name].shape), "idx": idx.to(torch.int64), "val": w[idx]}
+    out["dense"] = sd
+    torch.save(out, path)
+
+
+def load_student(path: str, class_of=None) -> Student:
+    """Load a Student saved by save_student, or a legacy dense state dict."""
+    if class_of is None:
+        from program.tables_lib import TOKEN_CLASS as class_of
+    obj = torch.load(path, map_location="cpu")
+    if obj.get("format") != "sparse-v1":
+        st = Student(obj["salience"].shape[0], class_of, int(np.max(class_of)) + 1)
+        st.load_state_dict(obj)
+        return st
+    st = Student(obj["n_heads"], class_of, obj["n_classes"])
+    sd = dict(obj["dense"])
+    for name, mask in (("follow_exc", "follow_mask"), ("recall_exc", "recall_mask")):
+        shape = obj[name]["shape"]
+        n = int(np.prod(shape))
+        w = torch.zeros(n)
+        m = torch.zeros(n)
+        w[obj[name]["idx"]] = obj[name]["val"]
+        m[obj[name]["idx"]] = 1.0
+        sd[name] = w.view(shape)
+        sd[mask] = m.view(shape)
+    st.load_state_dict(sd)
+    return st

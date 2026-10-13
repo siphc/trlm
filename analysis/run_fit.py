@@ -23,7 +23,8 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, ensure_disk, model_name, train_windows
-from analysis.student import Student, evaluate, fit, fit_attention, prune_follow_by_kl, prune_global, prune_to_budget
+from analysis.student import (Student, evaluate, fit, fit_attention, load_student, prune_follow_by_kl, prune_global,
+                             prune_to_budget, save_student)
 
 
 def main() -> None:
@@ -63,7 +64,7 @@ def main() -> None:
     st = Student(args.n_heads, TOKEN_CLASS, int(TOKEN_CLASS.max()) + 1)
     md = os.path.join(out, "mean_dists.npz")
     if args.init:
-        st.load_state_dict(torch.load(args.init))
+        st = load_student(args.init, TOKEN_CLASS)
     elif os.path.exists(md):
         uni = np.load(md)["uni"]
         with torch.no_grad():
@@ -109,8 +110,8 @@ def main() -> None:
     print(json.dumps({k: v for k, v in log.items() if k != "args"}, indent=1))
     st.cpu()
     ck = os.path.join(out, f"student_{args.tag}.pt")
-    ensure_disk()
-    torch.save(st.state_dict(), ck)
+    ensure_disk(1.0)
+    save_student(st, ck)
     json.dump(log, open(os.path.join(out, f"fit_{args.tag}.json"), "w"), indent=1)
     if args.no_emit:
         return

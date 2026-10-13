@@ -22,8 +22,8 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, ensure_disk, model_name, train_windows
-from analysis.student import (Student, data_importance, evaluate, fisher_importance, fit, make_nonredundant,
-                             recenter)
+from analysis.student import (Student, data_importance, evaluate, fisher_importance, fit, load_student,
+                             make_nonredundant, recenter, save_student)
 
 
 def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | None,
@@ -77,6 +77,9 @@ def main() -> None:
                     help="first move heads' current-token votes into FOLLOW and silence heads on self")
     ap.add_argument("--freeze_attention", action="store_true", help="refits keep attention tables fixed")
     ap.add_argument("--recenter", action="store_true", help="lossless median polish of the tables before pruning")
+    ap.add_argument("--polish_steps", type=int, default=300, help="final low-lr refit (applied to every arm alike)")
+    ap.add_argument("--polish_lr", type=float, default=0.0015)
+    ap.add_argument("--confidence", action="store_true", help="also fit CONFIDENCE (frozen at 0 by default)")
     ap.add_argument("--follow_share", type=float, default=None)
     ap.add_argument("--n_windows", type=int, default=8000)
     ap.add_argument("--device", default="mps")
@@ -89,9 +92,7 @@ def main() -> None:
 
     from program.tables_lib import TOKEN_CLASS
 
-    sd = torch.load(args.init, map_location="cpu")
-    st = Student(sd["salience"].shape[0], TOKEN_CLASS, int(TOKEN_CLASS.max()) + 1)
-    st.load_state_dict(sd)
+    st = load_student(args.init, TOKEN_CLASS)
     st.to(args.device)
     tgt = Target(args.model, args.device)
     W = torch.as_tensor(train_windows(args.n_windows))
@@ -118,21 +119,26 @@ def main() -> None:
         kl_cut = evaluate(st, tgt, W_hold)
         steps = args.final_refit_steps if r == len(budgets) - 1 else args.refit_steps
         fit(st, args.model, steps=steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
-            log_every=10**9, seed=100 + r, freeze_attention=args.freeze_attention)
+            log_every=10**9, seed=100 + r, freeze_attention=args.freeze_attention, train_conf=args.confidence)
+        if r == len(budgets) - 1 and args.polish_steps:
+            fit(st, args.model, steps=args.polish_steps, bs=args.bs, lr=args.polish_lr, device=args.device,
+                tgt=tgt, W=W, log_every=10**9, seed=999, freeze_attention=args.freeze_attention,
+                train_conf=args.confidence)
         kl_refit = evaluate(st, tgt, W_hold)
+        if r == len(budgets) - 1 and args.polish_steps:
+            print(f"  (final round includes a {args.polish_steps}-step polish at lr {args.polish_lr})", flush=True)
         row = {"round": r, "budget": int(b), "kept": kept, "kl_after_cut": kl_cut, "kl_after_refit": kl_refit,
                "t": time.time() - t0}
         log["rounds"].append(row)
         if r in args.save_rounds:
-            ensure_disk()
-            torch.save({k: v.detach().cpu() for k, v in st.state_dict().items()},
-                       os.path.join(REPO, "analysis", "out", model_name(args.model), f"student_{args.tag}_r{r}.pt"))
+            ensure_disk(1.0)
+            save_student(st, os.path.join(REPO, "analysis", "out", model_name(args.model), f"student_{args.tag}_r{r}.pt"))
         print(f"round {r}: budget {b:,}  kept follow {kept['follow']:,} recall {kept['recall']}  "
               f"KL cut {kl_cut:.4f} -> refit {kl_refit:.4f}  ({row['t']:.0f}s)", flush=True)
     out = os.path.join(REPO, "analysis", "out", model_name(args.model))
     st.cpu()
-    ensure_disk()
-    torch.save(st.state_dict(), os.path.join(out, f"student_{args.tag}.pt"))
+    ensure_disk(1.0)
+    save_student(st, os.path.join(out, f"student_{args.tag}.pt"))
     json.dump(log, open(os.path.join(out, f"prune_{args.tag}.json"), "w"), indent=1)
     if args.emit:
         from analysis.emit_program import emit

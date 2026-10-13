@@ -33,10 +33,9 @@ def target() -> Target:
 def load_dense(path: str = DENSE) -> Student:
     from program.tables_lib import TOKEN_CLASS
 
-    sd = torch.load(path, map_location="cpu")
-    st = Student(sd["salience"].shape[0], TOKEN_CLASS, int(TOKEN_CLASS.max()) + 1)
-    st.load_state_dict(sd)
-    return st.eval()
+    from analysis.student import load_student
+
+    return load_student(path, TOKEN_CLASS).eval()
 
 
 def holdout(n: int = 48) -> torch.Tensor:
