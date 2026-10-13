@@ -89,3 +89,11 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - dev_fast tracks held-out TRAIN KL within +0.002 to +0.003 for v7-v10 (v4/v5: +0.01).
 - Machine pressure: the disk filled (7.2 GB of per-round 160 MB checkpoints, plus agents' scratch); now saved
   sparsely (~1 MB per pruned student).
+
+## 2026-10-12 — Role-split classes (v11)
+
+- Splitting the one taxonomy into separate CONTEXT (rows) and TARGET (columns) classes was worth 0.013 nats at 60k
+  exceptions, but only 0.002-0.004 at 0.5-10M exceptions: the gain over v10 first shrinks and then grows as the
+  budget falls, so better class defaults matter most in exactly the regime the main line operates in.
+- Refitting with new classes moved the heads' measured roles in magnitude (head 2's removal cost 0.27 -> 0.19, head 3's
+  0.16 -> 0.21, FOLLOW exceptions 1.43 -> 0.89): 10 of 32 claims needed new numbers. Claims are tied to one fit.

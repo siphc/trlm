@@ -126,3 +126,24 @@ are as good as the dense student (0.226), 256k reach 0.325 (v8 run: 0.372).
 | v9: as v8 plus lossless re-centring (median polish) of the tables befo | 0.4723 | 0.688 | 0.683 | 105,837 | 109,315 |
 | curve point: v9 pipeline stopped at 158k exceptions (round 9) | 0.3710 | 0.719 | 0.780 | 203,832 | 217,153 |
 | curve point: v9 pipeline stopped at 256k exceptions (round 8) | 0.3281 | 0.734 | 0.818 | 302,367 | 308,560 |
+
+## Role-split CONTEXT/TARGET classes (tag rs_gp60k_r16) — v11
+
+Classes from information-theoretic co-clustering (Dhillon-Mallela-Modha) of TRAIN bigram counts
+(analysis/cocluster.py; no model input): 71 CONTEXT classes for the rows (current / attended token) and 64 TARGET
+classes for the columns (next token) of CLASS_FOLLOW and CLASS_RECALL (and COPY by CONTEXT class); PREFER keeps the
+64 ATTENTION classes. TRAIN-bigram information loss 0.860 (old shared classes 1.399); FOLLOW-only excess on the model's
+mean bigram 0.788 (1.315). Same pipeline as v10 (dense fit, non-redundant, re-centring, 16 rounds, polish).
+
+| stage | role-split (v11) | single taxonomy (v10) |
+|---|---|---|
+| class-level only | 1.4228 | 1.6664 |
+| dense student | 0.2197 | 0.2233 |
+| non-redundant transform | 0.2436 | 0.2496 |
+| 256k exceptions (round 11) | 0.3173 | 0.3203 |
+| 124k (round 13) | 0.3805 | 0.3875 |
+| 60k (final, polished) | **0.4494** | 0.4623 |
+
+Paired v11 - v10 on holdout(200): -0.0129 +- 0.0009 (better on 87% of windows). The gain is not monotone in the
+budget: 0.0045 at round 0, 0.0020 at rounds 8-9, 0.0129 at 60k — better class defaults matter most when few
+exceptions remain. dev_fast (readable emission): 0.4519 (raw emission 0.4500).
