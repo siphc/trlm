@@ -81,3 +81,27 @@ dominant problem: at every budget below 1M the Fisher curve is far below the lin
 | 11 | 60,000 | 27,571 | 6,645 / 4,003 / 12,023 / 9,758 | 0.5274 | 0.4885 |
 
 60k: 0.4885 held-out, dev_fast harness 0.4919 (v7: 0.5165). Smoother schedules help at every budget.
+
+## + lossless re-centring before pruning (tag gp60k_fnr_rc_r12) — v9
+
+Median polish (design-panel sparsify proposal, `student.recenter`): row constants dropped, FOLLOW column
+effects -> WORD, class-block effects -> CLASS tables, class-wise diagonal -> COPY; held-out KL unchanged
+(0.2496 -> 0.2496). Then the v8 schedule (12 rounds, 400-step refits, 2000-step final), Fisher, 150 batches.
+
+| round | budget | kept FOLLOW | kept RECALL (h0, h1, h2, h3) | KL after cut | KL after refit |
+|---|---|---|---|---|---|
+| 0 | 12,325,090 | 2,521,576 | 2,277,160 / 2,624,573 / 2,411,284 / 2,490,498 | 0.2499 | 0.2217 |
+| 1 | 7,595,392 | 1,435,258 | 1,302,327 / 1,726,542 / 1,508,681 / 1,622,584 | 0.2221 | 0.2159 |
+| 2 | 4,680,695 | 910,984 | 747,769 / 1,076,947 / 937,193 / 1,007,802 | 0.2186 | 0.2145 |
+| 3 | 2,884,499 | 625,354 | 427,654 / 635,007 / 584,600 / 611,884 | 0.2211 | 0.2174 |
+| 4 | 1,777,586 | 448,680 | 241,863 / 358,626 / 362,330 / 366,087 | 0.2299 | 0.2259 |
+| 5 | 1,095,445 | 326,663 | 141,181 / 187,532 / 224,616 / 215,453 | 0.2453 | 0.2400 |
+| 6 | 675,073 | 235,796 | 80,710 / 94,299 / 138,339 / 125,929 | 0.2674 | 0.2613 |
+| 7 | 416,017 | 167,914 | 46,384 / 46,707 / 83,126 / 71,886 | 0.2976 | 0.2894 |
+| 8 | 256,372 | 116,423 | 26,754 / 22,224 / 49,733 / 41,238 | 0.3345 | 0.3248 |
+| 9 | 157,991 | 78,877 | 15,267 / 11,049 / 29,152 / 23,646 | 0.3806 | 0.3679 |
+| 10 | 97,362 | 52,628 | 8,889 / 5,386 / 17,300 / 13,159 | 0.4347 | 0.4195 |
+| 11 | 60,000 | 34,958 | 5,068 / 2,655 / 10,046 / 7,273 | 0.4994 | 0.4699 |
+
+60k: 0.4699 held-out, dev_fast 0.4723 (v8: 0.4919). Re-centring matters most at large budgets: 1.78M entries
+are as good as the dense student (0.226), 256k reach 0.325 (v8 run: 0.372).
