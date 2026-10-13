@@ -1,0 +1,114 @@
+{
+ "candidate": "ov02_oracle_ov_real_attn",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.524260919159091
+ },
+ "paired_diff": -0.059781091682892466,
+ "paired_se": 0.004376605250907612,
+ "candidate_strengths": {
+  "ov02_oracle_ov_real_attn.h0": 0.4666,
+  "ov02_oracle_ov_real_attn.h2": 0.4591
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.5
+  ],
+  "follow.unigram": [
+   0.357,
+   0.185
+  ],
+  "head0.self": [
+   0.322,
+   0.531
+  ],
+  "head2.self": [
+   0.232,
+   0.131
+  ],
+  "head1.copy.NAMES": [
+   2.723,
+   3.287
+  ],
+  "head1.topic.NAMES": [
+   2.829,
+   3.53
+  ],
+  "head1.next.NAMES": [
+   -0.247,
+   -0.292
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.301,
+   0.886
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.729,
+   -0.687
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.7,
+   -0.882
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.867,
+   2.376
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   4.132,
+   4.76
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.658,
+   -0.963
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.393,
+   4.214
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.006,
+   1.68
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.322,
+   -0.567
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.323,
+   4.27
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.63,
+   3.705
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.012,
+   -0.133
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.285
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.199
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.19667133204432807,
+  "program+candidate": 0.8426735653129568,
+  "candidate alone": 0.8409309338255931
+ },
+ "seconds": 22.4
+}

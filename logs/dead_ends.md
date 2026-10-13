@@ -103,3 +103,34 @@ new component).
   coefficient -9.7) and not at all for heads 1 (0.441) and 2 (0.104) (analysis/cancellation.py, 32 TRAIN windows).
   The heads are not large opposing copy votes that net out; most of what heads 0 and 2 do from earlier tokens is
   simply not skip-gram voting.
+
+## 2026-10-13 attn_s0 — discovery round 2 (workflow mech-v2-investigations; details in logs/mech_v2_investigations.md)
+
+Paired KL differences from analysis/vote_fit.py (all strengths refitted; 32 fit / 64 eval TRAIN windows unless noted).
+Adoption bar: gain >= 0.005 and >= 3 SE.
+
+- **Conditional skip-gram** (what an earlier token adds beyond the current token, from trigram counts) as votes for
+  heads 0/2: -0.0004 +- 0.0002; it matches the heads' value/output rows worse (0.30-0.32) than the plain bigram does.
+- **Word-level skip-grams alone** -0.0008 +- 0.0004; **earlier tokens' bigram alone** -0.0038 +- 0.0004; **slot veto +
+  copy alone** -0.0034. Only the combination (ov02_earlier_votes4) passes.
+- **Low-rank skip-gram votes** (SVD rank 8-128 of PMI): explain the heads' votes no better than the full tables, usually
+  worse (head 2 PMI_2 R^2: full 0.212, rank 32 0.063-0.084).
+- **Whole-word continuation votes** (log P(next | word so far) - log P1): -0.00007 +- 0.00002, strength about 0; forcing a
+  positive strength hurts. The model does not look up whole words. **Word-end votes** -0.0011 +- 0.0002 (negative
+  strength). **cont-gated successor recall** -0.0058 +- 0.0016 but lowers head 1's R^2 (0.426 -> 0.416);
+  **onset-gated** -0.0050 +- 0.0015 (seed 2000), -0.0040 +- 0.0008 (seed 3001): near-miss, not adopted.
+- **Head-3 votes**: substitutes -0.00012, substitutes + PMI -0.00021, linker-specific -0.00014 (R^2 0.039 -> 0.059),
+  word-onset completion -0.0015 +- 0.0003. Next-token-class votes: per-source R^2 0.034-0.036. PHRASE already covers
+  head 3's phrase knowledge.
+- **RECALL key-salience flags** (EOS, topicality, capitals, quotes) fitted to head 1's pattern: pattern KL 0.606 ->
+  0.477 but output +0.0146 +- 0.0012 (worse). **Recency shape** variants: no change. **Referent-family votes**
+  -0.00045 +- 0.00039. **Class-level vote strengths** (74-197 directions): R^2 0.594-0.630 vs 0.582 under exact
+  attention, too little per scalar.
+- **RECALL token-level successor attention + band 25..64 votes**: -0.0069 +- 0.0006 for the proposer, refuted on fresh
+  windows (-0.0040 +- 0.0007). Successor term alone -0.0046 +- 0.0004; band votes alone -0.0026 +- 0.0004.
+- **Pair attention from conditional MI / trigram information gain**: correlation with the exact pair interaction
+  0.06-0.07; pattern KL gains under 0.015. **Corpus vote-usefulness attention** for head 2: -0.0045 +- 0.0003 (64
+  windows), -0.0038 +- 0.0003 (128 windows); head 0 variants +0.0003 to +0.0028 (worse). **Key-shape salience for head
+  0**: better pattern, worse output (+0.0028 +- 0.0003).
+- **The model's exact attention for heads 0/2 with skip-gram votes** (ceiling): only -0.0063 +- 0.0013. The votes, not
+  the attention, are the bottleneck.

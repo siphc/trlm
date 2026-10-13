@@ -1,0 +1,462 @@
+{
+ "prog": {
+  "pattern_kl_fit": 0.4193,
+  "pattern_kl_eval": 0.4166,
+  "theta": {
+   "slope[word start]": 0.282,
+   "self[word start]": 1.263,
+   "slope[continuation]": 0.363,
+   "self[continuation]": 0.504,
+   "slope[other]": 0.105,
+   "self[other]": 1.611,
+   "slope[end of story]": 0.253,
+   "self[end of story]": 3.498
+  },
+  "seconds": 0.1
+ },
+ "base": {
+  "pattern_kl_fit": 0.4193,
+  "pattern_kl_eval": 0.4167,
+  "theta": {
+   "slope[word start]": 0.2819,
+   "self[word start]": 1.263,
+   "slope[continuation]": 0.363,
+   "self[continuation]": 0.504,
+   "slope[other]": 0.1053,
+   "self[other]": 1.611,
+   "slope[end of story]": 0.253,
+   "self[end of story]": 3.498
+  },
+  "seconds": 0.5
+ },
+ "key": {
+  "pattern_kl_fit": 0.3873,
+  "pattern_kl_eval": 0.3839,
+  "theta": {
+   "slope[word start]": 0.2854,
+   "self[word start]": 0.5666,
+   "slope[continuation]": 0.3673,
+   "self[continuation]": -0.2069,
+   "slope[other]": 0.1052,
+   "self[other]": 0.9429,
+   "slope[end of story]": 0.165,
+   "self[end of story]": 3.6455,
+   "key[word start]": -0.7957,
+   "key[continuation]": -1.1701,
+   "key[other]": -0.028
+  },
+  "seconds": 1.2
+ },
+ "key+U": {
+  "pattern_kl_fit": 0.3529,
+  "pattern_kl_eval": 0.3499,
+  "theta": {
+   "slope[word start]": 0.2527,
+   "self[word start]": 1.1431,
+   "slope[continuation]": 0.2816,
+   "self[continuation]": 0.7224,
+   "slope[other]": 0.0916,
+   "self[other]": 1.4894,
+   "slope[end of story]": 0.1932,
+   "self[end of story]": 3.5619,
+   "key[word start]": -0.5933,
+   "key[continuation]": -0.9352,
+   "key[other]": 0.301,
+   "U[d=1]": 0.361,
+   "U[d=2..7]": 0.3141
+  },
+  "seconds": 1.1
+ },
+ "key+A": {
+  "pattern_kl_fit": 0.3583,
+  "pattern_kl_eval": 0.3559,
+  "theta": {
+   "slope[word start]": 0.252,
+   "self[word start]": 1.5231,
+   "slope[continuation]": 0.2909,
+   "self[continuation]": 1.0206,
+   "slope[other]": 0.0901,
+   "self[other]": 1.9071,
+   "slope[end of story]": 0.2305,
+   "self[end of story]": 3.285,
+   "key[word start]": -0.1858,
+   "key[continuation]": -0.5162,
+   "key[other]": 0.6506,
+   "A[d=1]": 0.375,
+   "A[d=2..7]": 0.3154
+  },
+  "seconds": 1.1
+ },
+ "key+G": {
+  "pattern_kl_fit": 0.369,
+  "pattern_kl_eval": 0.3664,
+  "theta": {
+   "slope[word start]": 0.2693,
+   "self[word start]": 0.84,
+   "slope[continuation]": 0.3233,
+   "self[continuation]": 0.2424,
+   "slope[other]": 0.0989,
+   "self[other]": 1.1934,
+   "slope[end of story]": 0.1798,
+   "self[end of story]": 3.4296,
+   "key[word start]": -0.7096,
+   "key[continuation]": -1.0833,
+   "key[other]": 0.1473,
+   "G[d=1]": 0.5926,
+   "G[d=2..7]": 0.4133
+  },
+  "seconds": 1.4
+ },
+ "key+PMI": {
+  "pattern_kl_fit": 0.3621,
+  "pattern_kl_eval": 0.3595,
+  "theta": {
+   "slope[word start]": 0.243,
+   "self[word start]": 1.2736,
+   "slope[continuation]": 0.2556,
+   "self[continuation]": 0.9995,
+   "slope[other]": 0.0956,
+   "self[other]": 1.4464,
+   "slope[end of story]": 0.1807,
+   "self[end of story]": 3.8699,
+   "key[word start]": -0.5162,
+   "key[continuation]": -0.8586,
+   "key[other]": 0.3123,
+   "PMI[d=1]": 0.2517,
+   "PMI[d=2..7]": 0.202
+  },
+  "seconds": 0.9
+ },
+ "key+BACK": {
+  "pattern_kl_fit": 0.3763,
+  "pattern_kl_eval": 0.3741,
+  "theta": {
+   "slope[word start]": 0.2849,
+   "self[word start]": 0.4488,
+   "slope[continuation]": 0.3526,
+   "self[continuation]": -0.2658,
+   "slope[other]": 0.1137,
+   "self[other]": 0.788,
+   "slope[end of story]": 0.1649,
+   "self[end of story]": 3.5988,
+   "key[word start]": -0.7186,
+   "key[continuation]": -1.0585,
+   "key[other]": -0.0171,
+   "BACK[d=1]": -0.0166,
+   "BACK[d=2..7]": 0.071
+  },
+  "seconds": 1.6
+ },
+ "key+IG": {
+  "pattern_kl_fit": 0.3693,
+  "pattern_kl_eval": 0.3687,
+  "theta": {
+   "slope[word start]": 0.2604,
+   "self[word start]": 0.6881,
+   "slope[continuation]": 0.3067,
+   "self[continuation]": 0.1289,
+   "slope[other]": 0.1013,
+   "self[other]": 0.9331,
+   "slope[end of story]": 0.1603,
+   "self[end of story]": 3.609,
+   "key[word start]": -0.904,
+   "key[continuation]": -1.3052,
+   "key[other]": -0.0563,
+   "IG[d=1]": 0.4503
+  },
+  "seconds": 0.9
+ },
+ "key+U+A+G+PMI+BACK+IG": {
+  "pattern_kl_fit": 0.3399,
+  "pattern_kl_eval": 0.3374,
+  "theta": {
+   "slope[word start]": 0.2402,
+   "self[word start]": 1.2729,
+   "slope[continuation]": 0.2349,
+   "self[continuation]": 1.1637,
+   "slope[other]": 0.0945,
+   "self[other]": 1.4812,
+   "slope[end of story]": 0.1719,
+   "self[end of story]": 4.1864,
+   "key[word start]": -0.5106,
+   "key[continuation]": -0.8203,
+   "key[other]": 0.3493,
+   "U[d=1]": 0.2611,
+   "U[d=2..7]": 0.5418,
+   "A[d=1]": -0.0193,
+   "A[d=2..7]": -0.1635,
+   "G[d=1]": -0.3348,
+   "G[d=2..7]": -0.294,
+   "PMI[d=1]": 0.1287,
+   "PMI[d=2..7]": 0.1285,
+   "BACK[d=1]": 0.0593,
+   "BACK[d=2..7]": 0.0346,
+   "IG[d=1]": 0.3967
+  },
+  "seconds": 1.9
+ },
+ "key+UOV_h0": {
+  "pattern_kl_fit": 0.3505,
+  "pattern_kl_eval": 0.3487,
+  "theta": {
+   "slope[word start]": 0.2698,
+   "self[word start]": 0.7413,
+   "slope[continuation]": 0.3248,
+   "self[continuation]": 0.1604,
+   "slope[other]": 0.0924,
+   "self[other]": 1.2316,
+   "slope[end of story]": 0.1726,
+   "self[end of story]": 3.5868,
+   "key[word start]": -0.7626,
+   "key[continuation]": -1.0969,
+   "key[other]": -0.0452,
+   "UOV_h0[d=1]": 0.1632,
+   "UOV_h0[d=2..7]": 0.1365
+  },
+  "seconds": 1.2
+ },
+ "key+TT": {
+  "pattern_kl_fit": 0.2908,
+  "pattern_kl_eval": 0.2867,
+  "theta": {
+   "slope[word start]": 0.1744,
+   "self[word start]": 2.1734,
+   "slope[continuation]": 0.2194,
+   "self[continuation]": 1.5295,
+   "slope[other]": 0.0932,
+   "self[other]": 1.3007,
+   "slope[end of story]": 0.1934,
+   "self[end of story]": 3.5033,
+   "key[word start]": -0.7508,
+   "key[continuation]": -1.0256,
+   "key[other]": 0.1119,
+   "TT[d=1]": 0.5811,
+   "TT[d=2..7]": 0.3944
+  },
+  "seconds": 0.9
+ },
+ "base+U*": {
+  "pattern_kl_fit": 0.3917,
+  "pattern_kl_eval": 0.3901,
+  "theta": {
+   "slope[word start]": 0.2513,
+   "self[word start]": 1.5833,
+   "slope[continuation]": 0.2872,
+   "self[continuation]": 1.1174,
+   "slope[other]": 0.0937,
+   "self[other]": 1.8718,
+   "slope[end of story]": 0.2565,
+   "self[end of story]": 3.5006,
+   "U[d=1..7]": 0.3068
+  },
+  "seconds": 1.6
+ },
+ "key+UOV_h2": {
+  "pattern_kl_fit": 0.3861,
+  "pattern_kl_eval": 0.3828,
+  "theta": {
+   "slope[word start]": 0.2821,
+   "self[word start]": 0.62,
+   "slope[continuation]": 0.3612,
+   "self[continuation]": -0.1384,
+   "slope[other]": 0.1045,
+   "self[other]": 0.9818,
+   "slope[end of story]": 0.1654,
+   "self[end of story]": 3.6385,
+   "key[word start]": -0.7752,
+   "key[continuation]": -1.1385,
+   "key[other]": 0.0051,
+   "UOV_h2[d=1]": 0.0473,
+   "UOV_h2[d=2..7]": 0.0107
+  },
+  "seconds": 1.9
+ },
+ "key+UOV_h3": {
+  "pattern_kl_fit": 0.3873,
+  "pattern_kl_eval": 0.3838,
+  "theta": {
+   "slope[word start]": 0.2856,
+   "self[word start]": 0.5631,
+   "slope[continuation]": 0.3677,
+   "self[continuation]": -0.2114,
+   "slope[other]": 0.1053,
+   "self[other]": 0.9389,
+   "slope[end of story]": 0.1659,
+   "self[end of story]": 3.6456,
+   "key[word start]": -0.7956,
+   "key[continuation]": -1.1713,
+   "key[other]": -0.0293,
+   "UOV_h3[d=1]": -0.0052,
+   "UOV_h3[d=2..7]": -0.0144
+  },
+  "seconds": 2.1
+ },
+ "key+UBIG": {
+  "pattern_kl_fit": 0.3773,
+  "pattern_kl_eval": 0.3739,
+  "theta": {
+   "slope[word start]": 0.2758,
+   "self[word start]": 0.6083,
+   "slope[continuation]": 0.3569,
+   "self[continuation]": -0.1757,
+   "slope[other]": 0.1013,
+   "self[other]": 0.9783,
+   "slope[end of story]": 0.1658,
+   "self[end of story]": 3.6233,
+   "key[word start]": -0.8414,
+   "key[continuation]": -1.2027,
+   "key[other]": -0.0603,
+   "UBIG[d=1]": 0.3718,
+   "UBIG[d=2..7]": 0.1145
+  },
+  "seconds": 2.1
+ },
+ "key+UCOPY": {
+  "pattern_kl_fit": 0.386,
+  "pattern_kl_eval": 0.3829,
+  "theta": {
+   "slope[word start]": 0.2846,
+   "self[word start]": 0.5546,
+   "slope[continuation]": 0.3675,
+   "self[continuation]": -0.224,
+   "slope[other]": 0.1033,
+   "self[other]": 0.959,
+   "slope[end of story]": 0.1642,
+   "self[end of story]": 3.6483,
+   "key[word start]": -0.8085,
+   "key[continuation]": -1.1828,
+   "key[other]": -0.0634,
+   "UCOPY[d=1]": 2.2723,
+   "UCOPY[d=2..7]": 0.7029
+  },
+  "seconds": 1.5
+ },
+ "key+U+UCOPY": {
+  "pattern_kl_fit": 0.3526,
+  "pattern_kl_eval": 0.35,
+  "theta": {
+   "slope[word start]": 0.2525,
+   "self[word start]": 1.1384,
+   "slope[continuation]": 0.2823,
+   "self[continuation]": 0.7131,
+   "slope[other]": 0.091,
+   "self[other]": 1.4941,
+   "slope[end of story]": 0.1927,
+   "self[end of story]": 3.5608,
+   "key[word start]": -0.5957,
+   "key[continuation]": -0.9381,
+   "key[other]": 0.2815,
+   "U[d=1]": 0.3575,
+   "U[d=2..7]": 0.3147,
+   "UCOPY[d=1]": 0.8062,
+   "UCOPY[d=2..7]": 0.8491
+  },
+  "seconds": 1.8
+ },
+ "key+UBIG+UCOPY": {
+  "pattern_kl_fit": 0.3763,
+  "pattern_kl_eval": 0.3735,
+  "theta": {
+   "slope[word start]": 0.2752,
+   "self[word start]": 0.6101,
+   "slope[continuation]": 0.3569,
+   "self[continuation]": -0.1765,
+   "slope[other]": 0.0997,
+   "self[other]": 1.0063,
+   "slope[end of story]": 0.1593,
+   "self[end of story]": 3.6263,
+   "key[word start]": -0.8382,
+   "key[continuation]": -1.1995,
+   "key[other]": -0.0787,
+   "UBIG[d=1]": 0.3673,
+   "UBIG[d=2..7]": 0.1057,
+   "UCOPY[d=1]": 1.9008,
+   "UCOPY[d=2..7]": 0.7299
+  },
+  "seconds": 1.3
+ },
+ "key+U+UBIG+UCOPY": {
+  "pattern_kl_fit": 0.3492,
+  "pattern_kl_eval": 0.3478,
+  "theta": {
+   "slope[word start]": 0.2498,
+   "self[word start]": 1.1413,
+   "slope[continuation]": 0.2847,
+   "self[continuation]": 0.6746,
+   "slope[other]": 0.0895,
+   "self[other]": 1.5041,
+   "slope[end of story]": 0.1909,
+   "self[end of story]": 3.5589,
+   "key[word start]": -0.6186,
+   "key[continuation]": -0.9523,
+   "key[other]": 0.2578,
+   "U[d=1]": 0.3263,
+   "U[d=2..7]": 0.3128,
+   "UBIG[d=1]": 0.2139,
+   "UBIG[d=2..7]": 0.0692,
+   "UCOPY[d=1]": 0.7071,
+   "UCOPY[d=2..7]": 0.8889
+  },
+  "seconds": 1.5
+ },
+ "key+UPOS": {
+  "pattern_kl_fit": 0.3619,
+  "pattern_kl_eval": 0.3588,
+  "theta": {
+   "slope[word start]": 0.2621,
+   "self[word start]": 0.9348,
+   "slope[continuation]": 0.2992,
+   "self[continuation]": 0.4572,
+   "slope[other]": 0.0956,
+   "self[other]": 1.2871,
+   "slope[end of story]": 0.1829,
+   "self[end of story]": 3.5836,
+   "key[word start]": -0.6925,
+   "key[continuation]": -1.044,
+   "key[other]": 0.1787,
+   "UPOS[d=1]": 0.464,
+   "UPOS[d=2..7]": 0.366
+  },
+  "seconds": 1.3
+ },
+ "key+UCLIP": {
+  "pattern_kl_fit": 0.358,
+  "pattern_kl_eval": 0.3547,
+  "theta": {
+   "slope[word start]": 0.2562,
+   "self[word start]": 1.0359,
+   "slope[continuation]": 0.2907,
+   "self[continuation]": 0.5756,
+   "slope[other]": 0.0932,
+   "self[other]": 1.3791,
+   "slope[end of story]": 0.1864,
+   "self[end of story]": 3.5717,
+   "key[word start]": -0.6622,
+   "key[continuation]": -1.0084,
+   "key[other]": 0.223,
+   "UCLIP[d=1]": 0.4258,
+   "UCLIP[d=2..7]": 0.3426
+  },
+  "seconds": 0.8
+ },
+ "key+UPROB": {
+  "pattern_kl_fit": 0.373,
+  "pattern_kl_eval": 0.371,
+  "theta": {
+   "slope[word start]": 0.2773,
+   "self[word start]": 0.7511,
+   "slope[continuation]": 0.3497,
+   "self[continuation]": 0.0299,
+   "slope[other]": 0.1,
+   "self[other]": 1.1565,
+   "slope[end of story]": 0.1889,
+   "self[end of story]": 3.4951,
+   "key[word start]": -0.6989,
+   "key[continuation]": -1.0555,
+   "key[other]": 0.1031,
+   "UPROB[d=1]": 4.7695,
+   "UPROB[d=2..7]": 4.5168
+  },
+  "seconds": 1.3
+ }
+}

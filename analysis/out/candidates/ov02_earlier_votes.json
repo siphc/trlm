@@ -1,0 +1,138 @@
+{
+ "candidate": "ov02_earlier_votes",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5819623950361632,
+  "base refit": 0.581895127699847,
+  "candidate refit": 0.5710942047374714
+ },
+ "paired_diff": -0.010800922962375711,
+ "paired_se": 0.0006784242985119635,
+ "candidate_strengths": {
+  "ov02_earlier_votes.h0.bigram": 0.5524,
+  "ov02_earlier_votes.h0.slot": -4.0875,
+  "ov02_earlier_votes.h0.word2": -0.0527,
+  "ov02_earlier_votes.h0.word3": -0.3271,
+  "ov02_earlier_votes.h0.copy": 3.9853,
+  "ov02_earlier_votes.h2.bigram": 0.0339,
+  "ov02_earlier_votes.h2.slot": 0.1482,
+  "ov02_earlier_votes.h2.word2": 0.0754,
+  "ov02_earlier_votes.h2.word3": 0.2181,
+  "ov02_earlier_votes.h2.copy": -5.6893
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.492,
+   0.412
+  ],
+  "follow.unigram": [
+   0.368,
+   0.46
+  ],
+  "head0.self": [
+   0.316,
+   0.479
+  ],
+  "head0.near": [
+   0.844,
+   0.934
+  ],
+  "head0.far": [
+   4.736,
+   4.747
+  ],
+  "head2.self": [
+   0.256,
+   0.234
+  ],
+  "head2.near": [
+   0.641,
+   0.494
+  ],
+  "head2.far": [
+   2.42,
+   2.576
+  ],
+  "head1.copy.NAMES": [
+   2.939,
+   4.506
+  ],
+  "head1.topic.NAMES": [
+   2.997,
+   2.931
+  ],
+  "head1.next.NAMES": [
+   -0.158,
+   -0.117
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.995,
+   8.526
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.784,
+   -1.044
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.811,
+   -0.428
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.105,
+   3.518
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.155,
+   1.711
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.636,
+   -0.769
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.328,
+   4.046
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.268,
+   1.292
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.29,
+   -0.371
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.06,
+   5.316
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.964,
+   3.009
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.015,
+   -0.073
+  ],
+  "phrase.trigram": [
+   0.285,
+   0.282
+  ],
+  "phrase.fourgram": [
+   0.217,
+   0.215
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.21437535260391827,
+  "program+candidate": 0.25468482615814303,
+  "candidate alone": 0.17189039600871758
+ },
+ "seconds": 80.3
+}

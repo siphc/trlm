@@ -76,7 +76,7 @@ together remove 1.12 nats, while their single-removal rises sum to only 0.43.
 - Named scalars, each with a comment saying how it was found:
   - 28 attention-rule parameters (head 0: 8, head 2: 12, head 1: 8), fitted to the matching model head's
     attention rows (cross-entropy between the rule's and the head's attention, 32 TRAIN windows);
-  - 28 vote strengths (FOLLOW 2, head 0: 3, head 2: 3, head 1: 15, PHRASE 2) and the 3 smoothing numbers of the
+  - 25 vote strengths (FOLLOW 2, head 0: 3, head 2: 3, head 1: 15, PHRASE 2) and the 3 smoothing numbers of the
     bigram rule, fitted to the model's log-probs with the attention rules frozen;
   - a few counting choices made by hand (skip-gram distances up to 8, topic window 9 to 24 tokens, the
     phrase back-off weight 300 chosen from {3, 30, 300}).

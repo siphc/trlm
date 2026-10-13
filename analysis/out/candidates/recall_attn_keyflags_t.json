@@ -1,0 +1,82 @@
+{
+ "candidate": "recall_attn_keyflags_t",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.5986813115499287
+ },
+ "paired_diff": 0.014639300707945196,
+ "paired_se": 0.0012119777841727922,
+ "candidate_strengths": {
+  "recall_attn_keyflags_t.copy.NAMES": 1.6238,
+  "recall_attn_keyflags_t.topic.NAMES": 2.8859,
+  "recall_attn_keyflags_t.next.NAMES": -0.2446,
+  "recall_attn_keyflags_t.copy.SENTENCE_ENDS": -0.1822,
+  "recall_attn_keyflags_t.topic.SENTENCE_ENDS": -0.7253,
+  "recall_attn_keyflags_t.next.SENTENCE_ENDS": -0.4894,
+  "recall_attn_keyflags_t.copy.WORD_ENDS_AND_LINKERS": 1.2027,
+  "recall_attn_keyflags_t.topic.WORD_ENDS_AND_LINKERS": 4.5915,
+  "recall_attn_keyflags_t.next.WORD_ENDS_AND_LINKERS": -0.6375,
+  "recall_attn_keyflags_t.copy.FUNCTION_WORDS": 4.1957,
+  "recall_attn_keyflags_t.topic.FUNCTION_WORDS": 0.3716,
+  "recall_attn_keyflags_t.next.FUNCTION_WORDS": -0.3063,
+  "recall_attn_keyflags_t.copy.CONTENT_WORDS": 6.7102,
+  "recall_attn_keyflags_t.topic.CONTENT_WORDS": 1.5141,
+  "recall_attn_keyflags_t.next.CONTENT_WORDS": 0.0217
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.491
+  ],
+  "follow.unigram": [
+   0.357,
+   0.382
+  ],
+  "head0.self": [
+   0.322,
+   0.386
+  ],
+  "head0.near": [
+   0.891,
+   0.938
+  ],
+  "head0.far": [
+   4.653,
+   5.207
+  ],
+  "head2.self": [
+   0.232,
+   0.2
+  ],
+  "head2.near": [
+   0.59,
+   0.572
+  ],
+  "head2.far": [
+   2.128,
+   1.587
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.289
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.225
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   1
+  ],
+  "program": 0.4170111043203689,
+  "program+candidate": 0.34441330846395724,
+  "candidate alone": 0.34182137423697856
+ },
+ "seconds": 48.7
+}

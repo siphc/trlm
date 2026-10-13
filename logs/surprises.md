@@ -97,3 +97,28 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   budget falls, so better class defaults matter most in exactly the regime the main line operates in.
 - Refitting with new classes moved the heads' measured roles in magnitude (head 2's removal cost 0.27 -> 0.19, head 3's
   0.16 -> 0.21, FOLLOW exceptions 1.43 -> 0.89): 10 of 32 claims needed new numbers. Claims are tied to one fit.
+
+## 2026-10-13 mechanism v1 consistency check (attn_s0)
+
+- The program's head parts move the output 5-10x less than the model's heads (earlier-token removal: program 0.04-0.08
+  nats, model 0.41-0.49), although the program as a whole is 0.58 nats from the model and its parts point the right
+  way (agreement 0.27-0.64). Most of what each head does from context is not in the program; output KL alone hid this.
+- Heads 0 and 2 are explained better together (R^2 0.21) than apart (0.07 and 0.12): the program's split of local
+  reading between LOCAL-0 and LOCAL-2 is not the model's split.
+- Not cancellation: the heads do not carry large opposing copy votes that net out (analysis/cancellation.py).
+
+## 2026-10-13 discovery round 2 (attn_s0; logs/mech_v2_investigations.md)
+
+- Heads 0, 2 and 3 are each about 90% additive "read a token, write a fixed vector" devices, yet corpus skip-grams with
+  the real attention explain only 6-16% of what each writes; all corpus tables together 31% for heads 0+2.
+- Head 3's effect is anti-correlated with heads 0+2's (-0.19; -0.36 at noun queries); the program explains the three
+  heads jointly (R^2 0.289) far better than head 3 alone (0.046). After linkers head 3's effect exceeds heads 0+2's.
+- A 2-scalar "own-vote usefulness" attention term beats the exact token-token query-key term in exact-model output KL
+  for heads 0 and 2; another head's vote predicts nothing. Where a local head looks follows from what it writes.
+- Fitting head 1's attention pattern better (key-salience flags) made the program's output worse: the pattern weights
+  every key alike, while the output depends only on keys whose votes matter.
+- RECALL's "1.6x too weak" is attention diffuseness: with head 1's real attention its votes fit at coefficient 0.92.
+- Inside split words the model is less certain than the corpus given the whole word-so-far.
+- vote_fit's head-R^2 check understates candidates that REPLACE a part, by about 0.07, because the 'program+candidate'
+  set then includes current-token votes, which the earlier-token ablation leaves untouched. Fix before relying on it
+  for replacement candidates.

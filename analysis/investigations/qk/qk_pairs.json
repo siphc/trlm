@@ -1,0 +1,1044 @@
+{
+ "h0_d1": {
+  "n_pairs": 278269,
+  "weight": 525046722.0,
+  "var_raw": 2.831484359013416,
+  "var_after_query": 1.1160627969643344,
+  "var_pure_pair": 0.5810591429251611,
+  "views": {
+   "raw": {
+    "target_sd": 1.6827015062135697,
+    "PMI_d(k,q)": 0.33,
+    "log P(q|k) at d": 0.023,
+    "log P(k|q) backward": 0.407,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.253,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.055,
+    "vote usefulness U=A-B (shrunk)": 0.26,
+    "vote log-lik gain G": 0.143,
+    "key info_{d+1}(k)": 0.222,
+    "cur is piece x key cont": 0.247,
+    "trigram IG KL(P3||P1)": 0.166,
+    "[weights] OV_h0 usefulness": 0.435,
+    "[weights] OV_h0 fit A": 0.438,
+    "[weights] OV_h2 usefulness": 0.021,
+    "[weights] OV_h2 fit A": 0.105
+   },
+   "row": {
+    "target_sd": 1.056438733180649,
+    "PMI_d(k,q)": 0.226,
+    "log P(q|k) at d": 0.224,
+    "log P(k|q) backward": 0.254,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.23,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.069,
+    "vote usefulness U=A-B (shrunk)": 0.257,
+    "vote log-lik gain G": 0.175,
+    "key info_{d+1}(k)": 0.23,
+    "cur is piece x key cont": 0.122,
+    "trigram IG KL(P3||P1)": 0.119,
+    "[weights] OV_h0 usefulness": 0.311,
+    "[weights] OV_h0 fit A": 0.356,
+    "[weights] OV_h2 usefulness": -0.032,
+    "[weights] OV_h2 fit A": 0.027
+   },
+   "double": {
+    "target_sd": 0.7622723548215304,
+    "PMI_d(k,q)": 0.182,
+    "log P(q|k) at d": 0.181,
+    "log P(k|q) backward": 0.182,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.143,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.034,
+    "vote usefulness U=A-B (shrunk)": 0.137,
+    "vote log-lik gain G": 0.107,
+    "key info_{d+1}(k)": 0.035,
+    "cur is piece x key cont": 0.087,
+    "trigram IG KL(P3||P1)": 0.059,
+    "[weights] OV_h0 usefulness": 0.389,
+    "[weights] OV_h0 fit A": 0.423,
+    "[weights] OV_h2 usefulness": -0.108,
+    "[weights] OV_h2 fit A": -0.12
+   }
+  },
+  "top_pairs": [
+   [
+    ",",
+    " and",
+    1.83,
+    985654,
+    0.42,
+    0.54
+   ],
+   [
+    " said",
+    ".",
+    2.43,
+    627252,
+    2.29,
+    0.96
+   ],
+   [
+    " said",
+    ",",
+    -0.75,
+    1750556,
+    4.71,
+    2.74
+   ],
+   [
+    " to",
+    " the",
+    -0.77,
+    1529191,
+    0.93,
+    1.3
+   ],
+   [
+    "s",
+    ".",
+    1.36,
+    788531,
+    0.19,
+    1.26
+   ],
+   [
+    " and",
+    " said",
+    -1.0,
+    968392,
+    0.18,
+    2.04
+   ],
+   [
+    " day",
+    ",",
+    0.55,
+    1598497,
+    2.15,
+    2.92
+   ],
+   [
+    " Lily",
+    ".",
+    1.82,
+    458387,
+    1.45,
+    1.07
+   ],
+   [
+    ".",
+    " \"",
+    0.94,
+    838120,
+    0.33,
+    1.28
+   ],
+   [
+    " of",
+    " the",
+    0.93,
+    709073,
+    0.8,
+    2.12
+   ],
+   [
+    " on",
+    ",",
+    -1.8,
+    347739,
+    1.94,
+    1.5
+   ],
+   [
+    ",",
+    " \"",
+    -0.25,
+    2330490,
+    0.27,
+    3.06
+   ],
+   [
+    " was",
+    " so",
+    0.53,
+    1102842,
+    1.33,
+    3.16
+   ],
+   [
+    "\n",
+    "\n",
+    0.08,
+    7357818,
+    2.88,
+    2.59
+   ],
+   [
+    ",",
+    " Lily",
+    -0.95,
+    574790,
+    0.55,
+    2.04
+   ],
+   [
+    ".",
+    "\n",
+    -0.1,
+    5259024,
+    1.87,
+    1.57
+   ],
+   [
+    " back",
+    " to",
+    1.94,
+    272828,
+    1.92,
+    2.49
+   ],
+   [
+    " it",
+    " was",
+    0.58,
+    908218,
+    0.81,
+    2.26
+   ],
+   [
+    " you",
+    ".",
+    2.89,
+    177345,
+    1.5,
+    0.11
+   ],
+   [
+    " had",
+    " to",
+    -2.32,
+    214928,
+    1.24,
+    1.28
+   ],
+   [
+    " day",
+    ".",
+    -1.99,
+    242390,
+    0.63,
+    0.31
+   ],
+   [
+    " says",
+    ".",
+    1.44,
+    332702,
+    3.03,
+    1.96
+   ],
+   [
+    ",",
+    " the",
+    0.57,
+    813325,
+    0.63,
+    0.44
+   ],
+   [
+    " and",
+    " the",
+    -0.55,
+    804062,
+    0.41,
+    0.35
+   ],
+   [
+    " time",
+    ",",
+    0.42,
+    1044264,
+    5.17,
+    2.9
+   ]
+  ]
+ },
+ "h2_d1": {
+  "n_pairs": 278269,
+  "weight": 525046722.0,
+  "var_raw": 4.369217929984617,
+  "var_after_query": 1.572056037917501,
+  "var_pure_pair": 0.7005261832577576,
+  "views": {
+   "raw": {
+    "target_sd": 2.090267430254946,
+    "PMI_d(k,q)": 0.23,
+    "log P(q|k) at d": 0.153,
+    "log P(k|q) backward": 0.27,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.266,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.048,
+    "vote usefulness U=A-B (shrunk)": 0.268,
+    "vote log-lik gain G": 0.202,
+    "key info_{d+1}(k)": 0.273,
+    "cur is piece x key cont": 0.07,
+    "trigram IG KL(P3||P1)": 0.158,
+    "[weights] OV_h0 usefulness": 0.077,
+    "[weights] OV_h0 fit A": 0.024,
+    "[weights] OV_h2 usefulness": 0.423,
+    "[weights] OV_h2 fit A": 0.415
+   },
+   "row": {
+    "target_sd": 1.2538165886275,
+    "PMI_d(k,q)": 0.239,
+    "log P(q|k) at d": 0.236,
+    "log P(k|q) backward": 0.242,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.328,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.018,
+    "vote usefulness U=A-B (shrunk)": 0.297,
+    "vote log-lik gain G": 0.227,
+    "key info_{d+1}(k)": 0.301,
+    "cur is piece x key cont": 0.029,
+    "trigram IG KL(P3||P1)": 0.133,
+    "[weights] OV_h0 usefulness": -0.069,
+    "[weights] OV_h0 fit A": -0.062,
+    "[weights] OV_h2 usefulness": 0.417,
+    "[weights] OV_h2 fit A": 0.342
+   },
+   "double": {
+    "target_sd": 0.836974422104856,
+    "PMI_d(k,q)": 0.149,
+    "log P(q|k) at d": 0.148,
+    "log P(k|q) backward": 0.149,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.249,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.118,
+    "vote usefulness U=A-B (shrunk)": 0.191,
+    "vote log-lik gain G": 0.167,
+    "key info_{d+1}(k)": 0.027,
+    "cur is piece x key cont": 0.095,
+    "trigram IG KL(P3||P1)": 0.069,
+    "[weights] OV_h0 usefulness": -0.118,
+    "[weights] OV_h0 fit A": -0.13,
+    "[weights] OV_h2 usefulness": 0.449,
+    "[weights] OV_h2 fit A": 0.446
+   }
+  },
+  "top_pairs": [
+   [
+    ",",
+    " and",
+    1.74,
+    985654,
+    0.42,
+    0.54
+   ],
+   [
+    " said",
+    ",",
+    0.61,
+    1750556,
+    4.71,
+    2.74
+   ],
+   [
+    " time",
+    ",",
+    -0.98,
+    1044264,
+    5.17,
+    2.9
+   ],
+   [
+    " in",
+    " the",
+    0.36,
+    1788978,
+    2.42,
+    2.85
+   ],
+   [
+    ".",
+    "\n",
+    -0.11,
+    5259024,
+    1.87,
+    1.57
+   ],
+   [
+    " Lily",
+    ".",
+    -1.24,
+    458387,
+    1.45,
+    1.07
+   ],
+   [
+    "s",
+    ".",
+    -0.72,
+    788531,
+    0.19,
+    1.26
+   ],
+   [
+    " so",
+    " happy",
+    -1.23,
+    458926,
+    0.62,
+    3.99
+   ],
+   [
+    " went",
+    " to",
+    -1.25,
+    438718,
+    2.39,
+    2.8
+   ],
+   [
+    "\n",
+    "\n",
+    0.07,
+    7357818,
+    2.88,
+    2.59
+   ],
+   [
+    " on",
+    " the",
+    0.58,
+    859518,
+    2.58,
+    2.44
+   ],
+   [
+    ",",
+    " there",
+    -0.44,
+    1021767,
+    0.31,
+    2.86
+   ],
+   [
+    " up",
+    " and",
+    1.84,
+    233909,
+    1.37,
+    1.78
+   ],
+   [
+    ",",
+    " so",
+    1.26,
+    326632,
+    1.67,
+    1.38
+   ],
+   [
+    " was",
+    " so",
+    -0.36,
+    1102842,
+    1.33,
+    3.16
+   ],
+   [
+    " ran",
+    " to",
+    -1.81,
+    219892,
+    2.84,
+    2.53
+   ],
+   [
+    " a",
+    " little",
+    -0.41,
+    951208,
+    0.26,
+    3.17
+   ],
+   [
+    " time",
+    " there",
+    1.38,
+    276615,
+    0.78,
+    3.77
+   ],
+   [
+    " time",
+    " to",
+    3.33,
+    111215,
+    2.42,
+    0.9
+   ],
+   [
+    " happy",
+    " to",
+    1.56,
+    234810,
+    2.56,
+    1.74
+   ],
+   [
+    " had",
+    " a",
+    0.57,
+    637236,
+    1.75,
+    2.51
+   ],
+   [
+    " friends",
+    ".",
+    0.89,
+    405263,
+    1.06,
+    1.79
+   ],
+   [
+    ",",
+    " but",
+    0.27,
+    1266941,
+    0.06,
+    3.26
+   ],
+   [
+    " the",
+    " p",
+    1.33,
+    244231,
+    0.35,
+    2.06
+   ],
+   [
+    " and",
+    " saw",
+    1.0,
+    311474,
+    0.04,
+    1.71
+   ]
+  ]
+ },
+ "h0_d2": {
+  "n_pairs": 663333,
+  "weight": 521490715.0,
+  "var_raw": 2.555585082090466,
+  "var_after_query": 1.3326187413422514,
+  "var_pure_pair": 0.7212148283823926,
+  "views": {
+   "raw": {
+    "target_sd": 1.5986197428064206,
+    "PMI_d(k,q)": 0.226,
+    "log P(q|k) at d": -0.019,
+    "log P(k|q) backward": 0.358,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.239,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.02,
+    "vote usefulness U=A-B (shrunk)": 0.233,
+    "vote log-lik gain G": 0.173,
+    "key info_{d+1}(k)": 0.192,
+    "cur is piece x key cont": 0.164,
+    "[weights] OV_h0 usefulness": 0.223,
+    "[weights] OV_h0 fit A": 0.329,
+    "[weights] OV_h2 usefulness": 0.043,
+    "[weights] OV_h2 fit A": 0.101
+   },
+   "row": {
+    "target_sd": 1.1543910695003887,
+    "PMI_d(k,q)": 0.178,
+    "log P(q|k) at d": 0.177,
+    "log P(k|q) backward": 0.358,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.191,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.038,
+    "vote usefulness U=A-B (shrunk)": 0.219,
+    "vote log-lik gain G": 0.137,
+    "key info_{d+1}(k)": 0.22,
+    "cur is piece x key cont": 0.041,
+    "[weights] OV_h0 usefulness": 0.187,
+    "[weights] OV_h0 fit A": 0.295,
+    "[weights] OV_h2 usefulness": 0.042,
+    "[weights] OV_h2 fit A": 0.038
+   },
+   "double": {
+    "target_sd": 0.8492436802133959,
+    "PMI_d(k,q)": 0.165,
+    "log P(q|k) at d": 0.164,
+    "log P(k|q) backward": 0.164,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.142,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.01,
+    "vote usefulness U=A-B (shrunk)": 0.178,
+    "vote log-lik gain G": 0.133,
+    "key info_{d+1}(k)": 0.0,
+    "cur is piece x key cont": 0.194,
+    "[weights] OV_h0 usefulness": 0.241,
+    "[weights] OV_h0 fit A": 0.307,
+    "[weights] OV_h2 usefulness": 0.006,
+    "[weights] OV_h2 fit A": -0.027
+   }
+  },
+  "top_pairs": [
+   [
+    ".",
+    "\n",
+    0.28,
+    6532553,
+    2.14,
+    1.83
+   ],
+   [
+    " the",
+    ".",
+    0.46,
+    2867806,
+    0.19,
+    0.97
+   ],
+   [
+    " the",
+    " and",
+    -0.9,
+    1315882,
+    0.25,
+    0.86
+   ],
+   [
+    " the",
+    ",",
+    -1.53,
+    719670,
+    0.32,
+    0.33
+   ],
+   [
+    " and",
+    " to",
+    0.94,
+    891230,
+    0.16,
+    0.73
+   ],
+   [
+    "\n",
+    " and",
+    1.75,
+    392624,
+    1.01,
+    -0.34
+   ],
+   [
+    ",",
+    ",",
+    1.6,
+    397223,
+    0.89,
+    -0.25
+   ],
+   [
+    " and",
+    " and",
+    2.82,
+    219305,
+    0.22,
+    -0.95
+   ],
+   [
+    " to",
+    " the",
+    -0.8,
+    739192,
+    0.28,
+    0.61
+   ],
+   [
+    " his",
+    ".",
+    0.95,
+    603761,
+    0.72,
+    1.17
+   ],
+   [
+    " her",
+    ".",
+    0.72,
+    749420,
+    0.69,
+    0.92
+   ],
+   [
+    ".",
+    " said",
+    -0.82,
+    658215,
+    0.58,
+    1.08
+   ],
+   [
+    " she",
+    ".",
+    2.2,
+    238315,
+    0.59,
+    0.13
+   ],
+   [
+    " and",
+    ",",
+    -0.48,
+    1089606,
+    1.63,
+    0.67
+   ],
+   [
+    " there",
+    " a",
+    0.37,
+    1363690,
+    2.5,
+    3.53
+   ],
+   [
+    " said",
+    " \"",
+    0.26,
+    1801728,
+    0.39,
+    4.33
+   ],
+   [
+    " said",
+    "\n",
+    -1.68,
+    280229,
+    0.5,
+    0.9
+   ],
+   [
+    " so",
+    " and",
+    1.61,
+    288707,
+    0.88,
+    1.22
+   ],
+   [
+    " Lily",
+    ".",
+    2.21,
+    205812,
+    1.84,
+    0.29
+   ],
+   [
+    ",",
+    " and",
+    1.5,
+    303086,
+    0.17,
+    -0.58
+   ],
+   [
+    " and",
+    " the",
+    -0.83,
+    542434,
+    0.24,
+    -0.02
+   ],
+   [
+    " a",
+    " and",
+    -1.36,
+    321537,
+    0.34,
+    -0.18
+   ],
+   [
+    " was",
+    " and",
+    0.73,
+    588680,
+    0.66,
+    0.61
+   ],
+   [
+    " he",
+    ".",
+    2.18,
+    193588,
+    0.66,
+    -0.19
+   ],
+   [
+    " and",
+    "s",
+    -1.93,
+    214379,
+    0.21,
+    0.62
+   ]
+  ]
+ },
+ "h2_d2": {
+  "n_pairs": 663333,
+  "weight": 521490715.0,
+  "var_raw": 5.2897067137884335,
+  "var_after_query": 2.393618434679426,
+  "var_pure_pair": 1.023818069313879,
+  "views": {
+   "raw": {
+    "target_sd": 2.2999362412441857,
+    "PMI_d(k,q)": 0.152,
+    "log P(q|k) at d": 0.033,
+    "log P(k|q) backward": 0.355,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.192,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": -0.04,
+    "vote usefulness U=A-B (shrunk)": 0.228,
+    "vote log-lik gain G": 0.163,
+    "key info_{d+1}(k)": 0.201,
+    "cur is piece x key cont": 0.042,
+    "[weights] OV_h0 usefulness": -0.011,
+    "[weights] OV_h0 fit A": 0.049,
+    "[weights] OV_h2 usefulness": 0.293,
+    "[weights] OV_h2 fit A": 0.25
+   },
+   "row": {
+    "target_sd": 1.5471323261697514,
+    "PMI_d(k,q)": 0.102,
+    "log P(q|k) at d": 0.099,
+    "log P(k|q) backward": 0.34,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.213,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.005,
+    "vote usefulness U=A-B (shrunk)": 0.211,
+    "vote log-lik gain G": 0.141,
+    "key info_{d+1}(k)": 0.22,
+    "cur is piece x key cont": -0.13,
+    "[weights] OV_h0 usefulness": -0.064,
+    "[weights] OV_h0 fit A": -0.041,
+    "[weights] OV_h2 usefulness": 0.262,
+    "[weights] OV_h2 fit A": 0.124
+   },
+   "double": {
+    "target_sd": 1.0118389542382122,
+    "PMI_d(k,q)": 0.115,
+    "log P(q|k) at d": 0.113,
+    "log P(k|q) backward": 0.113,
+    "vote fit A=E[PMI(k,next)|k,q]": 0.193,
+    "vote vs bigram B=E_P1(.|q)[PMI(k,.)]": 0.03,
+    "vote usefulness U=A-B (shrunk)": 0.204,
+    "vote log-lik gain G": 0.159,
+    "key info_{d+1}(k)": 0.0,
+    "cur is piece x key cont": 0.141,
+    "[weights] OV_h0 usefulness": -0.062,
+    "[weights] OV_h0 fit A": -0.082,
+    "[weights] OV_h2 usefulness": 0.269,
+    "[weights] OV_h2 fit A": 0.321
+   }
+  },
+  "top_pairs": [
+   [
+    " and",
+    ".",
+    1.6,
+    1507092,
+    0.1,
+    0.26
+   ],
+   [
+    " a",
+    ",",
+    -1.43,
+    1331133,
+    2.56,
+    1.29
+   ],
+   [
+    " the",
+    " and",
+    -1.38,
+    1315882,
+    0.25,
+    0.86
+   ],
+   [
+    " \"",
+    ",",
+    2.56,
+    638673,
+    2.26,
+    1.76
+   ],
+   [
+    " the",
+    ".",
+    -0.5,
+    2867806,
+    0.19,
+    0.97
+   ],
+   [
+    " the",
+    ",",
+    -1.31,
+    719670,
+    0.32,
+    0.33
+   ],
+   [
+    " and",
+    " to",
+    -1.05,
+    891230,
+    0.16,
+    0.73
+   ],
+   [
+    " to",
+    ".",
+    -0.7,
+    1093214,
+    0.07,
+    0.27
+   ],
+   [
+    "\"",
+    ",",
+    1.62,
+    470549,
+    2.2,
+    2.24
+   ],
+   [
+    " a",
+    " and",
+    -2.32,
+    321537,
+    0.34,
+    -0.18
+   ],
+   [
+    " They",
+    " to",
+    1.45,
+    495858,
+    0.79,
+    1.66
+   ],
+   [
+    " and",
+    ",",
+    -0.6,
+    1089606,
+    1.63,
+    0.67
+   ],
+   [
+    "\n",
+    " and",
+    1.62,
+    392624,
+    1.01,
+    -0.34
+   ],
+   [
+    ".",
+    "\n",
+    0.09,
+    6532553,
+    2.14,
+    1.83
+   ],
+   [
+    " \"",
+    "'s",
+    -1.77,
+    316812,
+    1.16,
+    3.09
+   ],
+   [
+    ",",
+    " and",
+    1.83,
+    303086,
+    0.17,
+    -0.58
+   ],
+   [
+    " to",
+    " with",
+    0.92,
+    529822,
+    0.25,
+    1.96
+   ],
+   [
+    " there",
+    " a",
+    0.35,
+    1363690,
+    2.5,
+    3.53
+   ],
+   [
+    " a",
+    " of",
+    -1.73,
+    268913,
+    0.69,
+    1.52
+   ],
+   [
+    " Lily",
+    " She",
+    2.04,
+    221368,
+    2.4,
+    2.4
+   ],
+   [
+    " to",
+    " to",
+    2.16,
+    204792,
+    0.59,
+    -0.39
+   ],
+   [
+    " her",
+    " and",
+    -1.1,
+    397682,
+    0.73,
+    0.95
+   ],
+   [
+    " was",
+    " happy",
+    0.72,
+    599104,
+    0.24,
+    2.95
+   ],
+   [
+    ",",
+    " was",
+    0.34,
+    1243177,
+    1.0,
+    1.42
+   ],
+   [
+    " She",
+    ",",
+    1.87,
+    226957,
+    2.1,
+    0.49
+   ]
+  ]
+ }
+}

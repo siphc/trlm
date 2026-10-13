@@ -5,7 +5,7 @@
 - Corpus at startup: the harness passes the TRAIN token stream to `program.setup(corpus)` (one-time exception,
   `logs/decisions.md` item 7). Every token-specific number in the program is counted from it.
 - Numbers fitted to the model are named scalars only: 28 attention-rule parameters fitted to each head's own
-  attention rows, 28 vote strengths and 3 smoothing numbers fitted to the model's log-probs, 1 back-off weight
+  attention rows, 25 vote strengths and 3 smoothing numbers fitted to the model's log-probs, 1 back-off weight
   chosen from a grid. No table is fitted to the model.
 - Analysis numbers below come from TRAIN windows (`analysis.fitlib.train_windows(n, seed=2000)`); harness numbers
   come from dev_fast. The claim tests use the harness's held-out claim windows (first 32).
@@ -14,7 +14,7 @@
 
 | | dev_fast KL | top-1 | loss recovered | numbers fitted to the model | lint |
 |---|---|---|---|---|---|
-| mechanism v1 (commit 2705fd1, tag `mechanism-v1`) | **0.5887** +- 0.0039 | 0.623 | 0.987 | 60 scalars | ok, largest literal 5 |
+| mechanism v1 (commit 2705fd1, tag `mechanism-v1`) | **0.5887** +- 0.0039 | 0.623 | 0.987 | 57 scalars | ok, largest literal 5 |
 | distillation v11 (tag `distillation-v11`) | 0.4519 | 0.697 | 0.711* | ~107k table entries | ok |
 | corpus bigram alone (FOLLOW refitted alone) | 1.196 | 0.372 | | 2 | |
 

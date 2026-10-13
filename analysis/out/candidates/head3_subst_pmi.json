@@ -1,0 +1,129 @@
+{
+ "candidate": "head3_subst_pmi",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.5838295420732108
+ },
+ "paired_diff": -0.00021246876877262753,
+ "paired_se": 0.0001457052099093347,
+ "candidate_strengths": {
+  "head3_subst_pmi.subst": -0.0751,
+  "head3_subst_pmi.pmi": 0.0773
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.509
+  ],
+  "follow.unigram": [
+   0.357,
+   0.356
+  ],
+  "head0.self": [
+   0.322,
+   0.331
+  ],
+  "head0.near": [
+   0.891,
+   0.84
+  ],
+  "head0.far": [
+   4.653,
+   4.6
+  ],
+  "head2.self": [
+   0.232,
+   0.214
+  ],
+  "head2.near": [
+   0.59,
+   0.555
+  ],
+  "head2.far": [
+   2.128,
+   2.011
+  ],
+  "head1.copy.NAMES": [
+   2.723,
+   2.841
+  ],
+  "head1.topic.NAMES": [
+   2.829,
+   2.819
+  ],
+  "head1.next.NAMES": [
+   -0.247,
+   -0.224
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.301,
+   1.309
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.729,
+   -0.615
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.7,
+   -0.63
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.867,
+   1.872
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   4.132,
+   4.107
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.658,
+   -0.604
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.393,
+   3.393
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.006,
+   1.015
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.322,
+   -0.305
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.323,
+   5.453
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.63,
+   2.631
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.012,
+   0.018
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.289
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.222
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   3
+  ],
+  "program": 0.0391248076068309,
+  "program+candidate": 0.0467285293084968,
+  "candidate alone": 0.036343581715712836
+ },
+ "seconds": 61.5
+}

@@ -1,0 +1,132 @@
+{
+ "candidate": "ov02_earlier_votes4",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5819623950361632,
+  "base refit": 0.581895127699847,
+  "candidate refit": 0.5716699886858521
+ },
+ "paired_diff": -0.010225139013994944,
+ "paired_se": 0.0006443842483926065,
+ "candidate_strengths": {
+  "ov02_earlier_votes4.h0.bigram": 0.6119,
+  "ov02_earlier_votes4.h0.alike": -4.2091,
+  "ov02_earlier_votes4.h2.copy": -5.8019,
+  "ov02_earlier_votes4.h2.word3": 0.0353
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.492,
+   0.428
+  ],
+  "follow.unigram": [
+   0.368,
+   0.446
+  ],
+  "head0.self": [
+   0.316,
+   0.429
+  ],
+  "head0.near": [
+   0.844,
+   0.827
+  ],
+  "head0.far": [
+   4.736,
+   4.502
+  ],
+  "head2.self": [
+   0.256,
+   0.268
+  ],
+  "head2.near": [
+   0.641,
+   0.588
+  ],
+  "head2.far": [
+   2.42,
+   2.657
+  ],
+  "head1.copy.NAMES": [
+   2.939,
+   3.668
+  ],
+  "head1.topic.NAMES": [
+   2.997,
+   3.068
+  ],
+  "head1.next.NAMES": [
+   -0.158,
+   -0.11
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.995,
+   8.047
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.784,
+   -1.048
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.811,
+   -0.509
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.105,
+   2.714
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.155,
+   1.942
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.636,
+   -0.787
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.328,
+   3.868
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.268,
+   1.268
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.29,
+   -0.38
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.06,
+   5.54
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.964,
+   2.964
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.015,
+   -0.062
+  ],
+  "phrase.trigram": [
+   0.285,
+   0.284
+  ],
+  "phrase.fourgram": [
+   0.217,
+   0.214
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.21437535260391827,
+  "program+candidate": 0.24441507291932552,
+  "candidate alone": 0.11863476402339379
+ },
+ "seconds": 66.3
+}

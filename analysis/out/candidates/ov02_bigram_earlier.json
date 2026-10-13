@@ -1,0 +1,130 @@
+{
+ "candidate": "ov02_bigram_earlier",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5819623950361632,
+  "base refit": 0.581895127699847,
+  "candidate refit": 0.5780910068337934
+ },
+ "paired_diff": -0.003804120866053512,
+ "paired_se": 0.00040196308084757644,
+ "candidate_strengths": {
+  "ov02_bigram_earlier.h0.bigram": 0.4394,
+  "ov02_bigram_earlier.h2.bigram": 0.0544
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.492,
+   0.436
+  ],
+  "follow.unigram": [
+   0.368,
+   0.432
+  ],
+  "head0.self": [
+   0.316,
+   0.427
+  ],
+  "head0.near": [
+   0.844,
+   0.839
+  ],
+  "head0.far": [
+   4.736,
+   4.712
+  ],
+  "head2.self": [
+   0.256,
+   0.288
+  ],
+  "head2.near": [
+   0.641,
+   0.63
+  ],
+  "head2.far": [
+   2.42,
+   2.383
+  ],
+  "head1.copy.NAMES": [
+   2.939,
+   2.792
+  ],
+  "head1.topic.NAMES": [
+   2.997,
+   2.997
+  ],
+  "head1.next.NAMES": [
+   -0.158,
+   -0.264
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.995,
+   2.048
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.784,
+   -0.829
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.811,
+   -1.0
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.105,
+   1.863
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.155,
+   2.024
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.636,
+   -0.982
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.328,
+   3.238
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.268,
+   1.262
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.29,
+   -0.514
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.06,
+   4.613
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.964,
+   2.956
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.015,
+   -0.221
+  ],
+  "phrase.trigram": [
+   0.285,
+   0.281
+  ],
+  "phrase.fourgram": [
+   0.217,
+   0.215
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.21437535260391827,
+  "program+candidate": 0.23335664704628745,
+  "candidate alone": 0.045692662691896535
+ },
+ "seconds": 103.5
+}

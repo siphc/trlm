@@ -1,0 +1,129 @@
+{
+ "candidate": "head3_linker",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5819623950361632,
+  "base refit": 0.581895127699847,
+  "candidate refit": 0.5817544730545159
+ },
+ "paired_diff": -0.00014065464533109806,
+ "paired_se": 6.358006505730233e-05,
+ "candidate_strengths": {
+  "head3_linker.pmi2": -0.0209,
+  "head3_linker.subst": 0.0438
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.492,
+   0.492
+  ],
+  "follow.unigram": [
+   0.368,
+   0.369
+  ],
+  "head0.self": [
+   0.316,
+   0.316
+  ],
+  "head0.near": [
+   0.844,
+   0.839
+  ],
+  "head0.far": [
+   4.736,
+   4.734
+  ],
+  "head2.self": [
+   0.256,
+   0.257
+  ],
+  "head2.near": [
+   0.641,
+   0.65
+  ],
+  "head2.far": [
+   2.42,
+   2.42
+  ],
+  "head1.copy.NAMES": [
+   2.939,
+   2.94
+  ],
+  "head1.topic.NAMES": [
+   2.997,
+   2.998
+  ],
+  "head1.next.NAMES": [
+   -0.158,
+   -0.16
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.995,
+   1.995
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.784,
+   -0.784
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.811,
+   -0.807
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.105,
+   2.105
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.155,
+   2.154
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.636,
+   -0.637
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.328,
+   3.328
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.268,
+   1.269
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.29,
+   -0.298
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.06,
+   5.059
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.964,
+   2.962
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.015,
+   -0.018
+  ],
+  "phrase.trigram": [
+   0.285,
+   0.285
+  ],
+  "phrase.fourgram": [
+   0.217,
+   0.217
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   3
+  ],
+  "program": 0.03904026645185987,
+  "program+candidate": 0.05880895463893354,
+  "candidate alone": 0.03941332888005766
+ },
+ "seconds": 61.9
+}

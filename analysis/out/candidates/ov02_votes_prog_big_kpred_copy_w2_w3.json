@@ -1,0 +1,138 @@
+{
+ "candidate": "ov02_votes",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.5746449206945499
+ },
+ "paired_diff": -0.009397090147433614,
+ "paired_se": 0.0012147683050897516,
+ "candidate_strengths": {
+  "ov02_votes.h0.big": 0.5612,
+  "ov02_votes.h0.kpred": -4.6857,
+  "ov02_votes.h0.copy": 7.1035,
+  "ov02_votes.h0.w2": -0.144,
+  "ov02_votes.h0.w3": -0.2855,
+  "ov02_votes.h2.big": 0.0272,
+  "ov02_votes.h2.kpred": 0.3977,
+  "ov02_votes.h2.copy": -7.0417,
+  "ov02_votes.h2.w2": 0.161,
+  "ov02_votes.h2.w3": 0.1729
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.415
+  ],
+  "follow.unigram": [
+   0.357,
+   0.462
+  ],
+  "head0.self": [
+   0.322,
+   0.496
+  ],
+  "head0.near": [
+   0.891,
+   1.022
+  ],
+  "head0.far": [
+   4.653,
+   4.673
+  ],
+  "head2.self": [
+   0.232,
+   0.221
+  ],
+  "head2.near": [
+   0.59,
+   0.408
+  ],
+  "head2.far": [
+   2.128,
+   2.18
+  ],
+  "head1.copy.NAMES": [
+   2.723,
+   4.399
+  ],
+  "head1.topic.NAMES": [
+   2.829,
+   2.719
+  ],
+  "head1.next.NAMES": [
+   -0.247,
+   -0.221
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.301,
+   8.408
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.729,
+   -1.033
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.7,
+   -0.348
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.867,
+   2.498
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   4.132,
+   3.694
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.658,
+   -0.759
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.393,
+   3.658
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.006,
+   1.056
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.322,
+   -0.387
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.323,
+   5.97
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.63,
+   2.624
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.012,
+   -0.077
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.286
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.221
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.19667133204432807,
+  "program+candidate": 0.2564041088818224,
+  "candidate alone": 0.18225084388045365
+ },
+ "seconds": 62.8
+}

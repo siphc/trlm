@@ -1,0 +1,132 @@
+{
+ "candidate": "ov02_votes",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.5832560625767268
+ },
+ "paired_diff": -0.0007859482652566689,
+ "paired_se": 0.00039717849779737833,
+ "candidate_strengths": {
+  "ov02_votes.h0.w2": -0.2087,
+  "ov02_votes.h0.w3": -0.3335,
+  "ov02_votes.h2.w2": 0.2045,
+  "ov02_votes.h2.w3": 0.1499
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.48
+  ],
+  "follow.unigram": [
+   0.357,
+   0.388
+  ],
+  "head0.self": [
+   0.322,
+   0.395
+  ],
+  "head0.near": [
+   0.891,
+   1.074
+  ],
+  "head0.far": [
+   4.653,
+   4.822
+  ],
+  "head2.self": [
+   0.232,
+   0.191
+  ],
+  "head2.near": [
+   0.59,
+   0.439
+  ],
+  "head2.far": [
+   2.128,
+   2.007
+  ],
+  "head1.copy.NAMES": [
+   2.723,
+   2.801
+  ],
+  "head1.topic.NAMES": [
+   2.829,
+   2.852
+  ],
+  "head1.next.NAMES": [
+   -0.247,
+   -0.246
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.301,
+   1.476
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.729,
+   -0.646
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.7,
+   -0.535
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.867,
+   1.743
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   4.132,
+   3.987
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.658,
+   -0.618
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.393,
+   3.435
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.006,
+   1.036
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.322,
+   -0.287
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.323,
+   5.43
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.63,
+   2.6
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.012,
+   -0.004
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.287
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.223
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.19667133204432807,
+  "program+candidate": 0.2090344896981854,
+  "candidate alone": 0.12388788227661218
+ },
+ "seconds": 43.3
+}

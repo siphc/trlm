@@ -1,0 +1,130 @@
+{
+ "candidate": "ov02_votes",
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5838367171401966,
+  "base refit": 0.5840420108419834,
+  "candidate refit": 0.583607435214782
+ },
+ "paired_diff": -0.0004345756272013876,
+ "paired_se": 0.00018486832680302098,
+ "candidate_strengths": {
+  "ov02_votes.h0.cs1": -0.2053,
+  "ov02_votes.h2.cs1": 0.1043
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.509,
+   0.503
+  ],
+  "follow.unigram": [
+   0.357,
+   0.372
+  ],
+  "head0.self": [
+   0.322,
+   0.339
+  ],
+  "head0.near": [
+   0.891,
+   0.944
+  ],
+  "head0.far": [
+   4.653,
+   4.829
+  ],
+  "head2.self": [
+   0.232,
+   0.215
+  ],
+  "head2.near": [
+   0.59,
+   0.554
+  ],
+  "head2.far": [
+   2.128,
+   2.054
+  ],
+  "head1.copy.NAMES": [
+   2.723,
+   2.877
+  ],
+  "head1.topic.NAMES": [
+   2.829,
+   2.799
+  ],
+  "head1.next.NAMES": [
+   -0.247,
+   -0.241
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.301,
+   1.32
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.729,
+   -0.639
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.7,
+   -0.656
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.867,
+   1.8
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   4.132,
+   4.038
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.658,
+   -0.6
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.393,
+   3.405
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.006,
+   1.006
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.322,
+   -0.292
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.323,
+   5.54
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.63,
+   2.614
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.012,
+   0.022
+  ],
+  "phrase.trigram": [
+   0.289,
+   0.289
+  ],
+  "phrase.fourgram": [
+   0.221,
+   0.222
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0,
+   2
+  ],
+  "program": 0.19667133204432807,
+  "program+candidate": 0.20498451555306374,
+  "candidate alone": 0.07454858850134793
+ },
+ "seconds": 27.9
+}
