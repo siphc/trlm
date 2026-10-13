@@ -231,6 +231,66 @@ def make_nonredundant(st: Student, W: torch.Tensor, n_batches: int = 10, bs: int
     return abar
 
 
+def block_median(E: torch.Tensor, cls: torch.Tensor, K: int) -> torch.Tensor:
+    """(K, K) medians of E over blocks (class of row, class of column)."""
+    out = torch.zeros(K, K, dtype=E.dtype, device=E.device)
+    rows = [torch.nonzero(cls == k).flatten() for k in range(K)]
+    for a in range(K):
+        if len(rows[a]) == 0:
+            continue
+        Ea = E[rows[a]]
+        for b in range(K):
+            if len(rows[b]):
+                out[a, b] = Ea[:, rows[b]].median()
+    return out
+
+
+@torch.no_grad()
+def recenter(st: Student, rounds: int = 3) -> None:
+    """Lossless median polish of the exception tables (in place; run on a CPU student with all masks 1).
+
+    The tables are defined only up to exact shifts: each FOLLOW / RECALL row has a free constant (the softmax
+    ignores it), FOLLOW column effects belong in WORD, class-block effects in CLASS_FOLLOW / CLASS_RECALL and
+    class-wise diagonal effects in COPY. Adam leaves these in arbitrary places, so "prune = set to 0" would
+    reset entries to an arbitrary level. After polishing, zero means "the row's typical value" and pruning
+    removes only real deviations. RECALL column effects are moved into WORD only when heads vote on the
+    current token too (otherwise vote weights do not sum to 1 and the move is not exact).
+    Idea and measurements: design-panel sparsify proposal (logs/compression_experiments.md)."""
+    assert bool((st.follow_mask == 1).all()) and bool((st.recall_mask == 1).all()), "recenter a dense student"
+    cls, K = st.cls.cpu(), st.K
+    recall_columns = float(st.self_votes) == 1.0
+    E = st.follow_exc.detach().clone()
+    for _ in range(rounds):
+        E -= E.median(1, keepdim=True).values
+        k = E.median(0).values
+        E -= k[None, :]
+        st.word += k
+        b = block_median(E, cls, K)
+        E -= b[cls][:, cls]
+        st.class_follow += b
+    st.follow_exc.copy_(E)
+    for h in range(st.H):
+        R = st.recall_exc[h].detach().clone()
+        for _ in range(rounds):
+            R -= R.median(1, keepdim=True).values
+            if recall_columns:
+                k = R.median(0).values
+                R -= k[None, :]
+                st.word += k
+            b = block_median(R, cls, K)
+            R -= b[cls][:, cls]
+            st.class_recall[h] += b
+            d = torch.diagonal(R).clone()
+            dc = torch.zeros(K, dtype=R.dtype)
+            for c in range(K):
+                m = cls == c
+                if m.any():
+                    dc[c] = d[m].median()
+            R -= torch.diag(dc[cls])
+            st.copy[h] += dc
+        st.recall_exc[h].copy_(R)
+
+
 def prune_global(st: Student, n_total: int, W: torch.Tensor) -> dict:
     """Keep the n_total most important exceptions across FOLLOW and all heads' RECALL tables."""
     i_f, i_r = data_importance(st, W)

@@ -22,7 +22,8 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, ensure_disk, model_name, train_windows
-from analysis.student import Student, data_importance, evaluate, fisher_importance, fit, make_nonredundant
+from analysis.student import (Student, data_importance, evaluate, fisher_importance, fit, make_nonredundant,
+                             recenter)
 
 
 def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | None,
@@ -75,6 +76,7 @@ def main() -> None:
     ap.add_argument("--nonredundant", action="store_true",
                     help="first move heads' current-token votes into FOLLOW and silence heads on self")
     ap.add_argument("--freeze_attention", action="store_true", help="refits keep attention tables fixed")
+    ap.add_argument("--recenter", action="store_true", help="lossless median polish of the tables before pruning")
     ap.add_argument("--follow_share", type=float, default=None)
     ap.add_argument("--n_windows", type=int, default=8000)
     ap.add_argument("--device", default="mps")
@@ -97,6 +99,14 @@ def main() -> None:
     if args.nonredundant:
         make_nonredundant(st, W)
         print(f"non-redundant transform: holdout KL {evaluate(st, tgt, W_hold):.4f}", flush=True)
+    if args.recenter:
+        before = evaluate(st, tgt, W_hold)
+        st.cpu()
+        recenter(st)
+        st.to(args.device)
+        after = evaluate(st, tgt, W_hold)
+        print(f"recentred: holdout KL {before:.4f} -> {after:.4f}", flush=True)
+        assert abs(after - before) < 1e-3, "re-centring changed the function"
     n0 = int(st.follow_mask.sum() + st.recall_mask.sum())
     budgets = np.geomspace(n0, args.target, args.rounds + 1)[1:].round().astype(int)
     log = {"init": args.init, "target": args.target, "rank": args.rank, "rounds": [],
