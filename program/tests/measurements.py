@@ -28,12 +28,13 @@ Attention numbers average over positions 1..255 (position 0 has no earlier token
                      t_0 .. t_{i-1} and FOLLOW alone gives it less than 5%
   inside a word      the current token starts with a letter and the previous token ends with one
                      (' pro' then 'ble', as in 'problem')
-  after speech verb  the previous token is in SPEECH_VERBS (' said', ' says', ' replied', ...)
+  after speech verb  the previous token is in SPEECH_VERBS (' said', ' says', ' replied', ...; an
+                     ATTENTION class of categories.py)
   'said,' positions  after a speech verb and the current token is ','
   after a linker     the current token is in LINKERS (' and', ',', ' to', ' of', ...)
   self vote          median, over the tokens s seen in the windows, of RECALL(s, s) minus the median of
-                     RECALL(s, v) over the other tokens v of s's class: how much more a token the head
-                     attends to votes for itself than for similar words (a property of the tables)
+                     RECALL(s, v) over the other tokens v of s's TARGET class: how much more a token the
+                     head attends to votes for itself than for similar words (a property of the tables)
 """
 from __future__ import annotations
 
@@ -62,8 +63,8 @@ def token_facts() -> dict:
     P = claims.program()
     vocab, lib = P.vocab, P.tables_lib
     tokens = vocab.TOKENS
-    cls = lib.TOKEN_CLASS
-    idx = lib.CLASS_INDEX
+    cls = lib.TOKEN_CLASS["ATTENTION"]   # the 64 word classes of categories.ATTENTION_CLASSES
+    idx = lib.CLASS_INDEX["ATTENTION"]
     return {
         "starts_letter": np.array([len(s) > 0 and s[0].isalpha() for s in tokens]),
         "ends_letter": np.array([len(s) > 0 and s[-1].isalpha() for s in tokens]),
@@ -109,7 +110,7 @@ def _earlier_seen(top: np.ndarray, t: np.ndarray) -> np.ndarray:
 def self_vote_strength(windows: np.ndarray) -> list[float]:
     """Per head: the 'self vote' defined above, over the tokens that occur in `windows`."""
     P = claims.program()
-    cls = P.tables_lib.TOKEN_CLASS
+    cls = P.tables_lib.TOKEN_CLASS["TARGET"]   # "similar words" = the same TARGET class (columns of RECALL)
     seen = np.unique(np.asarray(windows)[:, :CTX])
     out = []
     for module in P.HEADS:

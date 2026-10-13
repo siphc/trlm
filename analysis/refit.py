@@ -45,9 +45,7 @@ def main() -> None:
     ap.add_argument("--confidence", action="store_true", help="also fit CONFIDENCE")
     args = ap.parse_args()
 
-    from program.tables_lib import TOKEN_CLASS
-
-    st = load_student(args.init, TOKEN_CLASS)
+    st = load_student(args.init)
     st.to(args.device)
     tgt = Target(args.model, args.device)
     W = torch.as_tensor(train_windows(args.n_windows))

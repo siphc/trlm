@@ -31,11 +31,9 @@ def target() -> Target:
 
 
 def load_dense(path: str = DENSE) -> Student:
-    from program.tables_lib import TOKEN_CLASS
-
     from analysis.student import load_student
 
-    return load_student(path, TOKEN_CLASS).eval()
+    return load_student(path).eval()
 
 
 def holdout(n: int = 48) -> torch.Tensor:

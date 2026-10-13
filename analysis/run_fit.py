@@ -50,10 +50,16 @@ def main() -> None:
     ap.add_argument("--init_follow_from_mean", action="store_true",
                     help="set AFTER exceptions to log(mean bigram) minus the class-level part before pruning")
     ap.add_argument("--freeze", default="", help="comma list of Student parameters held at zero, e.g. class_follow")
+    ap.add_argument("--classes", default="split", choices=["single", "split"],
+                    help="split (v11 on): CONTEXT rows and TARGET columns for the FOLLOW / RECALL class tables, "
+                         "ATTENTION classes for PREFER; single: ATTENTION classes in every role (v1-v10)")
     args = ap.parse_args()
 
-    from program.tables_lib import TOKEN_CLASS
+    from analysis.gen_categories import class_maps
 
+    TOKEN_CLASS = class_maps()
+    att = TOKEN_CLASS["ATTENTION"]
+    roles = {"context_of": TOKEN_CLASS["CONTEXT"], "target_of": TOKEN_CLASS["TARGET"]} if args.classes == "split" else {}
     mname = model_name(args.model)
     out = os.path.join(REPO, "analysis", "out", mname)
     os.makedirs(out, exist_ok=True)
@@ -61,10 +67,10 @@ def main() -> None:
     tgt = Target(args.model, args.device)
     W = torch.as_tensor(train_windows(args.n_windows))
     W_hold = torch.as_tensor(train_windows(200, seed=2000))
-    st = Student(args.n_heads, TOKEN_CLASS, int(TOKEN_CLASS.max()) + 1)
+    st = Student(args.n_heads, att, int(att.max()) + 1, **roles)
     md = os.path.join(out, "mean_dists.npz")
     if args.init:
-        st = load_student(args.init, TOKEN_CLASS)
+        st = load_student(args.init)
     elif os.path.exists(md):
         uni = np.load(md)["uni"]
         with torch.no_grad():

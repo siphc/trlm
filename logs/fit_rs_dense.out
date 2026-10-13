@@ -1,0 +1,55 @@
+attn step 0 pattern KL per head [3.544, 1.348, 2.879, 2.547] (1s)
+attn step 100 pattern KL per head [0.284, 0.35, 0.332, 0.559] (5s)
+attn step 200 pattern KL per head [0.237, 0.358, 0.297, 0.54] (9s)
+attn step 300 pattern KL per head [0.212, 0.336, 0.291, 0.53] (13s)
+attn step 400 pattern KL per head [0.213, 0.363, 0.291, 0.534] (18s)
+attn step 500 pattern KL per head [0.226, 0.359, 0.298, 0.56] (22s)
+attn step 600 pattern KL per head [0.216, 0.359, 0.288, 0.54] (26s)
+attn step 700 pattern KL per head [0.213, 0.355, 0.289, 0.539] (31s)
+attn step 799 pattern KL per head [0.211, 0.354, 0.282, 0.545] (35s)
+step 0 kl 3.4597 avg 3.4597 (0s)
+step 200 kl 1.5610 avg 1.6466 (55s)
+step 400 kl 1.4837 avg 1.4970 (109s)
+step 600 kl 1.4751 avg 1.4540 (160s)
+step 800 kl 1.4713 avg 1.4394 (210s)
+step 999 kl 1.4158 avg 1.4271 (260s)
+step 0 kl 1.3967 avg 1.3967 (0s)
+step 200 kl 0.4378 avg 0.4909 (51s)
+step 400 kl 0.3180 avg 0.3212 (102s)
+step 600 kl 0.2679 avg 0.2696 (156s)
+step 800 kl 0.2316 avg 0.2420 (209s)
+step 1000 kl 0.2208 avg 0.2261 (259s)
+step 1200 kl 0.2189 avg 0.2138 (311s)
+step 1400 kl 0.2006 avg 0.2060 (364s)
+step 1600 kl 0.2032 avg 0.1997 (417s)
+step 1800 kl 0.1903 avg 0.1938 (468s)
+step 2000 kl 0.1810 avg 0.1895 (519s)
+step 2200 kl 0.1903 avg 0.1858 (570s)
+step 2400 kl 0.1867 avg 0.1832 (619s)
+step 2600 kl 0.1802 avg 0.1803 (667s)
+step 2800 kl 0.1790 avg 0.1775 (714s)
+step 2999 kl 0.1835 avg 0.1768 (759s)
+{
+ "model": "attn_s0",
+ "tag": "rs_dense",
+ "pattern_kl": [
+  0.21119901537895203,
+  0.3542194068431854,
+  0.28191474080085754,
+  0.5452972650527954
+ ],
+ "kl_class_level": 1.422805585861206,
+ "kl_after_dense_fit": 0.2197253215312958,
+ "pruned": {
+  "follow_exceptions": 812,
+  "recall_exceptions": [
+   4784,
+   23011,
+   6113,
+   5280
+  ]
+ },
+ "kl_after_prune": 1.6271029472351075,
+ "kl_holdout_train": 1.6271029472351075
+}
+exit 0

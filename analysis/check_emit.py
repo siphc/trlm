@@ -10,10 +10,9 @@ from analysis.student import Student, load_student
 
 t0 = time.time()
 import program  # noqa: E402
-from program.tables_lib import TOKEN_CLASS  # noqa: E402
 
 print(f"program import {time.time() - t0:.1f}s")
-st = load_student(sys.argv[1], TOKEN_CLASS)
+st = load_student(sys.argv[1])
 w = np.load("data/eval/claims.npy")[:3, :256].astype(int)
 with torch.no_grad():
     s = st(torch.as_tensor(w)).double().numpy()

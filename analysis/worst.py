@@ -31,8 +31,13 @@ def main() -> None:
     parent, name = os.path.split(os.path.abspath(args.program))
     sys.path.insert(0, parent)
     prog = importlib.import_module(name)
-    from program.categories import CLASS_OF
-    from program.vocab import TOKENS
+    from program.categories import CLASS_SYSTEMS
+    from program.vocab import ID, TOKENS
+
+    def class_of(system):
+        return {ID[t]: name for name, toks in CLASS_SYSTEMS[system].items() for t in toks}
+
+    context_of, target_of = class_of("CONTEXT"), class_of("TARGET")
 
     W = eval_windows("dev_fast")[: args.n]
     lp = model_logprobs(load_model(args.model), W)
@@ -58,8 +63,8 @@ def main() -> None:
         for key, (s, c) in sorted(agg.items(), key=lambda kv: -kv[1][0])[:args.top]:
             print(f"  {str(key):32s} {s / tot:6.1%} {c:6d} {s / c:.3f}")
 
-    report("class of current token", lambda r: CLASS_OF[r[3]])
-    report("class of model's top token", lambda r: CLASS_OF[r[4]])
+    report("CONTEXT class of current token", lambda r: context_of[r[3]])
+    report("TARGET class of model's top token", lambda r: target_of[r[4]])
     report("position bucket", lambda r: min(r[2] // 32, 7) * 32)
     report("current token", lambda r: repr(TOKENS[r[3]]))
     print("\n== worst positions")

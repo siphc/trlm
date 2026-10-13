@@ -5,6 +5,11 @@ Shift-invariant quantities are centred for readability (a constant added to ever
 not change the softmax): WORD and SALIENCE by their median, rows of CLASS_FOLLOW and PREFER by the
 row median. Entries that round to zero are omitted (a missing entry means 0).
 
+Each table file names the class systems of program/categories.py that its class tables use: the system whose
+token map equals the student's map (student.cls -> PREFER; student.ctx -> rows of CLASS_FOLLOW and CLASS_RECALL,
+and COPY; student.tgt -> their columns). Per-token tables are grouped by the matching system (WORD by the
+column system, SALIENCE by the attention system) and exceptions by the column system's class of the next token.
+
 Usage (library): emit(student, model_id, header_note)
 """
 from __future__ import annotations
@@ -17,11 +22,13 @@ import numpy as np
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
 
-from program.categories import CLASS_NAMES, CLASSES  # noqa: E402
-from program.vocab import ID, TOKENS  # noqa: E402
+from analysis.gen_categories import ID, TOKENS, class_maps, class_systems  # noqa: E402
+
+CLASS_SYSTEMS = class_systems()
+TOKEN_CLASS = class_maps()
 
 DECIMALS = 2
-TOKEN_CLASS = None
+MAX_LITERAL = 64  # harness lint: numbers per literal
 
 
 def _fmt(x: float) -> str:
@@ -46,10 +53,18 @@ def _nonzero(d: dict) -> dict:
     return {k: v for k, v in d.items() if _fmt(v) != "0.0"}
 
 
-def per_token_block(name: str, values: np.ndarray, doc: str) -> list[str]:
+def system_of(class_map: np.ndarray) -> str:
+    """Name of the class system in program/categories.py whose token -> class map is class_map."""
+    for name in CLASS_SYSTEMS:
+        if np.array_equal(TOKEN_CLASS[name], np.asarray(class_map)):
+            return name
+    raise ValueError("the student's class map matches no class system in program/categories.py")
+
+
+def per_token_block(name: str, values: np.ndarray, doc: str, system: str) -> list[str]:
     out = [f"# {doc}", f"{name} = {{}}"]
-    for cname in CLASS_NAMES:
-        d = _nonzero({t: float(values[ID[t]]) for t in CLASSES[cname]})
+    for cname, toks in CLASS_SYSTEMS[system].items():
+        d = _nonzero({t: float(values[ID[t]]) for t in toks})
         if not d:
             continue
         out.append(f"{name}[{cname!r}] = {{")
@@ -58,10 +73,11 @@ def per_token_block(name: str, values: np.ndarray, doc: str) -> list[str]:
     return out + [""]
 
 
-def class_matrix_block(name: str, M: np.ndarray, doc: str) -> list[str]:
+def class_matrix_block(name: str, M: np.ndarray, doc: str, rows: str, columns: str) -> list[str]:
     out = [f"# {doc}", f"{name} = {{}}"]
-    for a, an in enumerate(CLASS_NAMES):
-        d = _nonzero({bn: float(M[a, b]) for b, bn in enumerate(CLASS_NAMES)})
+    col_names = list(CLASS_SYSTEMS[columns])
+    for a, an in enumerate(CLASS_SYSTEMS[rows]):
+        d = _nonzero({bn: float(M[a, b]) for b, bn in enumerate(col_names)})
         if not d:
             continue
         out.append(f"{name}[{an!r}] = {{")
@@ -70,16 +86,25 @@ def class_matrix_block(name: str, M: np.ndarray, doc: str) -> list[str]:
     return out + [""]
 
 
-def per_class_block(name: str, vals: np.ndarray, doc: str) -> list[str]:
-    d = _nonzero({cn: float(vals[k]) for k, cn in enumerate(CLASS_NAMES)})
-    return [f"# {doc}", f"{name} = {{"] + _dict_lines(d, "    ") + ["}", ""]
+def per_class_block(name: str, vals: np.ndarray, doc: str, system: str) -> list[str]:
+    """One literal per MAX_LITERAL classes: NAME = {...}, then NAME.update({...}) for the rest."""
+    items = list(_nonzero({cn: float(vals[k]) for k, cn in enumerate(CLASS_SYSTEMS[system])}).items())
+    out = [f"# {doc}"]
+    for i in range(0, max(len(items), 1), MAX_LITERAL):
+        chunk = dict(items[i:i + MAX_LITERAL])
+        out += [f"{name} = {{" if i == 0 else f"{name}.update({{"] + _dict_lines(chunk, "    ")
+        out.append("}" if i == 0 else "})")
+    return out + [""]
 
 
-def pairs_block(name: str, M: np.ndarray, doc: str, class_of: np.ndarray, imp: np.ndarray | None = None,
+def pairs_block(name: str, M: np.ndarray, doc: str, columns: str, imp: np.ndarray | None = None,
                 row_note=None) -> list[str]:
-    """Token-pair exceptions. With `imp` (same shape as M): rows in decreasing total importance, and inside a
-    row boosts first, then suppressions, each in decreasing importance. `row_note(t)` adds a comment line."""
+    """Token-pair exceptions, grouped by the column system's class of the second token. With `imp` (same shape
+    as M): rows in decreasing total importance, and inside a row boosts first, then suppressions, each in
+    decreasing importance. `row_note(t)` adds a comment line before the row."""
     out = [f"# {doc}", f"{name} = {{}}", ""]
+    col_names = list(CLASS_SYSTEMS[columns])
+    class_of = TOKEN_CLASS[columns]
     rows = np.nonzero(np.abs(M).max(1) >= 0.5 * 10 ** -DECIMALS)[0]
     if imp is not None:
         rows = sorted(rows, key=lambda t: -float(imp[t].sum()))
@@ -92,7 +117,7 @@ def pairs_block(name: str, M: np.ndarray, doc: str, class_of: np.ndarray, imp: n
                      + sorted([v for v in cols if M[t, v] < 0], key=lambda v: -imp[t, v]))
         groups: dict[str, dict] = {}
         for v in order:
-            groups.setdefault(CLASS_NAMES[class_of[v]], {})[TOKENS[v]] = float(M[t, v])
+            groups.setdefault(col_names[class_of[v]], {})[TOKENS[v]] = float(M[t, v])
         groups = {k: _nonzero(g) for k, g in groups.items() if _nonzero(g)}
         if not groups:
             continue
@@ -123,7 +148,9 @@ def emit(st, model_id: str, note: str, out_dir: str | None = None, decimals: int
     if decimals is not None:
         DECIMALS = decimals
     sd = {k: v.detach().cpu().double().numpy() for k, v in st.state_dict().items()}
-    class_of = sd["cls"].astype(int)
+    att = system_of(sd["cls"].astype(int))
+    rows = system_of(sd["ctx"].astype(int) if "ctx" in sd else sd["cls"].astype(int))
+    columns = system_of(sd["tgt"].astype(int) if "tgt" in sd else sd["cls"].astype(int))
     imp_f = imp_r = None
     att_stats = None
     if readable:
@@ -144,9 +171,13 @@ def emit(st, model_id: str, note: str, out_dir: str | None = None, decimals: int
     cf = sd["class_follow"] - np.median(sd["class_follow"], axis=1, keepdims=True)
     exc = sd["follow_exc"] * sd["follow_mask"]
     lines = head + ["from ..tables_lib import pair", ""]
-    lines += per_token_block("WORD", word, "How likely each token is as a next token in general (higher = more common).")
-    lines += class_matrix_block("CLASS_FOLLOW", cf, "Row = class of the current token, column = class of the next token.")
-    follow_full = word[None, :] + cf[class_of][:, class_of] + exc if readable else None
+    lines += ["# Class systems of CLASS_FOLLOW (program/categories.py): rows = class of the current token,",
+              "# columns = class of the next token.", f"ROWS = {rows!r}", f"COLUMNS = {columns!r}", ""]
+    lines += per_token_block("WORD", word, "How likely each token is as a next token in general (higher = more common).",
+                             columns)
+    lines += class_matrix_block("CLASS_FOLLOW", cf, f"Row = {rows} class of the current token, column = {columns} "
+                                "class of the next token.", rows, columns)
+    follow_full = (word[None, :] + cf[TOKEN_CLASS[rows]][:, TOKEN_CLASS[columns]] + exc) if readable else None
 
     def follow_note(t):
         q = _softmax(follow_full[t])
@@ -155,7 +186,7 @@ def emit(st, model_id: str, note: str, out_dir: str | None = None, decimals: int
             f"{TOKENS[v]!r} {100 * q[v]:.0f}%" for v in top)
 
     lines += pairs_block("AFTER", exc, "Exceptions: pair(AFTER, current token, CLASS_OF_NEXT={next token: extra score})."
-                         + (" Rows in order of importance; boosts first." if readable else ""), class_of,
+                         + (" Rows in order of importance; boosts first." if readable else ""), columns,
                          imp=imp_f, row_note=follow_note if readable else None)
     with open(os.path.join(tdir, "follow.py"), "w") as f:
         f.write("\n".join(lines))
@@ -177,18 +208,24 @@ def emit(st, model_id: str, note: str, out_dir: str | None = None, decimals: int
         sv = bool(float(sd.get("self_votes", np.array(1.0))) != 0.0)
         lines += ["# False: a head looking at the current token casts no vote there (see attention.py).",
                   f"SELF_VOTES = {sv}", ""]
+        lines += ["# Class systems (program/categories.py): PREFER compares the classes of the current and the attended",
+                  "# token in PREFER_CLASSES; CLASS_RECALL rows (and COPY) use the attended token's class in RECALL_ROWS,",
+                  "# its columns the next token's class in RECALL_COLUMNS.",
+                  f"PREFER_CLASSES = {att!r}", f"RECALL_ROWS = {rows!r}", f"RECALL_COLUMNS = {columns!r}", ""]
         lines += [f"# Distance buckets: bucket b covers distances [RECENCY_BUCKET_START[b], RECENCY_BUCKET_START[b + 1]).",
                   f"RECENCY_BUCKET_START = {BUCKET_START!r}",
                   "# How much the head prefers a position at that distance (0 = most preferred).",
                   "RECENCY = [" + ", ".join(_fmt(x) for x in rec) + "]", ""]
-        lines += per_token_block("SALIENCE", sal, "How strongly each token attracts this head's attention.")
-        lines += class_matrix_block("PREFER", pref, "Row = class of the current token, column = class of the attended token.")
-        lines += class_matrix_block("CLASS_RECALL", sd["class_recall"][h],
-                                    "Row = class of the attended token, column = class of the voted next token.")
-        lines += per_class_block("COPY", sd["copy"][h], "Extra vote for repeating the attended token itself, by its class.")
+        lines += per_token_block("SALIENCE", sal, "How strongly each token attracts this head's attention.", att)
+        lines += class_matrix_block("PREFER", pref, f"Row = {att} class of the current token, column = {att} class "
+                                    "of the attended token.", att, att)
+        lines += class_matrix_block("CLASS_RECALL", sd["class_recall"][h], f"Row = {rows} class of the attended "
+                                    f"token, column = {columns} class of the voted next token.", rows, columns)
+        lines += per_class_block("COPY", sd["copy"][h], f"Extra vote for repeating the attended token itself, by its "
+                                 f"{rows} class.", rows)
         lines += pairs_block("RECALL", sd["recall_exc"][h] * sd["recall_mask"][h],
                              "Exceptions: pair(RECALL, attended token, CLASS_OF_NEXT={next token: extra vote})."
-                             + (" Rows in order of importance; boosts first." if readable else ""), class_of,
+                             + (" Rows in order of importance; boosts first." if readable else ""), columns,
                              imp=None if imp_r is None else imp_r[h])
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write("\n".join(lines))
@@ -199,7 +236,8 @@ def emit(st, model_id: str, note: str, out_dir: str | None = None, decimals: int
     for h in range(H, 4):  # heads the student does not model add nothing
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write(EMPTY_HEAD)
-    return {"follow_exceptions": int((np.abs(exc) >= 0.005).sum())}
+    return {"follow_exceptions": int((np.abs(exc) >= 0.005).sum()), "class_systems": {
+        "prefer": att, "rows": rows, "columns": columns}}
 
 
 def _attention_stats(st, W):
@@ -221,6 +259,9 @@ def _attention_stats(st, W):
 
 EMPTY_HEAD = '''"""Empty tables: this head adds nothing in this version of the program."""
 SELF_VOTES = True
+PREFER_CLASSES = "ATTENTION"
+RECALL_ROWS = "ATTENTION"
+RECALL_COLUMNS = "ATTENTION"
 RECENCY_BUCKET_START = [0]
 RECENCY = [0.0]
 SALIENCE = {}
