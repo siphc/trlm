@@ -1,40 +1,95 @@
 # Replacement program for `attn_s0`
 
-A NumPy program that predicts the next-token distribution of a one-block, attention-only TinyStories
-language model without using the model's weights. Entry point: `predict(tokens)` in `__init__.py`.
+A NumPy program that predicts the next-token distribution of `attn_s0`, a one-block, attention-only
+TinyStories language model (4 heads, vocabulary of 2000 tokens), without using the model's weights.
+Entry point: `predict(tokens)` in `__init__.py`. Row `i` of its output is the distribution after
+`tokens[: i + 1]`.
+
+Fidelity (harness, KL(model ‖ program) in nats per token): **0.465** on dev_fast, 0.463 on dev_full
+(2000 windows), 0.488 on text sampled from the model itself. The program's top token is the model's top
+token 69% of the time.
 
 ## The algorithm, top-down
 
-For a text of tokens `t_0 … t_n`, the program computes, at every position `i`, a score for each of the
-2000 possible next tokens `v`, and turns the scores into probabilities with a softmax:
+At every position `i` the program gives each of the 2000 possible next tokens `v` a score, adds the
+votes of five parts, and turns the scores into probabilities with a softmax:
 
 ```
-score_i[v] = FOLLOW(t_i, v)                                  follow.py
-           + Σ_h Σ_{j ≤ i} a^h_ij · RECALL^h(t_j, v)           head0.py … head3.py (attention.py)
+score_i[v] = FOLLOW(t_i, v)                                   follow.py
+           + Σ_h Σ_{j < i} a^h_ij · RECALL^h(t_j, v)            head0.py … head3.py (machinery: attention.py)
 ```
 
-1. **FOLLOW** (`follow.py`): what usually comes right after the current token, ignoring everything earlier.
-   `FOLLOW(t, v) = WORD[v] + CLASS_FOLLOW[class(t)][class(v)] + AFTER exceptions(t, v)`.
-2. **Four attention heads** (`head0.py` … `head3.py`, machinery in `attention.py`). Head `h` spreads its
-   attention over the positions `j ≤ i`:
-   `a^h_ij ∝ exp(SALIENCE^h[t_j] + PREFER^h[class(t_i)][class(t_j)] + RECENCY^h[bucket(i − j)])`,
-   and every attended token `s` votes for next tokens with
-   `RECALL^h(s, v) = CLASS_RECALL^h[class(s)][class(v)] + COPY^h[class(s)]·[v = s] + RECALL exceptions(s, v)`.
-3. The scores are added and normalised (`log_softmax`).
+1. **FOLLOW** — what usually comes right after the current token, ignoring everything earlier:
+   `WORD[v] + CLASS_FOLLOW[class(t)][class(v)] + AFTER exceptions(t, v)`.
+2. **Four heads.** Head `h` spreads its attention over the positions `j ≤ i` with
+   `a^h_ij ∝ exp(SALIENCE^h[t_j] + PREFER^h[class(t_i)][class(t_j)] + RECENCY^h[bucket(i − j)])`.
+   Attention on the current token (`j = i`) is an **abstention**: it takes weight away from earlier tokens
+   but casts no vote (everything the current token says is already in FOLLOW). Each attended earlier token
+   `s` votes with `RECALL^h(s, v) = CLASS_RECALL^h[class(s)][class(v)] + COPY^h[class(s)]·[v = s] +
+   RECALL exceptions(s, v)`.
+3. Add and normalise (`log_softmax`). Nothing else happens.
+
+## What each part does (numbers measured on the program; see each module's CLAIM)
+
+| part | one-sentence role | removal cost* | top-1 after removal | model's matching head** |
+|---|---|---|---|---|
+| FOLLOW (`follow.py`) | the guess from the current token alone; alone it is 1.40 nats from the model | exceptions: +1.43 | — | heads 0 and 2 attending to the current token, plus the direct path |
+| head 0 | passes on the last few tokens; matters most inside words split into pieces | +0.15 | 69% → 63% | carries 32% of model head 0's context effect |
+| head 1 | recalls words from far back (mean distance 34) and votes to repeat them | +0.18 | at recall positions 59% → 36% | 42% of model head 1's |
+| head 2 | reads the last few words; opens a quote after "said," | +0.27 | 69% → 56% | 55% of model head 2's |
+| head 3 | carries a phrase across linking words, above all after " to" and " of" | +0.16 | 69% → 61% | 49% of model head 3's |
+
+\* Increase of KL(model ‖ program) when the part's votes are replaced by their average (for FOLLOW: when its
+token-pair exceptions are). Heads 2 and 3 overlap, so single-head costs do not add up. All four heads
+together remove 0.93 of FOLLOW alone's 1.40 nats.
+\*\* Share of the KL change from ablating only the earlier-token part of the model head (harness
+`claims.model_logprobs(..., ablation="earlier")`); details in `logs/consistency.md`.
 
 ## Vocabulary and word classes
 
-- `vocab.py`: the 2000 token strings of the tokenizer (byte-level BPE trained on the TinyStories train split).
-- `categories.py`: 64 named word classes (≤ 64 tokens each), found by clustering each token's neighbours in
-  the training text (no model involved), then named by hand: e.g. `NAMES`, `DETERMINERS`, `PAST_VERBS_MOTION`.
+- `vocab.py`: the 2000 token strings of the tokenizer (byte-level BPE trained on the TinyStories train
+  split). `'<0xE2>'`-style names are fragments of multi-byte characters.
+- `categories.py`: 64 named word classes (at most 64 tokens each), found by clustering each token's
+  neighbours in the training text (no model involved) and named by hand, e.g. `NAMES`, `DETERMINERS`,
+  `PAST_VERBS_MOTION`. Some are behavioural groups of word pieces (`FRAGMENTS_*`, `ONSETS_*`).
 
-## Tables
+## How to read the tables (`tables/`)
 
-All numbers live in `tables/` and are written per class or per token so that no literal holds more than 64
-numbers. Values are in nats and are added to scores. They were fitted by regression to the model's
-next-token log-probabilities on training-split windows (`analysis/run_fit.py`), never copied from weights.
+- Values are in nats (natural-log units) and are added to scores before the softmax: +0.7 doubles a
+  token's odds, +2.3 multiplies them by 10. A missing entry means 0.
+- Per-token tables are grouped by word class, class tables have one row per class, and token-pair
+  exceptions are written `pair(TABLE, first token, CLASS_OF_SECOND={second token: value})`, so no literal
+  holds more than 64 numbers.
+- Exception rows are in order of importance (estimated KL cost of removing the row), boosts before
+  suppressions. Each FOLLOW row carries a comment with the top probabilities FOLLOW alone gives after that
+  token, e.g. `# after '<|eos|>' (FOLLOW alone): 'Once' 55%, 'Lily' 8%, 'One' 7%`.
+- Head votes act through attention weights. Each head file states its abstention share and the typical
+  weight of an attended earlier token; for head 1 that weight is 0.04, so its large-looking COPY and
+  RECALL values (10-20 nats) add about 0.4-0.8 nats where they apply.
 
-## Status
+## How the tables were found
 
-The current version and its measured fidelity are in the latest commit message and `logs/iterations.csv`.
-The CLAIM docstrings in each module state what each component does, with numbers; `tests/` checks them.
+All numbers were fitted by regression to the model's next-token log-probabilities on training-split text
+(never copied from weights; insight from the weights only guided the structure): a dense fit of the
+structure above (analysis/student.py), heads silenced on the current token, a lossless re-centring of the
+tables, 16 rounds of gradual pruning to 60,000 token-pair exceptions ranked by their second-order KL cost,
+a final refit, and rounding to one decimal (analysis/prune.py, analysis/emit_program.py). The fitting
+history, dead ends and the fidelity-vs-size curve are in `logs/compression_experiments.md` and
+`logs/dead_ends.md`.
+
+## Fidelity against size
+
+| token-pair exceptions | 10k | 17k | 30k | 51k | **60k (this program)** | 158k | 256k |
+|---|---|---|---|---|---|---|---|
+| dev_fast KL | 0.812 | 0.703 | 0.593 | 0.506 | **0.465** | 0.371 | 0.328 |
+
+The class tables and attention tables cost about 46k numbers on top of the exceptions (105k numbers in
+total at 60k exceptions).
+
+## Known gaps
+
+- The program heads carry 32-55% of the model heads' context effect; most of the remaining KL is missing
+  context, worst for head 0.
+- Class-level votes cannot tell `' She'` from `' He'` or one name from another unless an exception says so.
+- Model heads 1 and 3 rarely look at the current token (4%, 19%), but the program's heads 1 and 3 abstain
+  on 29% and 37% of their attention.
