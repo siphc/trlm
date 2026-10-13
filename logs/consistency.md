@@ -31,3 +31,18 @@ is ~10x less important than model head 0. The program's head 0 does not mean wha
 Same mismatch as v4: the current token's own vote lives in FOLLOW, which in the model is carried by heads 0
 and 2 attending to self. Either route that vote through heads 0/2 or map FOLLOW to "heads 0+2 self-attention
 + direct path" when comparing.
+
+## 2026-10-12 — attn_s0, program v7 (program_sha 30394393a97d7448), KL(model || program) = 0.5154 on 50 windows
+
+v7's heads are silent on the current token, so the matched model-side ablation is the earlier-token part only
+(keep a_ii v_i, mean-ablate sum_{j<i} a_ij v_j; exact numpy decomposition, means over 50 claims windows).
+
+| head | model: whole head | model: earlier-token part | program self-effect | fidelity loss (mean-abl.) | fidelity loss (removed) |
+|---|---|---|---|---|---|
+| 0 | 3.0701 | 0.4692 | 0.1566 | 0.1649 | 0.1747 |
+| 1 | 0.4161 | 0.3830 | 0.1615 | 0.1749 | 0.1880 |
+| 2 | 1.5200 | 0.4923 | 0.2824 | 0.2889 | 0.2896 |
+| 3 | 0.5402 | 0.3365 | 0.1618 | 0.1695 | 0.2033 |
+
+Reading: with matched definitions, every program head carries one third to one half of the model head's
+context effect; head 2 is the largest in both. The remaining KL is mostly missing context, worst for head 0.

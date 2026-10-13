@@ -40,3 +40,25 @@ regime needs a different representation.
 
 Reserving FOLLOW's share cuts KL at 60k from 1.259 to 0.844 (dev_fast harness: 0.8499, iteration v6) and at
 124k from 1.117 to 0.799. Allocation across components matters as much as the pruning schedule.
+
+## Gradual pruning, Fisher ranking, heads silent on the current token (tag gp60k_fisher_nr) — v7
+
+Idea from the design panel's mechanism proposal: (1) heads cast no vote through the current token
+(`make_nonredundant` moves each head's average current-token vote into FOLLOW; dense KL 0.2233 -> 0.2496), so
+every current-token fact has one home; (2) rank exceptions by the second-order removal cost
+0.5 w^2 sum a^2 q(1-q) instead of the first-order |w| sum a q, which overvalued the diffuse head 1 by ~1/a.
+Importance from 100 batches of 16 windows; 8 rounds; 300 refit steps (1000 last); attention trainable.
+
+| round | budget | kept FOLLOW | kept RECALL (h0, h1, h2, h3) | KL after cut | KL after refit |
+|---|---|---|---|---|---|
+| 0 | 9,675,427 | 2,503,350 | 1,581,764 / 1,937,373 / 1,782,737 / 1,870,203 | 0.2525 | 0.2261 |
+| 1 | 4,680,695 | 1,343,506 | 650,697 / 909,236 / 871,899 / 905,357 | 0.2609 | 0.2357 |
+| 2 | 2,264,386 | 635,927 | 290,834 / 432,949 / 456,940 / 447,736 | 0.3095 | 0.2646 |
+| 3 | 1,095,445 | 302,966 | 135,536 / 196,306 / 239,342 / 221,295 | 0.3472 | 0.3042 |
+| 4 | 529,945 | 158,140 | 64,731 / 79,570 / 121,756 / 105,748 | 0.3894 | 0.3494 |
+| 5 | 256,372 | 86,756 | 30,791 / 30,383 / 59,024 / 49,418 | 0.4374 | 0.4006 |
+| 6 | 124,026 | 48,518 | 14,475 / 11,454 / 27,305 / 22,274 | 0.4967 | 0.4596 |
+| 7 | 60,000 | 27,224 | 6,691 / 4,225 / 12,181 / 9,679 | 0.5711 | 0.5138 |
+
+At 60k: 0.514 held-out, dev_fast harness 0.5165 (v6 at the same budget: 0.8499). The ranking rule was the
+dominant problem: at every budget below 1M the Fisher curve is far below the linear one.
