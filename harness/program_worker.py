@@ -1,5 +1,9 @@
 """Runs inside the sandboxed subprocess. Imports a program and serves predict() over stdin/stdout.
 
+If the program defines setup(corpus), the worker first calls it once with the TRAIN-split token stream
+(numpy uint16 memmap of data/tokens/train.bin; path in argv[3]) - the one-time exception to "no file I/O"
+approved 2026-10-13 (logs/decisions.md item 7). The program itself never opens files.
+
 Protocol (little-endian): request = int32 T, then T int32 tokens; T == -1 ends the session.
 Response = int32 status (0 ok, 1 error), then for ok: int32 rows, int32 cols, rows*cols float32;
 for error: int32 n, then n bytes of UTF-8 traceback.
@@ -18,6 +22,8 @@ def main() -> None:
 
     try:
         mod = importlib.import_module(program_name)
+        if hasattr(mod, "setup") and len(sys.argv) > 3:
+            mod.setup(np.memmap(sys.argv[3], dtype=np.uint16, mode="r"))
         predict = mod.predict
         err = None
     except Exception:

@@ -20,7 +20,7 @@ from functools import lru_cache
 
 import numpy as np
 
-from harness.common import eval_windows, head_means, load_model
+from harness.common import eval_windows, head_means, load_model, prepare_program
 from harness.common import model_logprobs as _model_logprobs
 
 
@@ -34,7 +34,7 @@ def program():
     parent, name = os.path.dirname(path), os.path.basename(path)
     if parent not in sys.path:
         sys.path.insert(0, parent)
-    return importlib.import_module(name)
+    return prepare_program(importlib.import_module(name))
 
 
 def claim_windows() -> np.ndarray:

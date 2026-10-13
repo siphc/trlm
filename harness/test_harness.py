@@ -125,3 +125,34 @@ def test_ablation_modes():
     k_mean = kl(full, model_logprobs(m, W, ablate_heads=(0,), ablation="mean", means=means))
     k_earl = kl(full, model_logprobs(m, W, ablate_heads=(0,), ablation="earlier", means=means))
     assert k_mean > k_earl > 0.0
+
+
+def test_setup_receives_train_corpus_only(tmp_path):
+    """setup(corpus) gets the TRAIN token stream; other data files stay unreadable inside the sandbox."""
+    body = f"""
+    import numpy as np
+    STATE = {{}}
+    def setup(corpus):
+        STATE["n"] = len(corpus)
+        STATE["first"] = int(corpus[0])
+    def predict(tokens):
+        if "n" not in STATE:
+            raise RuntimeError("setup was not called")
+        if STATE["n"] < 500_000_000:
+            raise RuntimeError("corpus too short: " + str(STATE["n"]))
+        return np.full((len(tokens), 2000), -np.log(2000.0))
+    """
+    with ProgramRunner(_write_program(tmp_path, body), sandbox=True) as r:
+        out = r.predict([1, 2, 3])
+        assert out.shape == (3, 2000)
+    body2 = f"""
+    import numpy as np
+    def setup(corpus):
+        with open({os.path.join(REPO, 'data', 'tokens', 'dev.bin')!r}, "rb") as f:
+            f.read(10)
+    def predict(tokens):
+        return np.full((len(tokens), 2000), -np.log(2000.0))
+    """
+    with ProgramRunner(_write_program(tmp_path, body2, "prog2"), sandbox=True) as r:
+        with pytest.raises(ProgramError, match="Operation not permitted"):
+            r.predict([1, 2, 3])

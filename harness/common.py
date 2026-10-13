@@ -19,6 +19,20 @@ import numpy as np
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VOCAB = 2000
 CTX = 256
+# One-time exception (logs/decisions.md item 7): programs may receive the TRAIN-split token stream at startup.
+CORPUS = os.path.join(REPO, "data", "tokens", "train.bin")
+
+
+def load_corpus():
+    """The TRAIN-split token stream as a read-only uint16 memmap (what program.setup receives)."""
+    return np.memmap(CORPUS, dtype=np.uint16, mode="r")
+
+
+def prepare_program(mod):
+    """Call mod.setup(corpus) if the program defines it (in-process users: claims, analysis tools)."""
+    if hasattr(mod, "setup"):
+        mod.setup(load_corpus())
+    return mod
 
 
 # ----------------------------------------------------------------------------- program runner
@@ -33,7 +47,7 @@ class ProgramRunner:
         self.program_dir = program_dir
         parent, name = os.path.dirname(program_dir), os.path.basename(program_dir)
         worker = os.path.join(REPO, "harness", "program_worker.py")
-        cmd = [sys.executable, "-B", "-I", worker, parent, name]
+        cmd = [sys.executable, "-B", "-I", worker, parent, name, CORPUS]
         self.sandbox_status = "off (requested)"
         self._profile = None
         if sandbox:
@@ -45,12 +59,14 @@ class ProgramRunner:
                     f'(deny file-read* (subpath "{os.path.join(REPO, "logs")}"))\n'
                     f'(deny file-read* (subpath "{os.path.join(REPO, "analysis")}"))\n'
                     "(deny network*)\n"
+                    f'(allow file-read* (literal "{CORPUS}"))\n'   # the TRAIN corpus only (decisions.md item 7)
                 )
                 fd, self._profile = tempfile.mkstemp(suffix=".sb")
                 with os.fdopen(fd, "w") as f:
                     f.write(prof)
                 cmd = ["sandbox-exec", "-f", self._profile] + cmd
-                self.sandbox_status = "enforced (sandbox-exec: models/, data/, logs/, analysis/ unreadable; no network)"
+                self.sandbox_status = ("enforced (sandbox-exec: models/, data/ except the train corpus, logs/, "
+                                       "analysis/ unreadable; no network)")
             else:
                 self.sandbox_status = "NOT ENFORCED: sandbox-exec unavailable on this OS"
                 print("WARNING: harness cannot make models/ unreadable on this OS.", file=sys.stderr)
