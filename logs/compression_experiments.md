@@ -105,3 +105,24 @@ effects -> WORD, class-block effects -> CLASS tables, class-wise diagonal -> COP
 
 60k: 0.4699 held-out, dev_fast 0.4723 (v8: 0.4919). Re-centring matters most at large budgets: 1.78M entries
 are as good as the dense student (0.226), 256k reach 0.325 (v8 run: 0.372).
+
+## Fidelity-complexity curve (dev_fast harness rows, program/ only)
+
+| version / point | KL(model ‖ program) | top-1 | loss recovered | numeric literals | LOC |
+|---|---|---|---|---|---|
+| v0: empty tables (uniform) | 5.0661 | 0.005 | -4.102 | 19 | 755 |
+| v1: WORD only (log of model's mean prediction) | 3.4707 | 0.107 | -2.481 | 2,012 | 1,259 |
+| v2: WORD + CLASS_FOLLOW (64x64 class bigram) | 2.4236 | 0.196 | -1.425 | 5,958 | 2,552 |
+| v3: FOLLOW = WORD + CLASS_FOLLOW + 20k AFTER exceptions (bigram-only p | 1.3483 | 0.366 | -0.306 | 25,951 | 28,780 |
+| curve point: v9 recipe (14 rounds) stopped at 10k exceptions | 0.8123 | 0.585 | 0.311 | 55,901 | 36,503 |
+| curve point: v9 recipe (14 rounds) stopped at 17k exceptions | 0.7025 | 0.618 | 0.432 | 63,080 | 49,003 |
+| v4: + 4 heads, class-level attention/recall/copy; 20k AFTER exceptions | 1.1696 | 0.480 | -0.089 | 65,599 | 40,107 |
+| curve point: v9 recipe (14 rounds) stopped at 30k exceptions | 0.5931 | 0.649 | 0.554 | 75,470 | 68,479 |
+| v5: dense fit of all exceptions, then one global 40k budget by data im | 1.1898 | 0.536 | -0.133 | 86,008 | 80,927 |
+| curve point: v9 recipe (14 rounds) stopped at 51k exceptions | 0.5063 | 0.679 | 0.647 | 96,817 | 97,994 |
+| v8: as v7 with a smoother schedule (12 rounds, 400-step refits, 2000-s | 0.4919 | 0.688 | 0.659 | 105,739 | 117,485 |
+| v7: heads silent on current token (FOLLOW holds its facts) + Fisher (2 | 0.5165 | 0.683 | 0.627 | 105,765 | 115,841 |
+| v6: gradual pruning dense->60k exceptions (8 rounds, refits), 50% budg | 0.8499 | 0.559 | 0.235 | 105,790 | 86,232 |
+| v9: as v8 plus lossless re-centring (median polish) of the tables befo | 0.4723 | 0.688 | 0.683 | 105,837 | 109,315 |
+| curve point: v9 pipeline stopped at 158k exceptions (round 9) | 0.3710 | 0.719 | 0.780 | 203,832 | 217,153 |
+| curve point: v9 pipeline stopped at 256k exceptions (round 8) | 0.3281 | 0.734 | 0.818 | 302,367 | 308,560 |

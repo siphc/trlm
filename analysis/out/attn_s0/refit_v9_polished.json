@@ -1,0 +1,8 @@
+{
+ "init": "analysis/out/attn_s0/student_gp60k_fnr_rc_r12.pt",
+ "tag": "v9_polished",
+ "freeze": [],
+ "steps": 300,
+ "kl_before": 0.4699420928955078,
+ "kl_after": 0.46824973821640015
+}
