@@ -14,19 +14,31 @@ score_i[v] = FOLLOW(t_i, v)                                  follow.py
 ```
 
 1. **FOLLOW** (`follow.py`): what usually comes right after the current token, ignoring everything earlier.
-   `FOLLOW(t, v) = WORD[v] + CLASS_FOLLOW[class(t)][class(v)] + AFTER exceptions(t, v)`.
+   `FOLLOW(t, v) = WORD[v] + CLASS_FOLLOW[context(t)][target(v)] + AFTER exceptions(t, v)`.
 2. **Four attention heads** (`head0.py` … `head3.py`, machinery in `attention.py`). Head `h` spreads its
    attention over the positions `j ≤ i`:
-   `a^h_ij ∝ exp(SALIENCE^h[t_j] + PREFER^h[class(t_i)][class(t_j)] + RECENCY^h[bucket(i − j)])`,
+   `a^h_ij ∝ exp(SALIENCE^h[t_j] + PREFER^h[attention(t_i)][attention(t_j)] + RECENCY^h[bucket(i − j)])`,
    and every attended token `s` votes for next tokens with
-   `RECALL^h(s, v) = CLASS_RECALL^h[class(s)][class(v)] + COPY^h[class(s)]·[v = s] + RECALL exceptions(s, v)`.
+   `RECALL^h(s, v) = CLASS_RECALL^h[context(s)][target(v)] + COPY^h[context(s)]·[v = s] + RECALL exceptions(s, v)`.
 3. The scores are added and normalised (`log_softmax`).
+
+`context(t)`, `target(v)` and `attention(t)` are a token's class in the three class systems below; each table
+file in `tables/` names the systems it uses.
 
 ## Vocabulary and word classes
 
 - `vocab.py`: the 2000 token strings of the tokenizer (byte-level BPE trained on the TinyStories train split).
-- `categories.py`: 64 named word classes (≤ 64 tokens each), found by clustering each token's neighbours in
-  the training text (no model involved), then named by hand: e.g. `NAMES`, `DETERMINERS`, `PAST_VERBS_MOTION`.
+- `categories.py`: three systems of named word classes (≤ 64 tokens each), all found from the training text
+  alone (no model involved) and named by hand after reading the members:
+  - `CONTEXT_CLASSES` (71) group tokens by what tends to come *after* them, e.g. `TO_AND_MODALS`
+    (` to`, ` can`, ` could`: a bare verb follows). A token's CONTEXT class picks the row of `CLASS_FOLLOW`
+    and `CLASS_RECALL`, and its `COPY` entry.
+  - `TARGET_CLASSES` (64) group tokens by what tends to come *before* them, e.g. `BARE_VERBS_1`
+    (` play`, ` be`, ` go`). The next token's TARGET class picks the column.
+  - CONTEXT and TARGET classes were found together by information-theoretic co-clustering of the training
+    bigram counts (`analysis/cocluster.py`).
+  - `ATTENTION_CLASSES` (64), from clustering each token's neighbours on both sides (`analysis/taxonomy.py`),
+    are used by the heads' `PREFER` tables.
 
 ## Tables
 

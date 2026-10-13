@@ -4,13 +4,17 @@ For a sequence t_0..t_n and position i the program computes
 
   score_i[v] = FOLLOW(t_i, v)                                  what usually follows token t_i
              + sum_h  sum_{j<=i}  a^h_ij * RECALL^h(t_j, v)      head h recalls tokens seen earlier
-  a^h_ij     = softmax_j( SALIENCE^h[t_j] + PREFER^h[class(t_i), class(t_j)] + RECENCY^h[bucket(i-j)] )
+  a^h_ij     = softmax_j( SALIENCE^h[t_j] + PREFER^h[att(t_i), att(t_j)] + RECENCY^h[bucket(i-j)] )
   log q_i    = log_softmax(score_i)
 
 with every token-by-token table written as class defaults plus sparse exceptions:
 
-  FOLLOW(t, v)    = WORD[v] + CLASS_FOLLOW[class(t), class(v)] + EXCEPTION[t, v]
-  RECALL^h(s, v)  = CLASS_RECALL^h[class(s), class(v)] + COPY^h[class(s)] * [s == v] + EXCEPTION^h[s, v]
+  FOLLOW(t, v)    = WORD[v] + CLASS_FOLLOW[ctx(t), tgt(v)] + EXCEPTION[t, v]
+  RECALL^h(s, v)  = CLASS_RECALL^h[ctx(s), tgt(v)] + COPY^h[ctx(s)] * [s == v] + EXCEPTION^h[s, v]
+
+att, ctx and tgt are token -> class maps (buffers cls, ctx, tgt): ATTENTION, CONTEXT and TARGET classes of
+program/categories.py. Students of v1-v10 have one taxonomy (ctx = tgt = att); loading their checkpoints sets
+ctx and tgt to their cls.
 
 All tables are fitted by minimising KL(model || student) on TRAIN windows (analysis/fitlib.py),
 with an L1 penalty on the exceptions so that most of them are exactly zero after pruning.
@@ -35,22 +39,30 @@ def bucket_of_distance() -> np.ndarray:
 
 
 class Student(nn.Module):
-    def __init__(self, n_heads: int, class_of: np.ndarray, n_classes: int, self_votes: bool = True):
+    def __init__(self, n_heads: int, class_of: np.ndarray, n_classes: int, self_votes: bool = True,
+                 context_of: np.ndarray | None = None, target_of: np.ndarray | None = None):
+        """class_of / n_classes: ATTENTION classes (PREFER). context_of / target_of: row / column classes of the
+        FOLLOW and RECALL class tables (default class_of: one taxonomy for every role, as in v1-v10)."""
         super().__init__()
+        ctx = np.asarray(class_of if context_of is None else context_of)
+        tgt = np.asarray(class_of if target_of is None else target_of)
         self.H, self.K = n_heads, n_classes
+        self.Kr, self.Kc = int(ctx.max()) + 1, int(tgt.max()) + 1
         # 1.0: heads vote through the current token too; 0.0: a head that looks at the current token
         # casts no vote there (everything the current token says then lives in FOLLOW).
         self.register_buffer("self_votes", torch.tensor(1.0 if self_votes else 0.0))
         self.register_buffer("cls", torch.as_tensor(class_of, dtype=torch.long))
+        self.register_buffer("ctx", torch.as_tensor(ctx, dtype=torch.long))
+        self.register_buffer("tgt", torch.as_tensor(tgt, dtype=torch.long))
         self.word = nn.Parameter(torch.zeros(V))
-        self.class_follow = nn.Parameter(torch.zeros(n_classes, n_classes))
+        self.class_follow = nn.Parameter(torch.zeros(self.Kr, self.Kc))
         self.follow_exc = nn.Parameter(torch.zeros(V, V))
         self.salience = nn.Parameter(torch.zeros(n_heads, V))
         self.prefer = nn.Parameter(torch.zeros(n_heads, n_classes, n_classes))
         self.recency = nn.Parameter(torch.zeros(n_heads, len(BUCKET_START)))
         self.register_buffer("bucket", torch.as_tensor(bucket_of_distance(), dtype=torch.long))
-        self.class_recall = nn.Parameter(torch.zeros(n_heads, n_classes, n_classes))
-        self.copy = nn.Parameter(torch.zeros(n_heads, n_classes))
+        self.class_recall = nn.Parameter(torch.zeros(n_heads, self.Kr, self.Kc))
+        self.copy = nn.Parameter(torch.zeros(n_heads, self.Kr))
         self.recall_exc = nn.Parameter(torch.zeros(n_heads, V, V))
         # CONFIDENCE: per current token log inverse temperature; all votes at position i are multiplied by
         # exp(log_conf[t_i]) (stands in for the model's final-LayerNorm scale). Zero = neutral.
@@ -60,12 +72,10 @@ class Student(nn.Module):
         self.register_buffer("recall_mask", torch.ones(n_heads, V, V))
 
     def follow(self) -> torch.Tensor:
-        c = self.cls
-        return self.word[None, :] + self.class_follow[c][:, c] + self.follow_exc * self.follow_mask
+        return self.word[None, :] + self.class_follow[self.ctx][:, self.tgt] + self.follow_exc * self.follow_mask
 
     def recall(self, h: int) -> torch.Tensor:
-        c = self.cls
-        return (self.class_recall[h][c][:, c] + torch.diag(self.copy[h][c])
+        return (self.class_recall[h][self.ctx][:, self.tgt] + torch.diag(self.copy[h][self.ctx])
                 + self.recall_exc[h] * self.recall_mask[h])
 
     def attention(self, x: torch.Tensor) -> torch.Tensor:
@@ -85,6 +95,8 @@ class Student(nn.Module):
         sd = dict(state_dict)
         sd.setdefault("self_votes", torch.tensor(1.0))  # checkpoints from before the flag existed
         sd.setdefault("log_conf", torch.zeros(V))       # checkpoints from before CONFIDENCE existed
+        sd.setdefault("ctx", sd["cls"])                 # checkpoints from before CONTEXT / TARGET classes:
+        sd.setdefault("tgt", sd["cls"])                 # one taxonomy for every role
         return super().load_state_dict(sd, strict=strict, assign=assign)
 
     def vote_weights(self, a: torch.Tensor) -> torch.Tensor:
@@ -236,17 +248,18 @@ def make_nonredundant(st: Student, W: torch.Tensor, n_batches: int = 10, bs: int
     return abar
 
 
-def block_median(E: torch.Tensor, cls: torch.Tensor, K: int) -> torch.Tensor:
-    """(K, K) medians of E over blocks (class of row, class of column)."""
-    out = torch.zeros(K, K, dtype=E.dtype, device=E.device)
-    rows = [torch.nonzero(cls == k).flatten() for k in range(K)]
-    for a in range(K):
+def block_median(E: torch.Tensor, row_cls: torch.Tensor, col_cls: torch.Tensor, Kr: int, Kc: int) -> torch.Tensor:
+    """(Kr, Kc) medians of E over blocks (class of row token, class of column token)."""
+    out = torch.zeros(Kr, Kc, dtype=E.dtype, device=E.device)
+    rows = [torch.nonzero(row_cls == k).flatten() for k in range(Kr)]
+    cols = [torch.nonzero(col_cls == k).flatten() for k in range(Kc)]
+    for a in range(Kr):
         if len(rows[a]) == 0:
             continue
         Ea = E[rows[a]]
-        for b in range(K):
-            if len(rows[b]):
-                out[a, b] = Ea[:, rows[b]].median()
+        for b in range(Kc):
+            if len(cols[b]):
+                out[a, b] = Ea[:, cols[b]].median()
     return out
 
 
@@ -260,9 +273,11 @@ def recenter(st: Student, rounds: int = 3) -> None:
     reset entries to an arbitrary level. After polishing, zero means "the row's typical value" and pruning
     removes only real deviations. RECALL column effects are moved into WORD only when heads vote on the
     current token too (otherwise vote weights do not sum to 1 and the move is not exact).
+    Blocks are (CONTEXT class of the row token, TARGET class of the column token) and COPY's diagonal effects go
+    by CONTEXT class, exactly the structure of the class tables, so every move is exact.
     Idea and measurements: design-panel sparsify proposal (logs/compression_experiments.md)."""
     assert bool((st.follow_mask == 1).all()) and bool((st.recall_mask == 1).all()), "recenter a dense student"
-    cls, K = st.cls.cpu(), st.K
+    ctx, tgt, Kr, Kc = st.ctx.cpu(), st.tgt.cpu(), st.Kr, st.Kc
     recall_columns = float(st.self_votes) == 1.0
     E = st.follow_exc.detach().clone()
     for _ in range(rounds):
@@ -270,8 +285,8 @@ def recenter(st: Student, rounds: int = 3) -> None:
         k = E.median(0).values
         E -= k[None, :]
         st.word += k
-        b = block_median(E, cls, K)
-        E -= b[cls][:, cls]
+        b = block_median(E, ctx, tgt, Kr, Kc)
+        E -= b[ctx][:, tgt]
         st.class_follow += b
     st.follow_exc.copy_(E)
     for h in range(st.H):
@@ -282,16 +297,16 @@ def recenter(st: Student, rounds: int = 3) -> None:
                 k = R.median(0).values
                 R -= k[None, :]
                 st.word += k
-            b = block_median(R, cls, K)
-            R -= b[cls][:, cls]
+            b = block_median(R, ctx, tgt, Kr, Kc)
+            R -= b[ctx][:, tgt]
             st.class_recall[h] += b
             d = torch.diagonal(R).clone()
-            dc = torch.zeros(K, dtype=R.dtype)
-            for c in range(K):
-                m = cls == c
+            dc = torch.zeros(Kr, dtype=R.dtype)
+            for c in range(Kr):
+                m = ctx == c
                 if m.any():
                     dc[c] = d[m].median()
-            R -= torch.diag(dc[cls])
+            R -= torch.diag(dc[ctx])
             st.copy[h] += dc
         st.recall_exc[h].copy_(R)
 
@@ -416,17 +431,26 @@ def save_student(st: Student, path: str) -> None:
     torch.save(out, path)
 
 
+def student_like(sd: dict, n_heads: int) -> Student:
+    """An empty Student with the class maps stored in a state dict (cls; ctx and tgt if present)."""
+    cls = sd["cls"].numpy()
+    ctx = sd["ctx"].numpy() if "ctx" in sd else None
+    tgt = sd["tgt"].numpy() if "tgt" in sd else None
+    return Student(n_heads, cls, int(sd["prefer"].shape[1]), context_of=ctx, target_of=tgt)
+
+
 def load_student(path: str, class_of=None) -> Student:
-    """Load a Student saved by save_student, or a legacy dense state dict."""
-    if class_of is None:
-        from program.tables_lib import TOKEN_CLASS as class_of
+    """Load a Student saved by save_student, or a legacy dense state dict. The class maps are the checkpoint's
+    own (class_of is used only by checkpoints without a stored map)."""
     obj = torch.load(path, map_location="cpu")
     if obj.get("format") != "sparse-v1":
-        st = Student(obj["salience"].shape[0], class_of, int(np.max(class_of)) + 1)
+        if "cls" not in obj:
+            obj = dict(obj, cls=torch.as_tensor(class_of))
+        st = student_like(obj, obj["salience"].shape[0])
         st.load_state_dict(obj)
         return st
-    st = Student(obj["n_heads"], class_of, obj["n_classes"])
     sd = dict(obj["dense"])
+    st = student_like(sd, obj["n_heads"])
     for name, mask in (("follow_exc", "follow_mask"), ("recall_exc", "recall_mask")):
         shape = obj[name]["shape"]
         n = int(np.prod(shape))

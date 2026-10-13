@@ -90,9 +90,7 @@ def main() -> None:
                     help="batches of 16 windows used to estimate data importance (rare tokens need many)")
     args = ap.parse_args()
 
-    from program.tables_lib import TOKEN_CLASS
-
-    st = load_student(args.init, TOKEN_CLASS)
+    st = load_student(args.init)
     st.to(args.device)
     tgt = Target(args.model, args.device)
     W = torch.as_tensor(train_windows(args.n_windows))

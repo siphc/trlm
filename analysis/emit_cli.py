@@ -7,11 +7,10 @@ import torch
 
 from analysis.emit_program import emit
 from analysis.student import Student, load_student
-from program.tables_lib import TOKEN_CLASS
 
 ck, note = sys.argv[1], sys.argv[2]
 model = sys.argv[3] if len(sys.argv) > 3 else "attn_s0"
-st = load_student(ck, TOKEN_CLASS)
+st = load_student(ck)
 print(emit(st, model, note))
 r = subprocess.run([sys.executable, "-m", "analysis.check_emit", ck], capture_output=True, text=True)
 print(r.stdout, r.stderr[-1500:])
