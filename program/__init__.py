@@ -5,13 +5,14 @@ The whole algorithm, top-down (each step is one module):
   1. follow.py   Each token votes for what usually comes right after it, ignoring earlier context.
   2. head0-3.py  Four attention heads each look back over the text, pick out earlier tokens they
                  care about, and vote for next tokens related to those tokens.
-  3. The votes are added and turned into next-token probabilities with a softmax.
+  3. confidence.py  The summed votes are scaled by how sharp predictions are after the current token.
+  4. The scaled votes are turned into next-token probabilities with a softmax.
 
 Tables live in tables/; vocab.py and categories.py define the tokens and their word classes.
 """
 import numpy as np
 
-from . import follow, head0, head1, head2, head3
+from . import confidence, follow, head0, head1, head2, head3
 
 HEADS = [head0, head1, head2, head3]
 
@@ -23,7 +24,7 @@ def predict(tokens):
     score = follow.votes(tokens)
     for head in HEADS:
         score = score + head.votes(tokens)
-    return log_softmax(score)
+    return log_softmax(score * confidence.scale(tokens))
 
 
 def log_softmax(score):

@@ -52,6 +52,9 @@ class Student(nn.Module):
         self.class_recall = nn.Parameter(torch.zeros(n_heads, n_classes, n_classes))
         self.copy = nn.Parameter(torch.zeros(n_heads, n_classes))
         self.recall_exc = nn.Parameter(torch.zeros(n_heads, V, V))
+        # CONFIDENCE: per current token log inverse temperature; all votes at position i are multiplied by
+        # exp(log_conf[t_i]) (stands in for the model's final-LayerNorm scale). Zero = neutral.
+        self.log_conf = nn.Parameter(torch.zeros(V))
         # Masks fix pruned exceptions at zero during refits (1 = free, 0 = pruned).
         self.register_buffer("follow_mask", torch.ones(V, V))
         self.register_buffer("recall_mask", torch.ones(n_heads, V, V))
@@ -81,6 +84,7 @@ class Student(nn.Module):
     def load_state_dict(self, state_dict, strict: bool = True, assign: bool = False):
         sd = dict(state_dict)
         sd.setdefault("self_votes", torch.tensor(1.0))  # checkpoints from before the flag existed
+        sd.setdefault("log_conf", torch.zeros(V))       # checkpoints from before CONFIDENCE existed
         return super().load_state_dict(sd, strict=strict, assign=assign)
 
     def vote_weights(self, a: torch.Tensor) -> torch.Tensor:
@@ -96,6 +100,7 @@ class Student(nn.Module):
         for h in range(self.H):
             R = self.recall(h)
             score = score + a[:, h] @ R[x]
+        score = score * torch.exp(self.log_conf[x])[..., None]
         lp = torch.log_softmax(score, -1)
         return (lp, a) if return_attn else lp
 

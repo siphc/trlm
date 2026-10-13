@@ -142,6 +142,12 @@ def emit(st, model_id: str, note: str) -> dict:
                              "Exceptions: pair(RECALL, attended token, CLASS_OF_NEXT={next token: extra vote}).", class_of)
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write("\n".join(lines))
+    conf = sd.get("log_conf", np.zeros(len(TOKENS)))
+    lines = head + ["# Log scale factor for all votes after each current token (0 = unchanged, +0.69 = doubled).", ""]
+    lines += per_token_block("CONFIDENCE", conf, "CONFIDENCE[class][token]: votes are multiplied by exp(value).")
+    with open(os.path.join(tdir, "confidence.py"), "w") as f:
+        f.write("\n".join(lines))
+
     for h in range(H, 4):  # heads the student does not model add nothing
         with open(os.path.join(tdir, f"head{h}.py"), "w") as f:
             f.write(EMPTY_HEAD)
