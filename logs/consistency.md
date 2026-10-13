@@ -46,3 +46,15 @@ v7's heads are silent on the current token, so the matched model-side ablation i
 
 Reading: with matched definitions, every program head carries one third to one half of the model head's
 context effect; head 2 is the largest in both. The remaining KL is mostly missing context, worst for head 0.
+
+## 2026-10-12 — attn_s0, program v10 (tables of commit 3f06996), KL(model || program) = 0.4655 on 50 windows
+
+| head | model: whole head | model: earlier-token part | program self-effect | fidelity loss (mean-abl.) | fidelity loss (removed) |
+|---|---|---|---|---|---|
+| 0 | 3.0701 | 0.4692 | 0.1460 | 0.1466 | 0.1518 |
+| 1 | 0.4161 | 0.3830 | 0.1606 | 0.1655 | 0.1741 |
+| 2 | 1.5200 | 0.4923 | 0.2660 | 0.2705 | 0.2708 |
+| 3 | 0.5402 | 0.3365 | 0.1556 | 0.1605 | 0.1797 |
+
+Same pattern as v7: head 2 largest on both sides; program heads carry 31% (head 0), 42% (head 1), 54% (head 2) and
+46% (head 3) of the model heads' earlier-token effect.
