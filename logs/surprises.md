@@ -76,3 +76,16 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - Resuming attn_s1 on MPS crashed: `torch.load(..., map_location="mps")` moves the saved CPU RNG state to
   the GPU and `torch.set_rng_state` rejects it. The resume sanity test only covered CPU. Fixed (`.cpu()`),
   and the test now runs on MPS too (weights agree within 1e-4).
+
+## 2026-10-12 — Compression (phase 5)
+
+- The pruning *ranking rule* was the dominant problem, not the schedule: first-order "data importance" (linear in
+  attention mass) overvalued the diffuse head 1 by ~1/a; the second-order Fisher cost 0.5 w^2 sum a^2 q(1-q) took
+  60k exceptions from 0.844 to 0.514 (v6 -> v7).
+- The tables have exact gauge freedoms (row constants, column/class/diagonal effects). Re-centring them losslessly
+  before pruning is worth 0.58 nats at a no-refit cut, 0.12 after a short refit, and 0.019 after the full gradual
+  schedule at 60k — but 0.045-0.049 at 256k-1.1M, where 1.78M entries match the dense student.
+- The same add-back swap protocol flips sign between v8 (-0.0068) and v9 (+0.0017).
+- dev_fast tracks held-out TRAIN KL within +0.002 to +0.003 for v7-v10 (v4/v5: +0.01).
+- Machine pressure: the disk filled (7.2 GB of per-round 160 MB checkpoints, plus agents' scratch); now saved
+  sparsely (~1 MB per pruned student).
