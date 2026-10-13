@@ -156,26 +156,38 @@ def load_model(model_id: str):
     return _load(model_path(model_id), "cpu")
 
 
-def model_logprobs(model, windows: np.ndarray, bs: int = 25, ablate_heads=(), ablation="zero"):
+def model_logprobs(model, windows: np.ndarray, bs: int = 25, ablate_heads=(), ablation="zero", means=None):
     """fp32 log-probs of shape (n, T, VOCAB) for windows (n, >=T). Inputs are windows[:, :CTX].
 
-    ablate_heads: iterable of head indices (block 0) whose output is replaced before the output
-    projection, by zero (ablation="zero").
+    ablate_heads: iterable of head indices (block 0) whose output z_h (before the output projection) is
+    replaced:
+      ablation="zero":    z_h = 0
+      ablation="mean":    z_h = means["z"][h], its mean over reference windows (see head_means)
+      ablation="earlier": z_h(i) = a_ii v_i + means["ctx"][h]: keep the head's current-token part, replace the
+                          part coming from earlier tokens by its mean (see head_means)
+    Mean and earlier-token ablation were added 2026-10-12 with human approval (logs/decisions.md).
     """
     import torch
 
     torch.set_num_threads(min(8, os.cpu_count() or 1))
+    if ablate_heads and ablation == "earlier":
+        return _logprobs_earlier_ablated(model, windows, list(ablate_heads), means["ctx"], bs)
     out = []
     handle = None
     if ablate_heads:
         H, Dh = model.cfg.n_heads, model.cfg.d_head
         heads = list(ablate_heads)
+        if ablation == "mean":
+            fill = torch.as_tensor(np.asarray(means["z"]), dtype=torch.float32)
+        elif ablation != "zero":
+            raise ValueError(ablation)
 
         def pre_hook(mod, args):
             z = args[0].clone()
             B, T, D = z.shape
             z = z.view(B, T, H, Dh)
-            z[:, :, heads, :] = 0.0
+            for h in heads:
+                z[:, :, h, :] = 0.0 if ablation == "zero" else fill[h]
             return (z.view(B, T, D),)
 
         handle = model.blocks[0].attn.out.register_forward_pre_hook(pre_hook)
@@ -187,6 +199,72 @@ def model_logprobs(model, windows: np.ndarray, bs: int = 25, ablate_heads=(), ab
     finally:
         if handle is not None:
             handle.remove()
+    return np.concatenate(out).astype(np.float64)
+
+
+def _attention_parts(model, x):
+    """Explicit block-0 attention for a batch x (B, T): returns (x0, z, selfpart) with z = sum_j a_ij v_j and
+    selfpart = a_ii v_i, both (B, T, H, Dh). Mirrors src/train/model.py exactly (pre-LN, no biases)."""
+    import math
+
+    import torch
+
+    blk = model.blocks[0]
+    B, T = x.shape
+    H, Dh, D = model.cfg.n_heads, model.cfg.d_head, model.cfg.d_model
+    x0 = model.wte(x) + model.wpe(torch.arange(T))[None]
+    q, k, v = blk.attn.qkv(blk.ln1(x0)).split(D, dim=-1)
+    q = q.view(B, T, H, Dh).transpose(1, 2)
+    k = k.view(B, T, H, Dh).transpose(1, 2)
+    v = v.view(B, T, H, Dh).transpose(1, 2)
+    sc = (q @ k.transpose(-2, -1)) / math.sqrt(Dh)
+    sc = sc.masked_fill(~torch.ones(T, T, dtype=torch.bool).tril(), float("-inf"))
+    a = sc.softmax(-1)                                                     # (B, H, T, T)
+    z = (a @ v).transpose(1, 2)                                            # (B, T, H, Dh)
+    selfpart = (torch.diagonal(a, dim1=-2, dim2=-1)[..., None] * v).transpose(1, 2)
+    return x0, z, selfpart
+
+
+def _finish(model, x0, z):
+    blk = model.blocks[0]
+    B, T = z.shape[:2]
+    h = x0 + blk.attn.out(z.reshape(B, T, -1))
+    if blk.mlp is not None:
+        h = h + blk.mlp(blk.ln2(h))
+    return model.ln_f(h) @ model.wte.weight.T
+
+
+def head_means(model, windows: np.ndarray, bs: int = 25) -> dict:
+    """Means over all positions of `windows` of each head's output z_h and of its earlier-token part
+    z_h - a_ii v_i; used by mean and earlier-token ablation. Returns {"z": (H, Dh), "ctx": (H, Dh)}."""
+    import torch
+
+    acc_z = acc_c = None
+    n = 0
+    with torch.no_grad():
+        for i in range(0, len(windows), bs):
+            x = torch.as_tensor(np.asarray(windows[i : i + bs])[:, :CTX].astype(np.int64))
+            _, z, sp = _attention_parts(model, x)
+            sz, sc = z.double().sum((0, 1)), (z - sp).double().sum((0, 1))
+            acc_z = sz if acc_z is None else acc_z + sz
+            acc_c = sc if acc_c is None else acc_c + sc
+            n += x.numel()
+    return {"z": (acc_z / n).float().numpy(), "ctx": (acc_c / n).float().numpy()}
+
+
+def _logprobs_earlier_ablated(model, windows, heads, mean_ctx, bs):
+    import torch
+
+    out = []
+    mc = torch.as_tensor(np.asarray(mean_ctx), dtype=torch.float32)
+    with torch.no_grad():
+        for i in range(0, len(windows), bs):
+            x = torch.as_tensor(np.asarray(windows[i : i + bs])[:, :CTX].astype(np.int64))
+            x0, z, sp = _attention_parts(model, x)
+            z = z.clone()
+            for h in heads:
+                z[:, :, h, :] = sp[:, :, h, :] + mc[h]
+            out.append(torch.log_softmax(_finish(model, x0, z).float(), -1).numpy())
     return np.concatenate(out).astype(np.float64)
 
 

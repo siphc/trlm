@@ -100,3 +100,28 @@ def test_good_program_passes_causality(tmp_path):
     wins = np.load(os.path.join(REPO, "data", "eval", "dev_fast.npy"))[:1]
     with ProgramRunner(_write_program(tmp_path, GOOD)) as r:
         causality_check(r, wins, np.random.default_rng(0))
+
+
+def test_ablation_modes():
+    """Explicit attention reproduces the model; mean/earlier ablation with no heads is the identity; with a
+    head they change the output, earlier-token ablation less than whole-head mean ablation for local heads."""
+    from harness.common import _attention_parts, _finish, head_means, model_logprobs, eval_windows
+    import torch
+    path = os.path.join(REPO, "models", "final", "attn_s0", "final.pt")
+    if not os.path.exists(path):
+        pytest.skip("attn_s0 not trained")
+    from harness.common import load_model
+    m = load_model("attn_s0")
+    W = eval_windows("claims")[:4]
+    x = torch.as_tensor(W[:, :256].astype(np.int64))
+    with torch.no_grad():
+        x0, z, sp = _attention_parts(m, x)
+        assert torch.allclose(_finish(m, x0, z), m(x), atol=1e-4)
+    full = model_logprobs(m, W)
+    means = head_means(m, eval_windows("claims")[:20])
+    for mode in ("mean", "earlier"):
+        assert np.allclose(model_logprobs(m, W, ablate_heads=(), ablation=mode, means=means), full)
+    kl = lambda a, b: float((np.exp(a) * (a - b)).sum(-1).mean())
+    k_mean = kl(full, model_logprobs(m, W, ablate_heads=(0,), ablation="mean", means=means))
+    k_earl = kl(full, model_logprobs(m, W, ablate_heads=(0,), ablation="earlier", means=means))
+    assert k_mean > k_earl > 0.0
