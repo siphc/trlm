@@ -11662,3 +11662,6 @@ pair(RECALL, 'Finally',
          ' loved': -10.35, ' liked': -9.74,
      },
 )
+
+# True: heads also vote through the current token (v6 behaviour).
+SELF_VOTES = True

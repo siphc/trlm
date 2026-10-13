@@ -126,6 +126,9 @@ def emit(st, model_id: str, note: str) -> dict:
         pref = sd["prefer"][h] - np.median(sd["prefer"][h], axis=1, keepdims=True)
         rec = sd["recency"][h] - sd["recency"][h].max()
         lines = head + ["from ..tables_lib import pair", ""]
+        sv = bool(float(sd.get("self_votes", np.array(1.0))) != 0.0)
+        lines += ["# False: a head looking at the current token casts no vote there (see attention.py).",
+                  f"SELF_VOTES = {sv}", ""]
         lines += [f"# Distance buckets: bucket b covers distances [RECENCY_BUCKET_START[b], RECENCY_BUCKET_START[b + 1]).",
                   f"RECENCY_BUCKET_START = {BUCKET_START!r}",
                   "# How much the head prefers a position at that distance (0 = most preferred).",
@@ -146,6 +149,7 @@ def emit(st, model_id: str, note: str) -> dict:
 
 
 EMPTY_HEAD = '''"""Empty tables: this head adds nothing in this version of the program."""
+SELF_VOTES = True
 RECENCY_BUCKET_START = [0]
 RECENCY = [0.0]
 SALIENCE = {}

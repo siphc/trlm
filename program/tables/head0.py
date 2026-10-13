@@ -7352,3 +7352,6 @@ pair(RECALL, ' Jim',
          'Lily': -13.32,
      },
 )
+
+# True: heads also vote through the current token (v6 behaviour).
+SELF_VOTES = True

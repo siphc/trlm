@@ -35,9 +35,12 @@ def bucket_of_distance() -> np.ndarray:
 
 
 class Student(nn.Module):
-    def __init__(self, n_heads: int, class_of: np.ndarray, n_classes: int):
+    def __init__(self, n_heads: int, class_of: np.ndarray, n_classes: int, self_votes: bool = True):
         super().__init__()
         self.H, self.K = n_heads, n_classes
+        # 1.0: heads vote through the current token too; 0.0: a head that looks at the current token
+        # casts no vote there (everything the current token says then lives in FOLLOW).
+        self.register_buffer("self_votes", torch.tensor(1.0 if self_votes else 0.0))
         self.register_buffer("cls", torch.as_tensor(class_of, dtype=torch.long))
         self.word = nn.Parameter(torch.zeros(V))
         self.class_follow = nn.Parameter(torch.zeros(n_classes, n_classes))
@@ -75,8 +78,20 @@ class Student(nn.Module):
         s = s.masked_fill(dist < 0, float("-inf"))
         return torch.softmax(s, -1)
 
+    def load_state_dict(self, state_dict, strict: bool = True, assign: bool = False):
+        sd = dict(state_dict)
+        sd.setdefault("self_votes", torch.tensor(1.0))  # checkpoints from before the flag existed
+        return super().load_state_dict(sd, strict=strict, assign=assign)
+
+    def vote_weights(self, a: torch.Tensor) -> torch.Tensor:
+        """Attention weights used for voting: the diagonal is removed when heads are silent on self."""
+        if float(self.self_votes) == 0.0:
+            n = a.shape[-1]
+            return a * (1.0 - torch.eye(n, device=a.device, dtype=a.dtype))
+        return a
+
     def forward(self, x: torch.Tensor, return_attn: bool = False):
-        a = self.attention(x)
+        a = self.vote_weights(self.attention(x))
         score = self.follow()[x]
         for h in range(self.H):
             R = self.recall(h)
@@ -154,7 +169,7 @@ def data_importance(st: Student, W: torch.Tensor, n_batches: int = 40, bs: int =
     g = torch.Generator().manual_seed(seed)
     for _ in range(n_batches):
         x = W[torch.randint(0, len(W), (bs,), generator=g), :T].to(dev)
-        lp, a = st(x, return_attn=True)
+        lp, a = st(x, return_attn=True)                                  # a = vote weights
         q = lp.exp()                                                     # (B, T, V)
         S_f.index_add_(0, x.reshape(-1), q.reshape(-1, V))
         for h in range(st.H):
@@ -166,6 +181,54 @@ def data_importance(st: Student, W: torch.Tensor, n_batches: int = 40, bs: int =
 
     return imp(st.follow_exc * st.follow_mask, S_f), torch.stack(
         [imp(st.recall_exc[h] * st.recall_mask[h], S_r[h]) for h in range(st.H)])
+
+
+@torch.no_grad()
+def fisher_importance(st: Student, W: torch.Tensor, n_batches: int = 40, bs: int = 16, seed: int = 11):
+    """Second-order cost of dropping each exception at a fitted optimum: 0.5 * w^2 * F, with
+    F_FOLLOW(t, v) = sum over positions i with t_i = t of q_i(v) (1 - q_i(v)) and
+    F_RECALL^h(s, v) = sum_i sum_{j: t_j = s} (a^h_ij)^2 q_i(v) (1 - q_i(v))   (vote weights a).
+    Linear-in-attention rankings overvalue diffuse heads by about 1/a (logs/dead_ends.md, v5)."""
+    dev = st.cls.device
+    F_f = torch.zeros(V, V, device=dev)
+    F_r = torch.zeros(st.H, V, V, device=dev)
+    g = torch.Generator().manual_seed(seed)
+    for _ in range(n_batches):
+        x = W[torch.randint(0, len(W), (bs,), generator=g), :T].to(dev)
+        lp, a = st(x, return_attn=True)
+        q = lp.exp()
+        qq = q * (1 - q)
+        F_f.index_add_(0, x.reshape(-1), qq.reshape(-1, V))
+        for h in range(st.H):
+            m = (a[:, h] ** 2).transpose(1, 2) @ qq
+            F_r[h].index_add_(0, x.reshape(-1), m.reshape(-1, V))
+    wf = st.follow_exc * st.follow_mask
+    wr = st.recall_exc * st.recall_mask
+    return 0.5 * wf ** 2 * F_f, 0.5 * wr ** 2 * F_r
+
+
+@torch.no_grad()
+def make_nonredundant(st: Student, W: torch.Tensor, n_batches: int = 10, bs: int = 16, seed: int = 13) -> torch.Tensor:
+    """Move each head's average vote through the current token into FOLLOW and silence heads on self.
+    abar^h(t) = mean self-attention weight of head h when the current token is t (on W); then
+    AFTER(t, v) += sum_h abar^h(t) * RECALL^h(t, v). Returns abar (H, V)."""
+    dev = st.cls.device
+    S = torch.zeros(st.H, V, device=dev)
+    C = torch.zeros(V, device=dev)
+    g = torch.Generator().manual_seed(seed)
+    for _ in range(n_batches):
+        x = W[torch.randint(0, len(W), (bs,), generator=g), :T].to(dev)
+        a = st.attention(x)                                                # (B, H, T, T)
+        diag = torch.diagonal(a, dim1=-2, dim2=-1)                         # (B, H, T)
+        for h in range(st.H):
+            S[h].index_add_(0, x.reshape(-1), diag[:, h].reshape(-1))
+        C.index_add_(0, x.reshape(-1), torch.ones(x.numel(), device=dev))
+    abar = S / C.clamp(min=1)[None, :]
+    add = sum(abar[h][:, None] * st.recall(h) for h in range(st.H))
+    st.follow_exc.add_(add)
+    st.follow_mask.fill_(1.0)
+    st.self_votes.fill_(0.0)
+    return abar
 
 
 def prune_global(st: Student, n_total: int, W: torch.Tensor) -> dict:

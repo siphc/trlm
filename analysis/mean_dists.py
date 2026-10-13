@@ -28,6 +28,7 @@ def main() -> None:
     ap.add_argument("--model", required=True)
     ap.add_argument("--n", type=int, default=4000)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--out_name", default="mean_dists.npz")
     args = ap.parse_args()
     torch.set_num_threads(4)
     tgt = Target(args.model, args.device)
@@ -59,7 +60,7 @@ def main() -> None:
     ent = H / N
     out = os.path.join(REPO, "analysis", "out", model_name(args.model))
     os.makedirs(out, exist_ok=True)
-    np.savez(os.path.join(out, "mean_dists.npz"), uni=uni.numpy(), big=big.numpy(), pos=pos.numpy(),
+    np.savez(os.path.join(out, args.out_name), uni=uni.numpy(), big=big.numpy(), pos=pos.numpy(),
              count=cnt.numpy())
     print(f"model entropy {ent:.4f} nats/token over {N:,} train tokens")
     print(f"KL(model || mean unigram)            {cross_uni - ent:.4f}")

@@ -24741,3 +24741,6 @@ pair(RECALL, ' Emma',
          'Mia': -10.94, 'Sara': -10.91, 'Tom': -10.39, 'Anna': -9.91, 'Ben': -9.83,
      },
 )
+
+# True: heads also vote through the current token (v6 behaviour).
+SELF_VOTES = True

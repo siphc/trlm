@@ -9,7 +9,9 @@ votes for next tokens v with RECALL(s, v):
 
     CLASS_RECALL[class of s][class of v]  +  COPY[class of s] if v == s  +  RECALL exceptions (s, v)
 
-The head's contribution at position i is the attention-weighted sum of those votes.
+The head's contribution at position i is the attention-weighted sum of those votes. When the head's
+tables say SELF_VOTES = False, a head that looks at the current token casts no vote there: everything the
+current token says is in follow.py, and the head only passes on what earlier tokens say.
 """
 import numpy as np
 
@@ -27,6 +29,7 @@ class Head:
         copy = per_class(tables.COPY)[TOKEN_CLASS]
         self.recall = (expand_classes(class_by_class(tables.CLASS_RECALL)) + np.diag(copy)
                        + pairs_matrix(tables.RECALL))
+        self.self_votes = tables.SELF_VOTES
 
     def weights(self, tokens):
         """Attention weights, shape (n, n); row i sums to 1 over j <= i."""
@@ -42,7 +45,10 @@ class Head:
 
     def votes(self, tokens):
         """Scores added at each position, shape (n, VOCAB_SIZE)."""
-        return self.weights(tokens) @ self.recall[tokens]
+        w = self.weights(tokens)
+        if not self.self_votes:
+            np.fill_diagonal(w, 0.0)
+        return w @ self.recall[tokens]
 
 
 assert VOCAB_SIZE == 2000

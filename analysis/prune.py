@@ -9,7 +9,7 @@ entries before the next cut. Every round's held-out KL is logged, which traces f
       --target 60000 --rounds 8 --refit_steps 300 --tag gp60k
 
 Ranking (--rank): "data" = first-order data importance with the full program (student.data_importance);
-"magnitude" = |w|. FOLLOW and RECALL compete for one global budget unless --follow_share is given.
+"fisher" = 0.5 w^2 F (second order, student.fisher_importance); "magnitude" = |w|. FOLLOW and RECALL compete for one global budget unless --follow_share is given.
 """
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ import numpy as np
 import torch
 
 from analysis.fitlib import REPO, Target, model_name, train_windows
-from analysis.student import Student, data_importance, evaluate, fit
+from analysis.student import Student, data_importance, evaluate, fisher_importance, fit, make_nonredundant
 
 
 def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | None,
@@ -30,6 +30,8 @@ def apply_budget(st: Student, n_keep: int, W, rank: str, follow_share: float | N
     with torch.no_grad():
         if rank == "data":
             i_f, i_r = data_importance(st, W, n_batches=importance_batches)
+        elif rank == "fisher":
+            i_f, i_r = fisher_importance(st, W, n_batches=importance_batches)
         else:
             i_f = (st.follow_exc * st.follow_mask).abs()
             i_r = (st.recall_exc * st.recall_mask).abs()
@@ -69,7 +71,10 @@ def main() -> None:
     ap.add_argument("--final_refit_steps", type=int, default=1000)
     ap.add_argument("--lr", type=float, default=0.006)
     ap.add_argument("--bs", type=int, default=16)
-    ap.add_argument("--rank", default="data", choices=["data", "magnitude"])
+    ap.add_argument("--rank", default="data", choices=["data", "fisher", "magnitude"])
+    ap.add_argument("--nonredundant", action="store_true",
+                    help="first move heads' current-token votes into FOLLOW and silence heads on self")
+    ap.add_argument("--freeze_attention", action="store_true", help="refits keep attention tables fixed")
     ap.add_argument("--follow_share", type=float, default=None)
     ap.add_argument("--n_windows", type=int, default=8000)
     ap.add_argument("--device", default="mps")
@@ -88,6 +93,9 @@ def main() -> None:
     tgt = Target(args.model, args.device)
     W = torch.as_tensor(train_windows(args.n_windows))
     W_hold = torch.as_tensor(train_windows(200, seed=2000))
+    if args.nonredundant:
+        make_nonredundant(st, W)
+        print(f"non-redundant transform: holdout KL {evaluate(st, tgt, W_hold):.4f}", flush=True)
     n0 = int(st.follow_mask.sum() + st.recall_mask.sum())
     budgets = np.geomspace(n0, args.target, args.rounds + 1)[1:].round().astype(int)
     log = {"init": args.init, "target": args.target, "rank": args.rank, "rounds": [],
@@ -99,7 +107,7 @@ def main() -> None:
         kl_cut = evaluate(st, tgt, W_hold)
         steps = args.final_refit_steps if r == len(budgets) - 1 else args.refit_steps
         fit(st, args.model, steps=steps, bs=args.bs, lr=args.lr, device=args.device, tgt=tgt, W=W,
-            log_every=10**9, seed=100 + r)
+            log_every=10**9, seed=100 + r, freeze_attention=args.freeze_attention)
         kl_refit = evaluate(st, tgt, W_hold)
         row = {"round": r, "budget": int(b), "kept": kept, "kl_after_cut": kl_cut, "kl_after_refit": kl_refit,
                "t": time.time() - t0}
