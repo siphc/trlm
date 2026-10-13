@@ -1,0 +1,3 @@
+non-redundant transform: holdout KL 0.2496
+recentred: holdout KL 0.2496 -> 0.2496
+start: 20,000,000 exceptions, holdout KL 0.2496
