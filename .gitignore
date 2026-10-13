@@ -8,3 +8,4 @@ analysis/out/**/*.pt
 analysis/out/**/*.npz
 *.zip
 analysis/scratch/
+.claude/
