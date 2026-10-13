@@ -21,14 +21,14 @@ CLAIM (the abstention rule; all four heads have SELF_VOTES = False; tests/test_a
   times the attention-weighted average of what the earlier tokens say.
   - At the first token of a text there is nothing earlier, so every head abstains fully and the
     prediction there is exactly FOLLOW alone.
-  - On held-out text the heads abstain on 52% (head 0), 29% (head 1), 36% (head 2) and 37% (head 3)
+  - On held-out text the heads abstain on 58% (head 0), 28% (head 1), 36% (head 2) and 30% (head 3)
     of their attention, at positions after the first (checked in tests/test_head0.py ... test_head3.py).
   - The rule matters: letting the heads also vote with the current token (counting it twice, once in
-    FOLLOW and once in the heads) would raise the KL to the model from 0.47 to 1.89 nats, with the same
+    FOLLOW and once in the heads) would raise the KL to the model from 0.45 to 1.63 nats, with the same
     tables (they were fitted with SELF_VOTES = False and are not refitted for this comparison).
-  - Model: its heads 0 and 2 put about as much attention on the current token (49%, 34%) as program
-    heads 0 and 2 abstain, but there that attention carries the current token's own vote. Model heads
-    1 and 3 look at the current token less (4% and 19%).
+  - Model: its heads 0 and 2 also put much of their attention on the current token (49%, 34%), but
+    there that attention carries the current token's own vote. Model heads 1 and 3 look at the current
+    token less (4% and 19%) than program heads 1 and 3 abstain (28%, 30%).
 """
 import numpy as np
 

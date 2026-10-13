@@ -12,9 +12,9 @@ Tables live in tables/; vocab.py and categories.py define the tokens and their w
 CLAIM (measured on 200 held-out text windows by analysis/claims_measure.py, checked by
 tests/test_program.py; tests/measurements.py defines every quantity used in the CLAIMs):
   - The scores are exactly FOLLOW plus the four heads' votes; step 3 adds nothing else.
-  - The program's next-token distribution is 0.47 nats (KL) from the model's, and its top token is
+  - The program's next-token distribution is 0.45 nats (KL) from the model's, and its top token is
     the model's top token 69% of the time.
-  - FOLLOW alone is 1.40 nats from the model (top-1 34%). The four heads remove 0.93 nats of that,
+  - FOLLOW alone is 1.39 nats from the model (top-1 34%). The four heads remove 0.94 nats of that,
     two thirds.
 """
 import numpy as np

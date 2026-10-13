@@ -28,9 +28,8 @@ sys.path.insert(0, os.path.join(REPO, "program", "tests"))
 FOLLOW_EXAMPLES = [" upon", "Once", " wanted", " couldn", " named", " time", " Lily"]
 LINKER_EXAMPLES = [" and", ",", " to", " of", " with"]
 # The phrase examples quoted in the head docstrings: (text, next token, head).
-PHRASE_EXAMPLES = [("She had a proble", "m", 0),
-                   ("Once upon a time, there was a little girl. She was very tired. She closed her", " eyes", 2),
-                   ("He closed his", " eyes", 2),
+PHRASE_EXAMPLES = [("He had a new shir", "t", 0),
+                   ("The moral of the", " story", 2),
                    ("Tim said,", ' "', 2),
                    ("He likes to run and", " jump", 3)]
 
@@ -118,7 +117,10 @@ def print_numbers(Mc: dict, Mt: dict | None) -> None:
                + [f"head{h}.abstain" for h in range(4)]),
               ("follow.py", ["kl_follow", "top1_follow", "exceptions_cost", "heads_gain", "upon_n",
                              "upon_follow_matches_model", "upon_model_top_is_a", "upon_kl_follow",
-                             "upon_follow_p_a"]),
+                             "upon_follow_p_a", "class_follow_cost"]
+                             + [f"{name}_{key}" for name, short in (("wanted", "to"), ("once", "upon"))
+                                for key in ("n", "follow_matches_model", f"model_top_is_{short}", "kl_follow",
+                                            "kl", f"follow_p_{short}", f"model_p_{short}", f"p_{short}")]),
               ("position splits", ["recall_share", "recall_top1", "recall_top1_follow", "inside_word_share",
                                    "after_speech_verb_share", "after_linker_share", "said_comma_n",
                                    "said_comma_model_quote", "said_comma_p_quote", "name_token_share"])]

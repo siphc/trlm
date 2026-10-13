@@ -5,9 +5,9 @@ TinyStories language model (4 heads, vocabulary of 2000 tokens), without using t
 Entry point: `predict(tokens)` in `__init__.py`. Row `i` of its output is the distribution after
 `tokens[: i + 1]`.
 
-Fidelity (harness, KL(model ‖ program) in nats per token): **0.465** on dev_fast, 0.463 on dev_full
-(2000 windows), 0.488 on text sampled from the model itself. The program's top token is the model's top
-token 69% of the time.
+Fidelity (harness, KL(model ‖ program) in nats per token): **0.452** on dev_fast (200 windows); the
+program's top token is the model's top token 70% of the time. This version (v11) has not yet been measured
+on dev_full or on text sampled from the model (v10: 0.463 on dev_full, 0.488 on model samples).
 
 ## The algorithm, top-down
 
@@ -32,19 +32,19 @@ score_i[v] = FOLLOW(t_i, v)                                   follow.py
 `context(t)`, `target(v)` and `attention(t)` are a token's class in the three class systems below; each table
 file in `tables/` names the systems it uses.
 
-## What each part does (numbers measured on the program; see each module's CLAIM)
+## What each part does (numbers measured on the program, 200 held-out windows; see each module's CLAIM)
 
 | part | one-sentence role | removal cost* | top-1 after removal | model's matching head** |
 |---|---|---|---|---|
-| FOLLOW (`follow.py`) | the guess from the current token alone; alone it is 1.40 nats from the model | exceptions: +1.43 | — | heads 0 and 2 attending to the current token, plus the direct path |
-| head 0 | passes on the last few tokens; matters most inside words split into pieces | +0.15 | 69% → 63% | carries 32% of model head 0's context effect |
-| head 1 | recalls words from far back (mean distance 34) and votes to repeat them | +0.18 | at recall positions 59% → 36% | 42% of model head 1's |
-| head 2 | reads the last few words; opens a quote after "said," | +0.27 | 69% → 56% | 55% of model head 2's |
-| head 3 | carries a phrase across linking words, above all after " to" and " of" | +0.16 | 69% → 61% | 49% of model head 3's |
+| FOLLOW (`follow.py`) | the guess from the current token alone; alone it is 1.39 nats from the model | exceptions: +0.89 | — | heads 0 and 2 attending to the current token, plus the direct path |
+| head 0 | passes on the last few tokens; matters most inside words split into pieces | +0.15 | 69% → 63% | carries 33% of model head 0's context effect |
+| head 1 | recalls words from far back (mean distance 34) and votes to repeat them | +0.18 | at recall positions 60% → 38% | 44% of model head 1's |
+| head 2 | completes phrases from the last few words; opens a quote after "said," | +0.19 | 69% → 60% | 39% of model head 2's |
+| head 3 | carries a phrase across linking words such as " and", " of" and " to" | +0.21 | 69% → 58% | 64% of model head 3's |
 
 \* Increase of KL(model ‖ program) when the part's votes are replaced by their average (for FOLLOW: when its
-token-pair exceptions are). Heads 2 and 3 overlap, so single-head costs do not add up. All four heads
-together remove 0.93 of FOLLOW alone's 1.40 nats.
+token-pair exceptions are; for its class table CLASS_FOLLOW the increase is 0.75). Heads 2 and 3 overlap, so
+single-head costs do not add up. All four heads together remove 0.94 of FOLLOW alone's 1.39 nats.
 \*\* Share of the KL change from ablating only the earlier-token part of the model head (harness
 `claims.model_logprobs(..., ablation="earlier")`); details in `logs/consistency.md`.
 
@@ -73,7 +73,7 @@ together remove 0.93 of FOLLOW alone's 1.40 nats.
   holds more than 64 numbers.
 - Exception rows are in order of importance (estimated KL cost of removing the row), boosts before
   suppressions. Each FOLLOW row carries a comment with the top probabilities FOLLOW alone gives after that
-  token, e.g. `# after '<|eos|>' (FOLLOW alone): 'Once' 55%, 'Lily' 8%, 'One' 7%`.
+  token, e.g. `# after '<|eos|>' (FOLLOW alone): 'Once' 35%, 'One' 13%, 'Lily' 11%`.
 - Head votes act through attention weights. Each head file states its abstention share and the typical
   weight of an attended earlier token; for head 1 that weight is 0.04, so its large-looking COPY and
   RECALL values (10-20 nats) add about 0.4-0.8 nats where they apply.
@@ -92,15 +92,20 @@ history, dead ends and the fidelity-vs-size curve are in `logs/compression_exper
 
 | token-pair exceptions | 10k | 17k | 30k | 51k | **60k (this program)** | 158k | 256k |
 |---|---|---|---|---|---|---|---|
-| dev_fast KL | 0.812 | 0.703 | 0.593 | 0.506 | **0.465** | 0.371 | 0.328 |
+| dev_fast KL | 0.812 | 0.703 | 0.593 | 0.506 | **0.452** | 0.371 | 0.328 |
 
-The class tables and attention tables cost about 46k numbers on top of the exceptions (105k numbers in
+Only the 60k point is this version (v11). The other points come from earlier runs (v9 recipe, one class
+system for rows and columns); v10, this program with that single class system, had 0.465 at 60k.
+
+The class tables and attention tables cost about 47k numbers on top of the exceptions (107k numbers in
 total at 60k exceptions).
 
 ## Known gaps
 
-- The program heads carry 32-55% of the model heads' context effect; most of the remaining KL is missing
+- The program heads carry 33-64% of the model heads' context effect; most of the remaining KL is missing
   context, worst for head 0.
+- Some work sits in a different head than in the model: inside split words the model leans most on its
+  head 2, the program on head 0; ' eyes' after 'He closed his' comes from model head 2 but program head 3.
 - Class-level votes cannot tell `' She'` from `' He'` or one name from another unless an exception says so.
 - Model heads 1 and 3 rarely look at the current token (4%, 19%), but the program's heads 1 and 3 abstain
-  on 29% and 37% of their attention.
+  on 28% and 30% of their attention.

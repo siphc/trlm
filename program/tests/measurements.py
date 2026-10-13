@@ -18,6 +18,11 @@ Attention numbers average over positions 1..255 (position 0 has no earlier token
   cost               KL(model || program with the component's votes replaced by their average) minus
                      KL(model || program). Averages are over all positions of the 200 claim windows
                      ("mean-ablation"; it removes what the component adds beyond a fixed vote).
+                     FOLLOW's parts: exceptions cost (its AFTER token-pair exceptions), class table cost
+                     (its CLASS_FOLLOW part).
+  cost with head g removed
+                     the cost of head h in a program whose head g is already mean-ablated: KL with both
+                     mean-ablated minus KL with head g mean-ablated (measured for the pair 2, 3)
   model cost         KL(model || model with head h's earlier-token part mean-ablated), from
                      claims.model_logprobs(..., ablation="earlier"). This is the matching model-side
                      number: program heads are silent on the current token, so only the model head's
@@ -32,6 +37,13 @@ Attention numbers average over positions 1..255 (position 0 has no earlier token
                      ATTENTION class of categories.py)
   'said,' positions  after a speech verb and the current token is ','
   after a linker     the current token is in LINKERS (' and', ',', ' to', ' of', ...)
+  after ' and'       the current token is ' and' (likewise ',', ' to', ' of': cost_after_and, _comma,
+                     _to, _of)
+  phrase positions   positions whose current token is ' upon', ' wanted' or 'Once' (FOLLOW_PHRASES); p is
+                     the probability of the phrase's next token (' a', ' to', ' upon'), averaged over them
+  phrase()           one short synthetic text: the probability of a given next token after it, from the
+                     program with all votes and with one head mean-ablated, and from the model with all
+                     heads and with that head's earlier-token part mean-ablated
   self vote          median, over the tokens s seen in the windows, of RECALL(s, s) minus the median of
                      RECALL(s, v) over the other tokens v of s's TARGET class: how much more a token the
                      head attends to votes for itself than for similar words (a property of the tables)
@@ -50,6 +62,10 @@ CTX = 256
 CHUNK = 10                 # windows per model call (keeps memory near 1 GB)
 HORIZONS = (32, 40, 48, 64, 96, 128)
 RECALL_FOLLOW_MAX = 0.05   # "FOLLOW alone gives it less than 5%"
+# FOLLOW's example phrases: (name, current token, next token, short name of the next token for the keys)
+FOLLOW_PHRASES = (("upon", " upon", " a", "a"), ("wanted", " wanted", " to", "to"), ("once", "Once", " upon", "upon"))
+TOKEN_SPLITS = (("and", " and"), ("comma", ","), ("to", " to"), ("of", " of"))   # cost_after_<name>
+OVERLAP = (2, 3)           # the pair of heads whose overlap is measured (cost with the other removed)
 
 
 def log_softmax(score: np.ndarray) -> np.ndarray:
@@ -71,7 +87,9 @@ def token_facts() -> dict:
         "speech_verb": cls == idx["SPEECH_VERBS"],
         "linker": cls == idx["LINKERS"],
         "name": cls == idx["NAMES"],
-        "upon": vocab.ID[" upon"], "a": vocab.ID[" a"], "comma": vocab.ID[","], "quote": vocab.ID[' "'],
+        "comma": vocab.ID[","], "quote": vocab.ID[' "'],
+        "phrases": [(name, vocab.ID[tok], vocab.ID[nxt], short) for name, tok, nxt, short in FOLLOW_PHRASES],
+        "token_splits": [(name, vocab.ID[tok]) for name, tok in TOKEN_SPLITS],
     }
 
 
@@ -96,6 +114,34 @@ def average_votes() -> tuple[np.ndarray, np.ndarray]:
         counts += np.bincount(t, minlength=P.vocab.VOCAB_SIZE)
     n = counts.sum()
     return heads / n, counts @ follow_exceptions() / n
+
+
+@lru_cache(maxsize=1)
+def average_class_follow() -> np.ndarray:
+    """Average of FOLLOW's class-table part (CLASS_FOLLOW) over all positions of the 200 claim windows."""
+    P = claims.program()
+    counts = np.zeros(P.vocab.VOCAB_SIZE)
+    for w in claims.claim_windows():
+        counts += np.bincount(w[:CTX].astype(int), minlength=P.vocab.VOCAB_SIZE)
+    return counts @ P.follow.CLASS_PART / counts.sum()
+
+
+def phrase(tokens: list[str], next_token: str, head: int) -> dict:
+    """phrase() as defined above. `tokens` is the text written as its token strings (as the tokenizer splits
+    it); the probabilities are those of `next_token` after the last token."""
+    P = claims.program()
+    t = np.array([P.vocab.ID[s] for s in tokens])
+    v = P.vocab.ID[next_token]
+    avg_heads, _ = average_votes()
+    votes = [m.votes(t) for m in P.HEADS]
+    score = P.follow.votes(t) + sum(votes)
+    q = log_softmax(score)[-1]
+    q_h = log_softmax(score - votes[head] + avg_heads[head])[-1]
+    p = claims.model_logprobs(t[None, :])[0, -1]
+    p_h = claims.model_logprobs(t[None, :], ablate_heads=(head,), ablation="earlier")[0, -1]
+    return {"p": float(np.exp(q[v])), "p_without": float(np.exp(q_h[v])),
+            "model_p": float(np.exp(p[v])), "model_p_without": float(np.exp(p_h[v])),
+            "model_top": P.vocab.TOKENS[int(p.argmax())]}
 
 
 def _earlier_seen(top: np.ndarray, t: np.ndarray) -> np.ndarray:
@@ -132,6 +178,7 @@ def measure(windows: np.ndarray | None = None, chunk: int = CHUNK, hook=None) ->
     W = claims.claim_windows() if windows is None else windows
     avg_heads, avg_exceptions = average_votes()
     exceptions = follow_exceptions()
+    class_part, avg_class_part = P.follow.CLASS_PART, average_class_follow()
     f = token_facts()
     S = defaultdict(float)
     r = np.arange(CTX)
@@ -164,16 +211,21 @@ def measure(windows: np.ndarray | None = None, chunk: int = CHUNK, hook=None) ->
             err = float(np.abs(q[0] - q_follow[0]).max())
             S["first_position_error"] = max(S["first_position_error"], err)
             S["kl_no_exceptions"] += claims.kl(p, log_softmax(score - exceptions[t] + avg_exceptions)).sum()
+            S["kl_no_class_follow"] += claims.kl(p, log_softmax(score - class_part[t] + avg_class_part)).sum()
             self_votes = sum(weights[h] @ m.HEAD.recall[t] for h, m in enumerate(P.HEADS))
             S["kl_self_votes"] += claims.kl(p, log_softmax(follow + self_votes)).sum()
 
-            # FOLLOW alone at ' upon'
-            m = t == f["upon"]
-            S["upon_n"] += m.sum()
-            S["upon_follow_matches_model"] += (q_follow[m].argmax(1) == top[m]).sum()
-            S["upon_model_top_is_a"] += (top[m] == f["a"]).sum()
-            S["upon_kl_follow"] += claims.kl(p[m], q_follow[m]).sum()
-            S["upon_follow_p_a"] += np.exp(q_follow[m, f["a"]]).sum()
+            # FOLLOW's example phrases (' upon' -> ' a', ...)
+            for name, tok, nxt, short in f["phrases"]:
+                m = t == tok
+                S[name + "_n"] += m.sum()
+                S[name + "_follow_matches_model"] += (q_follow[m].argmax(1) == top[m]).sum()
+                S[f"{name}_model_top_is_{short}"] += (top[m] == nxt).sum()
+                S[name + "_kl_follow"] += claims.kl(p[m], q_follow[m]).sum()
+                S[name + "_kl"] += kl[m].sum()
+                S[f"{name}_follow_p_{short}"] += np.exp(q_follow[m, nxt]).sum()
+                S[f"{name}_model_p_{short}"] += np.exp(p[m, nxt]).sum()
+                S[f"{name}_p_{short}"] += np.exp(q[m, nxt]).sum()
 
             # position splits
             recall = _earlier_seen(top, t) & (np.exp(q_follow[r, top]) < RECALL_FOLLOW_MAX)
@@ -194,6 +246,8 @@ def measure(windows: np.ndarray | None = None, chunk: int = CHUNK, hook=None) ->
             S["said_comma_p_quote"] += np.exp(q[said_comma, f["quote"]]).sum()
             for name, mask in splits.items():
                 S[f"{name}_n"] += mask.sum()
+            for name, tok in f["token_splits"]:
+                S[f"after_{name}_n"] += (t == tok).sum()
             S["name_tokens"] += f["name"][t].sum()
 
             costs, model_costs = [], []
@@ -220,6 +274,12 @@ def measure(windows: np.ndarray | None = None, chunk: int = CHUNK, hook=None) ->
                 S[key + "model_gain_other"] += model_gain[other].sum()
                 S[key + "recall_top1_without"] += (q_h.argmax(1) == top)[recall].sum()
                 S[key + "said_comma_p_quote_without"] += np.exp(q_h[said_comma, f["quote"]]).sum()
+                for name, tok, nxt, short in f["phrases"]:
+                    S[f"{key}{name}_p_{short}_without"] += np.exp(q_h[t == tok, nxt]).sum()
+                for name, tok in f["token_splits"]:
+                    mask = t == tok
+                    S[key + "cost_after_" + name] += cost[mask].sum()
+                    S[key + "model_cost_after_" + name] += model_cost[mask].sum()
 
                 a = weights[h]
                 a1, d1 = a[1:], dist[1:]
@@ -232,6 +292,11 @@ def measure(windows: np.ndarray | None = None, chunk: int = CHUNK, hook=None) ->
                 for D in HORIZONS:
                     S[key + f"beyond_{D}"] += a[D + 1:][dist[D + 1:] > D].sum()
                 S[key + "name_mass"] += (a * earlier)[:, f["name"][t]].sum()
+            first, second = OVERLAP
+            both = log_softmax(score - votes[first] - votes[second] + avg_heads[first] + avg_heads[second])
+            kl_both = claims.kl(p, both)
+            S[f"head{second}.cost_with_head{first}_removed"] += (kl_both - kl - costs[first]).sum()
+            S[f"head{first}.cost_with_head{second}_removed"] += (kl_both - kl - costs[second]).sum()
             if hook is not None:
                 hook({"tokens": t, "model": p, "program": q, "follow": q_follow, "costs": costs,
                       "model_costs": model_costs})
@@ -253,15 +318,11 @@ def _finish(S: dict, n_windows: int) -> dict:
         "top1_follow": S["top1_follow"] / n,
         "heads_gain": (S["kl_follow"] - S["kl"]) / n,
         "exceptions_cost": (S["kl_no_exceptions"] - S["kl"]) / n,
+        "class_follow_cost": (S["kl_no_class_follow"] - S["kl"]) / n,
         "kl_self_votes": S["kl_self_votes"] / n,
         "self_votes_cost": (S["kl_self_votes"] - S["kl"]) / n,
         "decomposition_error": S["decomposition_error"],
         "first_position_error": S["first_position_error"],
-        "upon_n": S["upon_n"],
-        "upon_follow_matches_model": S["upon_follow_matches_model"] / max(S["upon_n"], 1),
-        "upon_model_top_is_a": S["upon_model_top_is_a"] / max(S["upon_n"], 1),
-        "upon_kl_follow": S["upon_kl_follow"] / max(S["upon_n"], 1),
-        "upon_follow_p_a": S["upon_follow_p_a"] / max(S["upon_n"], 1),
         "recall_share": S["recall_n"] / n1,
         "recall_top1": S["recall_top1"] / S["recall_n"],
         "recall_top1_follow": S["recall_top1_follow"] / S["recall_n"],
@@ -270,6 +331,12 @@ def _finish(S: dict, n_windows: int) -> dict:
         "said_comma_p_quote": S["said_comma_p_quote"] / max(S["said_comma_n"], 1),
         "name_token_share": S["name_tokens"] / n,
     }
+    for name, _, _, short in FOLLOW_PHRASES:
+        count = max(S[name + "_n"], 1)
+        M[name + "_n"] = S[name + "_n"]
+        for key in ("follow_matches_model", f"model_top_is_{short}", "kl_follow", "kl", f"follow_p_{short}",
+                    f"model_p_{short}", f"p_{short}"):
+            M[f"{name}_{key}"] = S[f"{name}_{key}"] / count
     for name in ("inside_word", "after_speech_verb", "after_linker"):
         M[name + "_share"] = S[name + "_n"] / n
     for h in range(N_HEADS):
@@ -303,6 +370,16 @@ def _finish(S: dict, n_windows: int) -> dict:
         M[k + "recall_top1_without"] = S[k + "recall_top1_without"] / S["recall_n"]
         M[k + "said_comma_p_quote_without"] = (S[k + "said_comma_p_quote_without"]
                                                / max(S["said_comma_n"], 1))
+        for name, _, _, short in FOLLOW_PHRASES:
+            key = f"{k}{name}_p_{short}_without"
+            M[key] = S[key] / max(S[name + "_n"], 1)
+        for name, _ in TOKEN_SPLITS:
+            for side in ("", "model_"):
+                M[k + side + "cost_after_" + name] = S[k + side + "cost_after_" + name] / max(S[f"after_{name}_n"], 1)
+    first, second = OVERLAP
+    for h, g in ((second, first), (first, second)):
+        key = f"head{h}.cost_with_head{g}_removed"
+        M[key] = S[key] / n
     return {key: float(v) for key, v in M.items()}
 
 
