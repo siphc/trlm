@@ -9,3 +9,4 @@ analysis/out/**/*.npz
 *.zip
 analysis/scratch/
 .claude/
+logs/.blackbox_key
