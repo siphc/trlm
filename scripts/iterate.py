@@ -21,17 +21,20 @@ def main() -> None:
     ap.add_argument("--msg", required=True)
     ap.add_argument("--split", default="dev_fast")
     ap.add_argument("--explore", action="store_true")
+    ap.add_argument("--kind", default="iter", help="commit prefix: iter (fidelity), readability, curve, explore")
     ap.add_argument("--no_commit", action="store_true")
     args = ap.parse_args()
     r = subprocess.run([sys.executable, "-m", "harness.eval_fidelity", "--model", args.model, "--split", args.split,
                         "--note", args.msg], cwd=REPO, capture_output=True, text=True)
     sys.stderr.write(r.stderr[-3000:])
-    prefix = "explore: " if args.explore else "iter: "
+    prefix = "explore: " if args.explore else f"{args.kind}: "
     if r.returncode != 0:
         title = f"{prefix}{args.msg} | FAILED (harness exit {r.returncode})"
         body = r.stderr[-1500:]
     else:
-        m = json.loads(r.stdout)
+        lines = r.stdout.splitlines()  # pytest output from the claim tests precedes the harness's JSON
+        start = max(i for i, line in enumerate(lines) if line == "{")
+        m = json.loads("\n".join(lines[start:]))
         title = (f"{prefix}{args.msg} | {args.model} {args.split} KL {m['kl']:.4f} top1 {m['top1']:.3f} "
                  f"LR {m['loss_recovered']:.3f}")
         body = (f"kl {m['kl']} (sem {m['kl_sem']}), top1 {m['top1']}, loss_recovered {m['loss_recovered']}, "
