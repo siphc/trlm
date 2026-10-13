@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import torch
 
-from analysis.fitlib import REPO, Target, model_name, train_windows
+from analysis.fitlib import REPO, Target, ensure_disk, model_name, train_windows
 from analysis.student import Student, evaluate, fit, fit_attention, prune_follow_by_kl, prune_global, prune_to_budget
 
 
@@ -93,6 +93,7 @@ def main() -> None:
         tau=args.tau, log_every=200, freeze=freeze)
     log["kl_after_dense_fit"] = evaluate(st, tgt, W_hold)
     if args.save_dense:
+        ensure_disk()
         torch.save({k: v.detach().cpu() for k, v in st.state_dict().items()},
                    os.path.join(out, f"student_{args.tag}_dense.pt"))
     freq = np.load(md)["count"] if os.path.exists(md) else np.ones(2000)
@@ -108,6 +109,7 @@ def main() -> None:
     print(json.dumps({k: v for k, v in log.items() if k != "args"}, indent=1))
     st.cpu()
     ck = os.path.join(out, f"student_{args.tag}.pt")
+    ensure_disk()
     torch.save(st.state_dict(), ck)
     json.dump(log, open(os.path.join(out, f"fit_{args.tag}.json"), "w"), indent=1)
     if args.no_emit:

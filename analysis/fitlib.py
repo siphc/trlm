@@ -27,6 +27,15 @@ def train_windows(n: int, seed: int = FIT_SEED) -> np.ndarray:
     return np.stack([np.asarray(window(s, int(i))) for i in np.sort(idx)]).astype(np.int64)
 
 
+def ensure_disk(min_free_gb: float = 4.0, path: str = REPO) -> None:
+    """Refuse to write large artifacts when the disk is nearly full (student checkpoints are 160 MB each)."""
+    import shutil
+
+    free = shutil.disk_usage(path).free / 1e9
+    if free < min_free_gb:
+        raise RuntimeError(f"only {free:.1f} GB free on disk; not saving (need {min_free_gb} GB)")
+
+
 def model_name(model_id: str) -> str:
     """Short name for output folders: 'attn_s0' stays, '.../budget200M_x/final.pt' -> 'budget200M_x'."""
     base = os.path.basename(model_id.rstrip("/"))

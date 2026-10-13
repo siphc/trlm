@@ -21,7 +21,7 @@ import time
 import numpy as np
 import torch
 
-from analysis.fitlib import REPO, Target, model_name, train_windows
+from analysis.fitlib import REPO, Target, ensure_disk, model_name, train_windows
 from analysis.student import Student, data_importance, evaluate, fisher_importance, fit, make_nonredundant
 
 
@@ -79,7 +79,8 @@ def main() -> None:
     ap.add_argument("--n_windows", type=int, default=8000)
     ap.add_argument("--device", default="mps")
     ap.add_argument("--emit", action="store_true")
-    ap.add_argument("--save_rounds", action="store_true", help="save the student after every round")
+    ap.add_argument("--save_rounds", type=lambda s: [int(x) for x in s.split(",") if x], default=[],
+                    help="comma list of round indices whose student is saved (160 MB each); default none")
     ap.add_argument("--importance_batches", type=int, default=40,
                     help="batches of 16 windows used to estimate data importance (rare tokens need many)")
     args = ap.parse_args()
@@ -112,13 +113,15 @@ def main() -> None:
         row = {"round": r, "budget": int(b), "kept": kept, "kl_after_cut": kl_cut, "kl_after_refit": kl_refit,
                "t": time.time() - t0}
         log["rounds"].append(row)
-        if args.save_rounds:
+        if r in args.save_rounds:
+            ensure_disk()
             torch.save({k: v.detach().cpu() for k, v in st.state_dict().items()},
                        os.path.join(REPO, "analysis", "out", model_name(args.model), f"student_{args.tag}_r{r}.pt"))
         print(f"round {r}: budget {b:,}  kept follow {kept['follow']:,} recall {kept['recall']}  "
               f"KL cut {kl_cut:.4f} -> refit {kl_refit:.4f}  ({row['t']:.0f}s)", flush=True)
     out = os.path.join(REPO, "analysis", "out", model_name(args.model))
     st.cpu()
+    ensure_disk()
     torch.save(st.state_dict(), os.path.join(out, f"student_{args.tag}.pt"))
     json.dump(log, open(os.path.join(out, f"prune_{args.tag}.json"), "w"), indent=1)
     if args.emit:
