@@ -1,1 +1,4 @@
-attn_s0: (2000, 257) -> /Users/svi/Desktop/trlm/data/eval/probe/attn_s0.npy
+attn_s1: (2000, 257) -> /Users/svi/Desktop/trlm/data/eval/probe/attn_s1.npy
+attn_s2: (2000, 257) -> /Users/svi/Desktop/trlm/data/eval/probe/attn_s2.npy
+attn_s3: (2000, 257) -> /Users/svi/Desktop/trlm/data/eval/probe/attn_s3.npy
+attn_s4: (2000, 257) -> /Users/svi/Desktop/trlm/data/eval/probe/attn_s4.npy
