@@ -11,3 +11,4 @@ analysis/scratch/
 .claude/
 logs/.blackbox_key
 analysis/out/**/*.pkl
+analysis/out/program_stats/

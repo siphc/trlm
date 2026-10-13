@@ -24,8 +24,14 @@ TRIGRAM, FOURGRAM = 0.284, 0.215   # fitted to the model's log-probs with all me
 
 
 def votes(tokens, stats):
+    trigram, fourgram = parts(tokens, stats)
+    return TRIGRAM * trigram + FOURGRAM * fourgram
+
+
+def parts(tokens, stats):
+    """log P3 - log P1 and log P4 - log P3 at every position, shape (n, V) each."""
     n = len(tokens)
-    out = np.zeros((n, V))
+    trigram, fourgram = np.zeros((n, V)), np.zeros((n, V))
     for i in range(n):
         p1 = np.exp(stats.log_follow[tokens[i]].astype(np.float64))
         p3 = p1
@@ -34,8 +40,9 @@ def votes(tokens, stats):
         p4 = p3
         if i >= 2 and tokens[i] != 0 and tokens[i - 1] != 0:
             p4 = _backoff(stats.quad_keys, stats.quad_counts, (tokens[i - 2] * V + tokens[i - 1]) * V + tokens[i], p3)
-        out[i] = TRIGRAM * (np.log(p3) - np.log(p1)) + FOURGRAM * (np.log(p4) - np.log(p3))
-    return out
+        trigram[i] = np.log(p3) - np.log(p1)
+        fourgram[i] = np.log(p4) - np.log(p3)
+    return trigram, fourgram
 
 
 def _backoff(keys, counts, context, prior):

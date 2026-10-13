@@ -1,0 +1,112 @@
+{
+ "candidate": null,
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "kl": {
+  "program as is": 0.5819623950361632,
+  "base refit": 0.581895127699847
+ },
+ "base_strengths": {
+  "follow.bigram": [
+   0.496,
+   0.492
+  ],
+  "follow.unigram": [
+   0.366,
+   0.368
+  ],
+  "head0.self": [
+   0.312,
+   0.316
+  ],
+  "head0.near": [
+   0.856,
+   0.844
+  ],
+  "head0.far": [
+   4.513,
+   4.736
+  ],
+  "head2.self": [
+   0.252,
+   0.256
+  ],
+  "head2.near": [
+   0.637,
+   0.641
+  ],
+  "head2.far": [
+   2.346,
+   2.42
+  ],
+  "head1.copy.NAMES": [
+   2.614,
+   2.939
+  ],
+  "head1.topic.NAMES": [
+   3.098,
+   2.997
+  ],
+  "head1.next.NAMES": [
+   -0.133,
+   -0.158
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   1.457,
+   1.995
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -0.756,
+   -0.784
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.791,
+   -0.811
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   1.296,
+   2.105
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.34,
+   2.155
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.647,
+   -0.636
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.307,
+   3.328
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.286,
+   1.268
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.284,
+   -0.29
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   4.986,
+   5.06
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.965,
+   2.964
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.015,
+   -0.015
+  ],
+  "phrase.trigram": [
+   0.284,
+   0.285
+  ],
+  "phrase.fourgram": [
+   0.215,
+   0.217
+  ]
+ },
+ "seconds": 17.4
+}

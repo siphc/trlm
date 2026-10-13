@@ -1,7 +1,7 @@
 """Evaluate the mechanism program (program/) on TRAIN windows: ledger, consistency check, claim measurements.
 
-The program's corpus tables (program.corpus.build, ~2 min) are cached in analysis/out/program_stats.pkl for
-analysis only; the program itself always rebuilds them in setup().
+The program's corpus tables (program.corpus.build, ~2 min) are cached in analysis/out/program_stats/ for analysis
+only; the program itself always rebuilds them in setup().
 
   python -m analysis.mech_eval ledger        # KL with all mechanisms and with each one switched off
   python -m analysis.mech_eval consistency   # program part removal vs the matching model-head ablation
@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import json
 import os
-import pickle
 import sys
 import time
 
@@ -19,23 +18,42 @@ import numpy as np
 
 from analysis.fitlib import REPO, train_windows
 
-STATS_CACHE = os.path.join(REPO, "analysis", "out", "program_stats.pkl")
+STATS_DIR = os.path.join(REPO, "analysis", "out", "program_stats")   # one .npy per table, memory-mapped
 EVAL_SEED = 2000            # same TRAIN windows as analysis/paired.py
 HEAD_OF = {"head0": 0, "head1": 1, "head2": 2}
 
 
 def stats():
-    if os.path.exists(STATS_CACHE):
-        with open(STATS_CACHE, "rb") as f:
-            return pickle.load(f)
-    from harness.common import load_corpus
-    from program import corpus
+    """The program's corpus tables (program.corpus.build), cached as memory-mapped .npy files so that several
+    analysis processes share one copy in memory."""
+    from program.corpus import Stats
 
-    t0 = time.time()
-    s = corpus.build(load_corpus())
-    with open(STATS_CACHE, "wb") as f:
-        pickle.dump(s, f, protocol=4)
-    print(f"corpus tables built in {time.time() - t0:.0f}s -> {STATS_CACHE}", flush=True)
+    if not os.path.isdir(STATS_DIR):
+        from harness.common import load_corpus
+        from program import corpus
+
+        t0 = time.time()
+        s = corpus.build(load_corpus())
+        os.makedirs(STATS_DIR + ".tmp", exist_ok=True)
+        for k, v in vars(s).items():
+            if k == "pmi":
+                for d, arr in v.items():
+                    np.save(os.path.join(STATS_DIR + ".tmp", f"pmi_{d}.npy"), arr)
+            else:
+                np.save(os.path.join(STATS_DIR + ".tmp", f"{k}.npy"), np.asarray(v))
+        os.rename(STATS_DIR + ".tmp", STATS_DIR)
+        print(f"corpus tables built in {time.time() - t0:.0f}s -> {STATS_DIR}", flush=True)
+    s = Stats()
+    s.pmi = {}
+    for f in sorted(os.listdir(STATS_DIR)):
+        arr = np.load(os.path.join(STATS_DIR, f), mmap_mode="r")
+        name = f[:-4]
+        if name.startswith("pmi_"):
+            s.pmi[int(name[4:])] = arr
+        elif arr.ndim == 0:
+            setattr(s, name, arr.item())
+        else:
+            setattr(s, name, arr)
     return s
 
 
