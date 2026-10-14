@@ -2,8 +2,8 @@
 
   .venv/bin/python scripts/iterate.py --model attn_s0 --msg "bigram: WORD only" [--split dev_fast] [--explore]
 
-The harness appends the row to logs/iterations.csv; this script commits program/, analysis/, logs/
-with the harness numbers. Failed harness runs are committed too (message says FAILED).
+The harness appends the row to logs/iterations.csv; this script commits program/, logs/, scripts/ and the
+already-tracked files of analysis/ (new analysis files only via --add) with the harness numbers. Failed harness runs are committed too (message says FAILED).
 """
 import argparse
 import json
@@ -23,6 +23,7 @@ def main() -> None:
     ap.add_argument("--explore", action="store_true")
     ap.add_argument("--kind", default="iter", help="commit prefix: iter (fidelity), readability, curve, explore")
     ap.add_argument("--no_commit", action="store_true")
+    ap.add_argument("--add", nargs="*", default=[], help="new (untracked) files under analysis/ to include")
     args = ap.parse_args()
     r = subprocess.run([sys.executable, "-m", "harness.eval_fidelity", "--model", args.model, "--split", args.split,
                         "--note", args.msg], cwd=REPO, capture_output=True, text=True)
@@ -46,7 +47,11 @@ def main() -> None:
     if args.no_commit:
         print(title)
         return
-    subprocess.run(["git", "add", "program", "analysis", "logs", "scripts", "harness/selftest"], cwd=REPO)
+    # analysis/: only files already tracked, plus those named with --add (other agents may be working there)
+    subprocess.run(["git", "add", "program", "logs", "scripts", "harness/selftest"], cwd=REPO)
+    subprocess.run(["git", "add", "-u", "analysis"], cwd=REPO)
+    if args.add:
+        subprocess.run(["git", "add", "--"] + args.add, cwd=REPO)
     subprocess.run(["git", "commit", "-q", "-m", f"{title}\n\n{body}\n\n{TRAILER}"], cwd=REPO)
     print(title)
 
