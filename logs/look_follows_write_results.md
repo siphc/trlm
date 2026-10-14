@@ -37,7 +37,7 @@ for that head, not the usefulness term (own-vote usefulness gains +0.092 +- 0.00
 ## In the program (Track B)
 
 The law, computed from corpus counts and the program's own votes, became part of the readable copy (v1.2, commit
-after ff52eab). Each local reader's attention adds 0.35-0.55 per nat of usefulness of its own vote. That is worth
+1ef9b7a). Each local reader's attention adds 0.35-0.55 per nat of usefulness of its own vote. That is worth
 0.0070 +- 0.0005 nats on fresh windows, and the dev_fast KL drops from 0.578 to 0.571. Head 2's "key informativeness"
 weight halved once the usefulness term was available: the law absorbed an earlier heuristic. The gain is much smaller
 than in the exact model (0.06-0.18 per head). As the law predicts, the program's attention is limited by how well

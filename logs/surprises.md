@@ -122,3 +122,12 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - vote_fit's head-R^2 check understates candidates that REPLACE a part, by about 0.07, because the 'program+candidate'
   set then includes current-token votes, which the earlier-token ablation leaves untouched. Fix before relying on it
   for replacement candidates.
+
+## 2026-10-14 look-follows-write replication (logs/look_follows_write_results.md)
+
+- In one head (attn_s1/h3) the exact token-token query-key term makes the output worse when added to a generic
+  attention rule (-0.052 +- 0.011), while own-vote usefulness helps (+0.092). Same for near-threshold head s2/h0 (-0.113).
+  The "ceiling" is not a ceiling there; likely because the term is not applied at the self position (65% of that
+  head's attention), untested.
+- In the program, head 2's key-informativeness weight halved once own-vote usefulness was added: the law absorbed an
+  older hand-made attention term.
