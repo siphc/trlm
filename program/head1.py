@@ -40,19 +40,19 @@ GROUPS = {
                        "TIME_WORDS", "SENTENCE_STARTS", "ADVERBS"],
 }
 GROUP_NAMES = list(GROUPS) + ["CONTENT_WORDS"]
-# Fitted to model head 1's own attention rows (pattern cross-entropy, 32 TRAIN windows).
-MEMORY = 33.87                                                  # tokens; exp(3.5224)
-SALIENCE = {"NAMES": 0.738, "SENTENCE_ENDS": -0.858, "WORD_ENDS_AND_LINKERS": -0.962, "FUNCTION_WORDS": -0.321,
-            "CONTENT_WORDS": -0.047}
-SELF_BONUS = 0.006
+# Fitted to model head 1's own attention rows (pattern cross-entropy, 32 TRAIN windows; scripts/fit_scalars.py).
+MEMORY = 33.878
+SALIENCE = {"NAMES": 0.738, "SENTENCE_ENDS": -0.858, "WORD_ENDS_AND_LINKERS": -0.962,
+            "FUNCTION_WORDS": -0.321, "CONTENT_WORDS": -0.047}
+SELF_BONUS = 0.0048
 SUCCESSOR = 0.457
-# Fitted jointly to the model's log-probs with every attention rule frozen (analysis/vote_fit.py, v1.1).
-COPY = {"NAMES": 3.472, "SENTENCE_ENDS": 7.994, "WORD_ENDS_AND_LINKERS": 2.697,
-        "FUNCTION_WORDS": 3.851, "CONTENT_WORDS": 5.657}
-TOPIC = {"NAMES": 3.093, "SENTENCE_ENDS": -1.052, "WORD_ENDS_AND_LINKERS": 1.965,
-         "FUNCTION_WORDS": 1.287, "CONTENT_WORDS": 2.967}
-NEXT = {"NAMES": -0.104, "SENTENCE_ENDS": -0.503, "WORD_ENDS_AND_LINKERS": -0.782,
-        "FUNCTION_WORDS": -0.375, "CONTENT_WORDS": -0.064}
+# Fitted jointly to the model's log-probs with every attention rule frozen (scripts/fit_scalars.py).
+COPY = {"NAMES": 3.712, "SENTENCE_ENDS": 8.636, "WORD_ENDS_AND_LINKERS": 2.961,
+        "FUNCTION_WORDS": 3.756, "CONTENT_WORDS": 5.635}
+TOPIC = {"NAMES": 2.981, "SENTENCE_ENDS": -1.061, "WORD_ENDS_AND_LINKERS": 2.006,
+         "FUNCTION_WORDS": 1.320, "CONTENT_WORDS": 2.960}
+NEXT = {"NAMES": -0.031, "SENTENCE_ENDS": -0.447, "WORD_ENDS_AND_LINKERS": -0.679,
+        "FUNCTION_WORDS": -0.323, "CONTENT_WORDS": -0.068}
 
 
 def _group_of_tokens():

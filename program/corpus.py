@@ -19,6 +19,9 @@ everything the mechanisms use, with these counting rules:
   slot affinity        sum_a sqrt(P(prev = a | s) P(prev = a | v)) from the bigram counts (overlap of the two
                        tokens' predecessor distributions; 1 = they always follow the same tokens), 0 on the diagonal
   phrases              trigram and 4-gram continuation counts over the whole stream (sorted keys + counts)
+  usefulness           for k sitting d = 1..7 before q: how well k's vote (skip-gram, own successors, slot affinity,
+                       or a repeat of k) predicted what actually came after q, beyond what q alone predicts
+                       (usefulness_tables); the local readers look where their own vote is useful
   token features       info_d(s) = KL(P(token d later | s) || P(token)) from raw whole-stream pairs (d = 1..8),
                        cont(s) = P(next token is a word piece | s), and spelling flags
 
@@ -36,6 +39,8 @@ MAX_D = 8
 TOPIC_TOKENS = 50_000_000        # the topic table is counted on the first 50 million tokens
 TOPIC_DISTANCES = range(9, 25)   # "v sits 9..24 tokens after the most recent s"
 TOPIC_PRIOR = 100.0
+USE_MAX_D = 7                    # usefulness tables for earlier tokens 1..7 back
+USE_PRIOR = 20.0                 # shrinkage of the usefulness averages towards 0 (pseudo-count), as in round 2
 # FOLLOW_SMOOTHING: Dirichlet strength, class-blur weight, unigram background. Fitted once, context-free, to the
 # model's average prediction after each token (exact identity; logs/mechanism_cards.md, knowledge baseline).
 DIRICHLET, BLUR, BACKGROUND = 44.029, 0.036311, 0.023787
@@ -143,7 +148,44 @@ def build(corpus):
 
     s.topic = topic_table(corpus)
     s.tri_keys, s.tri_counts, s.quad_keys, s.quad_counts = phrase_counts(corpus)
+    s.use_skip, s.use_succ, s.use_alike, s.use_copy = usefulness_tables(corpus, s)
     return s
+
+
+def usefulness_tables(corpus, s):
+    """How useful an earlier token k's vote is, given the current token q, for k sitting d = 1..7 tokens before q:
+    U(k, q) = (S - N * B) / (N + USE_PRIOR), with N the number of times k sits d tokens before q (whole stream),
+    S the sum over those times of k's vote for the token that actually came next, and B the vote's expectation
+    under what q alone predicts (P1). One table per vote kind, shape (7, V, V): skip (PMI_{d+1}), succ (PMI_1),
+    alike (slot affinity), copy (one-hot: did k come next?)."""
+    vote = {"succ": s.pmi[1].astype(np.float64).reshape(-1), "alike": s.slot_affinity.astype(np.float64).reshape(-1)}
+    kinds = ("skip", "succ", "alike", "copy")
+    N = np.zeros((USE_MAX_D, V * V))
+    S = {kind: np.zeros((USE_MAX_D, V * V)) for kind in kinds}
+    n = len(corpus)
+    for start in range(0, n - USE_MAX_D - 1, CHUNK):
+        length = min(CHUNK, n - USE_MAX_D - 1 - start)
+        x = np.asarray(corpus[start : start + length + USE_MAX_D + 1]).astype(np.int64)
+        k = x[:length]
+        for d in range(1, USE_MAX_D + 1):
+            pair = k * V + x[d : d + length]
+            nxt = x[d + 1 : d + 1 + length]
+            N[d - 1] += np.bincount(pair, minlength=V * V)
+            S["skip"][d - 1] += np.bincount(pair, weights=s.pmi[min(d + 1, MAX_D)].reshape(-1)[k * V + nxt],
+                                            minlength=V * V)
+            for kind in ("succ", "alike"):
+                S[kind][d - 1] += np.bincount(pair, weights=vote[kind][k * V + nxt], minlength=V * V)
+            S["copy"][d - 1] += np.bincount(pair[nxt == k], minlength=V * V)
+    p1 = np.exp(s.log_follow.astype(np.float64))                       # p1[q, v]
+    out = {kind: np.zeros((USE_MAX_D, V, V), np.float32) for kind in kinds}
+    for d in range(1, USE_MAX_D + 1):
+        n_d = N[d - 1].reshape(V, V)
+        expect = {"skip": s.pmi[min(d + 1, MAX_D)].astype(np.float64) @ p1.T,
+                  "succ": vote["succ"].reshape(V, V) @ p1.T, "alike": vote["alike"].reshape(V, V) @ p1.T,
+                  "copy": p1.T}
+        for kind in kinds:
+            out[kind][d - 1] = (S[kind][d - 1].reshape(V, V) - n_d * expect[kind]) / (n_d + USE_PRIOR)
+    return out["skip"], out["succ"], out["alike"], out["copy"]
 
 
 def topic_table(corpus):

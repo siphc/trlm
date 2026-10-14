@@ -14,8 +14,8 @@ closer to the model with the earlier-token parts of all four heads replaced by t
 full model (at most 0.8 times that KL).
 """
 NAME = "follow"
-STRENGTH = 0.421   # weight of log P1; fitted jointly to the model's log-probs (analysis/vote_fit.py, v1.1)
-UNIGRAM = 0.454    # weight of log P(v); same fit
+STRENGTH = 0.390   # weight of log P1; fitted jointly with all mechanisms (scripts/fit_scalars.py)
+UNIGRAM = 0.486    # weight of log P(v); same fit
 
 
 def votes(tokens, stats):

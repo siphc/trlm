@@ -1,0 +1,124 @@
+{
+ "candidate": "useful_h0",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5717135380760845,
+  "base refit": 0.571700872471143,
+  "candidate refit": 0.5680149902219743
+ },
+ "paired_diff": -0.003685882249168735,
+ "paired_se": 0.0005893302552854857,
+ "candidate_strengths": {
+  "useful_h0.head0.self": 0.5176,
+  "useful_h0.head0.near": 0.6301,
+  "useful_h0.head0.far": 5.1764,
+  "useful_h0.head0.earlier_successors": 0.48,
+  "useful_h0.head0.earlier_alike": -3.4216
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.421,
+   0.389
+  ],
+  "follow.unigram": [
+   0.454,
+   0.486
+  ],
+  "head2.self": [
+   0.273,
+   0.254
+  ],
+  "head2.near": [
+   0.608,
+   0.6
+  ],
+  "head2.far": [
+   2.639,
+   2.573
+  ],
+  "head2.no_repeat": [
+   -5.754,
+   -5.664
+  ],
+  "head1.copy.NAMES": [
+   3.472,
+   3.72
+  ],
+  "head1.topic.NAMES": [
+   3.093,
+   3.075
+  ],
+  "head1.next.NAMES": [
+   -0.104,
+   -0.043
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   7.994,
+   7.996
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -1.052,
+   -1.034
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.503,
+   -0.495
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.697,
+   2.937
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   1.965,
+   1.941
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.782,
+   -0.705
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.851,
+   3.796
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.287,
+   1.29
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.375,
+   -0.328
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.657,
+   5.626
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.967,
+   2.969
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.064,
+   -0.079
+  ],
+  "phrase.trigram": [
+   0.283,
+   0.264
+  ],
+  "phrase.fourgram": [
+   0.216,
+   0.217
+  ]
+ },
+ "head_effect_r2": {
+  "heads": [
+   0
+  ],
+  "program": 0.07926916552694363,
+  "program+candidate": 0.08850705072585219,
+  "candidate alone": 0.05060589178898944
+ },
+ "seconds": 51.6
+}

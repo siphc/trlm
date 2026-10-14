@@ -1,0 +1,2 @@
+head 0: {"check_max_abs_diff_vs_program_rule": 0.0, "program rule": 0.41827954559280084, "+ usefulness (2 scalars)": 0.39395601108671274, "+ usefulness, rule refitted": 0.39020375963273984, "rule refitted, no usefulness (control)": 0.41828613410502863}
+head 2: {"check_max_abs_diff_vs_program_rule": 0.0, "program rule": 0.4539885787758029, "+ usefulness (2 scalars)": 0.4486032884049493, "+ usefulness, rule refitted": 0.4434616902232209, "rule refitted, no usefulness (control)": 0.45399535966207666}

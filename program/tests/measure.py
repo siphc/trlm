@@ -36,7 +36,6 @@ def earlier_votes(P, name, tokens, attention=None):
     """The votes of program part `name` (head0, head1, head2) that come from tokens before the current one.
     `attention` replaces the part's attention rule (an (n, n) matrix) if given."""
     from program import head0, head1, head2
-    from program.readers import skipgram_votes
 
     s = P.STATS
     mod = {"head0": head0, "head1": head1, "head2": head2}[name]
@@ -44,7 +43,7 @@ def earlier_votes(P, name, tokens, attention=None):
     if name == "head1":
         a = a * (1.0 - np.eye(len(tokens)))
         return a @ mod.recalled_votes(tokens, s)
-    return skipgram_votes(a, tokens, s, 0.0, mod.STRENGTH_NEAR, mod.STRENGTH_FAR)
+    return mod.earlier_votes(a, tokens, s)
 
 
 def uniform_attention(n):

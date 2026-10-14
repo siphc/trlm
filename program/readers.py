@@ -12,6 +12,8 @@ votes at i are the attention-weighted sum of these.
 """
 import numpy as np
 
+from .corpus import USE_MAX_D
+
 
 def skipgram_votes(attention, tokens, stats, strength_self, strength_near, strength_far):
     n = len(tokens)
@@ -38,6 +40,21 @@ def mass_on_tokens(attention, tokens):
     out = np.zeros((n, 2000))
     np.add.at(out, (np.repeat(np.arange(n), n), np.tile(tokens, n)), attention.reshape(-1))
     return out
+
+
+def vote_usefulness(tokens, stats, strengths):
+    """Where a reader's own vote is useful. At (i, j) with d = i - j in 1..7: how well the vote of t_j (a token d
+    back), cast with this reader's strengths, predicts what follows t_i beyond what t_i alone predicts
+    (corpus.usefulness_tables). `strengths` maps vote kinds (skip, succ, alike, copy) to the reader's strengths.
+    Returns the d = 1 part and the d = 2..7 part as two (n, n) matrices (0 elsewhere)."""
+    n = len(tokens)
+    tables = {"skip": stats.use_skip, "succ": stats.use_succ, "alike": stats.use_alike, "copy": stats.use_copy}
+    near, far = np.zeros((n, n)), np.zeros((n, n))
+    for d in range(1, min(USE_MAX_D, n - 1) + 1):
+        i = np.arange(d, n)
+        u = sum(w * tables[kind][d - 1][tokens[i - d], tokens[i]] for kind, w in strengths.items())
+        (near if d == 1 else far)[i, i - d] = u
+    return near, far
 
 
 def softmax_rows(score):

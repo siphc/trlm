@@ -19,7 +19,8 @@ A candidate is a Python file defining
 Run: python -m analysis.vote_fit analysis/candidates/<file>.py [--fit 32] [--eval 64] [--no_heads]
          [--fit_seed 2024] [--eval_seed 2000] [--tag _suffix]
 (When a candidate REPLACES directions of a program part, the head-effect check drops that whole part from the
-'program+candidate' set, so the candidate's directions must carry the part's replaced role.)
+'program+candidate' set, so the candidate's directions must carry the part's replaced role. Candidate directions
+named *.self are current-token votes and are left out of the head-effect check, which is about earlier tokens.)
 Writes analysis/out/candidates/<NAME>.json. Adoption rule (logs/decisions.md item 3): paired gain >= 0.005 and
 >= 3 SE (>= 0.01 for a new component); for "explain, don't fit" the candidate should also raise the share of its
 heads' effect that the program explains (R^2 below).
@@ -162,7 +163,9 @@ def head_r2(P, windows, lp, cand, heads):
         t = np.asarray(w[:256], dtype=np.int64)
         f = {"local0": M.earlier_votes(P, "head0", t), "local2": M.earlier_votes(P, "head2", t),
              "recall": M.earlier_votes(P, "head1", t), "phrase": phrase.votes(t, P.STATS)}
-        f.update({f"cand.{k}": np.asarray(v, np.float64) for k, v in cand.features(P, t).items()})
+        # current-token directions (named *.self) are left out: the earlier-token ablation does not touch them
+        f.update({f"cand.{k}": np.asarray(v, np.float64) for k, v in cand.features(P, t).items()
+                  if not k.endswith(".self")})
         feats.append(f)
     for key in feats[0]:
         mu = np.mean([f[key].mean(0) for f in feats], axis=0)

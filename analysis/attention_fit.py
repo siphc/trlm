@@ -19,10 +19,11 @@ import torch
 
 # Named constants of each rule: (attribute, index or key or None, transform). "log" fits log(value).
 RULE_PARAMS = {
-    "head0": [("SLOPE", k, None) for k in range(4)] + [("SELF_BONUS", k, None) for k in range(4)],
+    "head0": [("SLOPE", k, None) for k in range(4)] + [("SELF_BONUS", k, None) for k in range(4)]
+             + [("USE_NEAR", None, None), ("USE_FAR", None, None)],
     "head2": [(a, None, None) for a in ("SELF_BASE", "SELF_INFO", "SELF_CONT", "SELF_PIECE", "DECAY", "DECAY_FAR",
                                          "PREVIOUS", "KEY_INFO", "KEY_CONT", "KEY_PIECE", "KEY_SPACE",
-                                         "KEY_SENTENCE_END")],
+                                         "KEY_SENTENCE_END", "USE_NEAR", "USE_FAR")],
     "head1": [("MEMORY", None, "log")]
              + [("SALIENCE", g, None) for g in ("NAMES", "SENTENCE_ENDS", "WORD_ENDS_AND_LINKERS", "FUNCTION_WORDS",
                                                 "CONTENT_WORDS")]
@@ -86,11 +87,12 @@ def pattern_ce(mod, A_head, windows, stats):
     return ce / n, (ce - ent) / n
 
 
-def fit_rule(mod, A_head, windows, stats, iters=60, eps=1e-4, keep=False):
-    """Fit the rule's named constants (RULE_PARAMS) to one head's patterns; returns {name: fitted value}. The
-    module's constants are restored afterwards unless keep=True (use module_copy for a private instance)."""
-    name = mod.__name__.split(".")[-1].split("_")[0]
-    spec = RULE_PARAMS[name]
+def fit_rule(mod, A_head, windows, stats, iters=60, eps=1e-4, keep=False, spec=None):
+    """Fit the rule's named constants (RULE_PARAMS, or `spec`: [(attribute, index or key or None, transform)]) to one
+    head's patterns; returns {name: fitted value}. The module's constants are restored afterwards unless keep=True
+    (use module_copy for a private instance)."""
+    if spec is None:
+        spec = RULE_PARAMS[mod.__name__.split(".")[-1].split("_")[0]]
     original = _get(mod, spec)
     x = torch.tensor(_get(mod, spec), dtype=torch.float64, requires_grad=True)
 

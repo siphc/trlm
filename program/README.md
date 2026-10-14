@@ -12,9 +12,9 @@ head's attention rule, which were fitted to *that head's own attention pattern*,
 program says *what* each head reads and *what* it does with it in terms of the language itself; it contains no
 table learned from the model.
 
-Fidelity (harness, KL(model ‖ program) in nats per token): **0.578** on dev_fast (200 windows); the program's
-top token is the model's top token 63% of the time; it recovers 99.1% of the cross-entropy gap between a corpus
-bigram and the model (v1.1; v1 was 0.589). For scale: the corpus bigram alone is 1.20 nats from the model, and the earlier
+Fidelity (harness, KL(model ‖ program) in nats per token): **0.571** on dev_fast (200 windows); the program's
+top token is the model's top token 63% of the time; it recovers 98.9% of the cross-entropy gap between a corpus
+bigram and the model (v1.2; v1 was 0.589, v1.1 0.578). For scale: the corpus bigram alone is 1.20 nats from the model, and the earlier
 distillation program (tables fitted to the model, git tag `distillation-v11`) reached 0.452.
 
 ## The algorithm, top-down
@@ -41,6 +41,11 @@ score_i[v] = FOLLOW(t_i, v)                          follow.py   the current tok
    earlier token also casts the vote it would cast as the current token. From an earlier token, LOCAL-0 also
    votes for that token's own usual successors and against words that fill the same slot (after reading
    `' cat'`, not `' dog'`), and LOCAL-2 votes against repeating it.
+   **Where a reader looks follows from what it writes.** On top of its position and spelling rules, each local
+   reader looks more at an earlier token when its own vote from that token would help: when that vote predicts
+   what follows the current token better than the current token alone does (`readers.vote_usefulness`, counted
+   from the stories). One scalar per reader for the previous token and one for 2 to 7 tokens back (0.35 to 0.55
+   per nat of usefulness) set how strongly.
 3. **RECALL**. Attention decays slowly (half-life about 23 tokens), favours names and content words, and
    favours earlier words of the kind that usually follows the current word (after `' the'`, nouns). Each
    recalled word votes to be repeated, for its topic (words that tend to appear 9 to 24 tokens after it in the
@@ -74,15 +79,17 @@ together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 - `corpus.py` counts everything token-specific from the training stream: unigram and bigram, skip-gram pairs
   at distances 2 to 8 within a story, a topic table, a class successor table, trigram and 4-gram counts, and
   token features (how much a token tells about the token `d` places later, how often a word piece follows
-  it, spelling flags), and a slot affinity (do two tokens follow the same tokens?). Its docstring lists the exact counting rules.
+  it, spelling flags), a slot affinity (do two tokens follow the same tokens?), and usefulness tables (how
+  well an earlier token's vote predicted what actually came next, beyond the current token). Its docstring lists the exact counting rules.
 - `categories.py`: three systems of hand-named word classes, found from the training text alone (no model).
 - `vocab.py`: the 2000 token strings of the tokenizer.
 - Named scalars, each with a comment saying how it was found:
-  - 28 attention-rule parameters (head 0: 8, head 2: 12, head 1: 8), fitted to the matching model head's
+  - 32 attention-rule parameters (head 0: 10, head 2: 14, head 1: 8), fitted to the matching model head's
     attention rows (cross-entropy between the rule's and the head's attention, 32 TRAIN windows);
   - 28 vote strengths (FOLLOW 2, head 0: 5, head 2: 4, head 1: 15, PHRASE 2), fitted jointly to the model's
-    log-probs with the attention rules frozen (`analysis/vote_fit.py`), and the 3 smoothing numbers of the
-    bigram rule;
+    log-probs with the attention rules frozen, and the 3 smoothing numbers of the bigram rule. Because a
+    reader's attention depends on its own vote strengths, attention and votes are fitted in turn until they
+    agree (`scripts/fit_scalars.py`, two rounds);
   - a few counting choices made by hand (skip-gram distances up to 8, topic window 9 to 24 tokens, the
     phrase back-off weight 300 chosen from {3, 30, 300}).
 
@@ -97,6 +104,7 @@ together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 - **Inside split words**: completing a word whose first pieces have been seen is the largest single share of
   the remaining KL (about 27%).
 - **Pair-specific attention** of heads 0 and 2 (which earlier token to read given the current token) is
-  covered only behaviourally, by PHRASE. In the model it follows the usefulness of each head's own vote
-  (being tested across seeds: `logs/prereg_look_follows_write.md`).
+  is only partly covered: the usefulness rule above brings part of it, PHRASE stands in for more. In the model
+  it follows the usefulness of each head's own vote (being tested across seeds:
+  `logs/prereg_look_follows_write.md`); the program's version is limited by how well its votes match the heads'.
 - The remaining KL by part and position class is in `logs/mechanism_cards.md` and `logs/mech_v1_report.md`.
