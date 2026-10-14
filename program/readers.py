@@ -27,6 +27,19 @@ def skipgram_votes(attention, tokens, stats, strength_self, strength_near, stren
     return out
 
 
+def earlier_only(attention):
+    """The attention a(i, j) on earlier tokens only (j < i); the current token's weight set to zero."""
+    return attention * (1.0 - np.eye(attention.shape[0]))
+
+
+def mass_on_tokens(attention, tokens):
+    """(n, V): at each position i, the total attention on each vocabulary token v (sum of a(i, j) over t_j = v)."""
+    n = len(tokens)
+    out = np.zeros((n, 2000))
+    np.add.at(out, (np.repeat(np.arange(n), n), np.tile(tokens, n)), attention.reshape(-1))
+    return out
+
+
 def softmax_rows(score):
     """Softmax over earlier positions j <= i (score is (n, n); entries above the diagonal are ignored)."""
     n = score.shape[0]

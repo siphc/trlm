@@ -12,9 +12,9 @@ head's attention rule, which were fitted to *that head's own attention pattern*,
 program says *what* each head reads and *what* it does with it in terms of the language itself; it contains no
 table learned from the model.
 
-Fidelity (harness, KL(model ‖ program) in nats per token): **0.589** on dev_fast (200 windows); the program's
-top token is the model's top token 62% of the time; it recovers 98.7% of the cross-entropy gap between a corpus
-bigram and the model. For scale: the corpus bigram alone is 1.20 nats from the model, and the earlier
+Fidelity (harness, KL(model ‖ program) in nats per token): **0.578** on dev_fast (200 windows); the program's
+top token is the model's top token 63% of the time; it recovers 99.1% of the cross-entropy gap between a corpus
+bigram and the model (v1.1; v1 was 0.589). For scale: the corpus bigram alone is 1.20 nats from the model, and the earlier
 distillation program (tables fitted to the model, git tag `distillation-v11`) reached 0.452.
 
 ## The algorithm, top-down
@@ -30,13 +30,17 @@ score_i[v] = FOLLOW(t_i, v)                          follow.py   the current tok
            + PHRASE   continues known phrases          phrase.py   [behavioural; parts of heads 0 and 2]
 ```
 
-1. **FOLLOW**: `0.50 · log P1(v | t_i) + 0.37 · log P(v)`, the corpus bigram. In the model this is the sum of
+1. **FOLLOW**: `0.42 · log P1(v | t_i) + 0.45 · log P(v)`, the corpus bigram. In the model this is the sum of
    the direct path and of heads 0 and 2 looking at the current token.
 2. **LOCAL-0 and LOCAL-2** (the local readers). Each spreads attention `a(i, j)` over the current and earlier
    positions by a short rule, and each token it reads votes for *what the stories put at the next position
    given that token and how far back it is* (corpus skip-gram PMI; `readers.py`). LOCAL-0's attention falls
    steeply with distance (odds about ×0.75 per token back), depending only on the spelling of the current
    token. LOCAL-2 prefers sentence ends and words that predict a lot, and skips word pieces and word onsets.
+   A model head writes the same vector for a token whether it is the current token or an earlier one, so an
+   earlier token also casts the vote it would cast as the current token. From an earlier token, LOCAL-0 also
+   votes for that token's own usual successors and against words that fill the same slot (after reading
+   `' cat'`, not `' dog'`), and LOCAL-2 votes against repeating it.
 3. **RECALL**. Attention decays slowly (half-life about 23 tokens), favours names and content words, and
    favours earlier words of the kind that usually follows the current word (after `' the'`, nouns). Each
    recalled word votes to be repeated, for its topic (words that tend to appear 9 to 24 tokens after it in the
@@ -51,42 +55,48 @@ Model head 3 is not modelled (see "What is not explained").
 ## What each part contributes
 
 Measured with `analysis/mech_eval.py` on 64 TRAIN windows (not the harness splits): KL(model ‖ program) with
-everything on is 0.582.
+everything on is 0.572.
 
 | part | one-sentence role | KL rise when removed |
 |---|---|---|
-| FOLLOW | the current token's usual successors (corpus bigram) | +1.29 |
-| PHRASE | trigram and 4-gram corrections to the bigram | +0.17 |
-| LOCAL-0 (head 0) | the last few tokens vote for what follows them at that distance | +0.094 |
-| RECALL (head 1) | earlier names and content words vote for themselves and their topic | +0.086 |
-| LOCAL-2 (head 2) | informative recent words and sentence ends vote the same way as LOCAL-0 | +0.076 |
+| FOLLOW | the current token's usual successors (corpus bigram) | +1.17 |
+| PHRASE | trigram and 4-gram corrections to the bigram | +0.170 |
+| LOCAL-0 (head 0) | the last few tokens vote for what follows them, and against words like them | +0.152 |
+| RECALL (head 1) | earlier names and content words vote for themselves and their topic | +0.096 |
+| LOCAL-2 (head 2) | informative recent words and sentence ends vote like LOCAL-0, and against repeats | +0.091 |
 
-Standard errors of the rises are 0.002 to 0.008. The context mechanisms overlap: FOLLOW on its own is 1.70 nats
+Standard errors of the rises are 0.002 to 0.008. The context mechanisms overlap: FOLLOW on its own is 1.89 nats
 from the model with its strengths as fitted here (1.20 if refitted alone), so the four context mechanisms
-together remove 1.12 nats, while their single-removal rises sum to only 0.43.
+together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 
 ## Where the numbers come from
 
 - `corpus.py` counts everything token-specific from the training stream: unigram and bigram, skip-gram pairs
   at distances 2 to 8 within a story, a topic table, a class successor table, trigram and 4-gram counts, and
   token features (how much a token tells about the token `d` places later, how often a word piece follows
-  it, spelling flags). Its docstring lists the exact counting rules.
+  it, spelling flags), and a slot affinity (do two tokens follow the same tokens?). Its docstring lists the exact counting rules.
 - `categories.py`: three systems of hand-named word classes, found from the training text alone (no model).
 - `vocab.py`: the 2000 token strings of the tokenizer.
 - Named scalars, each with a comment saying how it was found:
   - 28 attention-rule parameters (head 0: 8, head 2: 12, head 1: 8), fitted to the matching model head's
     attention rows (cross-entropy between the rule's and the head's attention, 32 TRAIN windows);
-  - 25 vote strengths (FOLLOW 2, head 0: 3, head 2: 3, head 1: 15, PHRASE 2) and the 3 smoothing numbers of the
-    bigram rule, fitted to the model's log-probs with the attention rules frozen;
+  - 28 vote strengths (FOLLOW 2, head 0: 5, head 2: 4, head 1: 15, PHRASE 2), fitted jointly to the model's
+    log-probs with the attention rules frozen (`analysis/vote_fit.py`), and the 3 smoothing numbers of the
+    bigram rule;
   - a few counting choices made by hand (skip-gram distances up to 8, topic window 9 to 24 tokens, the
     phrase back-off weight 300 chosen from {3, 30, 300}).
 
 ## What is not explained
 
 - **Head 3** (clause context: it carries a phrase across linking words such as `' and'`, `' of'`, `' to'`).
-  Readers built from corpus statistics gained nothing (`logs/dead_ends.md`).
+  Readers built from corpus statistics gained nothing (`logs/dead_ends.md`). It works as a team with heads 0
+  and 2 (their unexplained parts partly cancel), and PHRASE already covers its phrase knowledge
+  (`logs/mech_v2_investigations.md`).
+- **What the local heads write** is a learned 32-dimensional code per token; corpus tables describe at most
+  about 31% of it for heads 0 and 2.
 - **Inside split words**: completing a word whose first pieces have been seen is the largest single share of
   the remaining KL (about 27%).
 - **Pair-specific attention** of heads 0 and 2 (which earlier token to read given the current token) is
-  covered only behaviourally, by PHRASE.
+  covered only behaviourally, by PHRASE. In the model it follows the usefulness of each head's own vote
+  (being tested across seeds: `logs/prereg_look_follows_write.md`).
 - The remaining KL by part and position class is in `logs/mechanism_cards.md` and `logs/mech_v1_report.md`.

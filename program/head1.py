@@ -46,13 +46,13 @@ SALIENCE = {"NAMES": 0.738, "SENTENCE_ENDS": -0.858, "WORD_ENDS_AND_LINKERS": -0
             "CONTENT_WORDS": -0.047}
 SELF_BONUS = 0.006
 SUCCESSOR = 0.457
-# Fitted to the model's log-probs with the attention above frozen.
-COPY = {"NAMES": 2.614, "SENTENCE_ENDS": 1.457, "WORD_ENDS_AND_LINKERS": 1.296, "FUNCTION_WORDS": 3.307,
-        "CONTENT_WORDS": 4.986}
-TOPIC = {"NAMES": 3.098, "SENTENCE_ENDS": -0.756, "WORD_ENDS_AND_LINKERS": 2.340, "FUNCTION_WORDS": 1.286,
-         "CONTENT_WORDS": 2.965}
-NEXT = {"NAMES": -0.133, "SENTENCE_ENDS": -0.791, "WORD_ENDS_AND_LINKERS": -0.647, "FUNCTION_WORDS": -0.284,
-        "CONTENT_WORDS": -0.015}
+# Fitted jointly to the model's log-probs with every attention rule frozen (analysis/vote_fit.py, v1.1).
+COPY = {"NAMES": 3.472, "SENTENCE_ENDS": 7.994, "WORD_ENDS_AND_LINKERS": 2.697,
+        "FUNCTION_WORDS": 3.851, "CONTENT_WORDS": 5.657}
+TOPIC = {"NAMES": 3.093, "SENTENCE_ENDS": -1.052, "WORD_ENDS_AND_LINKERS": 1.965,
+         "FUNCTION_WORDS": 1.287, "CONTENT_WORDS": 2.967}
+NEXT = {"NAMES": -0.104, "SENTENCE_ENDS": -0.503, "WORD_ENDS_AND_LINKERS": -0.782,
+        "FUNCTION_WORDS": -0.375, "CONTENT_WORDS": -0.064}
 
 
 def _group_of_tokens():

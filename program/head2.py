@@ -16,7 +16,8 @@ predicts what comes next; otherwise it looks back over the last few tokens (abou
 sentence ends and informative words, and skips word pieces and onsets, so inside a split word it reads the words
 before it.
 
-What it votes: the shared skip-gram rule of readers.py.
+What it votes: the shared skip-gram rule of readers.py, and, from each EARLIER token s it reads,
+    + NO_REPEAT * [v = s]    (expected negative: do not repeat a word just read, for example a name)
 
 CLAIM (tests/test_head2.py): LOCAL-2's votes from earlier tokens change the output in the same direction as model
 head 2's earlier-token part (median probability-weighted correlation >= 0.25), and the attention rule is what makes
@@ -25,15 +26,16 @@ far as ablating the head moves the model's.
 """
 import numpy as np
 
-from .readers import skipgram_votes, softmax_rows
+from .readers import earlier_only, mass_on_tokens, skipgram_votes, softmax_rows
 
 NAME = "head2"
 # Fitted to model head 2's own attention rows (pattern cross-entropy, 32 TRAIN windows).
 SELF_BASE, SELF_INFO, SELF_CONT, SELF_PIECE = -0.336, 0.455, 0.588, -1.167
 DECAY, DECAY_FAR, PREVIOUS = 0.290, 0.114, -0.081
 KEY_INFO, KEY_CONT, KEY_PIECE, KEY_SPACE, KEY_SENTENCE_END = 0.529, -1.222, -1.263, -0.369, 0.846
-# Fitted to the model's log-probs with the attention above frozen.
-STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.252, 0.637, 2.346
+# Fitted jointly to the model's log-probs with every attention rule frozen (analysis/vote_fit.py, v1.1).
+STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.273, 0.608, 2.639
+NO_REPEAT = -5.754
 
 
 def attention(tokens, stats):
@@ -51,4 +53,6 @@ def attention(tokens, stats):
 
 
 def votes(tokens, stats):
-    return skipgram_votes(attention(tokens, stats), tokens, stats, STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR)
+    a = attention(tokens, stats)
+    return (skipgram_votes(a, tokens, stats, STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR)
+            + NO_REPEAT * mass_on_tokens(earlier_only(a), tokens))

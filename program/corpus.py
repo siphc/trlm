@@ -16,6 +16,8 @@ everything the mechanisms use, with these counting rules:
                        (no other s in between); log((count + 100 P(v)) / (slots + 100)) - log P(v)
   class successor      max(0, log P(TARGET class of k | CONTEXT class of q) - log P(TARGET class of k)), bigram
                        counts pooled by class, add-one
+  slot affinity        sum_a sqrt(P(prev = a | s) P(prev = a | v)) from the bigram counts (overlap of the two
+                       tokens' predecessor distributions; 1 = they always follow the same tokens), 0 on the diagonal
   phrases              trigram and 4-gram continuation counts over the whole stream (sorted keys + counts)
   token features       info_d(s) = KL(P(token d later | s) || P(token)) from raw whole-stream pairs (d = 1..8),
                        cont(s) = P(next token is a word piece | s), and spelling flags
@@ -133,6 +135,11 @@ def build(corpus):
     p_k = (ccc.sum(0) + 1.0) / (ccc.sum() + k_t)
     pmi_cc = np.log((ccc + 1.0) / (ccc.sum(1, keepdims=True) + k_t)) - np.log(p_k)[None, :]
     s.class_successor = np.maximum(pmi_cc, 0.0)[ctx][:, tgt].astype(np.float32)
+
+    # slot affinity: do s and v fill the same slot, i.e. are they preceded by the same tokens?
+    root_prev = np.sqrt(big / np.maximum(big.sum(0, keepdims=True), 1.0))   # column s: sqrt(P(prev = a | s))
+    s.slot_affinity = (root_prev.T @ root_prev).astype(np.float32)
+    np.fill_diagonal(s.slot_affinity, 0.0)
 
     s.topic = topic_table(corpus)
     s.tri_keys, s.tri_counts, s.quad_keys, s.quad_counts = phrase_counts(corpus)

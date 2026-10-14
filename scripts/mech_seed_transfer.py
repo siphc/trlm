@@ -93,6 +93,9 @@ def strengths_to_constants(strengths):
     for m in ("head0", "head2"):
         c[m] = {"STRENGTH_SELF": strengths[f"{m}.self"], "STRENGTH_NEAR": strengths[f"{m}.near"],
                 "STRENGTH_FAR": strengths[f"{m}.far"]}
+    c["head0"].update(EARLIER_SUCCESSORS=strengths["head0.earlier_successors"],
+                      EARLIER_ALIKE=strengths["head0.earlier_alike"])
+    c["head2"]["NO_REPEAT"] = strengths["head2.no_repeat"]
     c["head1"] = {part: {g: strengths[f"head1.{part.lower()}.{g}"] for g in head1.GROUP_NAMES}
                   for part in ("COPY", "TOPIC", "NEXT")}
     return c
@@ -115,6 +118,14 @@ def write_program_copy(model_id, constants, note):
     if os.path.exists(dst):
         shutil.rmtree(dst)
     shutil.copytree(os.path.join(REPO, "program"), dst, ignore=shutil.ignore_patterns("tests", "__pycache__"))
+    rewrite_constants(dst, constants, note)
+    return dst
+
+
+def rewrite_constants(dst, constants, note):
+    """Rewrite named module constants in the program directory `dst` in place ({module: {NAME: value}})."""
+    import ast
+
     for mod, consts in constants.items():
         path = os.path.join(dst, f"{mod}.py")
         lines = open(path).read().split("\n")
@@ -142,7 +153,6 @@ def write_program_copy(model_id, constants, note):
         for a, b, text in sorted(edits, reverse=True):
             lines[a:b] = [text]
         open(path, "w").write("\n".join(lines))
-    return dst
 
 
 def main():

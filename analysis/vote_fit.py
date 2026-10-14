@@ -45,9 +45,9 @@ V = 2000
 
 
 def base_features(P, t):
-    """The 25 vote directions of the program, each with its strength factored out; and the strengths."""
+    """The program's vote directions (28 in v1.1), each with its strength factored out; and the strengths."""
     from program import follow, head0, head1, head2, phrase
-    from program.readers import skipgram_votes
+    from program.readers import earlier_only, mass_on_tokens, skipgram_votes
 
     s = P.STATS
     n = len(t)
@@ -59,6 +59,14 @@ def base_features(P, t):
         for part, unit, strength in (("self", (1, 0, 0), mod.STRENGTH_SELF), ("near", (0, 1, 0), mod.STRENGTH_NEAR),
                                      ("far", (0, 0, 1), mod.STRENGTH_FAR)):
             F[f"{name}.{part}"], beta[f"{name}.{part}"] = skipgram_votes(a, t, s, *unit), strength
+        earlier = earlier_only(a)
+        if name == "head0":
+            F["head0.earlier_successors"], beta["head0.earlier_successors"] = (
+                earlier @ np.asarray(s.pmi[1][t], np.float64), head0.EARLIER_SUCCESSORS)
+            F["head0.earlier_alike"], beta["head0.earlier_alike"] = (
+                earlier @ np.asarray(s.slot_affinity[t], np.float64), head0.EARLIER_ALIKE)
+        else:
+            F["head2.no_repeat"], beta["head2.no_repeat"] = mass_on_tokens(earlier, t), head2.NO_REPEAT
     a1 = head1.attention(t, s)
     g = head1.GROUP[t]
     topic, nxt = np.asarray(s.topic[t], np.float64), np.asarray(s.pmi[1][t], np.float64)
