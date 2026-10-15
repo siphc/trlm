@@ -93,3 +93,11 @@ are code checks only and set nothing.
      and commit it (before any arm is fitted on seeds 1-4).
   3. 200M-token passes and fit_arms_deep on attn2L_s1..s4 and attn4L_s1..s4; summarize_deep.py; code_test.py on the
      held-out heads; an independent re-run of one model per depth; write logs/deep_look_write_results.md.
+
+## Stopped 2026-10-15 10:57 (by request)
+
+- Trained: attn2L_s0 2.2751, attn2L_s1 2.2665, attn2L_s2 2.3310, attn4L_s0 2.1273. attn2L_s3 stopped at step 9350
+  (resume state saved 10:56). Still to train: attn2L_s3 (rest), attn2L_s4, attn4L_s1..s4.
+- CPU: the first queue finished (B, C, 20M-token code-check passes and arm fits on attn_s1..s4). Addendum D (echo
+  trajectory) had just started its first checkpoint pass; it restarts from scratch for that checkpoint.
+- To continue: `sh scripts/resume_deep_study.sh` (training queue + watchdog + CPU queue; finished work is skipped).
