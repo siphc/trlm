@@ -62,3 +62,15 @@ are code checks only and set nothing.
   L1H1 44.3). No PREV head (largest previous-token attention 0.30) and no INDUCTION head (largest score 0.03 on repeated
   random sequences).
 - Note: a training gap of ~2 h (machine asleep, lid closed) between steps 13000 and 14000; training itself unaffected.
+
+## 2026-10-14 development seed attn4L_s0
+
+- dev_full loss 2.1273 (attn2L_s0 2.2751; 1-block attn 2.491-2.540).
+- Selftests pass (forward = model to 6e-5; gradients = finite differences to < 1e-8).
+- Classes: 7 confirmatory heads: L0H0, L0H3 (F1); L1H0, L1H1, L2H0, L2H2, L2H3 (F3); none in the last layer (all four
+  layer-3 heads look far: mean distances 12.7-35.2). Far-looking: L0H1, L0H2, L1H2, L1H3, L2H1, L3H0-3. No PREV head
+  (max previous-token attention 0.26) and no INDUCTION head (max 0.01).
+- No in-context copying of repeated random sequences in any model (loss on the second copy vs the first: 1 block
+  15.65 vs 16.39, 2 blocks 13.43 vs 14.81, 4 blocks 15.27 vs 15.25 nats; an induction circuit would bring the second
+  copy to a few nats). These TinyStories attention-only models form no induction heads.
+- Consequence for the families: F2 (last layer) will come mostly from the 2-block models.
