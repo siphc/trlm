@@ -54,7 +54,7 @@ def slot_features(wins, keys, values):
     return F1, F2
 
 
-def run(model_id, primary="ltotal", log=print):
+def run(model_id, primary="ltotal", log=print, only=None):
     torch.set_num_threads(2)
     m = C.load(model_id)
     L, H, _, _ = C.dims(m)
@@ -76,11 +76,13 @@ def run(model_id, primary="ltotal", log=print):
     def dc(vals):
         Y = np.zeros((C.V, C.V))
         Y[kk, qq] = vals
-        return double_centre(Y, kk, qq, ww)
+        return double_centre(Y, kk, qq, ww)[0]
 
     res = {"model": model_id, "primary": primary, "n_blocks": L, "n_tokens": int(z["n_tokens"]), "heads": {}}
     for l in range(L):
         for h in range(H):
+            if only and f"L{l}H{h}" not in only:
+                continue
             t0 = time.time()
             cls = next(c for c in classes if c["layer"] == l and c["head"] == h)
             A_f = torch.as_tensor(A_fit[l][:, h].astype(np.float64))
@@ -138,6 +140,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("models", nargs="+")
     ap.add_argument("--primary", default="ltotal", choices=["ltotal", "total"])
+    ap.add_argument("--only", default=None, help="code checks: comma list of heads like L0H0,L1H2")
     a = ap.parse_args()
     for mid in a.models:
-        run(mid, a.primary, log=lambda s: print(s, flush=True))
+        run(mid, a.primary, log=lambda s: print(s, flush=True), only=a.only.split(",") if a.only else None)
