@@ -15,3 +15,18 @@ Plan: ~/.claude/plans/stateful-zooming-deer.md (approved 2026-10-14), summarised
   itself was at 3.545 after 8M tokens).
 - Throughput, MPS fp32, 60 s each: 1 block 325k tok/s, 2 blocks 213k (epoch ~41 min), 4 blocks 124k (~71 min).
   4 blocks is above 110k, so all four confirmatory 4-block seeds are kept. Queue estimate ~9.3 h.
+
+## 2026-10-14 learning-rate check and training queue
+
+- 4 blocks, seed 0, 50M tokens: peak LR 1e-3 gives dev_full 2.742; 2e-3 gives 2.622, with no NaN and no loss spike
+  (largest rise within 200 steps after warmup: 0.08 nats). The rule keeps the frozen 2e-3.
+- Training queue started (scripts/deep_queue.sh, on the charger, caffeinate): 2L s0, 4L s0, 2L s1-s4, 4L s1-s4.
+  scripts/battery_watchdog.sh stops it on battery below 25%; re-running the queue resumes.
+- Deep analysis code in analysis/look_write_deep/. Selftests pass on attn_s0 and on the 2L/4L short-run models
+  (explicit forward = model; own-pattern substitution exact; float64 gradients = finite differences to < 1e-7;
+  SAME = TOTAL for the last block). Classifier reproduces the one-layer LOCAL/RECALL split.
+- Calibration (1M-token sample, attn_s0): the DV readout reproduces the one-layer UOV tables (r = 0.96-0.98 at
+  d = 1, 2); the exact-gradient readout TOTAL does not (r = 0.76-0.86), because the final LayerNorm's per-position
+  Jacobian differs from its typical-scale linearisation. Added LTOTAL (later blocks exact, final LayerNorm
+  linearised), which equals DV exactly for one block. Which readout is primary is decided on the one-layer models
+  before the deep pre-registration.
