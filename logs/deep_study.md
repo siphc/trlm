@@ -30,3 +30,26 @@ Plan: ~/.claude/plans/stateful-zooming-deer.md (approved 2026-10-14), summarised
   Jacobian differs from its typical-scale linearisation. Added LTOTAL (later blocks exact, final LayerNorm
   linearised), which equals DV exactly for one block. Which readout is primary is decided on the one-layer models
   before the deep pre-registration.
+- Resource rule revised (not part of the science): with one CPU analysis job (corpus pass) at the lowest priority
+  (renice 20), 2-block training runs at 165-168k tok/s, 78% of the measured 213k; the 80% pause threshold would hold
+  all analysis back for ~9 h, while continuing costs ~2 h of training. Threshold set to 75% (160k for 2 blocks,
+  93k for 4 blocks); analysis jobs run at nice 20.
+- Code test, development model attn_s0 only (not held out): local heads' direct-path vote tables have 15-22% of their
+  energy in the top-32 subspaces of the corpus statistic C_res (random 32-dim subspaces of its top 128: ~4%), but
+  39-67% in the top-32 subspaces of the model's own embedding; C_pmi scores above C_res; the RECALL head (h1) scores
+  above the LOCAL heads. Expectation for the held-out heads (to be written into the pre-registration): K1's
+  embedding comparison, K3 and K4 likely fail.
+
+## Decision rules fixed before any calibration output (2026-10-14)
+
+Calibration = the deep-study pipeline (pass_bgu + fit_arms_deep) run on the one-layer models attn_s1..s4 with the same
+200M-token sample size as the confirmatory runs (MPS, after the training queue). The 20M-token CPU passes now running
+are code checks only and set nothing.
+- R1, primary readout: LTOTAL, unless TOTAL's median own-arm gain on the 8 confirmatory one-layer heads exceeds
+  LTOTAL's by more than 10% (then TOTAL).
+- R2, theta for D1: 0.5, unless the median own/oracle gain ratio of those 8 heads (primary readout) is below 0.75;
+  then theta = 2/3 x that median, rounded down to a multiple of 0.05.
+- R3, D5 references: c1, c2 = medians of the own-arm coefficients of those 8 heads (primary readout).
+- R4, sample: 200M tokens of aligned TRAIN windows (default_rng(7) order), fit and eval windows excluded, batch 32.
+- The deep pre-registration (logs/prereg_deep_look_write.md) is committed after R1-R3 are applied and after the
+  development seeds (2L s0, 4L s0) are classified and self-tested, and before any arm is fitted on seeds 1-4.

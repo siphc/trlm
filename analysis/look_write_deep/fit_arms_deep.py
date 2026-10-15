@@ -121,7 +121,9 @@ def run(model_id, primary="ltotal", log=print):
             own1 = tabs[f"own_{primary}"][l, h][sel]
             dup = [f"other_L{l2}H{h2}" for l2 in range(L) for h2 in range(H) if (l2, h2) != (l, h)
                    and wcorr(own1, tabs[f"own_{primary}"][l2, h2][sel], ww) > 0.5]
-            res["heads"][f"L{l}H{h}"] = {"class": cls, "arms": out, "pure_pair_corr": corr, "near_duplicates": dup}
+            readout_corr = {r: wcorr(own1, tabs[f"own_{r}"][l, h][sel], ww) for r in ("ltotal", "total", "dv")}
+            res["heads"][f"L{l}H{h}"] = {"class": cls, "arms": out, "pure_pair_corr": corr, "near_duplicates": dup,
+                                         "readout_table_corr_d1": readout_corr}
             log(f"{model_id} L{l}H{h} ({'conf' if cls['confirmatory'] else 'expl'}): base {base:.4f}  "
                 f"own {out['own_' + primary]['gain']:+.4f}  oqc {out['oqc']['gain']:+.4f}  "
                 f"shuf {out['shuffled']['gain']:+.4f}  max other "
