@@ -50,6 +50,32 @@ Re-running fit_arms.py on attn_s0, s3 and s4 reproduces every committed gain exa
 per-window KLs, so analysis/look_write/results.json now has paired SEs for all 20 heads. Own-usefulness gains have SEs
 of 0.002-0.008 nats. The verdict is unchanged (7/8 literal).
 
-## C, D
+## C. Far-looking heads: usefulness over distances 8..63
 
-Pending (C: distance band 8..63; D: echo test on checkpoints).
+The addendum said "the six RECALL heads of attn_s1..s4", but those seeds have 8 RECALL heads; the number was a
+miscount when writing. Both readings are reported.
+- **C1 (own band gain > own d = 1..7 gain): 4 of 8.** Holds literally ("at least 4"); fails the proportional reading
+  (4 of 6 = 67%; 4 of 8 = 50%).
+- **C2 (controls <= 0.25 x own band gain): 7 of 8** (attn_s3/h2: 0.019 vs 0.067, ratio 0.28).
+
+The band version wins exactly for the truly far-looking heads (mean distance 25-31 tokens: s1/h0, s2/h3, s3/h2, s4/h1,
+and s0/h1) and loses for the four near-threshold heads (12-17 tokens: s1/h1, s1/h2, s2/h0, s2/h1), which behave like
+local heads (they also met P1-P3 in the replication). So the usefulness of a head's own vote also tracks where
+far-looking heads look, when it is measured over the distances they actually use. The gains are smaller (0.05-0.07
+nats) than the full token-token term's (0.15-0.21).
+
+| head | own d 1..7 | own band 8..63 | max control | TT | C1 | C2 |
+|---|---|---|---|---|---|---|
+| attn_s1/h0 | +0.029 | +0.047 | +0.010 | +0.149 | yes | yes |
+| attn_s1/h1 | +0.084 | +0.011 | +0.001 | +0.154 | no | yes |
+| attn_s1/h2 | +0.101 | +0.020 | +0.000 | +0.027 | no | yes |
+| attn_s2/h0 | +0.092 | +0.009 | -0.002 | -0.113 | no | yes |
+| attn_s2/h1 | +0.042 | +0.020 | +0.002 | +0.145 | no | yes |
+| attn_s2/h3 | +0.064 | +0.073 | +0.011 | +0.170 | yes | yes |
+| attn_s3/h2 | +0.013 | +0.067 | +0.019 | +0.170 | yes | no |
+| attn_s4/h1 | +0.012 | +0.067 | +0.016 | +0.187 | yes | yes |
+| attn_s0/h1 (dev) | +0.018 | +0.070 | +0.018 | +0.207 | yes | no |
+
+## D
+
+Pending (echo test on checkpoints).
