@@ -53,3 +53,12 @@ are code checks only and set nothing.
 - R4, sample: 200M tokens of aligned TRAIN windows (default_rng(7) order), fit and eval windows excluded, batch 32.
 - The deep pre-registration (logs/prereg_deep_look_write.md) is committed after R1-R3 are applied and after the
   development seeds (2L s0, 4L s0) are classified and self-tested, and before any arm is fitted on seeds 1-4.
+
+## 2026-10-14 development seed attn2L_s0
+
+- dev_full loss 2.2751 (1-block attention-only models: 2.491-2.540; 1-block mlp models: 2.238-2.246).
+- Selftests pass (explicit forward = model to 5e-5; float64 gradients = finite differences to < 3e-8).
+- Classes: 6 confirmatory heads (L0H0, L0H2, L0H3 in F1; L1H0, L1H2, L1H3 in F2), 2 far-looking (L0H1 20.6 tokens,
+  L1H1 44.3). No PREV head (largest previous-token attention 0.30) and no INDUCTION head (largest score 0.03 on repeated
+  random sequences).
+- Note: a training gap of ~2 h (machine asleep, lid closed) between steps 13000 and 14000; training itself unaffected.

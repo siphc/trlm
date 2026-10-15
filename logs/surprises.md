@@ -131,3 +131,9 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   head's attention), untested.
 - In the program, head 2's key-informativeness weight halved once own-vote usefulness was added: the law absorbed an
   older hand-made attention term.
+
+## 2026-10-14 deep study, development seed
+
+- The 2-block attention-only TinyStories model (attn2L_s0, dev loss 2.275) has no induction head by the standard test
+  (attention from the second copy of a repeated random sequence to the token after the earlier occurrence: at most 0.03).
+  Its far-looking layer-1 head (mean distance 44 tokens) does not copy that way.
