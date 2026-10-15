@@ -44,6 +44,12 @@ the token-token attention term buys in output. Head-specificity (P2, P3) is unaf
 
 (Output-test gains in nats, exact-model substitution, train_windows(32, 2025).)
 
-## B, C, D
+## B. Paired standard errors
 
-Pending (B: paired SEs; C: distance band 8..63; D: echo test on checkpoints).
+Re-running fit_arms.py on attn_s0, s3 and s4 reproduces every committed gain exactly (max difference 0.0) and adds the
+per-window KLs, so analysis/look_write/results.json now has paired SEs for all 20 heads. Own-usefulness gains have SEs
+of 0.002-0.008 nats. The verdict is unchanged (7/8 literal).
+
+## C, D
+
+Pending (C: distance band 8..63; D: echo test on checkpoints).
