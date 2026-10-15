@@ -33,6 +33,7 @@ from src.train.model import ModelConfig, TinyLM, param_groups
 class TrainConfig:
     variant: str = "mlp"  # "attn" or "mlp"
     seed: int = 0
+    n_blocks: int = 1     # the main track is 1 block (configs/frozen.yaml); > 1 only for side studies
     budget_tokens: int = 12_500_000
     peak_lr: float = 1e-3
     betas: tuple = (0.9, 0.95)
@@ -59,9 +60,9 @@ class TrainConfig:
         return max(1, self.budget_tokens // self.tokens_per_step)
 
 
-def model_config(variant: str) -> ModelConfig:
+def model_config(variant: str, n_blocks: int = 1) -> ModelConfig:
     assert variant in ("attn", "mlp")
-    return ModelConfig(mlp=(variant == "mlp"))
+    return ModelConfig(mlp=(variant == "mlp"), n_blocks=n_blocks)
 
 
 def lr_at(step: int, cfg: TrainConfig) -> float:
@@ -124,7 +125,7 @@ def train(cfg: TrainConfig) -> dict:
 
     torch.manual_seed(cfg.seed)
     np.random.seed(cfg.seed)
-    model = TinyLM(model_config(cfg.variant)).to(device)
+    model = TinyLM(model_config(cfg.variant, cfg.n_blocks)).to(device)
     opt = torch.optim.AdamW(param_groups(model, cfg.weight_decay), lr=cfg.peak_lr, betas=cfg.betas)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
     sampler = BatchSampler(load_stream("train"), cfg.seed, cfg.batch_windows)
@@ -195,7 +196,7 @@ def train(cfg: TrainConfig) -> dict:
     dev_full = evaluate(model, load_eval("dev_full"), device)
     save_weights(model, os.path.join(cfg.out, "final.pt"),
                  {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full})
-    result = {"variant": cfg.variant, "seed": cfg.seed, "budget_tokens": cfg.budget_tokens,
+    result = {"variant": cfg.variant, "seed": cfg.seed, "n_blocks": cfg.n_blocks, "budget_tokens": cfg.budget_tokens,
               "peak_lr": cfg.peak_lr, "steps": step, "tokens": step * cfg.tokens_per_step,
               "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device)}
     with open(os.path.join(cfg.out, "result.json"), "w") as f:

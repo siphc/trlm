@@ -29,3 +29,9 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
    at startup to compute its statistics. Implementation: the harness reads `data/tokens/train.bin` and passes it to
    `program.setup(corpus)` once before scoring (the program itself still does no file I/O and the lint is unchanged);
    the sandbox allows reading that one file only. Dev/test text and models stay unreadable. configs/frozen.yaml v3.
+8. **Side study: does "where a head looks comes from what it writes" hold in deeper models?** (2026-10-14, human
+   decisions on the agent's proposal; plan in logs/deep_study.md). Train own multi-layer attention-only models (2 and 4
+   blocks, otherwise the frozen v3 settings) on the laptop only (MPS); no public models and no causal frozen-vote runs
+   for now; the study comes before further work on the readable copy; a per-token corpus code (e.g. a low-rank
+   factorisation of corpus PMI) is allowed as an analysis test only, not as a program component. configs/frozen.yaml
+   is unchanged: the main track stays at 1 block; the side study is recorded in configs/side_deep_attn.yaml.

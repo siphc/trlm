@@ -23,13 +23,14 @@ def main() -> None:
     ap.add_argument("--amp", action="store_true", help="fp16 autocast (GPU only)")
     ap.add_argument("--compile", action="store_true")
     ap.add_argument("--threads", type=int, default=0)
+    ap.add_argument("--n_blocks", type=int, default=1)
     args = ap.parse_args()
 
     if args.threads:
         torch.set_num_threads(args.threads)
     torch.manual_seed(0)
     dev = torch.device(args.device)
-    cfg = ModelConfig(mlp=args.variant == "mlp")
+    cfg = ModelConfig(mlp=args.variant == "mlp", n_blocks=args.n_blocks)
     model = TinyLM(cfg).to(dev)
     if args.compile:
         model = torch.compile(model)
@@ -70,7 +71,8 @@ def main() -> None:
     dt = time.time() - t0
     tps = n * args.batch * cfg.context_length / dt
     print(json.dumps({
-        "device": args.device, "variant": args.variant, "amp": args.amp, "compile": args.compile,
+        "device": args.device, "variant": args.variant, "n_blocks": args.n_blocks, "amp": args.amp,
+        "compile": args.compile,
         "threads": torch.get_num_threads(), "steps": n, "seconds": round(dt, 1),
         "tokens_per_sec": round(tps), "torch": torch.__version__,
     }))

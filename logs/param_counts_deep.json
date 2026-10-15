@@ -1,0 +1,15 @@
+{
+  "per_block_hand_arithmetic": 65664,
+  "attn_1L": {
+    "total": 354560,
+    "out_proj_init_std": 0.014142135623730949
+  },
+  "attn_2L": {
+    "total": 420224,
+    "out_proj_init_std": 0.01
+  },
+  "attn_4L": {
+    "total": 551552,
+    "out_proj_init_std": 0.0070710678118654745
+  }
+}

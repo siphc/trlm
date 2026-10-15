@@ -1,0 +1,14 @@
+# Side study (logs/decisions.md item 8): multi-block attention-only models for testing
+# "where a head looks comes from what it writes" in deeper heads. NOT the main track (configs/frozen.yaml v3, 1 block).
+# Everything not listed here is as in configs/frozen.yaml v3 (data, tokenizer, d_model 128, 4 heads x 32, learned
+# positions, pre-LN + final LN, no biases, tied embeddings, AdamW (0.9, 0.95), weight decay 0.1, clip 1.0,
+# 1% warmup + cosine to 10%, batch 64 x 256, fp32 on Apple MPS, 20 log-spaced checkpoints).
+version: 1
+variant: attn
+n_blocks: [2, 4]
+seeds: [0, 1, 2, 3, 4]            # seed 0 = development seed; seeds 1-4 confirmatory (pre-registered)
+budget_tokens: 527482880          # one epoch, as the main track
+peak_lr: 2.0e-3                   # frozen value unless the 4-block LR check (logs/deep_study.md) says otherwise
+residual_proj_init: "0.02 / sqrt(2 * n_blocks)"   # src/train/model.py convention (counts 2 writes per block)
+paths: models/deep/attn{n_blocks}L_s{seed}
+command: python -m src.train.runs deep --n_blocks {2|4} --seeds 0,1,2,3,4 --device mps

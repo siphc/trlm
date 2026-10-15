@@ -5,6 +5,9 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
   python -m src.train.runs pilot_budget             # budget ladder at the best LR
   python -m src.train.runs pilot_report             # writes logs/pilot.md
   python -m src.train.runs final --budget_tokens N  # 10 models -> models/final/{variant}_s{seed}
+  python -m src.train.runs deep_lr                  # side study: 4-block attn, seed 0, 50M tokens, LR 1e-3 vs 2e-3
+  python -m src.train.runs deep --n_blocks 2 --seeds 0,1,2,3,4 [--peak_lr 2e-3]
+                                                    # side study: models/deep/attn{L}L_s{seed}, one epoch each
   Add --root /content/drive/MyDrive/trlm on Colab to write checkpoints to Drive.
 """
 from __future__ import annotations
@@ -20,6 +23,8 @@ EPOCH_TOKENS = 527_489_811                     # data/prep_meta.json n_tokens.tr
 EPOCH_STEPS = (EPOCH_TOKENS - 1) // 256 // 64  # whole batches in one pass over the train windows
 LADDER = [12_500_000, 50_000_000, 200_000_000, EPOCH_STEPS * 64 * 256]
 WITHIN = 0.01                                  # choose smallest budget within 1% of the best run
+FROZEN_PEAK_LR = 2e-3                          # configs/frozen.yaml (chosen by the pilot)
+DEEP_LR_TOKENS = 50_000_000                    # side-study LR check
 
 
 def _run(root: str, name: str, device: str, amp: bool, **kw) -> dict:
@@ -45,13 +50,15 @@ def budget_name(b: int, lr: float) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final"])
+    ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep"])
     ap.add_argument("--root", default="models")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--amp", action="store_true")
     ap.add_argument("--budget_tokens", type=int, default=None)
     ap.add_argument("--peak_lr", type=float, default=None)
     ap.add_argument("--only", default=None, help="comma list like attn_s0,mlp_s3 (final only)")
+    ap.add_argument("--n_blocks", type=int, default=2, help="deep only")
+    ap.add_argument("--seeds", default="0,1,2,3,4", help="deep only")
     args = ap.parse_args()
 
     if args.cmd == "pilot_lr":
@@ -76,6 +83,17 @@ def main() -> None:
                     continue
                 _run(args.root, f"final/{mid}", args.device, args.amp, variant=variant, seed=seed,
                      budget_tokens=args.budget_tokens, peak_lr=args.peak_lr)
+    elif args.cmd == "deep_lr":
+        # side study (logs/decisions.md item 8): LR check for the deepest model, attention-only, seed 0
+        for lr in (1e-3, 2e-3):
+            _run(args.root, f"deep/pilot/attn4L_s0_50M_lr{lr:g}", args.device, args.amp, variant="attn", seed=0,
+                 n_blocks=4, budget_tokens=DEEP_LR_TOKENS, peak_lr=lr)
+    elif args.cmd == "deep":
+        # side study: one epoch per model with the frozen hyperparameters; seed s has the batch order of attn_s{s}
+        for seed in (int(s) for s in args.seeds.split(",")):
+            _run(args.root, f"deep/attn{args.n_blocks}L_s{seed}", args.device, args.amp, variant="attn", seed=seed,
+                 n_blocks=args.n_blocks, budget_tokens=args.budget_tokens or LADDER[-1],
+                 peak_lr=args.peak_lr or FROZEN_PEAK_LR)
 
 
 def report(root: str) -> None:
