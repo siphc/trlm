@@ -72,6 +72,10 @@ def token_writes(model, idx, stream, device, n_windows=4000, bs=32):
 def run(model_id, n_tokens, device, bs):
     from src.train.data import load_stream
 
+    meta_path = os.path.join(C.model_dir(model_id), "bgu_meta.json")
+    if os.path.exists(meta_path) and json.load(open(meta_path))["n_tokens"] == (n_tokens // C.T) * C.T:
+        print(f"{model_id}: bgu.npz with {n_tokens:,} tokens exists, skipping", flush=True)
+        return
     C.check_disk(10)
     t0 = time.time()
     dev = torch.device(device)

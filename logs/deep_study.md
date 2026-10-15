@@ -74,3 +74,22 @@ are code checks only and set nothing.
   15.65 vs 16.39, 2 blocks 13.43 vs 14.81, 4 blocks 15.27 vs 15.25 nats; an induction circuit would bring the second
   copy to a few nats). These TinyStories attention-only models form no induction heads.
 - Consequence for the families: F2 (last layer) will come mostly from the 2-block models.
+
+## Status and how to resume (2026-10-15, laptop about to sleep)
+
+- Trained: attn2L_s0 (2.2751), attn4L_s0 (2.1273), attn2L_s1 (2.2665); attn2L_s2 training. Still to train: attn2L_s3,
+  attn2L_s4, attn4L_s1..s4 (~6-7 h on the charger).
+- Done in the analysis: addendum A, B, C (logs/look_follows_write_addendum_results.md); dev seeds classified and
+  self-tested; attn2L_s1 classified and self-tested (5 confirmatory heads); 20M-token code-check passes on attn_s1..s3.
+- Running on the CPU: the code-check pass on attn_s4, then the one-layer arm fits (ltotal, total), then addendum D (echo
+  trajectory, 20 checkpoint passes at 5M tokens).
+- Sleep needs nothing: processes pause and continue on wake. After a shutdown or crash: `sh scripts/resume_deep_study.sh`
+  (idempotent: starts the training queue, the battery watchdog and the CPU queue if they are not running; finished
+  models, passes and arm files are skipped).
+- Next steps once training is done (MPS free):
+  1. 200M-token passes on attn_s1..s4 (MPS), fit_arms_deep with both readouts, then apply R1-R3 (above) to fix the
+     primary readout, theta and the D5 references.
+  2. Classify and self-test the remaining confirmatory models; fill the placeholders in logs/prereg_deep_look_write.md
+     and commit it (before any arm is fitted on seeds 1-4).
+  3. 200M-token passes and fit_arms_deep on attn2L_s1..s4 and attn4L_s1..s4; summarize_deep.py; code_test.py on the
+     held-out heads; an independent re-run of one model per depth; write logs/deep_look_write_results.md.
