@@ -50,8 +50,8 @@ def conv_point(corrs, thr):
     return len(corrs)
 
 
-def deciles(w):
-    edges = np.quantile(w, np.linspace(0, 1, 11)[1:-1])
+def deciles(w, k=10):
+    edges = np.quantile(w, np.linspace(0, 1, k + 1)[1:-1])
     return np.searchsorted(edges, w, side="right")
 
 
@@ -96,7 +96,7 @@ def stratified_perm(values, is_entering, strata, rng, draws):
     return float(obs), (count + 1) / (draws + 1), int(n_e.sum())
 
 
-def run(models, draws, seed=0):
+def run(models, draws, seed=0, match_attention=False, s_bins=10):
     rng = np.random.default_rng(seed)
     from analysis.mech_eval import stats
 
@@ -146,7 +146,9 @@ def run(models, draws, seed=0):
                 entering = Tb & ~Ta
                 control = ~Ta & ~Tb
                 sel = entering | control
-                vals2.append(Ua[sel]); ent2.append(entering[sel]); str2.append([f"{ti}:{d}" for d in dec[sel]])
+                sdec = deciles(Sa, s_bins) if match_attention else np.zeros(M, int)   # exploratory: also match current attention
+                vals2.append(Ua[sel]); ent2.append(entering[sel])
+                str2.append([f"{ti}:{d}:{e}" for d, e in zip(dec[sel], sdec[sel])])
                 # G3: per query token with >= 3 core keys
                 ova = ov_full[a][h].astype(np.float64)
                 core = {}
@@ -161,7 +163,7 @@ def run(models, draws, seed=0):
                     a_ = v - (pu * v).sum()
                     c_ = centroid - (pu * centroid).sum()
                     sim = (pu * a_ * c_).sum() / np.sqrt((pu * a_ * a_).sum() * (pu * c_ * c_).sum())
-                    vals3.append(sim); ent3.append(entering[i]); str3.append(f"{ti}:{q}:{dec[i]}")
+                    vals3.append(sim); ent3.append(entering[i]); str3.append(f"{ti}:{q}:{dec[i]}:{sdec[i]}")
             g2_obs, g2_p, g2_n = stratified_perm(np.concatenate(vals2), np.concatenate(ent2),
                                                  sum(str2, []), rng, draws)
             g3_obs, g3_p, g3_n = stratified_perm(np.asarray(vals3), np.asarray(ent3), str3, rng, draws) \
@@ -182,7 +184,8 @@ def run(models, draws, seed=0):
                       "G1_holds_0.9": sum(r["G1"]["thr0.9"]["holds"] for r in flat),
                       "G2_holds": sum(r["G2"]["holds"] for r in flat),
                       "G3_holds": sum(r["G3"]["holds"] for r in flat)}
-    with open(os.path.join(C.OUT, "growth.json"), "w") as f:
+    name = f"growth_matchS{s_bins}.json" if match_attention else "growth.json"
+    with open(os.path.join(C.OUT, name), "w") as f:
         json.dump(out, f, indent=1)
     print(json.dumps(out["summary"]), flush=True)
     return out
@@ -192,5 +195,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", nargs="+", default=["attn_s1", "attn_s2", "attn_s3", "attn_s4"])
     ap.add_argument("--draws", type=int, default=2000)
+    ap.add_argument("--match_attention", action="store_true",
+                    help="exploratory control: strata also by the decile of the current attention score S_c")
+    ap.add_argument("--s_bins", type=int, default=10, help="number of current-attention quantile bins (with --match_attention)")
     a = ap.parse_args()
-    run(a.models, a.draws)
+    run(a.models, a.draws, match_attention=a.match_attention, s_bins=a.s_bins)

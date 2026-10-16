@@ -107,3 +107,40 @@ training tunes the vote to where the head already looks, the calibration echo. T
 with r (m = 0.69 already at step 718), so these checkpoints cannot separate the two early on. Attention and vote form
 together; what is established is that attention is predictable from the vote and the data, at every stage after step
 229.
+
+## Addendum 2: growth test (logs/prereg_look_follows_write_addendum2.md)
+
+attn_s1..s4, the 8 confirmatory heads; analysis/look_write_deep/growth.py; analysis/out/look_write_deep/growth*.json.
+
+| head | G1 at 0.8: vote / attention settle | G2 (pre-registered) | G2, current attention matched (10 / 50 bins) | G3 (pre-reg) | G3, matched (10 / 50) |
+|---|---|---|---|---|---|
+| s1/h3 | 4807 / 10286 yes | +0.400 | +0.222 / +0.208 | +0.083 | +0.009 / +0.021 |
+| s2/h2 | 7032 / 10286 yes | +0.423 | +0.247 / +0.240 | +0.060 | -0.049 / -0.074 |
+| s3/h0 | 7032 / 10286 yes | +0.408 | +0.207 / +0.194 | +0.088 | +0.011 / -0.005 |
+| s3/h1 | 10286 / 10286 no | +0.360 | +0.175 / +0.167 | +0.137 | +0.019 / +0.028 |
+| s3/h3 | 4807 / 10286 yes | +0.359 | +0.178 / +0.171 | +0.119 | +0.001 / -0.006 |
+| s4/h0 | 7032 / 10286 yes | +0.503 | +0.275 / +0.259 | +0.085 | -0.008 / -0.013 |
+| s4/h2 | 7032 / 7032 no | +0.541 | +0.270 / +0.253 | +0.114 | +0.017 / +0.034 |
+| s4/h3 | 15046 / 10286 no | +0.347 | +0.206 / +0.193 | +0.161 | +0.002 / -0.019 |
+
+(G2 and G3 values: mean usefulness or vote similarity of entering pairs minus frequency-matched controls; every G2
+value has p = 0.0005, the smallest possible with 2000 permutations.)
+
+- **G1 fails narrowly: 5 of 8** (predicted >= 6). At threshold 0.5 also 5 of 8; at 0.9, 2 of 8. Votes settle at steps
+  4807-15046 and attention at 7032-10286: no clear "write before look".
+- **G2 holds: 8 of 8.** Pairs that newly become strongly attended had higher usefulness at the earlier checkpoint.
+  Exploratory control (not pre-registered; added because the pre-registered design matched only on frequency, and
+  pairs entering the top 10% were usually just below it, where usefulness is high simply because usefulness and
+  attention already correlate): matching also on the current attention level, in 10 or 50 quantile bins, halves the
+  effect but keeps it in all 8 heads (+0.17 to +0.28, p = 0.0005). Usefulness predicts which pairs gain strong
+  attention beyond their current attention.
+- **G3 (exploratory) holds 8 of 8 as pre-registered, but not under the same control (2 of 8 with 10 or 50 bins).** The
+  "entering keys vote like the core keys" effect was mostly the attention confound; recursive generalisation of the
+  key set is not supported.
+
+**Direction, combining D and G.** Attention and vote form together (G1 no clear order; D: the relation is near full
+strength by step 2246). Which pairs a head comes to attend strongly is predicted by the usefulness of its vote there,
+beyond the current attention (G2 with controls), while across the bulk of weakly attended pairs, and late in
+training, the vote adapts to where the head looks (D2 reverse direction). The best description is co-adaptation:
+"where a head looks" and "what it writes" shape each other, with usefulness leading at the top of the attention
+distribution. A strict "comes from" (the vote first, attention following) is not supported.
