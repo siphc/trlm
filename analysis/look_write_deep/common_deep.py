@@ -78,13 +78,15 @@ def windows(seed, n):
 
 # ----------------------------------------------------------------------------- explicit forward
 
-def forward(model, x, sub=None, frozen=None, detach_kv_after=None, track=False):
+def forward(model, x, sub=None, frozen=None, detach_kv_after=None, track=False, ablate_ctx=None):
     """Explicit forward pass of a (multi-block, attention-only) TinyLM.
 
     x: (B, T') int64.  sub: (layer, head, pattern) replaces that head's attention pattern (B, T', T') in that block;
     later blocks recompute their patterns from the modified residual unless `frozen` gives them ({layer: (B,H,T,T)}).
     detach_kv_after: in blocks after this layer, keys and values are computed from a detached residual (SAME readout).
     track: the embedding output requires grad, so gradients w.r.t. the residuals can be taken.
+    ablate_ctx: {(layer, head): mean_ctx (DH,)}: that head's output from earlier tokens is replaced by mean_ctx, keeping
+    its current-token part: z_h(i) = a_ii v_i + mean_ctx (the harness "earlier" ablation, at any layer).
     Returns logits (B, T', V) and a dict with per-block residuals (resid[l] = after block l; resid[-1]... see code),
     scores, patterns and values."""
     L, H, DH, D = dims(model)
@@ -107,7 +109,13 @@ def forward(model, x, sub=None, frozen=None, detach_kv_after=None, track=False):
         if sub is not None and sub[0] == l:
             a = a.clone()
             a[:, sub[1]] = torch.as_tensor(sub[2], dtype=a.dtype, device=a.device)
-        z = (a @ v).transpose(1, 2).reshape(B, TT, D)
+        zh = a @ v                                                   # (B, H, T, DH)
+        if ablate_ctx:
+            for (la, ha), mean_ctx in ablate_ctx.items():
+                if la == l:
+                    zh = zh.clone()
+                    zh[:, ha] = torch.diagonal(a[:, ha], dim1=-2, dim2=-1)[..., None] * v[:, ha] + mean_ctx
+        z = zh.transpose(1, 2).reshape(B, TT, D)
         h = h + blk.attn.out(z)
         info["resid"].append(h)
         info["scores"].append(sc)
@@ -144,6 +152,24 @@ def logprobs(model, wins, sub=None, frozen_from_clean=False, bs=8):
             logits, _ = forward(model, x, sub=s, frozen=frozen)
             out.append(torch.log_softmax(logits.float(), -1).numpy())
     return np.concatenate(out)
+
+
+def ctx_means(model, wins, bs=8):
+    """Mean over windows and positions of each head's output from earlier tokens, z_h(i) - a_ii v_i:
+    {(layer, head): (DH,) tensor}."""
+    L, H, DH, D = dims(model)
+    acc = torch.zeros(L, H, DH, dtype=torch.float64)
+    n = 0
+    with torch.no_grad():
+        for i in range(0, len(wins), bs):
+            x = torch.as_tensor(np.asarray(wins[i:i + bs, :T], dtype=np.int64))
+            _, info = forward(model, x)
+            for l in range(L):
+                a, v = info["pattern"][l], info["v"][l]
+                ctx = a @ v - torch.diagonal(a, dim1=-2, dim2=-1)[..., None] * v      # (B, H, T, DH)
+                acc[l] += ctx.double().sum((0, 2))
+            n += x.numel()
+    return {(l, h): (acc[l, h] / n).float() for l in range(L) for h in range(H)}
 
 
 def final_ln_scale(model, wins, bs=8):

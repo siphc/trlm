@@ -63,7 +63,7 @@ def run(tokens, device):
             def dc(vals):
                 Y = np.zeros((C.V, C.V))
                 Y[kk, qq] = vals
-                return double_centre(Y, kk, qq, ww)[0]
+                return double_centre(Y, kk, qq, ww, iters=1000, tol=1e-9)[0]
 
             heads = {}
             for h in range(len(pps)):

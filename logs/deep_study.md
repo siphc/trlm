@@ -128,3 +128,20 @@ error", applied to where a head looks. The essay does not test attention; its at
 The growth test (write before look; attention acquired where the vote is useful) and the capacity comparison (fewer
 heads -> broader, more shared work) follow from these passages. Correction to my earlier summary: the essay frames
 shared work among heads as "groups of attention heads", not as superposition.
+
+## 2026-10-16 echo test started first (MPS); capacity on development models (exploratory)
+
+- pass_bgu on MPS equals CPU (max relative difference 2e-6 over all quantities, attn_s0, 1M tokens).
+- Generic earlier-token ablation (common_deep.forward ablate_ctx) reproduces harness.common's "earlier" ablation
+  exactly on attn_s0 (same head means; KL equal to 5 decimals for all 4 heads).
+- Capacity (analysis/look_write_deep/capacity.py; exploratory; one-layer models and development seeds only, before the
+  deep pre-registration): single-head earlier-token ablations, pairwise probability-weighted correlation of their
+  effects.
+  | model | heads | share of pairs with rho < -0.1 | mean rho | same-layer mean rho |
+  |---|---|---|---|---|
+  | attn_s0..s4 | 4 | 0.33-0.83 | -0.08 to -0.10 | (all same layer) |
+  | attn2L_s0 | 8 | 0.00 | +0.046 | -0.013 |
+  | attn4L_s0 | 16 | 0.00 | +0.049 | -0.005 |
+  The one-layer heads correct each other (anti-correlated effects); in the deeper models even same-layer heads (also 4
+  per layer) are uncorrelated. Direction as the essay predicts (fewer heads -> broader, shared work). One development
+  model per depth so far; seeds 1-4 follow after the deep pre-registration.
