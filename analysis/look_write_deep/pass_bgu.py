@@ -60,7 +60,7 @@ def token_writes(model, idx, stream, device, n_windows=4000, bs=32):
             cnt += torch.bincount(tok, minlength=C.V).double()
             for l in range(L):
                 for h in range(H):
-                    o = C.head_writes(model, info, l, h).reshape(-1, D).double().cpu()
+                    o = C.head_writes(model, info, l, h).reshape(-1, D).cpu().double()
                     S[l, h].index_add_(0, tok, o)
     seen = cnt > 0
     obar = S / cnt.clamp(min=1)[None, None, :, None]
@@ -145,10 +145,10 @@ def run(model_id, n_tokens, device, bs):
         part_n.index_add_(0, sl, torch.ones_like(sl, dtype=torch.float32))
         del tok_j
         if (nb + 1) % FLUSH == 0 or nb == n_batches - 1:
-            p = part.double().cpu().numpy()
+            p = part.cpu().double().numpy()
             for qi, q in enumerate(QUANTITIES):
                 acc[q] += p[qi]
-            N += part_n.double().cpu().numpy()
+            N += part_n.cpu().double().numpy()
             part.zero_()
             part_n.zero_()
             if (nb + 1) % (FLUSH * 20) == 0 or nb == n_batches - 1:

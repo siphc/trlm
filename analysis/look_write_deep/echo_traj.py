@@ -27,7 +27,7 @@ from analysis.look_write_deep import common_deep as C
 from analysis.look_write_deep import pass_bgu
 
 MODELS = ["attn_s1", "attn_s2", "attn_s3", "attn_s4"]
-CKPTS = ["ckpt_step229", "ckpt_step718", "ckpt_step2246", "ckpt_step7032", "final"]
+CKPTS = ["ckpt_step229", "ckpt_step718", "ckpt_step2246", "ckpt_step7032", "ckpt_step22009", "final"]  # addendum D
 
 
 def checkpoint_meta(model, ckpt):
@@ -72,6 +72,9 @@ def run(tokens, device):
                 S = dc(pps[h][kk, qq])
                 heads[h] = {"r": wcorr(S, U, ww), "m": wcorr(U, E, ww), "U": U, "S": S}
             per[ck] = {"meta": checkpoint_meta(model, ck), "heads": heads, "w": ww, "keys": keys[sel]}
+            np.savez(os.path.join(C.model_dir(mid), "traj_tables.npz"), keys=keys[sel], w=ww,
+                     U=np.stack([heads[h]["U"] for h in sorted(heads)]), S=np.stack([heads[h]["S"] for h in sorted(heads)]),
+                     E=np.stack([dc(z["lecho"][0, h][sel] / (N[sel] + C.SHRINK)) for h in sorted(heads)]))
         out["models"][model] = {"local_heads": local, "per": per}
     # summary
     summary = {"by_checkpoint": [], "cross_lagged": {}}
