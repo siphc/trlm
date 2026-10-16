@@ -101,3 +101,30 @@ are code checks only and set nothing.
 - CPU: the first queue finished (B, C, 20M-token code-check passes and arm fits on attn_s1..s4). Addendum D (echo
   trajectory) had just started its first checkpoint pass; it restarts from scratch for that checkpoint.
 - To continue: `sh scripts/resume_deep_study.sh` (training queue + watchdog + CPU queue; finished work is skipped).
+
+## 2026-10-16 essay read verbatim (step 0 of the reprioritised plan)
+
+Cammarata, N., 2026, "Neural Networks Are Already Clean", Goodfire (https://already-clean.goodfire.com/), read in full
+from the downloaded page (2,247 lines of text). Quotes used for the reprioritisation, by section:
+- "Why Networks Generalize": "circuits race to capture the remaining error, and the ones that reuse what's already
+  there, and can be reused in turn, outcompete the rest. Generalization is what's left from the victor."
+- "Where Adversarial Examples Go": "established routes have a head start in capturing residual error. They already
+  provide ways to change the answer, so optimization can build on them."
+- "More on Circuit Ecology": "A region of the network that already has useful parts and readers can learn the next
+  related thing faster than anything starting fresh, so it takes the error signal before a competitor can grow."
+- "Superposition of the Gaps": recursive generalization "is easy to check if you have training checkpoints."
+- "Attention": "We've made less progress on attention than on neurons"; "Where it looks is relatively easy. It
+  basically comes for free" (meaning: readable in attribution graphs, not explained); "My low-confidence prediction is
+  that attention heads will turn out to be broad and recursively generalized, like neurons in small models, since
+  there are far fewer of them."
+- "Relation to Attention Superposition": "We think they meant that useful things are shared by groups of attention
+  heads, and we agree"; "within a layer, two or three heads do most of a route's work".
+- "Toy Models": the toy setting "prices the cost of sharing a neuron, interference, but not the benefit, reuse."
+- The Introduction and "Exploring Image Models": with less room, units get "coarser-grained", not packed.
+
+Reading for this study: our usefulness (how much of the residual error, relative to the bigram stage, a head's
+existing write can capture) is a quantitative version of "established routes have a head start in capturing residual
+error", applied to where a head looks. The essay does not test attention; its attention claims are low-confidence.
+The growth test (write before look; attention acquired where the vote is useful) and the capacity comparison (fewer
+heads -> broader, more shared work) follow from these passages. Correction to my earlier summary: the essay frames
+shared work among heads as "groups of attention heads", not as superposition.
