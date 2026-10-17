@@ -12,7 +12,7 @@ committed; none of their outputs had been read.
   token-token attention term (`tt_self`), own-vote usefulness reaches about a third of the output gain (0.26-0.46).
 - Calibration on attn_s1..s4 with this study's pipeline (200M-token samples, the 8 confirmatory heads): median own
   gain 0.104 with the LTOTAL readout (= DV for one block) and 0.049 with TOTAL; own/oracle gain ratios 0.37 median
-  (0.36-0.49); pure-pair correlations 0.34-0.45; shuffled controls at most 0.004; own coefficients c1 0.19-0.42,
+  (0.29-0.49); pure-pair correlations 0.34-0.45; shuffled controls at most 0.004; own coefficients c1 0.19-0.42,
   c2 0.24-0.41.
 - Direction tests on the one-layer checkpoints (addendum D and addendum 2): attention and vote co-adapt; usefulness
   predicts which pairs become strongly attended even with current attention matched; the vote does not settle first.
