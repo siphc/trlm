@@ -1,0 +1,108 @@
+{
+ "model": "attn2L_s2",
+ "n_blocks": 2,
+ "rules": {
+  "LOCAL_MAX": 10.0,
+  "PREV_MIN": 0.5,
+  "INDUCTION_MIN": 0.3,
+  "EARLIER_MASS_MIN": 0.15
+ },
+ "heads": [
+  {
+   "layer": 0,
+   "head": 0,
+   "mean_distance": 36.21491475094114,
+   "earlier_mass": 0.9828129490726122,
+   "prev_attention": 0.02570384368300438,
+   "induction_score": 0.0027768132276833057,
+   "LOCAL": false,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": false
+  },
+  {
+   "layer": 0,
+   "head": 1,
+   "mean_distance": 19.63629929509224,
+   "earlier_mass": 0.9514022953038161,
+   "prev_attention": 0.10555774718523026,
+   "induction_score": 0.0007080413051880896,
+   "LOCAL": false,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": false
+  },
+  {
+   "layer": 0,
+   "head": 2,
+   "mean_distance": 12.021939352573073,
+   "earlier_mass": 0.4073589915500436,
+   "prev_attention": 0.07660189270973206,
+   "induction_score": 0.00012513808906078339,
+   "LOCAL": false,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": false
+  },
+  {
+   "layer": 0,
+   "head": 3,
+   "mean_distance": 5.99228260639235,
+   "earlier_mass": 0.7908407588309689,
+   "prev_attention": 0.22979439795017242,
+   "induction_score": 8.048187737585977e-06,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 1,
+   "head": 0,
+   "mean_distance": 3.877826751485599,
+   "earlier_mass": 0.5113902519501385,
+   "prev_attention": 0.21203075349330902,
+   "induction_score": 5.862871521600255e-09,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 1,
+   "head": 1,
+   "mean_distance": 5.578898439818542,
+   "earlier_mass": 0.8240589431194921,
+   "prev_attention": 0.2035295069217682,
+   "induction_score": 2.0423910882527707e-06,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 1,
+   "head": 2,
+   "mean_distance": 4.457074416871212,
+   "earlier_mass": 0.4466049737048601,
+   "prev_attention": 0.17068427801132202,
+   "induction_score": 2.2138998190257553e-07,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 1,
+   "head": 3,
+   "mean_distance": 24.959225085864414,
+   "earlier_mass": 0.4421092446489178,
+   "prev_attention": 0.04182656109333038,
+   "induction_score": 0.0010398689191788435,
+   "LOCAL": false,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": false
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+{
+ "model": "attn_s4",
+ "n_tokens": 200000000,
+ "n_slots": 282052,
+ "scale": 1.2106191743918093,
+ "seconds": 1896.5197587013245,
+ "device": "mps",
+ "batch": 32
+}

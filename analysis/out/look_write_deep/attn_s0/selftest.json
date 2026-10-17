@@ -1,0 +1,17 @@
+{
+ "model": "attn_s0",
+ "n_blocks": 1,
+ "explicit_vs_model_max_abs": 5.054473876953125e-05,
+ "own_pattern_max_abs": 0.0,
+ "uniform_pattern_min_change": 11.240720748901367,
+ "grad_check": [
+  {
+   "layer": 0,
+   "finite_difference": -0.03187705715390621,
+   "analytic": -0.03187705638302271,
+   "rel_err": 2.4183019536729463e-08
+  }
+ ],
+ "same_equals_total_last_block_max_abs": 0.0,
+ "ok": true
+}

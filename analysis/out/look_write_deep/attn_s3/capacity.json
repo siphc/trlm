@@ -1,0 +1,63 @@
+{
+ "model": "attn_s3",
+ "n_blocks": 1,
+ "n_heads": 4,
+ "kl_single": {
+  "L0H0": 0.3643946757058435,
+  "L0H1": 0.5035606492571351,
+  "L0H2": 0.3641220250339401,
+  "L0H3": 0.3683793673454791
+ },
+ "pairs": [
+  {
+   "a": "L0H0",
+   "b": "L0H1",
+   "rho": -0.10540052953130327,
+   "nonadditivity": 1.0686663756647352,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H2",
+   "rho": -0.13211125576220514,
+   "nonadditivity": 0.9956122396648859,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H3",
+   "rho": -0.1380357254661448,
+   "nonadditivity": 0.962298163466604,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H2",
+   "rho": 0.037038331281355835,
+   "nonadditivity": 1.0911165104172695,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H3",
+   "rho": -0.15806135956351752,
+   "nonadditivity": 1.0219939915233844,
+   "same_layer": true
+  },
+  {
+   "a": "L0H2",
+   "b": "L0H3",
+   "rho": -0.10451464310975864,
+   "nonadditivity": 1.0496909488332895,
+   "same_layer": true
+  }
+ ],
+ "summary": {
+  "cancellation_share": 0.8333333333333334,
+  "mean_rho": -0.10018086369192893,
+  "mean_negative_rho": -0.12762470268658588,
+  "mean_abs_rho": 0.11252697411904754,
+  "mean_nonadditivity": 1.0315630382616947
+ },
+ "seconds": 3.0796940326690674
+}

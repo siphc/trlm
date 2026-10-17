@@ -1,0 +1,6 @@
+attn_s1: 4 heads, cancellation_share 0.500, mean_rho -0.080, mean_negative_rho -0.099, mean_abs_rho 0.084, mean_nonadditivity 1.078 [3s]
+attn_s2: 4 heads, cancellation_share 0.333, mean_rho -0.089, mean_negative_rho -0.089, mean_abs_rho 0.089, mean_nonadditivity 1.097 [3s]
+attn_s3: 4 heads, cancellation_share 0.833, mean_rho -0.100, mean_negative_rho -0.128, mean_abs_rho 0.113, mean_nonadditivity 1.032 [3s]
+attn_s4: 4 heads, cancellation_share 0.500, mean_rho -0.086, mean_negative_rho -0.086, mean_abs_rho 0.086, mean_nonadditivity 1.071 [3s]
+attn2L_s0: 8 heads, cancellation_share 0.000, mean_rho 0.046, mean_negative_rho -0.050, mean_abs_rho 0.071, mean_nonadditivity 1.030 [12s]
+attn4L_s0: 16 heads, cancellation_share 0.000, mean_rho 0.049, mean_negative_rho -0.031, mean_abs_rho 0.063, mean_nonadditivity 1.030 [74s]

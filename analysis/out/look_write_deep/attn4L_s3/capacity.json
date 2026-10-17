@@ -1,0 +1,873 @@
+{
+ "model": "attn4L_s3",
+ "n_blocks": 4,
+ "n_heads": 16,
+ "kl_single": {
+  "L0H0": 0.05551006464081954,
+  "L0H1": 0.5615755139176609,
+  "L0H2": 0.059284805011273284,
+  "L0H3": 0.23268341590144404,
+  "L1H0": 0.1261844207824912,
+  "L1H1": 0.13690190170226146,
+  "L1H2": 0.12706870283301838,
+  "L1H3": 0.14877154748648447,
+  "L2H0": 0.17286568249775497,
+  "L2H1": 0.11886112312481463,
+  "L2H2": 0.24704133294658795,
+  "L2H3": 0.14659910432642545,
+  "L3H0": 0.20542069921643877,
+  "L3H1": 0.09263807236855365,
+  "L3H2": 0.17332508092819118,
+  "L3H3": 0.2386816078461308
+ },
+ "pairs": [
+  {
+   "a": "L0H0",
+   "b": "L0H1",
+   "rho": 0.03451600362923334,
+   "nonadditivity": 0.9956292797186569,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H2",
+   "rho": -0.01921242379154706,
+   "nonadditivity": 0.9786603773160022,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H3",
+   "rho": 0.03618327998887914,
+   "nonadditivity": 1.1534149189112775,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H0",
+   "rho": 0.08127788934604628,
+   "nonadditivity": 1.0637440312101754,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H1",
+   "rho": 0.022731870853901524,
+   "nonadditivity": 1.0163926093114075,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H2",
+   "rho": 0.013669552193490675,
+   "nonadditivity": 1.0416689922619364,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H3",
+   "rho": 0.08207628347459074,
+   "nonadditivity": 1.0232402250212806,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L2H0",
+   "rho": 0.05907211952182158,
+   "nonadditivity": 1.0165023619141842,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L2H1",
+   "rho": 0.08064754833825587,
+   "nonadditivity": 1.0396694973466556,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L2H2",
+   "rho": 0.0721726723264378,
+   "nonadditivity": 1.0116344667156163,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L2H3",
+   "rho": 0.044851602393823076,
+   "nonadditivity": 1.045707412095973,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L3H0",
+   "rho": 0.042577662571968856,
+   "nonadditivity": 0.9809140608681126,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L3H1",
+   "rho": 0.019500891702935216,
+   "nonadditivity": 0.9953954725929036,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L3H2",
+   "rho": -0.026424845505013186,
+   "nonadditivity": 0.9732132380204644,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L3H3",
+   "rho": 0.04183863340116212,
+   "nonadditivity": 1.0230017403422687,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H2",
+   "rho": 0.055530776377857013,
+   "nonadditivity": 1.0459235739351544,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H3",
+   "rho": 0.009582470780631054,
+   "nonadditivity": 1.1484785217342357,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H0",
+   "rho": 0.2595851200911129,
+   "nonadditivity": 1.0343289529545059,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H1",
+   "rho": 0.1951730142259517,
+   "nonadditivity": 1.0334006471886272,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H2",
+   "rho": 0.41013476167962065,
+   "nonadditivity": 1.321433415601801,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H3",
+   "rho": 0.18920257330099213,
+   "nonadditivity": 1.0064184664701816,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L2H0",
+   "rho": 0.19161575364436395,
+   "nonadditivity": 1.0697750062728957,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L2H1",
+   "rho": 0.016528276018925203,
+   "nonadditivity": 1.0049799725517903,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L2H2",
+   "rho": 0.18189900430137462,
+   "nonadditivity": 1.080462794840824,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L2H3",
+   "rho": 0.10788282631448518,
+   "nonadditivity": 1.0800743064634761,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L3H0",
+   "rho": 0.12988753526198965,
+   "nonadditivity": 0.9422927591126954,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L3H1",
+   "rho": 0.0634936466793578,
+   "nonadditivity": 1.0289088725350963,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L3H2",
+   "rho": 0.09095886293392678,
+   "nonadditivity": 0.993635917415237,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L3H3",
+   "rho": 0.15952655095515983,
+   "nonadditivity": 1.066142148796692,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L0H3",
+   "rho": 0.022392356651695824,
+   "nonadditivity": 1.0323932213104439,
+   "same_layer": true
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H0",
+   "rho": 0.02686918200712792,
+   "nonadditivity": 1.0050936888110855,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H1",
+   "rho": 0.06768185170039545,
+   "nonadditivity": 1.0038833411574106,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H2",
+   "rho": 0.05794645576319291,
+   "nonadditivity": 0.9943504288857714,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H3",
+   "rho": 0.10935891092103403,
+   "nonadditivity": 1.0866335086802792,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L2H0",
+   "rho": 0.08512871768787872,
+   "nonadditivity": 1.0297743447827397,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L2H1",
+   "rho": 0.040318347693647505,
+   "nonadditivity": 1.0099734881056852,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L2H2",
+   "rho": 0.0623003836282664,
+   "nonadditivity": 1.012804873488292,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L2H3",
+   "rho": 0.053574974246326006,
+   "nonadditivity": 1.032791699143987,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L3H0",
+   "rho": 0.13752052014919355,
+   "nonadditivity": 1.0348074081032879,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L3H1",
+   "rho": 0.041433435827373674,
+   "nonadditivity": 1.0040703978998304,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L3H2",
+   "rho": 0.1942229216161814,
+   "nonadditivity": 1.0716532806201926,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L3H3",
+   "rho": 0.016400836763350125,
+   "nonadditivity": 1.012061708023542,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H0",
+   "rho": 0.14290732330563385,
+   "nonadditivity": 1.1188357667710442,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H1",
+   "rho": -0.03641280905544469,
+   "nonadditivity": 1.0474995454154605,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H2",
+   "rho": -0.09091882193697362,
+   "nonadditivity": 1.0724388726439733,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H3",
+   "rho": 0.050887169080158404,
+   "nonadditivity": 1.0234007513228454,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L2H0",
+   "rho": 0.07617996043383034,
+   "nonadditivity": 1.062994515890522,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L2H1",
+   "rho": 0.11030486188569338,
+   "nonadditivity": 1.0216583295982644,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L2H2",
+   "rho": 0.14174567937696456,
+   "nonadditivity": 0.9655823975570379,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L2H3",
+   "rho": 0.11223431230643716,
+   "nonadditivity": 1.0572047004317546,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L3H0",
+   "rho": 0.06438782871219041,
+   "nonadditivity": 0.989176468886527,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L3H1",
+   "rho": -0.0033058728577460977,
+   "nonadditivity": 1.0029234622961163,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L3H2",
+   "rho": 0.04796502818270985,
+   "nonadditivity": 1.0285682361968964,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L3H3",
+   "rho": 0.038686467411234986,
+   "nonadditivity": 1.1218377516571363,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H1",
+   "rho": 0.01620832088747014,
+   "nonadditivity": 1.097274854307541,
+   "same_layer": true
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H2",
+   "rho": 0.03253639685587829,
+   "nonadditivity": 1.1656089269913577,
+   "same_layer": true
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H3",
+   "rho": 0.050103669963482464,
+   "nonadditivity": 1.0845693800970113,
+   "same_layer": true
+  },
+  {
+   "a": "L1H0",
+   "b": "L2H0",
+   "rho": 0.1063458710017457,
+   "nonadditivity": 1.0816405467491772,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L2H1",
+   "rho": 0.1010206964087859,
+   "nonadditivity": 1.0554071542063823,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L2H2",
+   "rho": 0.17866340443451698,
+   "nonadditivity": 1.0775724173308798,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L2H3",
+   "rho": 0.0846080794417018,
+   "nonadditivity": 1.1167712766012374,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L3H0",
+   "rho": 0.13832686954361642,
+   "nonadditivity": 0.9621648564643492,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L3H1",
+   "rho": 0.04906335155308917,
+   "nonadditivity": 1.0234700720476977,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L3H2",
+   "rho": 0.02749107262686086,
+   "nonadditivity": 1.0103814271573002,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L3H3",
+   "rho": 0.07520805906999622,
+   "nonadditivity": 1.057044364297221,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L1H2",
+   "rho": 0.006905814527674376,
+   "nonadditivity": 1.0265313868467636,
+   "same_layer": true
+  },
+  {
+   "a": "L1H1",
+   "b": "L1H3",
+   "rho": 0.01731165226801344,
+   "nonadditivity": 1.0497029138666407,
+   "same_layer": true
+  },
+  {
+   "a": "L1H1",
+   "b": "L2H0",
+   "rho": 0.10050444896697286,
+   "nonadditivity": 1.0260241753025512,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L2H1",
+   "rho": 0.03028365943448331,
+   "nonadditivity": 1.034601763512312,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L2H2",
+   "rho": 0.23568252919774085,
+   "nonadditivity": 1.1461663982120112,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L2H3",
+   "rho": 0.016640323425588306,
+   "nonadditivity": 1.0112759003568836,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L3H0",
+   "rho": 0.04520702111277465,
+   "nonadditivity": 0.9932315480101853,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L3H1",
+   "rho": 0.06025751704011122,
+   "nonadditivity": 1.027341061971385,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L3H2",
+   "rho": 0.07738393459401982,
+   "nonadditivity": 1.0342450638742386,
+   "same_layer": false
+  },
+  {
+   "a": "L1H1",
+   "b": "L3H3",
+   "rho": 0.21370760652646073,
+   "nonadditivity": 1.0462725695676116,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L1H3",
+   "rho": 0.04872316038582645,
+   "nonadditivity": 1.0567167599174705,
+   "same_layer": true
+  },
+  {
+   "a": "L1H2",
+   "b": "L2H0",
+   "rho": 0.06419115428672571,
+   "nonadditivity": 1.032528954837547,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L2H1",
+   "rho": -0.05702770468572882,
+   "nonadditivity": 0.9891211336167376,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L2H2",
+   "rho": 0.004729149191669511,
+   "nonadditivity": 1.0294363832548103,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L2H3",
+   "rho": 0.037818090379404146,
+   "nonadditivity": 1.062080098748977,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L3H0",
+   "rho": 0.07603687910582303,
+   "nonadditivity": 0.9699922305573384,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L3H1",
+   "rho": 0.047207720366675324,
+   "nonadditivity": 1.032327502412239,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L3H2",
+   "rho": 0.02727144195021685,
+   "nonadditivity": 0.9705027824977839,
+   "same_layer": false
+  },
+  {
+   "a": "L1H2",
+   "b": "L3H3",
+   "rho": 0.03296246518261564,
+   "nonadditivity": 1.0404785062351116,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L2H0",
+   "rho": 0.09571297400744665,
+   "nonadditivity": 1.0451933230196448,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L2H1",
+   "rho": 0.04479261308430882,
+   "nonadditivity": 0.9892270567397696,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L2H2",
+   "rho": 0.12958112031369684,
+   "nonadditivity": 1.079849821814532,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L2H3",
+   "rho": 0.07632067706540835,
+   "nonadditivity": 1.1551693863850148,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L3H0",
+   "rho": 0.01303973566254495,
+   "nonadditivity": 1.0524964876246508,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L3H1",
+   "rho": 0.09426534093549402,
+   "nonadditivity": 1.0398061488432764,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L3H2",
+   "rho": 0.10257229479137625,
+   "nonadditivity": 1.0495100256372907,
+   "same_layer": false
+  },
+  {
+   "a": "L1H3",
+   "b": "L3H3",
+   "rho": 0.09004836191603034,
+   "nonadditivity": 0.9959829204752677,
+   "same_layer": false
+  },
+  {
+   "a": "L2H0",
+   "b": "L2H1",
+   "rho": -0.0032717541972586057,
+   "nonadditivity": 1.0598736461982141,
+   "same_layer": true
+  },
+  {
+   "a": "L2H0",
+   "b": "L2H2",
+   "rho": -0.08838546159990804,
+   "nonadditivity": 1.0246751731418036,
+   "same_layer": true
+  },
+  {
+   "a": "L2H0",
+   "b": "L2H3",
+   "rho": -0.040648515792385216,
+   "nonadditivity": 1.0664523567609854,
+   "same_layer": true
+  },
+  {
+   "a": "L2H0",
+   "b": "L3H0",
+   "rho": 0.1270222228106662,
+   "nonadditivity": 0.9653309487190616,
+   "same_layer": false
+  },
+  {
+   "a": "L2H0",
+   "b": "L3H1",
+   "rho": -0.013419862074876209,
+   "nonadditivity": 0.9957049077303538,
+   "same_layer": false
+  },
+  {
+   "a": "L2H0",
+   "b": "L3H2",
+   "rho": -0.004754319131432315,
+   "nonadditivity": 1.0002688885084403,
+   "same_layer": false
+  },
+  {
+   "a": "L2H0",
+   "b": "L3H3",
+   "rho": 0.05500654666609387,
+   "nonadditivity": 1.0973481345730576,
+   "same_layer": false
+  },
+  {
+   "a": "L2H1",
+   "b": "L2H2",
+   "rho": -0.003390674702992233,
+   "nonadditivity": 1.0574039342358321,
+   "same_layer": true
+  },
+  {
+   "a": "L2H1",
+   "b": "L2H3",
+   "rho": -0.04509159130158418,
+   "nonadditivity": 0.9919840696860723,
+   "same_layer": true
+  },
+  {
+   "a": "L2H1",
+   "b": "L3H0",
+   "rho": 0.07920406018720949,
+   "nonadditivity": 1.0015698590880195,
+   "same_layer": false
+  },
+  {
+   "a": "L2H1",
+   "b": "L3H1",
+   "rho": -0.010026213046057027,
+   "nonadditivity": 0.9704103225823291,
+   "same_layer": false
+  },
+  {
+   "a": "L2H1",
+   "b": "L3H2",
+   "rho": 0.009551112616599616,
+   "nonadditivity": 1.0126721448325011,
+   "same_layer": false
+  },
+  {
+   "a": "L2H1",
+   "b": "L3H3",
+   "rho": 0.028295122937456764,
+   "nonadditivity": 0.9811775469929302,
+   "same_layer": false
+  },
+  {
+   "a": "L2H2",
+   "b": "L2H3",
+   "rho": 0.03262829114458589,
+   "nonadditivity": 1.1139138372672295,
+   "same_layer": true
+  },
+  {
+   "a": "L2H2",
+   "b": "L3H0",
+   "rho": 0.011278835704400414,
+   "nonadditivity": 0.9592622784730099,
+   "same_layer": false
+  },
+  {
+   "a": "L2H2",
+   "b": "L3H1",
+   "rho": 0.08649645858002258,
+   "nonadditivity": 1.0660739675147295,
+   "same_layer": false
+  },
+  {
+   "a": "L2H2",
+   "b": "L3H2",
+   "rho": 0.07953827488979036,
+   "nonadditivity": 1.0615715647946946,
+   "same_layer": false
+  },
+  {
+   "a": "L2H2",
+   "b": "L3H3",
+   "rho": 0.15245193810912164,
+   "nonadditivity": 1.0826228144098746,
+   "same_layer": false
+  },
+  {
+   "a": "L2H3",
+   "b": "L3H0",
+   "rho": 0.0739665648138757,
+   "nonadditivity": 1.0051067698265814,
+   "same_layer": false
+  },
+  {
+   "a": "L2H3",
+   "b": "L3H1",
+   "rho": 0.030437306885231327,
+   "nonadditivity": 0.9951695988894629,
+   "same_layer": false
+  },
+  {
+   "a": "L2H3",
+   "b": "L3H2",
+   "rho": 0.07748940941246464,
+   "nonadditivity": 1.0591424178259288,
+   "same_layer": false
+  },
+  {
+   "a": "L2H3",
+   "b": "L3H3",
+   "rho": -0.017057328199043726,
+   "nonadditivity": 1.0249682223416348,
+   "same_layer": false
+  },
+  {
+   "a": "L3H0",
+   "b": "L3H1",
+   "rho": -0.04030056235040538,
+   "nonadditivity": 1.0366502482899442,
+   "same_layer": true
+  },
+  {
+   "a": "L3H0",
+   "b": "L3H2",
+   "rho": 0.07256879038174162,
+   "nonadditivity": 1.1855460147276118,
+   "same_layer": true
+  },
+  {
+   "a": "L3H0",
+   "b": "L3H3",
+   "rho": -0.08554169856505697,
+   "nonadditivity": 1.0050516774277027,
+   "same_layer": true
+  },
+  {
+   "a": "L3H1",
+   "b": "L3H2",
+   "rho": -0.046106557133540775,
+   "nonadditivity": 1.0317352322968296,
+   "same_layer": true
+  },
+  {
+   "a": "L3H1",
+   "b": "L3H3",
+   "rho": -0.0763764697369447,
+   "nonadditivity": 1.0252300900110232,
+   "same_layer": true
+  },
+  {
+   "a": "L3H2",
+   "b": "L3H3",
+   "rho": 0.000972370619726891,
+   "nonadditivity": 1.084451581500188,
+   "same_layer": true
+  }
+ ],
+ "summary": {
+  "cancellation_share": 0.0,
+  "mean_rho": 0.060421100043834226,
+  "mean_negative_rho": -0.037245972929680994,
+  "mean_abs_rho": 0.07221565813823319,
+  "mean_nonadditivity": 1.0394711838019541
+ },
+ "seconds": 40.86771893501282
+}

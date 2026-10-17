@@ -1,0 +1,60 @@
+{
+ "model": "attn_s0",
+ "n_blocks": 1,
+ "rules": {
+  "LOCAL_MAX": 10.0,
+  "PREV_MIN": 0.5,
+  "INDUCTION_MIN": 0.3,
+  "EARLIER_MASS_MIN": 0.15
+ },
+ "heads": [
+  {
+   "layer": 0,
+   "head": 0,
+   "mean_distance": 4.979860227951337,
+   "earlier_mass": 0.5060161488612057,
+   "prev_attention": 0.16103117167949677,
+   "induction_score": 0.0001978477812372148,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 0,
+   "head": 1,
+   "mean_distance": 27.349480769260705,
+   "earlier_mass": 0.9585427074576953,
+   "prev_attention": 0.03698841109871864,
+   "induction_score": 0.000813902064692229,
+   "LOCAL": false,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": false
+  },
+  {
+   "layer": 0,
+   "head": 2,
+   "mean_distance": 4.349718949403279,
+   "earlier_mass": 0.6531095846159304,
+   "prev_attention": 0.20284494757652283,
+   "induction_score": 6.171782843011897e-06,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  },
+  {
+   "layer": 0,
+   "head": 3,
+   "mean_distance": 9.855916936082677,
+   "earlier_mass": 0.8079098677921271,
+   "prev_attention": 0.1680605411529541,
+   "induction_score": 0.0002611520467326045,
+   "LOCAL": true,
+   "PREV": false,
+   "INDUCTION": false,
+   "confirmatory": true
+  }
+ ]
+}

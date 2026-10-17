@@ -1,0 +1,9 @@
+{
+ "model": "attn_s0",
+ "n_tokens": 999936,
+ "n_slots": 113924,
+ "scale": 1.1498776535261137,
+ "seconds": 38.261297941207886,
+ "device": "cpu",
+ "batch": 32
+}

@@ -1,0 +1,206 @@
+== fits attn2L_s1 attn2L_s2 Sat Oct 17 03:05:05 EDT 2026
+attn2L_s1 L0H0 (conf): base 0.1945  own +0.0402  oqc +0.1792  shuf +0.0004  max other +0.0039  corr own 0.264  [82s]
+attn2L_s1 L0H1 (expl): base 0.0498  own +0.0061  oqc +0.0324  shuf -0.0001  max other +0.0022  corr own 0.155  [175s]
+attn2L_s1 L0H2 (conf): base 0.0916  own +0.0020  oqc +0.0783  shuf -0.0002  max other +0.0034  corr own 0.089  [75s]
+attn2L_s1 L0H3 (expl): base 0.1017  own +0.0007  oqc +0.0198  shuf -0.0000  max other +0.0017  corr own 0.067  [58s]
+attn2L_s1 L1H0 (expl): base 0.2437  own +0.0045  oqc +0.0092  shuf +0.0000  max other +0.0004  corr own 0.131  [65s]
+attn2L_s1 L1H1 (conf): base 0.1725  own +0.0258  oqc +0.1365  shuf +0.0011  max other +0.0027  corr own 0.322  [71s]
+attn2L_s1 L1H2 (conf): base 0.1947  own +0.0537  oqc +0.1155  shuf +0.0009  max other +0.0040  corr own 0.326  [70s]
+attn2L_s1 L1H3 (conf): base 0.2770  own +0.0944  oqc +0.2071  shuf -0.0000  max other +0.0081  corr own 0.227  [66s]
+attn2L_s2 L0H0 (expl): base 0.1422  own +0.0026  oqc +0.0146  shuf +0.0000  max other +0.0004  corr own 0.054  [68s]
+attn2L_s2 L0H1 (expl): base 0.1425  own +0.0124  oqc +0.0611  shuf +0.0001  max other +0.0015  corr own 0.244  [64s]
+attn2L_s2 L0H2 (expl): base 0.1586  own +0.0102  oqc +0.1023  shuf +0.0004  max other +0.0006  corr own 0.142  [55s]
+attn2L_s2 L0H3 (conf): base 0.1405  own +0.0046  oqc +0.1220  shuf +0.0002  max other +0.0051  corr own 0.191  [66s]
+attn2L_s2 L1H0 (conf): base 0.3017  own +0.1228  oqc +0.2405  shuf +0.0002  max other +0.0042  corr own 0.328  [70s]
+attn2L_s2 L1H1 (conf): base 0.1906  own +0.0568  oqc +0.1141  shuf +0.0014  max other +0.0017  corr own 0.420  [69s]
+attn2L_s2 L1H2 (conf): base 0.2836  own +0.0831  oqc +0.2473  shuf -0.0009  max other +0.0050  corr own 0.361  [71s]
+attn2L_s2 L1H3 (expl): base 0.1460  own +0.0106  oqc +0.0450  shuf +0.0000  max other +0.0004  corr own 0.146  [57s]
+== fits attn2L_s3 attn2L_s4 Sat Oct 17 04:56:48 EDT 2026
+attn2L_s3 L0H0 (conf): base 0.2027  own +0.0341  oqc +0.1251  shuf +0.0005  max other +0.0054  corr own 0.229  [67s]
+attn2L_s3 L0H1 (conf): base 0.0949  own +0.0029  oqc +0.0849  shuf -0.0001  max other +0.0027  corr own 0.053  [81s]
+attn2L_s3 L0H2 (expl): base 0.0633  own +0.0006  oqc +0.0106  shuf -0.0000  max other +0.0005  corr own 0.088  [57s]
+attn2L_s3 L0H3 (expl): base 0.1100  own +0.0042  oqc +0.0955  shuf +0.0003  max other +0.0046  corr own 0.158  [99s]
+attn2L_s3 L1H0 (conf): base 0.2342  own +0.0861  oqc +0.1808  shuf -0.0001  max other +0.0046  corr own 0.386  [72s]
+attn2L_s3 L1H1 (conf): base 0.1724  own +0.0241  oqc +0.1132  shuf +0.0001  max other +0.0060  corr own 0.190  [65s]
+attn2L_s3 L1H2 (expl): base 0.2315  own +0.0051  oqc +0.0081  shuf +0.0000  max other +0.0002  corr own 0.138  [58s]
+attn2L_s3 L1H3 (conf): base 0.3004  own +0.0739  oqc +0.1858  shuf +0.0002  max other +0.0030  corr own 0.288  [68s]
+attn2L_s4 L0H0 (expl): base 0.0819  own +0.0013  oqc +0.0188  shuf -0.0000  max other +0.0008  corr own 0.076  [60s]
+attn2L_s4 L0H1 (expl): base 0.2800  own +0.0287  oqc +0.2173  shuf +0.0010  max other +0.0026  corr own 0.165  [58s]
+attn2L_s4 L0H2 (conf): base 0.1386  own +0.0002  oqc +0.1296  shuf -0.0003  max other +0.0052  corr own 0.077  [73s]
+attn2L_s4 L0H3 (conf): base 0.1144  own +0.0134  oqc +0.0909  shuf +0.0000  max other +0.0062  corr own 0.222  [66s]
+attn2L_s4 L1H0 (conf): base 0.3006  own +0.0824  oqc +0.2237  shuf +0.0002  max other +0.0032  corr own 0.252  [70s]
+attn2L_s4 L1H1 (conf): base 0.2293  own +0.0959  oqc +0.1882  shuf +0.0015  max other +0.0042  corr own 0.466  [70s]
+attn2L_s4 L1H2 (expl): base 0.2611  own +0.0069  oqc +0.0116  shuf +0.0001  max other +0.0002  corr own 0.142  [63s]
+attn2L_s4 L1H3 (expl): base 0.0951  own +0.0063  oqc +0.0379  shuf -0.0000  max other +0.0017  corr own 0.165  [60s]
+== fits attn4L_s1 attn4L_s2 Sat Oct 17 06:43:31 EDT 2026
+attn4L_s1 L0H0 (conf): base 0.0551  own +0.0074  oqc +0.0350  shuf -0.0001  max other +0.0022  corr own 0.254  [112s]
+attn4L_s1 L0H1 (expl): base 0.0761  own +0.0058  oqc +0.0405  shuf +0.0000  max other +0.0006  corr own 0.236  [93s]
+attn4L_s1 L0H2 (expl): base 0.0740  own +0.0037  oqc +0.0245  shuf +0.0001  max other +0.0012  corr own 0.193  [96s]
+attn4L_s1 L0H3 (expl): base 0.2091  own -0.0007  oqc +0.0526  shuf -0.0071  max other +0.0102  corr own 0.072  [117s]
+attn4L_s1 L1H0 (conf): base 0.0469  own +0.0013  oqc +0.0308  shuf -0.0000  max other +0.0005  corr own 0.138  [125s]
+attn4L_s1 L1H1 (expl): base 0.0488  own +0.0007  oqc +0.0094  shuf -0.0000  max other +0.0002  corr own 0.082  [97s]
+attn4L_s1 L1H2 (expl): base 0.0972  own -0.0001  oqc -0.0086  shuf -0.0003  max other +0.0015  corr own -0.025  [110s]
+attn4L_s1 L1H3 (conf): base 0.0735  own +0.0072  oqc +0.0456  shuf +0.0004  max other +0.0034  corr own 0.209  [103s]
+attn4L_s1 L2H0 (conf): base 0.1166  own +0.0142  oqc +0.0944  shuf -0.0002  max other +0.0026  corr own 0.133  [511s]
+attn4L_s1 L2H1 (conf): base 0.0968  own +0.0083  oqc +0.0547  shuf +0.0002  max other +0.0005  corr own 0.237  [94s]
+attn4L_s1 L2H2 (conf): base 0.1426  own +0.0249  oqc +0.1185  shuf +0.0001  max other +0.0037  corr own 0.290  [180s]
+attn4L_s1 L2H3 (conf): base 0.1072  own +0.0171  oqc +0.0673  shuf +0.0004  max other +0.0044  corr own 0.250  [112s]
+attn4L_s1 L3H0 (expl): base 0.2425  own +0.0041  oqc +0.0066  shuf +0.0000  max other +0.0008  corr own 0.096  [99s]
+attn4L_s1 L3H1 (conf): base 0.2064  own +0.0403  oqc +0.1529  shuf +0.0086  max other +0.0141  corr own 0.220  [131s]
+attn4L_s1 L3H2 (conf): base 0.1346  own +0.0259  oqc +0.0674  shuf +0.0005  max other +0.0015  corr own 0.228  [109s]
+attn4L_s1 L3H3 (expl): base 0.1356  own +0.0208  oqc +0.0701  shuf +0.0004  max other +0.0017  corr own 0.262  [98s]
+attn4L_s2 L0H0 (expl): base 0.0813  own +0.0040  oqc +0.0368  shuf -0.0000  max other +0.0010  corr own 0.190  [90s]
+attn4L_s2 L0H1 (conf): base 0.0684  own +0.0101  oqc +0.0449  shuf -0.0001  max other +0.0041  corr own 0.200  [108s]
+attn4L_s2 L0H2 (expl): base 0.0501  own -0.0001  oqc -0.0239  shuf -0.0005  max other +0.0004  corr own 0.150  [99s]
+attn4L_s2 L0H3 (expl): base 0.1200  own -0.0002  oqc +0.0272  shuf +0.0001  max other +0.0063  corr own 0.031  [110s]
+attn4L_s2 L1H0 (conf): base 0.0796  own +0.0090  oqc +0.0635  shuf +0.0001  max other +0.0003  corr own 0.250  [108s]
+attn4L_s2 L1H1 (expl): base 0.0366  own +0.0001  oqc +0.0047  shuf +0.0000  max other +0.0005  corr own 0.015  [94s]
+attn4L_s2 L1H2 (conf): base 0.0989  own +0.0146  oqc +0.0878  shuf +0.0004  max other +0.0031  corr own 0.237  [137s]
+attn4L_s2 L1H3 (conf): base 0.0539  own +0.0025  oqc +0.0402  shuf +0.0000  max other +0.0006  corr own 0.137  [125s]
+attn4L_s2 L2H0 (expl): base 0.1070  own +0.0066  oqc +0.0433  shuf -0.0001  max other +0.0011  corr own 0.184  [88s]
+attn4L_s2 L2H1 (conf): base 0.1158  own +0.0107  oqc +0.0841  shuf +0.0001  max other +0.0011  corr own 0.107  [130s]
+attn4L_s2 L2H2 (conf): base 0.1424  own +0.0228  oqc +0.0971  shuf -0.0000  max other +0.0045  corr own 0.265  [121s]
+attn4L_s2 L2H3 (expl): base 0.1891  own +0.0009  oqc +0.0045  shuf +0.0000  max other +0.0001  corr own 0.047  [99s]
+attn4L_s2 L3H0 (conf): base 0.1411  own +0.0321  oqc +0.0774  shuf -0.0004  max other +0.0007  corr own 0.238  [103s]
+attn4L_s2 L3H1 (conf): base 0.1365  own +0.0411  oqc +0.0936  shuf +0.0000  max other +0.0033  corr own 0.367  [120s]
+attn4L_s2 L3H2 (expl): base 0.1238  own +0.0117  oqc +0.0648  shuf +0.0008  max other +0.0048  corr own 0.249  [94s]
+attn4L_s2 L3H3 (expl): base 0.1221  own +0.0181  oqc +0.0298  shuf +0.0000  max other +0.0013  corr own 0.183  [99s]
+== fits attn4L_s3 attn4L_s4 Sat Oct 17 10:26:20 EDT 2026
+attn4L_s3 L0H0 (expl): base 0.1180  own +0.0020  oqc +0.0528  shuf -0.0001  max other +0.0004  corr own 0.121  [90s]
+attn4L_s3 L0H1 (expl): base 0.0405  own +0.0010  oqc -0.0019  shuf +0.0001  max other +0.0002  corr own 0.161  [96s]
+attn4L_s3 L0H2 (expl): base 0.0996  own +0.0014  oqc +0.0197  shuf +0.0000  max other +0.0006  corr own 0.116  [93s]
+attn4L_s3 L0H3 (expl): base 0.1236  own +0.0062  oqc +0.0496  shuf +0.0004  max other +0.0024  corr own 0.071  [104s]
+attn4L_s3 L1H0 (conf): base 0.0352  own +0.0004  oqc +0.0231  shuf -0.0001  max other +0.0003  corr own 0.116  [130s]
+attn4L_s3 L1H1 (conf): base 0.0989  own +0.0167  oqc +0.0586  shuf +0.0001  max other +0.0032  corr own 0.248  [106s]
+attn4L_s3 L1H2 (expl): base 0.0654  own -0.0001  oqc -0.0106  shuf -0.0001  max other +0.0003  corr own 0.020  [107s]
+attn4L_s3 L1H3 (conf): base 0.1182  own +0.0313  oqc +0.0737  shuf +0.0001  max other +0.0051  corr own 0.248  [104s]
+attn4L_s3 L2H0 (conf): base 0.0866  own +0.0097  oqc +0.0664  shuf -0.0000  max other +0.0019  corr own 0.224  [376s]
+attn4L_s3 L2H1 (conf): base 0.1212  own +0.0213  oqc +0.0869  shuf +0.0002  max other +0.0028  corr own 0.227  [104s]
+attn4L_s3 L2H2 (conf): base 0.1408  own +0.0235  oqc +0.1020  shuf +0.0005  max other +0.0039  corr own 0.333  [122s]
+attn4L_s3 L2H3 (conf): base 0.0959  own +0.0112  oqc +0.0782  shuf -0.0004  max other +0.0035  corr own 0.311  [133s]
+attn4L_s3 L3H0 (expl): base 0.1829  own +0.0012  oqc +0.0027  shuf +0.0000  max other +0.0001  corr own 0.104  [106s]
+attn4L_s3 L3H1 (expl): base 0.1242  own +0.0149  oqc +0.0527  shuf +0.0000  max other +0.0040  corr own 0.231  [97s]
+attn4L_s3 L3H2 (expl): base 0.1057  own +0.0108  oqc +0.0188  shuf +0.0002  max other +0.0014  corr own 0.274  [103s]
+attn4L_s3 L3H3 (conf): base 0.2436  own +0.0926  oqc +0.2001  shuf -0.0021  max other +0.0260  corr own 0.264  [170s]
+attn4L_s4 L0H0 (conf): base 0.0575  own +0.0040  oqc +0.0505  shuf -0.0000  max other +0.0008  corr own 0.152  [51s]
+attn4L_s4 L0H1 (expl): base 0.1023  own +0.0023  oqc +0.0293  shuf -0.0001  max other +0.0014  corr own 0.063  [34s]
+attn4L_s4 L0H2 (conf): base 0.1122  own +0.0336  oqc +0.1036  shuf +0.0020  max other +0.0152  corr own 0.146  [56s]
+attn4L_s4 L0H3 (expl): base 0.1157  own +0.0000  oqc -0.0115  shuf -0.0001  max other +0.0006  corr own 0.093  [42s]
+attn4L_s4 L1H0 (conf): base 0.1185  own +0.0137  oqc +0.0977  shuf +0.0002  max other +0.0045  corr own 0.144  [1280s]
+attn4L_s4 L1H1 (expl): base 0.1030  own +0.0249  oqc +0.0595  shuf -0.0002  max other +0.0027  corr own 0.221  [41s]
+attn4L_s4 L1H2 (expl): base 0.1598  own +0.0019  oqc +0.0065  shuf -0.0000  max other +0.0007  corr own 0.070  [39s]
+attn4L_s4 L1H3 (expl): base 0.0895  own +0.0075  oqc +0.0383  shuf +0.0000  max other +0.0010  corr own 0.148  [41s]
+attn4L_s4 L2H0 (expl): base 0.1020  own +0.0044  oqc +0.0370  shuf +0.0007  max other +0.0008  corr own 0.139  [36s]
+attn4L_s4 L2H1 (conf): base 0.1969  own +0.0428  oqc +0.1613  shuf +0.0001  max other +0.0067  corr own 0.295  [58s]
+attn4L_s4 L2H2 (conf): base 0.1462  own +0.0058  oqc +0.0750  shuf -0.0004  max other +0.0016  corr own 0.114  [43s]
+attn4L_s4 L2H3 (conf): base 0.0862  own +0.0045  oqc +0.0440  shuf +0.0001  max other +0.0004  corr own 0.099  [44s]
+attn4L_s4 L3H0 (expl): base 0.0777  own +0.0048  oqc +0.0094  shuf +0.0000  max other +0.0005  corr own 0.117  [37s]
+attn4L_s4 L3H1 (expl): base 0.1064  own +0.0019  oqc +0.0426  shuf +0.0001  max other +0.0004  corr own 0.119  [37s]
+attn4L_s4 L3H2 (expl): base 0.1660  own +0.0372  oqc +0.0617  shuf +0.0031  max other +0.0017  corr own 0.204  [36s]
+attn4L_s4 L3H3 (expl): base 0.1298  own +0.0164  oqc +0.0509  shuf +0.0002  max other +0.0008  corr own 0.183  [36s]
+== summary Sat Oct 17 13:56:13 EDT 2026
+{
+ "families": {
+  "F1": {
+   "n": 11,
+   "D1-D3": 1,
+   "D1": 5,
+   "D2": 3,
+   "D3": 2,
+   "D5": 1,
+   "verdict": "REFUTED",
+   "D4": {
+    "not_worse_than_dv": 5,
+    "n": 11,
+    "tables_differ": 5,
+    "better_where_differ": 1,
+    "holds": false
+   }
+  },
+  "F2": {
+   "n": 16,
+   "D1-D3": 9,
+   "D1": 15,
+   "D2": 14,
+   "D3": 11,
+   "D5": 1,
+   "verdict": "MIXED"
+  },
+  "F3": {
+   "n": 22,
+   "D1-D3": 4,
+   "D1": 8,
+   "D2": 15,
+   "D3": 7,
+   "D5": 5,
+   "verdict": "REFUTED",
+   "D4": {
+    "not_worse_than_dv": 7,
+    "n": 22,
+    "tables_differ": 3,
+    "better_where_differ": 0,
+    "holds": false
+   }
+  }
+ },
+ "headline_generalises": false
+}
+== code test Sat Oct 17 13:56:14 EDT 2026
+attn_s1 h0 RECALL: E32 C_res 0.329 (N1 p95 0.041) C_pmi 0.349 | embedding 0.286 | R2diag 32/128 0.100/0.109
+attn_s1 h1 RECALL: E32 C_res 0.251 (N1 p95 0.040) C_pmi 0.295 | embedding 0.531 | R2diag 32/128 0.044/0.050
+attn_s1 h2 RECALL: E32 C_res 0.193 (N1 p95 0.035) C_pmi 0.285 | embedding 0.529 | R2diag 32/128 0.014/0.016
+attn_s1 h3 LOCAL: E32 C_res 0.205 (N1 p95 0.040) C_pmi 0.291 | embedding 0.662 | R2diag 32/128 0.024/0.027
+attn_s2 h0 RECALL: E32 C_res 0.149 (N1 p95 0.036) C_pmi 0.226 | embedding 0.547 | R2diag 32/128 0.014/0.017
+attn_s2 h1 RECALL: E32 C_res 0.273 (N1 p95 0.041) C_pmi 0.311 | embedding 0.370 | R2diag 32/128 0.069/0.075
+attn_s2 h2 LOCAL: E32 C_res 0.263 (N1 p95 0.040) C_pmi 0.312 | embedding 0.565 | R2diag 32/128 0.051/0.055
+attn_s2 h3 RECALL: E32 C_res 0.258 (N1 p95 0.043) C_pmi 0.379 | embedding 0.584 | R2diag 32/128 0.011/0.013
+attn_s3 h0 LOCAL: E32 C_res 0.197 (N1 p95 0.039) C_pmi 0.281 | embedding 0.672 | R2diag 32/128 0.022/0.025
+attn_s3 h1 LOCAL: E32 C_res 0.286 (N1 p95 0.040) C_pmi 0.302 | embedding 0.453 | R2diag 32/128 0.099/0.105
+attn_s3 h2 RECALL: E32 C_res 0.299 (N1 p95 0.038) C_pmi 0.313 | embedding 0.245 | R2diag 32/128 0.070/0.080
+attn_s3 h3 LOCAL: E32 C_res 0.168 (N1 p95 0.036) C_pmi 0.265 | embedding 0.533 | R2diag 32/128 0.017/0.018
+attn_s4 h0 LOCAL: E32 C_res 0.190 (N1 p95 0.036) C_pmi 0.272 | embedding 0.612 | R2diag 32/128 0.019/0.020
+attn_s4 h1 RECALL: E32 C_res 0.279 (N1 p95 0.038) C_pmi 0.296 | embedding 0.265 | R2diag 32/128 0.050/0.059
+attn_s4 h2 LOCAL: E32 C_res 0.207 (N1 p95 0.038) C_pmi 0.278 | embedding 0.608 | R2diag 32/128 0.049/0.052
+attn_s4 h3 LOCAL: E32 C_res 0.193 (N1 p95 0.035) C_pmi 0.223 | embedding 0.456 | R2diag 32/128 0.032/0.035
+attn2L_s1 h0 LOCAL: E32 C_res 0.085 (N1 p95 0.022) C_pmi 0.107 | embedding 0.323 | R2diag 32/128 0.003/0.005
+attn2L_s1 h1 RECALL: E32 C_res 0.193 (N1 p95 0.040) C_pmi 0.269 | embedding 0.772 | R2diag 32/128 0.013/0.014
+attn2L_s1 h2 LOCAL: E32 C_res 0.263 (N1 p95 0.046) C_pmi 0.343 | embedding 0.660 | R2diag 32/128 0.029/0.032
+attn2L_s1 h3 RECALL: E32 C_res 0.176 (N1 p95 0.032) C_pmi 0.208 | embedding 0.294 | R2diag 32/128 0.035/0.039
+attn2L_s2 h0 RECALL: E32 C_res 0.073 (N1 p95 0.021) C_pmi 0.094 | embedding 0.165 | R2diag 32/128 0.003/0.008
+attn2L_s2 h1 RECALL: E32 C_res 0.130 (N1 p95 0.028) C_pmi 0.146 | embedding 0.273 | R2diag 32/128 0.008/0.010
+attn2L_s2 h2 RECALL: E32 C_res 0.231 (N1 p95 0.046) C_pmi 0.305 | embedding 0.761 | R2diag 32/128 0.015/0.017
+attn2L_s2 h3 LOCAL: E32 C_res 0.251 (N1 p95 0.040) C_pmi 0.315 | embedding 0.603 | R2diag 32/128 0.035/0.037
+attn2L_s3 h0 LOCAL: E32 C_res 0.099 (N1 p95 0.023) C_pmi 0.113 | embedding 0.306 | R2diag 32/128 0.007/0.009
+attn2L_s3 h1 LOCAL: E32 C_res 0.255 (N1 p95 0.043) C_pmi 0.330 | embedding 0.594 | R2diag 32/128 0.025/0.028
+attn2L_s3 h2 RECALL: E32 C_res 0.161 (N1 p95 0.033) C_pmi 0.188 | embedding 0.262 | R2diag 32/128 0.023/0.027
+attn2L_s3 h3 RECALL: E32 C_res 0.238 (N1 p95 0.045) C_pmi 0.324 | embedding 0.794 | R2diag 32/128 0.017/0.018
+attn2L_s4 h0 RECALL: E32 C_res 0.169 (N1 p95 0.032) C_pmi 0.219 | embedding 0.360 | R2diag 32/128 0.015/0.016
+attn2L_s4 h1 RECALL: E32 C_res 0.119 (N1 p95 0.029) C_pmi 0.151 | embedding 0.416 | R2diag 32/128 0.005/0.006
+attn2L_s4 h2 LOCAL: E32 C_res 0.270 (N1 p95 0.050) C_pmi 0.343 | embedding 0.706 | R2diag 32/128 0.028/0.029
+attn2L_s4 h3 LOCAL: E32 C_res 0.164 (N1 p95 0.033) C_pmi 0.209 | embedding 0.404 | R2diag 32/128 0.008/0.010
+attn4L_s1 h0 LOCAL: E32 C_res 0.196 (N1 p95 0.037) C_pmi 0.254 | embedding 0.559 | R2diag 32/128 0.016/0.017
+attn4L_s1 h1 RECALL: E32 C_res 0.149 (N1 p95 0.032) C_pmi 0.210 | embedding 0.421 | R2diag 32/128 0.006/0.007
+attn4L_s1 h2 RECALL: E32 C_res 0.089 (N1 p95 0.024) C_pmi 0.111 | embedding 0.305 | R2diag 32/128 0.005/0.008
+attn4L_s1 h3 RECALL: E32 C_res 0.205 (N1 p95 0.040) C_pmi 0.285 | embedding 0.802 | R2diag 32/128 0.013/0.014
+attn4L_s2 h0 RECALL: E32 C_res 0.099 (N1 p95 0.027) C_pmi 0.117 | embedding 0.309 | R2diag 32/128 0.005/0.007
+attn4L_s2 h1 LOCAL: E32 C_res 0.107 (N1 p95 0.025) C_pmi 0.131 | embedding 0.310 | R2diag 32/128 0.008/0.010
+attn4L_s2 h2 RECALL: E32 C_res 0.281 (N1 p95 0.052) C_pmi 0.374 | embedding 0.802 | R2diag 32/128 0.032/0.033
+attn4L_s2 h3 RECALL: E32 C_res 0.235 (N1 p95 0.046) C_pmi 0.324 | embedding 0.779 | R2diag 32/128 0.016/0.017
+attn4L_s3 h0 RECALL: E32 C_res 0.095 (N1 p95 0.026) C_pmi 0.146 | embedding 0.517 | R2diag 32/128 0.004/0.006
+attn4L_s3 h1 RECALL: E32 C_res 0.268 (N1 p95 0.050) C_pmi 0.361 | embedding 0.749 | R2diag 32/128 0.023/0.024
+attn4L_s3 h2 RECALL: E32 C_res 0.072 (N1 p95 0.022) C_pmi 0.093 | embedding 0.264 | R2diag 32/128 0.002/0.003
+attn4L_s3 h3 RECALL: E32 C_res 0.194 (N1 p95 0.042) C_pmi 0.279 | embedding 0.745 | R2diag 32/128 0.014/0.015
+attn4L_s4 h0 LOCAL: E32 C_res 0.155 (N1 p95 0.036) C_pmi 0.228 | embedding 0.493 | R2diag 32/128 0.013/0.014
+attn4L_s4 h1 RECALL: E32 C_res 0.190 (N1 p95 0.037) C_pmi 0.261 | embedding 0.649 | R2diag 32/128 0.016/0.017
+attn4L_s4 h2 LOCAL: E32 C_res 0.210 (N1 p95 0.044) C_pmi 0.281 | embedding 0.748 | R2diag 32/128 0.014/0.015
+attn4L_s4 h3 RECALL: E32 C_res 0.233 (N1 p95 0.049) C_pmi 0.319 | embedding 0.692 | R2diag 32/128 0.017/0.018
+== capacity seeds 1-4 Sat Oct 17 13:58:39 EDT 2026
+attn2L_s1: 8 heads, cancellation_share 0.036, mean_rho 0.044, mean_negative_rho -0.050, mean_abs_rho 0.076, mean_nonadditivity 1.017 [9s]
+attn2L_s2: 8 heads, cancellation_share 0.036, mean_rho 0.040, mean_negative_rho -0.050, mean_abs_rho 0.076, mean_nonadditivity 1.018 [9s]
+attn2L_s3: 8 heads, cancellation_share 0.000, mean_rho 0.051, mean_negative_rho -0.043, mean_abs_rho 0.084, mean_nonadditivity 1.017 [9s]
+attn2L_s4: 8 heads, cancellation_share 0.107, mean_rho 0.041, mean_negative_rho -0.064, mean_abs_rho 0.087, mean_nonadditivity 1.019 [9s]
+attn4L_s1: 16 heads, cancellation_share 0.000, mean_rho 0.063, mean_negative_rho -0.032, mean_abs_rho 0.072, mean_nonadditivity 1.042 [41s]
+attn4L_s2: 16 heads, cancellation_share 0.000, mean_rho 0.060, mean_negative_rho -0.035, mean_abs_rho 0.072, mean_nonadditivity 1.026 [42s]
+attn4L_s3: 16 heads, cancellation_share 0.000, mean_rho 0.060, mean_negative_rho -0.037, mean_abs_rho 0.072, mean_nonadditivity 1.039 [41s]
+attn4L_s4: 16 heads, cancellation_share 0.000, mean_rho 0.048, mean_negative_rho -0.026, mean_abs_rho 0.062, mean_nonadditivity 1.036 [41s]
+== confirmatory fits done Sat Oct 17 14:02:00 EDT 2026

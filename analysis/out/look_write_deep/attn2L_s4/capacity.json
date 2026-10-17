@@ -1,0 +1,221 @@
+{
+ "model": "attn2L_s4",
+ "n_blocks": 2,
+ "n_heads": 8,
+ "kl_single": {
+  "L0H0": 0.16186696764114805,
+  "L0H1": 0.15841825896134215,
+  "L0H2": 0.46893876983821214,
+  "L0H3": 0.1726749107612313,
+  "L1H0": 0.4668535722396447,
+  "L1H1": 0.31439903699679533,
+  "L1H2": 0.35820183710813147,
+  "L1H3": 0.06161247700100149
+ },
+ "pairs": [
+  {
+   "a": "L0H0",
+   "b": "L0H1",
+   "rho": 0.03508065932295906,
+   "nonadditivity": 1.0604575217445193,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H2",
+   "rho": 0.024133384765751345,
+   "nonadditivity": 1.0302560379192156,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L0H3",
+   "rho": 0.04556303670430122,
+   "nonadditivity": 1.090254204259814,
+   "same_layer": true
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H0",
+   "rho": 0.22898514355645558,
+   "nonadditivity": 0.9883775357676763,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H1",
+   "rho": 0.05781259539520502,
+   "nonadditivity": 1.056242969978511,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H2",
+   "rho": 0.18672499491050085,
+   "nonadditivity": 1.0044069158293383,
+   "same_layer": false
+  },
+  {
+   "a": "L0H0",
+   "b": "L1H3",
+   "rho": -0.04243856110705478,
+   "nonadditivity": 0.9704195001428881,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H2",
+   "rho": 0.03130232180374228,
+   "nonadditivity": 1.1155347427266338,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L0H3",
+   "rho": -0.025090717557886093,
+   "nonadditivity": 0.9868813093332135,
+   "same_layer": true
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H0",
+   "rho": 0.08388553242014049,
+   "nonadditivity": 1.0109969361414421,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H1",
+   "rho": 0.07602526234593017,
+   "nonadditivity": 1.052451163976486,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H2",
+   "rho": 0.08056333593668114,
+   "nonadditivity": 1.0127892620869976,
+   "same_layer": false
+  },
+  {
+   "a": "L0H1",
+   "b": "L1H3",
+   "rho": -0.016952417343782288,
+   "nonadditivity": 0.9788937096141972,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L0H3",
+   "rho": 0.06531160138453004,
+   "nonadditivity": 1.0972656248050376,
+   "same_layer": true
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H0",
+   "rho": 0.13203512518856914,
+   "nonadditivity": 0.9443998758649593,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H1",
+   "rho": 0.1217080308618163,
+   "nonadditivity": 0.9870006938337197,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H2",
+   "rho": 0.25226913205652773,
+   "nonadditivity": 0.8730909502199062,
+   "same_layer": false
+  },
+  {
+   "a": "L0H2",
+   "b": "L1H3",
+   "rho": -0.038193146705993844,
+   "nonadditivity": 0.9849879768221547,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H0",
+   "rho": 0.14599954770672613,
+   "nonadditivity": 0.9810346807974395,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H1",
+   "rho": 0.12094438359571279,
+   "nonadditivity": 1.0336392805640338,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H2",
+   "rho": 0.07605015113263773,
+   "nonadditivity": 1.018868945523675,
+   "same_layer": false
+  },
+  {
+   "a": "L0H3",
+   "b": "L1H3",
+   "rho": 0.020871047900445947,
+   "nonadditivity": 0.996002457629465,
+   "same_layer": false
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H1",
+   "rho": -0.05047276266985346,
+   "nonadditivity": 1.0946726454437223,
+   "same_layer": true
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H2",
+   "rho": -0.11512327163617586,
+   "nonadditivity": 1.0191217732988955,
+   "same_layer": true
+  },
+  {
+   "a": "L1H0",
+   "b": "L1H3",
+   "rho": -0.10337951790801667,
+   "nonadditivity": 1.0116427100574228,
+   "same_layer": true
+  },
+  {
+   "a": "L1H1",
+   "b": "L1H2",
+   "rho": -0.03867538947707074,
+   "nonadditivity": 1.0783758995224522,
+   "same_layer": true
+  },
+  {
+   "a": "L1H1",
+   "b": "L1H3",
+   "rho": -0.05734421530226746,
+   "nonadditivity": 1.025282004970311,
+   "same_layer": true
+  },
+  {
+   "a": "L1H2",
+   "b": "L1H3",
+   "rho": -0.1518802399668023,
+   "nonadditivity": 1.0357035106854307,
+   "same_layer": true
+  }
+ ],
+ "summary": {
+  "cancellation_share": 0.10714285714285714,
+  "mean_rho": 0.04091839454691891,
+  "mean_negative_rho": -0.06395502396749035,
+  "mean_abs_rho": 0.08660055452369773,
+  "mean_nonadditivity": 1.0192518156985557
+ },
+ "seconds": 9.059021711349487
+}

@@ -1,0 +1,35 @@
+{
+ "model": "attn4L_s4",
+ "n_blocks": 4,
+ "explicit_vs_model_max_abs": 5.817413330078125e-05,
+ "own_pattern_max_abs": 0.0,
+ "uniform_pattern_min_change": 6.6736249923706055,
+ "grad_check": [
+  {
+   "layer": 0,
+   "finite_difference": 0.35268494229967473,
+   "analytic": 0.3526849410195374,
+   "rel_err": 3.6296909108917725e-09
+  },
+  {
+   "layer": 1,
+   "finite_difference": 1.4784372797294054,
+   "analytic": 1.478437275543294,
+   "rel_err": 2.831443386112173e-09
+  },
+  {
+   "layer": 2,
+   "finite_difference": -0.7953833801366272,
+   "analytic": -0.7953833833202535,
+   "rel_err": 4.002631097177234e-09
+  },
+  {
+   "layer": 3,
+   "finite_difference": -0.13883935480407672,
+   "analytic": -0.13883934979343393,
+   "rel_err": 3.6089499239189634e-08
+  }
+ ],
+ "same_equals_total_last_block_max_abs": 0.0,
+ "ok": true
+}

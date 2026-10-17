@@ -1,0 +1,23 @@
+{
+ "model": "attn2L_s0",
+ "n_blocks": 2,
+ "explicit_vs_model_max_abs": 5.245208740234375e-05,
+ "own_pattern_max_abs": 0.0,
+ "uniform_pattern_min_change": 10.563054084777832,
+ "grad_check": [
+  {
+   "layer": 0,
+   "finite_difference": 0.05050167374065495,
+   "analytic": 0.05050167487134338,
+   "rel_err": 2.2389127884719154e-08
+  },
+  {
+   "layer": 1,
+   "finite_difference": -0.1727259109429724,
+   "analytic": -0.17272591208112276,
+   "rel_err": 6.58934346056782e-09
+  }
+ ],
+ "same_equals_total_last_block_max_abs": 0.0,
+ "ok": true
+}

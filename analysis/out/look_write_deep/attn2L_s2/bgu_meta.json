@@ -1,0 +1,9 @@
+{
+ "model": "attn2L_s2",
+ "n_tokens": 200000000,
+ "n_slots": 282052,
+ "scale": 0.9842830574722619,
+ "seconds": 3298.1504299640656,
+ "device": "mps",
+ "batch": 32
+}
