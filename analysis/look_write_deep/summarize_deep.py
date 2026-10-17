@@ -1,6 +1,6 @@
 """Predictions D1-D5 and the per-family verdicts of logs/prereg_deep_look_write.md, from the arms files.
 
-    .venv/bin/python -m analysis.look_write_deep.summarize_deep --theta 0.2 --c1 0.2 --c2 0.2 [--primary ltotal]
+    .venv/bin/python -m analysis.look_write_deep.summarize_deep --theta 0.2 --c1 0.2426 --c2 0.2710 [--primary ltotal]
         [--models attn2L_s1 attn2L_s2 ... attn4L_s4]
 
 Families: F1 = layer 0 of every multi-block model; F2 = the last layer; F3 = middle layers of 4-block models.
@@ -13,7 +13,8 @@ Only confirmatory heads (classes.json) count. Rules:
       primary and DV tables (d = 1) correlate below 0.5
   D5  (separate) own coefficients c1, c2 within a factor 1.5 of the one-layer medians
 Verdict per family: SUPPORTED if D1-D3 hold for >= 80% of its heads; REFUTED if D1 fails for >= 50%; otherwise MIXED;
-INCONCLUSIVE with fewer than 4 heads. Writes analysis/out/look_write_deep/summary.json.
+INCONCLUSIVE with fewer than 4 heads. Writes analysis/out/look_write_deep/summary_<primary>.json
+(the committed run used the rules.json values shown above).
 """
 from __future__ import annotations
 

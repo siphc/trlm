@@ -104,7 +104,10 @@ together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 - **Inside split words**: completing a word whose first pieces have been seen is the largest single share of
   the remaining KL (about 27%).
 - **Pair-specific attention** of heads 0 and 2 (which earlier token to read given the current token) is
-  is only partly covered: the usefulness rule above brings part of it, PHRASE stands in for more. In the model
-  it follows the usefulness of each head's own vote (being tested across seeds:
-  `logs/prereg_look_follows_write.md`); the program's version is limited by how well its votes match the heads'.
+  is only partly covered: the usefulness rule above brings part of it, PHRASE stands in for more. In the model,
+  a local head's pair-specific attention follows the usefulness of its own vote, specifically to that head, in
+  every one-layer seed (about a third of the token-token attention term; attention and vote co-adapt during
+  training), and in the output layer of deeper models but not in heads that write for later layers
+  (`logs/look_follows_write_results.md`, `logs/deep_look_write_results.md`). The program's version is limited by how
+  well its votes match the heads'.
 - The remaining KL by part and position class is in `logs/mechanism_cards.md` and `logs/mech_v1_report.md`.

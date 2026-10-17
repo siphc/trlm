@@ -1,0 +1,9 @@
+{
+ "model": "attn_s3",
+ "n_tokens": 20000000,
+ "n_slots": 157277,
+ "scale": 1.1019865025763944,
+ "seconds": 1914.3459067344666,
+ "device": "cpu",
+ "batch": 32
+}

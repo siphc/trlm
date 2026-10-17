@@ -1,0 +1,8 @@
+verify2L_s1 L0H0 (conf): base 0.1945  own +0.0402  oqc +0.1792  shuf +0.0004  max other +0.0039  corr own 0.264  [31s]
+verify2L_s1 L0H1 (expl): base 0.0498  own +0.0061  oqc +0.0324  shuf -0.0001  max other +0.0022  corr own 0.155  [65s]
+verify2L_s1 L0H2 (conf): base 0.0916  own +0.0020  oqc +0.0783  shuf -0.0002  max other +0.0034  corr own 0.089  [29s]
+verify2L_s1 L0H3 (expl): base 0.1017  own +0.0007  oqc +0.0198  shuf -0.0000  max other +0.0017  corr own 0.067  [22s]
+verify2L_s1 L1H0 (expl): base 0.2437  own +0.0045  oqc +0.0092  shuf +0.0000  max other +0.0004  corr own 0.131  [25s]
+verify2L_s1 L1H1 (conf): base 0.1725  own +0.0258  oqc +0.1365  shuf +0.0011  max other +0.0027  corr own 0.322  [27s]
+verify2L_s1 L1H2 (conf): base 0.1947  own +0.0537  oqc +0.1155  shuf +0.0009  max other +0.0040  corr own 0.326  [28s]
+verify2L_s1 L1H3 (conf): base 0.2770  own +0.0944  oqc +0.2071  shuf -0.0000  max other +0.0081  corr own 0.227  [25s]

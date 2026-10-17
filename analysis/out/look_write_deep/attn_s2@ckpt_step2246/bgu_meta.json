@@ -1,0 +1,9 @@
+{
+ "model": "attn_s2@ckpt_step2246",
+ "n_tokens": 4999936,
+ "n_slots": 127702,
+ "scale": 0.5659270191862489,
+ "seconds": 134.05982899665833,
+ "device": "mps",
+ "batch": 32
+}

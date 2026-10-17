@@ -137,3 +137,13 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - The 2-block attention-only TinyStories model (attn2L_s0, dev loss 2.275) has no induction head by the standard test
   (attention from the second copy of a repeated random sequence to the token after the earlier occurrence: at most 0.03).
   Its far-looking layer-1 head (mean distance 44 tokens) does not copy that way.
+
+## 2026-10-17 deep study results
+
+- Last-layer heads of 2-block models follow "look where your write is useful" more strongly than the one-layer heads
+  (coupling coefficients 0.6-0.8 vs 0.25), while layer-0 heads of the same models, at the same depth as the one-layer
+  heads, barely follow it. Writing to the output, not depth, is what matters.
+- The exact gradient through the final LayerNorm (TOTAL) predicts attention only half as well as its typical-scale
+  linearisation (LTOTAL): the per-position LayerNorm Jacobian hurts the prediction.
+- Head pairs cancel each other's effects in one-layer models (all 5 seeds), never in 2- and 4-block models, even within a
+  layer of the same width.

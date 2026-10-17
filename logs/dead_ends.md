@@ -134,3 +134,21 @@ Adoption bar: gain >= 0.005 and >= 3 SE.
   0**: better pattern, worse output (+0.0028 +- 0.0003).
 - **The model's exact attention for heads 0/2 with skip-gram votes** (ceiling): only -0.0063 +- 0.0013. The votes, not
   the attention, are the bottleneck.
+
+## 2026-10-17 deep study: "where a head looks comes from what it writes" beyond the output layer (logs/deep_look_write_results.md)
+
+- **The law for heads whose writes are read by later layers.** Pre-registered on 2- and 4-block attention-only models
+  (seeds 1-4): layer-0 heads (F1, 11 heads) REFUTED (D1 5/11; median own gain 0.007, 15% of the oracle; controls 45% of
+  the own gain); middle-layer heads of 4-block models (F3, 22 heads) REFUTED (D1 8/22). The last layer (F2) is MIXED
+  (9/16 meet D1-D3; D1 15/16). The law is a property of heads that write to the output.
+- **Propagating usefulness through later layers (LTOTAL vs DV, D4).** Fails: for early and middle heads the usefulness
+  of the write as read by later blocks predicts attention no better than its direct effect, mostly slightly worse.
+- **The exact-gradient readout (TOTAL).** On the one-layer calibration it scores half as well as the readout with the
+  final LayerNorm linearised (median gain 0.049 vs 0.104).
+- **A universal coupling constant (D5).** Fails: about 0.25 in one-layer models, 0.65-0.8 in the last layer of deeper
+  models, 0.07-0.33 elsewhere.
+- **Vote codes as the best low-rank compression of corpus statistics (code test K1b, K3, K4).** Fail as expected: the
+  model's embedding subspace holds 0.57 of a head's vote energy, the corpus top-32 subspace 0.20; PMI beats the
+  bigram-residual statistic; local heads do not beat far-looking heads.
+- **Recursive generalisation of a head's key set (growth G3).** Not robust: the effect disappears when the current
+  attention level is matched (2 of 8 heads).

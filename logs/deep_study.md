@@ -157,3 +157,13 @@ shared work among heads as "groups of attention heads", not as superposition.
 - Running unattended: scripts/confirmatory_passes.sh (8 models, ~8.5 h MPS) and scripts/confirmatory_fits.sh (fits as
   passes finish, then summarize_deep, code_test, capacity on seeds 1-4). Remaining by hand: independent re-run of one
   model per depth, write-up (logs/deep_look_write_results.md).
+
+## 2026-10-17 study complete
+
+- Confirmatory results: logs/deep_look_write_results.md (F2 last layer MIXED, F1 and F3 REFUTED, D4 and D5 fail; code
+  test K1a/K2 hold, K1b/K3/K4 fail; capacity: one-layer heads anti-correlated, 2L/4L not).
+- Independent verification by a separate agent (re-implemented verdict logic from the pre-registration text, bit-identical
+  re-run of attn2L_s1's fits, code audit with float64 and finite-difference checks): no error that changes any per-head
+  number or verdict. One rounding fix in the results doc (F3 median own gain 0.012). Bootstrap over eval windows:
+  F1 REFUTED 99.3%, F2 MIXED 100%, F3 REFUTED 100%.
+- No processes left running. The side study is closed; work returns to the readable copy (goal 2).
