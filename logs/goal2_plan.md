@@ -102,6 +102,28 @@ on" is the natural target for an explanation; KL(ENS || program) is reported nex
 | softmax bottleneck | M-projection of the output onto a 128-dim span | oracle span (model W_E) 0.519 -> 0.477 (8 windows); corpus spans worse (0.54-1.28) |
 | **RECALL saturation** | RECALL's summed vote divided by sqrt(1 + c spread^2) | **-0.0162 +- 0.0017 (16 fit / 32 eval); adopted as v1.3** |
 
+## 2b. Program v1.3 (commit 573c4ac)
+
+- RECALL writes a vote of fixed size (head1.py SIZE 0.525; the 15 strengths matter only as ratios). The saturating
+  form sqrt(1 + c spread^2) fitted to its limit (strengths x1000 at the same c), so the program states the limit.
+- Held-out TRAIN (64 windows, seed 2000): 0.5643 -> 0.5474. Harness dev_fast: **0.5497** (v1.2 0.5706), top-1 0.635,
+  loss recovered 1.024 (the program's dev cross-entropy 2.511 is below the model's 2.535), claims 7/7 (new claim:
+  where RECALL's raw vote is largest, head 1's effect grows less than that vote, and the fixed-size vote is closer).
+- Ledger (64 TRAIN windows): FOLLOW +1.36, PHRASE +0.144, LOCAL-2 +0.134, RECALL +0.121, LOCAL-0 +0.066 (was 0.152).
+- Against the five-seed consensus: KL(ENS || program) 0.427 -> 0.411.
+- Next consensus failures: in-context completion and copying ('my cri' -> 'cket' 0.90-0.96 after "cricket" earlier;
+  'Together, M' -> 'um'; '. We saved the park.' -> ' We'), and over-confident phrases near a window's start
+  ('upon a' -> ' time' 0.99 at position 1; seeds 0.24).
+
+## 2c. After v1.3
+
+| candidate | paired gain vs v1.3 | verdict |
+|---|---|---|
+| RECALL token-level successor attention (branch `cand-recall-succ`) | -0.00453 +- 0.00057 (fresh), -0.00463 +- 0.00085 | near miss (bar 0.005) |
+| FOLLOW piecewise response on top of the fixed-size RECALL | -0.0034 (vote_fit_sat) | near miss |
+| window-start rule | at most about 0.004 nats per token available | not built |
+| smoothing of unseen continuations | unseen tokens carry 0.055 of 0.55 nats | not the problem |
+
 ## 3. Running / next
 
 - Phase 8 seed transfer of v1.2 (scripts/seed_transfer.py): attn_s1..s4 and mlp_s0, logs/seed_transfer_*.log.

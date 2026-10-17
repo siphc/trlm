@@ -177,3 +177,14 @@ and >= 3 SE.
 - **Current token supplies what the context does not** (current-token table = bigram - b x mean context vote): holds
   with the model's own context (R^2 0.65 -> 0.73, b = -0.44) but not with the program's context votes (0.656).
 - **Saturation of LOCAL-0, LOCAL-2, PHRASE** (as adopted for RECALL): -0.0020, -0.0023, 0.0000.
+- **Flatness from a harsh tail** (the program hedging because it cannot tell which corpus-unseen continuations the
+  model finds plausible): the model puts 1.5% of its mass on next tokens never seen after the current token, the
+  program 1.3%; those tokens carry 0.055 of the 0.55 nats (16 TRAIN windows, v1.3). The gap is in how plausible
+  continuations are ranked, not in smoothing.
+- **Window-start rule** (v1.3): position 0 KL 1.21 (model entropy 4.46, program 3.99), positions 1-3 0.55-0.81; the
+  excess over the average is about 0.004 nats per token in total, too small for a mechanism.
+- **RECALL looks at earlier tokens that usually follow the current token** (token-level successor term
+  SUCCESSOR_TOKEN * max(PMI_1(t_i, t_j), 0) in head 1's attention, fitted to head 1's own pattern, which it fits
+  better: 0.570 -> 0.563): paired vs v1.3 with all scalars refitted, fresh windows -0.00453 +- 0.00057, seed 2000
+  -0.00463 +- 0.00085. Real, faithful, and just below the 0.005 bar; kept on branch `cand-recall-succ` (d602145-amended).
+  It targets the in-context completion failures ('my cri' -> 'cket').
