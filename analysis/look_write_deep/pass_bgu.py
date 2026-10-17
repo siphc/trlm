@@ -92,6 +92,7 @@ def run(model_id, n_tokens, device, bs):
     m = m.to(dev)
     obar = token_writes(m, idx, stream, dev).to(dev)
     perm = torch.as_tensor(np.random.default_rng(0).permutation(C.V), device=dev)
+    WoH = [torch.stack([C.head_out_weight(m, l, h) for h in range(H)]) for l in range(L)]   # (H, DH, D) per layer
     P1 = torch.as_tensor(C.p1_table(), dtype=torch.float32, device=dev)
     acc = {q: np.zeros((L, H, S)) for q in QUANTITIES}
     N = np.zeros(S)
@@ -124,26 +125,21 @@ def run(model_id, n_tokens, device, bs):
             g_lt = torch.autograd.grad(info["resid"][-1], info["resid"], grad_outputs=g_dv, retain_graph=True)
             g_le = torch.autograd.grad(info["resid"][-1], info["resid"],
                                        grad_outputs=C.direct_readout(m, R_echo, scale))
-        tok_j = x[tb, tj][ok]
+        # all heads of a layer at once (batched; identical arithmetic to the per-head version)
+        bo, io, jo = tb[ok], ti[ok], tj[ok]
         for l in range(L):
+            O = torch.einsum("bhtk,hkd->bhtd", info["v"][l].detach(), WoH[l])      # every head's write, (B, H, T, D)
+            Oj = O[bo, :, jo]                                                      # (n, H, D)
+            Osh = obar[l][:, perm[x]][:, bo, jo].transpose(0, 1)                   # shuffled-token writes, (n, H, D)
             sc = info["scores"][l].detach()
-            for h in range(H):
-                o = C.head_writes(m, info, l, h)                          # (B, T, D)
-                o_shuf = obar[l, h][perm[x]]                             # write of the shuffled token
-                vals = {
-                    "total": (g_true[l][tb, ti] * o[tb, tj]).sum(-1),
-                    "ltotal": (g_lt[l][tb, ti] * o[tb, tj]).sum(-1),
-                    "dv": (g_dv[tb, ti] * o[tb, tj]).sum(-1),
-                    "echo": (g_echo[l][tb, ti] * o[tb, tj]).sum(-1),
-                    "lecho": (g_le[l][tb, ti] * o[tb, tj]).sum(-1),
-                    "shuf": (g_true[l][tb, ti] * o_shuf[tb, tj]).sum(-1),
-                    "lshuf": (g_lt[l][tb, ti] * o_shuf[tb, tj]).sum(-1),
-                    "oqc": sc[tb, h, ti, tj] - sc[tb, h, ti, ti],
-                }
-                for qi, q in enumerate(QUANTITIES):
-                    part[qi, l, h].index_add_(0, sl, vals[q][ok].float())
+            reads = {"total": g_true[l], "ltotal": g_lt[l], "dv": g_dv, "echo": g_echo[l], "lecho": g_le[l]}
+            vals = {q: torch.einsum("nd,nhd->nh", g[bo, io], Oj) for q, g in reads.items()}
+            vals["shuf"] = torch.einsum("nd,nhd->nh", g_true[l][bo, io], Osh)
+            vals["lshuf"] = torch.einsum("nd,nhd->nh", g_lt[l][bo, io], Osh)
+            vals["oqc"] = sc[bo, :, io, jo] - sc[bo, :, io, io]
+            for qi, q in enumerate(QUANTITIES):
+                part[qi, l].index_add_(1, sl, vals[q].T.float())
         part_n.index_add_(0, sl, torch.ones_like(sl, dtype=torch.float32))
-        del tok_j
         if (nb + 1) % FLUSH == 0 or nb == n_batches - 1:
             p = part.cpu().double().numpy()
             for qi, q in enumerate(QUANTITIES):
