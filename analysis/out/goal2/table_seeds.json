@@ -1,0 +1,29 @@
+{
+ "n_windows": 256,
+ "n_tokens": 282,
+ "attn_s0": {
+  "corpus (log P1, log P)": 0.629,
+  "mean of the other 4 seeds": 0.828,
+  "corpus + other seeds": 0.829
+ },
+ "attn_s1": {
+  "corpus (log P1, log P)": 0.682,
+  "mean of the other 4 seeds": 0.84,
+  "corpus + other seeds": 0.85
+ },
+ "attn_s2": {
+  "corpus (log P1, log P)": 0.589,
+  "mean of the other 4 seeds": 0.812,
+  "corpus + other seeds": 0.817
+ },
+ "attn_s3": {
+  "corpus (log P1, log P)": 0.707,
+  "mean of the other 4 seeds": 0.859,
+  "corpus + other seeds": 0.873
+ },
+ "attn_s4": {
+  "corpus (log P1, log P)": 0.648,
+  "mean of the other 4 seeds": 0.857,
+  "corpus + other seeds": 0.859
+ }
+}

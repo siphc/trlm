@@ -1,0 +1,7 @@
+head0 -> head 0: pattern KL 1.105 -> 0.309
+head0 -> head 1: pattern KL 1.109 -> 0.765
+head0 -> head 2: pattern KL 0.939 -> 0.566
+head0 -> head 3: pattern KL 6.996 -> 0.680
+head2 -> head 0: pattern KL 0.866 -> 0.257
+head2 -> head 1: pattern KL 0.748 -> 0.506
+head2 -> head 2: pattern KL 0.715 -> 0.499

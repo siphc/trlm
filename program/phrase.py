@@ -20,7 +20,7 @@ from .corpus import V, continuations
 
 NAME = "phrase"
 BACKOFF = 300.0                    # chosen on the grid {3, 30, 300} by KL to the model
-TRIGRAM, FOURGRAM = 0.259, 0.211  # fitted jointly with all mechanisms (scripts/fit_scalars.py)
+TRIGRAM, FOURGRAM = 0.259, 0.210
 
 
 def votes(tokens, stats):

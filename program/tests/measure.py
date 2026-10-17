@@ -40,9 +40,6 @@ def earlier_votes(P, name, tokens, attention=None):
     s = P.STATS
     mod = {"head0": head0, "head1": head1, "head2": head2}[name]
     a = mod.attention(tokens, s) if attention is None else attention
-    if name == "head1":
-        a = a * (1.0 - np.eye(len(tokens)))
-        return a @ mod.recalled_votes(tokens, s)
     return mod.earlier_votes(a, tokens, s)
 
 

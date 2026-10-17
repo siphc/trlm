@@ -32,13 +32,13 @@ NAME = "head0"
 # Fitted to model head 0's own attention rows (pattern cross-entropy, 32 TRAIN windows; scripts/fit_scalars.py).
 # Index = token shape.
 SHAPES = ["word start", "continuation", "other", "end of story"]
-SLOPE = [0.254, 0.298, 0.095, 0.236]          # attention score lost per token back
-SELF_BONUS = [1.540, 1.007, 1.823, 3.693]     # extra score for the current token itself
+SLOPE = [0.258, 0.312, 0.097, 0.236]
+SELF_BONUS = [1.493, 0.893, 1.784, 3.693]
 # Score per nat of own-vote usefulness, for d = 1 and for d = 2..7:
-USE_NEAR, USE_FAR = 0.554, 0.399
+USE_NEAR, USE_FAR = 0.654, 0.399
 # Fitted jointly to the model's log-probs with every attention rule frozen (scripts/fit_scalars.py).
-STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.524, 0.362, 4.984
-EARLIER_SUCCESSORS, EARLIER_ALIKE = 0.498, -3.698
+STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.289, 0.257, 3.930
+EARLIER_SUCCESSORS, EARLIER_ALIKE = 0.527, -2.775
 
 
 def attention(tokens, stats):

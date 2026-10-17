@@ -1,0 +1,12 @@
+== growth test (addendum 2) Fri Oct 16 18:01:38 EDT 2026
+attn_s1 h3: G1(0.8) vote ckpt_step4807 vs attention ckpt_step10286 -> True | G2 +0.400 p=0.0005 (n=5727) | G3 0.0828 p=0.0004997501249375312 (n=2974)
+attn_s2 h2: G1(0.8) vote ckpt_step7032 vs attention ckpt_step10286 -> True | G2 +0.423 p=0.0005 (n=5354) | G3 0.0601 p=0.0004997501249375312 (n=2818)
+attn_s3 h0: G1(0.8) vote ckpt_step7032 vs attention ckpt_step10286 -> True | G2 +0.408 p=0.0005 (n=5718) | G3 0.0875 p=0.0004997501249375312 (n=2896)
+attn_s3 h1: G1(0.8) vote ckpt_step10286 vs attention ckpt_step10286 -> False | G2 +0.360 p=0.0005 (n=5548) | G3 0.137 p=0.0004997501249375312 (n=2971)
+attn_s3 h3: G1(0.8) vote ckpt_step4807 vs attention ckpt_step10286 -> True | G2 +0.359 p=0.0005 (n=5580) | G3 0.1186 p=0.0004997501249375312 (n=2476)
+attn_s4 h0: G1(0.8) vote ckpt_step7032 vs attention ckpt_step10286 -> True | G2 +0.503 p=0.0005 (n=5573) | G3 0.085 p=0.0004997501249375312 (n=2893)
+attn_s4 h2: G1(0.8) vote ckpt_step7032 vs attention ckpt_step7032 -> False | G2 +0.541 p=0.0005 (n=5187) | G3 0.1135 p=0.0004997501249375312 (n=2590)
+attn_s4 h3: G1(0.8) vote ckpt_step15046 vs attention ckpt_step10286 -> False | G2 +0.347 p=0.0005 (n=5517) | G3 0.1613 p=0.0004997501249375312 (n=3003)
+{"n_heads": 8, "G1_holds_0.8": 5, "G1_holds_0.5": 5, "G1_holds_0.9": 2, "G2_holds": 8, "G3_holds": 8}
+== capacity: one-layer models and development seeds Fri Oct 16 18:08:11 EDT 2026
+== done Fri Oct 16 18:08:11 EDT 2026

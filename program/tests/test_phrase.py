@@ -1,6 +1,6 @@
 """CLAIM (phrase.py): PHRASE stands in for part of heads 0 and 2. Its votes agree with the model's change when the
 earlier-token parts of heads 0 and 2 are replaced by their mean (median weighted correlation >= 0.3; TRAIN 0.40),
-and at least twice as much as with head 1's (TRAIN 0.08), the long-range head."""
+and at least twice as much as with head 1's (TRAIN 0.09), the long-range head."""
 from program import phrase
 from program.tests import measure as M
 

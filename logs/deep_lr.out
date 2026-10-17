@@ -1,0 +1,16 @@
+step 500/3051 tok 8,192,000 lr 9.48e-04 train 3.5319 dev_fast 3.6044 (63s)
+step 1000/3051 tok 16,384,000 lr 7.90e-04 train 3.2087 dev_fast 3.1729 (138s)
+step 1500/3051 tok 24,576,000 lr 5.69e-04 train 2.9012 dev_fast 2.9666 (213s)
+step 2000/3051 tok 32,768,000 lr 3.43e-04 train 2.8243 dev_fast 2.8650 (289s)
+step 2500/3051 tok 40,960,000 lr 1.72e-04 train 2.7860 dev_fast 2.8025 (365s)
+step 3000/3051 tok 49,152,000 lr 1.01e-04 train 2.7386 dev_fast 2.7759 (445s)
+step 3051/3051 tok 49,987,584 lr 1.00e-04 train 2.7458 dev_fast 2.7760 (454s)
+{"variant": "attn", "seed": 0, "n_blocks": 4, "budget_tokens": 50000000, "peak_lr": 0.001, "steps": 3051, "tokens": 49987584, "dev_full_loss": 2.741844383239746, "elapsed": 454.79834604263306, "device": "mps"}
+step 500/3051 tok 8,192,000 lr 1.90e-03 train 3.5850 dev_fast 3.6501 (77s)
+step 1000/3051 tok 16,384,000 lr 1.58e-03 train 3.1899 dev_fast 3.1572 (155s)
+step 1500/3051 tok 24,576,000 lr 1.14e-03 train 2.8765 dev_fast 2.9225 (235s)
+step 2000/3051 tok 32,768,000 lr 6.87e-04 train 2.7373 dev_fast 2.7783 (315s)
+step 2500/3051 tok 40,960,000 lr 3.44e-04 train 2.6845 dev_fast 2.6966 (391s)
+step 3000/3051 tok 49,152,000 lr 2.01e-04 train 2.6025 dev_fast 2.6553 (462s)
+step 3051/3051 tok 49,987,584 lr 2.00e-04 train 2.6119 dev_fast 2.6539 (469s)
+{"variant": "attn", "seed": 0, "n_blocks": 4, "budget_tokens": 50000000, "peak_lr": 0.002, "steps": 3051, "tokens": 49987584, "dev_full_loss": 2.6224390716552732, "elapsed": 470.29493618011475, "device": "mps"}

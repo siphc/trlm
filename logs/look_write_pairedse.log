@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/fit_arms.py", line 332, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/fit_arms.py", line 327, in main
+    run_model(mid, a.uov_prefix, a.band)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/fit_arms.py", line 259, in run_model
+    arms["perm"] = uov_feats(uov_prefix.replace("uov", "uovp", 1), h)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/svi/Desktop/trlm/analysis/look_write/fit_arms.py", line 241, in uov_feats
+    tabs = load_tables(model_id, prefix, h)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/svi/Desktop/trlm/analysis/look_write/fit_arms.py", line 215, in load_tables
+    return {dd: np.load(os.path.join(d, f"{prefix}_h{h}_d{dd}.npy")) for dd in range(1, C.D_MAX + 1)}
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/svi/Desktop/trlm/.venv/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 454, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/svi/Desktop/trlm/analysis/out/look_write/attn_s0/uovp_h0_d2.npy'
+attn_s0: mean distances [4.98, 27.35, 4.35, 9.86] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']

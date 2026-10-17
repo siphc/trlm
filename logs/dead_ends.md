@@ -152,3 +152,28 @@ Adoption bar: gain >= 0.005 and >= 3 SE.
   bigram-residual statistic; local heads do not beat far-looking heads.
 - **Recursive generalisation of a head's key set (growth G3).** Not robust: the effect disappears when the current
   attention level is matched (2 of 8 heads).
+
+## 2026-10-17 goal 2, program v1.2 (analysis/goal2/, logs/goal2_plan.md)
+
+Paired KL differences from analysis/vote_fit.py (all strengths refitted; 32 fit / 64 eval TRAIN windows). Bar: >= 0.005
+and >= 3 SE.
+
+- **Softmax bottleneck** (M-projection of the program's output onto a 128-dimensional span): with the model's own
+  embedding span (oracle) 0.519 -> 0.477 on 8 windows; spans from corpus statistics (PCA of the bigram, PMI, skip-grams)
+  make it worse (0.54-1.28).
+- **One normalisation of the whole score** (rescale to a constant size, or to the model's own logit size as an oracle):
+  worse (oracle 0.87-1.25). The program's scores are too wide over the whole vocabulary and too narrow among frequent
+  tokens; no single scale fixes both.
+- **FOLLOW variants:** piecewise-linear response to log P1 -0.0045 +- 0.0003 (near miss; on top of RECALL saturation
+  only -0.0034); strengths by current-token shape -0.0018; Kneser-Ney continuation preference -0.0005; FOLLOW as an
+  interpolated Kneser-Ney bigram +0.053 (worse); similarity-based smoothing (Dagan, Lee & Pereira) -0.0005.
+- **Calibrating to corpus moments:** the model's mean prediction after each token is further from the corpus bigram
+  (0.102) than the program's (0.078), so making the program match corpus moments would move it away from the model.
+- **The model's token code from the corpus:** spectral spans of the bigram, PMI and the symmetrised co-occurrence
+  matrix (what small-initialisation training theory predicts) share only the leading directions with the embedding
+  (mean squared canonical correlation 0.14-0.41 vs random 0.07-0.23).
+- **Frequency-dependent trust in the bigram** (the model shrinking rare tokens' bigram rows): the bigram slope is the
+  same in every frequency bin of the candidate (0.69-0.70); R^2 unchanged.
+- **Current token supplies what the context does not** (current-token table = bigram - b x mean context vote): holds
+  with the model's own context (R^2 0.65 -> 0.73, b = -0.44) but not with the program's context votes (0.656).
+- **Saturation of LOCAL-0, LOCAL-2, PHRASE** (as adopted for RECALL): -0.0020, -0.0023, 0.0000.

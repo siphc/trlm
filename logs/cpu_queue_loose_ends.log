@@ -1,0 +1,450 @@
+== B: paired SEs (regenerate shuffled tables, refit) Wed Oct 14 17:54:50 PDT 2026
+attn_s0: final-LN scale 1.1499
+  d=1 done in 51s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 55s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 98s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 52s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 49s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 47s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 50s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+attn_s0: tables built in 406s
+attn_s3: final-LN scale 1.1020
+  d=1 done in 50s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 54s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 52s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 46s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 46s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 46s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 46s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+attn_s3: tables built in 341s
+attn_s4: final-LN scale 1.2106
+  d=1 done in 42s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 44s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 46s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 46s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 58s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 56s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 56s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+attn_s4: tables built in 350s
+attn_s0: mean distances [4.98, 27.35, 4.35, 9.86] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.38117; gains own +0.10242, other_h1 -0.00071, other_h2 +0.00111, other_h3 +0.00282, perm +0.00013, tt +0.06520; own coef {'c1': 0.12632798736304357, 'c2': 0.17415551673285423} [32s]
+  head 1 (RECALL): base KL 0.24852; gains own +0.01836, other_h0 -0.00003, other_h2 -0.00001, other_h3 +0.00021, perm +0.00006, tt +0.20705; own coef {'c1': 0.17171066258527834, 'c2': 0.2659408791352609} [2726s]
+  head 2 (LOCAL): base KL 0.48596; gains own +0.14788, other_h0 +0.00040, other_h1 +0.00004, other_h3 +0.00794, perm +0.00034, tt +0.12326; own coef {'c1': 0.2946338428981788, 'c2': 0.3051742948078792} [3299s]
+  head 3 (LOCAL): base KL 0.29941; gains own +0.07022, other_h0 +0.00044, other_h1 +0.00052, other_h2 -0.00018, perm -0.00059, tt +0.10382; own coef {'c1': 0.4496939918288194, 'c2': 0.46439561532997686} [2316s]
+  head 0: pure-pair corr own +0.389, perm +0.007, tt +0.999, other_h1 +0.028, other_h2 -0.108, other_h3 -0.046
+  head 1: pure-pair corr own +0.176, perm -0.014, tt +1.000, other_h0 +0.033, other_h2 +0.027, other_h3 -0.010
+  head 2: pure-pair corr own +0.449, perm -0.001, tt +0.999, other_h0 -0.119, other_h1 -0.016, other_h3 -0.073
+  head 3: pure-pair corr own +0.391, perm +0.020, tt +0.999, other_h0 -0.059, other_h1 +0.021, other_h2 -0.060
+attn_s0: done in 8530s
+attn_s3: mean distances [3.58, 6.64, 30.21, 6.62] -> ['LOCAL', 'LOCAL', 'RECALL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.34828; gains own +0.11213, other_h1 -0.00097, other_h2 -0.00021, other_h3 +0.00067, perm +0.00021, tt +0.05685; own coef {'c1': 0.23278103816266738, 'c2': 0.22174748095485242} [19s]
+  head 1 (LOCAL): base KL 0.23958; gains own +0.06396, other_h0 +0.00032, other_h2 +0.00638, other_h3 +0.00023, perm +0.00546, tt +0.16832; own coef {'c1': 0.28095630027861257, 'c2': 0.33791047905790816} [15s]
+  head 2 (RECALL): base KL 0.20305; gains own +0.01343, other_h0 -0.00020, other_h1 +0.00146, other_h3 +0.00004, perm +0.00003, tt +0.17001; own coef {'c1': 0.17838940888394866, 'c2': 0.30060990259304654} [15s]
+  head 3 (LOCAL): base KL 0.38633; gains own +0.08862, other_h0 +0.00061, other_h1 +0.00079, other_h2 +0.00078, perm -0.00003, tt +0.11705; own coef {'c1': 0.17297394273934308, 'c2': 0.30865159746270615} [15s]
+  head 0: pure-pair corr own +0.335, perm -0.015, tt +0.999, other_h1 -0.017, other_h2 -0.003, other_h3 -0.095
+  head 1: pure-pair corr own +0.436, perm -0.021, tt +0.999, other_h0 -0.045, other_h2 +0.082, other_h3 -0.058
+  head 2: pure-pair corr own +0.172, perm +0.005, tt +1.000, other_h0 +0.065, other_h1 +0.007, other_h3 -0.008
+  head 3: pure-pair corr own +0.378, perm -0.004, tt +0.999, other_h0 -0.115, other_h1 -0.022, other_h2 +0.018
+attn_s3: done in 68s
+attn_s4: mean distances [6.49, 30.84, 6.15, 8.36] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.42449; gains own +0.17643, other_h1 +0.00045, other_h2 +0.00260, other_h3 +0.00246, perm +0.00273, tt +0.14156; own coef {'c1': 0.2079980757081344, 'c2': 0.21330645045556434} [18s]
+  head 1 (RECALL): base KL 0.22064; gains own +0.01151, other_h0 +0.00004, other_h2 +0.00021, other_h3 +0.00051, perm +0.00009, tt +0.18658; own coef {'c1': 0.1743939190110086, 'c2': 0.3123745033291522} [15s]
+  head 2 (LOCAL): base KL 0.43257; gains own +0.10184, other_h0 -0.00007, other_h1 -0.00007, other_h3 +0.00280, perm +0.00009, tt +0.01704; own coef {'c1': 0.19633128942121236, 'c2': 0.23819844295047565} [18s]
+  head 3 (LOCAL): base KL 0.28262; gains own +0.07066, other_h0 +0.00234, other_h1 +0.00330, other_h2 +0.00064, perm +0.00057, tt +0.08373; own coef {'c1': 0.3848283861321656, 'c2': 0.36993095626532163} [17s]
+  head 0: pure-pair corr own +0.371, perm +0.003, tt +0.999, other_h1 -0.036, other_h2 -0.042, other_h3 -0.025
+  head 1: pure-pair corr own +0.152, perm -0.004, tt +1.000, other_h0 +0.014, other_h2 +0.048, other_h3 +0.006
+  head 2: pure-pair corr own +0.415, perm -0.016, tt +0.999, other_h0 -0.027, other_h1 +0.034, other_h3 -0.117
+  head 3: pure-pair corr own +0.436, perm +0.054, tt +1.000, other_h0 -0.050, other_h1 +0.059, other_h2 -0.141
+attn_s4: done in 74s
+== C: distance band 8..63 Wed Oct 14 20:37:42 PDT 2026
+attn_s1: final-LN scale 1.2142
+  d=8 done in 7s
+  d=9 done in 7s
+  d=10 done in 7s
+  d=11 done in 8s
+  d=12 done in 7s
+  d=13 done in 8s
+  d=14 done in 7s
+  d=15 done in 7s
+  d=16 done in 7s
+  d=17 done in 7s
+  d=18 done in 7s
+  d=19 done in 7s
+  d=20 done in 7s
+  d=21 done in 7s
+  d=22 done in 7s
+  d=23 done in 7s
+  d=24 done in 7s
+  d=25 done in 7s
+  d=26 done in 7s
+  d=27 done in 7s
+  d=28 done in 7s
+  d=29 done in 7s
+  d=30 done in 7s
+  d=31 done in 7s
+  d=32 done in 7s
+  d=33 done in 7s
+  d=34 done in 7s
+  d=35 done in 7s
+  d=36 done in 7s
+  d=37 done in 7s
+  d=38 done in 7s
+  d=39 done in 8s
+  d=40 done in 8s
+  d=41 done in 8s
+  d=42 done in 8s
+  d=43 done in 8s
+  d=44 done in 8s
+  d=45 done in 7s
+  d=46 done in 7s
+  d=47 done in 8s
+  d=48 done in 8s
+  d=49 done in 8s
+  d=50 done in 7s
+  d=51 done in 8s
+  d=52 done in 8s
+  d=53 done in 8s
+  d=54 done in 8s
+  d=55 done in 8s
+  d=56 done in 8s
+  d=57 done in 8s
+  d=58 done in 8s
+  d=59 done in 8s
+  d=60 done in 8s
+  d=61 done in 8s
+  d=62 done in 9s
+  d=63 done in 8s
+attn_s1: tables built in 417s
+attn_s2: final-LN scale 1.3175
+  d=8 done in 8s
+  d=9 done in 8s
+  d=10 done in 8s
+  d=11 done in 8s
+  d=12 done in 8s
+  d=13 done in 8s
+  d=14 done in 8s
+  d=15 done in 8s
+  d=16 done in 8s
+  d=17 done in 8s
+  d=18 done in 8s
+  d=19 done in 8s
+  d=20 done in 8s
+  d=21 done in 8s
+  d=22 done in 8s
+  d=23 done in 10s
+  d=24 done in 10s
+  d=25 done in 10s
+  d=26 done in 9s
+  d=27 done in 8s
+  d=28 done in 8s
+  d=29 done in 8s
+  d=30 done in 8s
+  d=31 done in 8s
+  d=32 done in 8s
+  d=33 done in 8s
+  d=34 done in 8s
+  d=35 done in 8s
+  d=36 done in 9s
+  d=37 done in 8s
+  d=38 done in 8s
+  d=39 done in 8s
+  d=40 done in 8s
+  d=41 done in 8s
+  d=42 done in 9s
+  d=43 done in 9s
+  d=44 done in 9s
+  d=45 done in 8s
+  d=46 done in 8s
+  d=47 done in 9s
+  d=48 done in 9s
+  d=49 done in 8s
+  d=50 done in 8s
+  d=51 done in 8s
+  d=52 done in 8s
+  d=53 done in 9s
+  d=54 done in 9s
+  d=55 done in 8s
+  d=56 done in 8s
+  d=57 done in 8s
+  d=58 done in 9s
+  d=59 done in 8s
+  d=60 done in 9s
+  d=61 done in 9s
+  d=62 done in 9s
+  d=63 done in 8s
+attn_s2: tables built in 468s
+attn_s3: final-LN scale 1.1020
+  d=8 done in 10s
+  d=9 done in 9s
+  d=10 done in 9s
+  d=11 done in 9s
+  d=12 done in 9s
+  d=13 done in 9s
+  d=14 done in 10s
+  d=15 done in 10s
+  d=16 done in 9s
+  d=17 done in 9s
+  d=18 done in 9s
+  d=19 done in 9s
+  d=20 done in 9s
+  d=21 done in 10s
+  d=22 done in 9s
+  d=23 done in 9s
+  d=24 done in 9s
+  d=25 done in 9s
+  d=26 done in 9s
+  d=27 done in 9s
+  d=28 done in 9s
+  d=29 done in 11s
+  d=30 done in 10s
+  d=31 done in 9s
+  d=32 done in 9s
+  d=33 done in 9s
+  d=34 done in 9s
+  d=35 done in 10s
+  d=36 done in 10s
+  d=37 done in 9s
+  d=38 done in 9s
+  d=39 done in 10s
+  d=40 done in 10s
+  d=41 done in 9s
+  d=42 done in 9s
+  d=43 done in 9s
+  d=44 done in 10s
+  d=45 done in 9s
+  d=46 done in 9s
+  d=47 done in 10s
+  d=48 done in 11s
+  d=49 done in 10s
+  d=50 done in 10s
+  d=51 done in 10s
+  d=52 done in 9s
+  d=53 done in 9s
+  d=54 done in 10s
+  d=55 done in 10s
+  d=56 done in 9s
+  d=57 done in 9s
+  d=58 done in 9s
+  d=59 done in 11s
+  d=60 done in 10s
+  d=61 done in 9s
+  d=62 done in 10s
+  d=63 done in 10s
+attn_s3: tables built in 526s
+attn_s4: final-LN scale 1.2106
+  d=8 done in 10s
+  d=9 done in 9s
+  d=10 done in 10s
+  d=11 done in 9s
+  d=12 done in 10s
+  d=13 done in 10s
+  d=14 done in 10s
+  d=15 done in 10s
+  d=16 done in 9s
+  d=17 done in 9s
+  d=18 done in 10s
+  d=19 done in 11s
+  d=20 done in 10s
+  d=21 done in 10s
+  d=22 done in 9s
+  d=23 done in 12s
+  d=24 done in 11s
+  d=25 done in 14s
+  d=26 done in 10s
+  d=27 done in 10s
+  d=28 done in 9s
+  d=29 done in 10s
+  d=30 done in 9s
+  d=31 done in 9s
+  d=32 done in 10s
+  d=33 done in 10s
+  d=34 done in 10s
+  d=35 done in 11s
+  d=36 done in 10s
+  d=37 done in 9s
+  d=38 done in 9s
+  d=39 done in 9s
+  d=40 done in 9s
+  d=41 done in 10s
+  d=42 done in 11s
+  d=43 done in 10s
+  d=44 done in 11s
+  d=45 done in 10s
+  d=46 done in 10s
+  d=47 done in 10s
+  d=48 done in 9s
+  d=49 done in 9s
+  d=50 done in 9s
+  d=51 done in 9s
+  d=52 done in 9s
+  d=53 done in 9s
+  d=54 done in 9s
+  d=55 done in 9s
+  d=56 done in 9s
+  d=57 done in 10s
+  d=58 done in 10s
+  d=59 done in 10s
+  d=60 done in 11s
+  d=61 done in 11s
+  d=62 done in 11s
+  d=63 done in 10s
+attn_s4: tables built in 555s
+attn_s0: final-LN scale 1.1499
+  d=8 done in 10s
+  d=9 done in 10s
+  d=10 done in 10s
+  d=11 done in 10s
+  d=12 done in 10s
+  d=13 done in 9s
+  d=14 done in 10s
+  d=15 done in 10s
+  d=16 done in 10s
+  d=17 done in 9s
+  d=18 done in 9s
+  d=19 done in 9s
+  d=20 done in 9s
+  d=21 done in 10s
+  d=22 done in 10s
+  d=23 done in 9s
+  d=24 done in 9s
+  d=25 done in 10s
+  d=26 done in 10s
+  d=27 done in 9s
+  d=28 done in 11s
+  d=29 done in 10s
+  d=30 done in 10s
+  d=31 done in 10s
+  d=32 done in 12s
+  d=33 done in 10s
+  d=34 done in 10s
+  d=35 done in 10s
+  d=36 done in 10s
+  d=37 done in 10s
+  d=38 done in 11s
+  d=39 done in 11s
+  d=40 done in 11s
+  d=41 done in 10s
+  d=42 done in 9s
+  d=43 done in 10s
+  d=44 done in 10s
+  d=45 done in 10s
+  d=46 done in 9s
+  d=47 done in 10s
+  d=48 done in 10s
+  d=49 done in 10s
+  d=50 done in 9s
+  d=51 done in 9s
+  d=52 done in 11s
+  d=53 done in 12s
+  d=54 done in 11s
+  d=55 done in 11s
+  d=56 done in 11s
+  d=57 done in 11s
+  d=58 done in 11s
+  d=59 done in 10s
+  d=60 done in 9s
+  d=61 done in 9s
+  d=62 done in 9s
+  d=63 done in 9s
+attn_s0: tables built in 563s
+attn_s1: mean distances [25.42, 12.75, 12.95, 4.08] -> ['RECALL', 'RECALL', 'RECALL', 'LOCAL']
+  head 0 (RECALL): base KL 0.19649; gains own +0.04738, other_h1 +0.00824, other_h2 +0.00112, other_h3 +0.01014, perm +0.00036, tt +0.14866; own coef {'cb': 0.4388299385063346} [25s]
+  head 1 (RECALL): base KL 0.37500; gains own +0.01092, other_h0 +0.00020, other_h2 +0.00065, other_h3 +0.00068, perm -0.00019, tt +0.15386; own coef {'cb': 1.3578495889637379} [23s]
+  head 2 (RECALL): base KL 0.37768; gains own +0.01990, other_h0 -0.00823, other_h1 +0.00018, other_h3 -0.00427, perm -0.00026, tt +0.02684; own coef {'cb': 1.609163533914507} [24s]
+  head 3 (LOCAL): base KL 0.24703; gains own +0.00073, other_h0 -0.00033, other_h1 -0.00008, other_h2 -0.00004, perm -0.00010, tt -0.05235; own coef {'cb': 0.26399861639655947} [33s]
+attn_s1: done in 106s
+attn_s2: mean distances [13.43, 17.31, 6.27, 29.0] -> ['RECALL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (RECALL): base KL 0.45172; gains own +0.00906, other_h1 -0.00737, other_h2 -0.01404, other_h3 -0.00211, perm -0.00232, tt -0.11291; own coef {'cb': 1.059768746458244} [28s]
+  head 1 (RECALL): base KL 0.26849; gains own +0.02004, other_h0 +0.00102, other_h2 +0.00190, other_h3 -0.00003, perm -0.00002, tt +0.14531; own coef {'cb': 0.49917892929599056} [27s]
+  head 2 (LOCAL): base KL 0.42375; gains own +0.00278, other_h0 -0.00014, other_h1 -0.00045, other_h3 -0.00043, perm -0.00036, tt +0.05490; own coef {'cb': 0.3024930893052301} [26s]
+  head 3 (RECALL): base KL 0.47738; gains own +0.07262, other_h0 +0.01064, other_h1 +0.00648, other_h2 +0.01037, perm -0.00035, tt +0.16976; own coef {'cb': 0.6444631478899906} [24s]
+attn_s2: done in 105s
+attn_s3: mean distances [3.58, 6.64, 30.21, 6.62] -> ['LOCAL', 'LOCAL', 'RECALL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.34828; gains own +0.00210, other_h1 -0.00017, other_h2 -0.00037, other_h3 +0.00001, perm -0.00026, tt +0.05685; own coef {'cb': 0.3465341216388629} [31s]
+  head 1 (LOCAL): base KL 0.23958; gains own +0.00659, other_h0 +0.00020, other_h2 +0.00079, other_h3 +0.00010, perm +0.00018, tt +0.16832; own coef {'cb': 0.8152697888029069} [25s]
+  head 2 (RECALL): base KL 0.20305; gains own +0.06704, other_h0 +0.01905, other_h1 +0.01474, other_h3 +0.01558, perm +0.00001, tt +0.17001; own coef {'cb': 0.5016387987845424} [30s]
+  head 3 (LOCAL): base KL 0.38633; gains own +0.00560, other_h0 -0.00160, other_h1 -0.00051, other_h2 -0.00312, perm +0.00035, tt +0.11705; own coef {'cb': 0.6345477166534306} [26s]
+attn_s3: done in 113s
+attn_s4: mean distances [6.49, 30.84, 6.15, 8.36] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.42449; gains own +0.00087, other_h1 -0.00238, other_h2 -0.01290, other_h3 -0.00076, perm +0.00005, tt +0.14156; own coef {'cb': 0.5207364579731807} [29s]
+  head 1 (RECALL): base KL 0.22064; gains own +0.06668, other_h0 +0.01593, other_h2 +0.00567, other_h3 +0.00887, perm +0.00091, tt +0.18658; own coef {'cb': 0.5146057818609296} [24s]
+  head 2 (LOCAL): base KL 0.43257; gains own +0.01014, other_h0 -0.00082, other_h1 -0.00165, other_h3 -0.00024, perm +0.00022, tt +0.01704; own coef {'cb': 0.5483806097160561} [29s]
+  head 3 (LOCAL): base KL 0.28262; gains own +0.00867, other_h0 +0.00011, other_h1 +0.00021, other_h2 +0.00011, perm -0.00002, tt +0.08373; own coef {'cb': 0.8877424857724027} [27s]
+attn_s4: done in 111s
+attn_s0: mean distances [4.98, 27.35, 4.35, 9.86] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.38117; gains own +0.00747, other_h1 -0.00110, other_h2 +0.00009, other_h3 -0.00083, perm +0.00017, tt +0.06520; own coef {'cb': 0.5825282047637526} [27s]
+  head 1 (RECALL): base KL 0.24852; gains own +0.06956, other_h0 +0.01769, other_h2 +0.00387, other_h3 +0.00058, perm +0.00003, tt +0.20705; own coef {'cb': 0.4463033763213694} [30s]
+  head 2 (LOCAL): base KL 0.48596; gains own +0.00286, other_h0 -0.00006, other_h1 -0.00008, other_h3 -0.00046, perm -0.00048, tt +0.12326; own coef {'cb': 0.2979512588841697} [33s]
+  head 3 (LOCAL): base KL 0.29941; gains own +0.01013, other_h0 -0.00004, other_h1 -0.00006, other_h2 +0.00157, perm -0.00001, tt +0.10382; own coef {'cb': 1.2872921528731183} [28s]
+attn_s0: done in 118s
+== calibration: BGU pass on one-layer models (20M tokens, CPU) Wed Oct 14 21:29:09 PDT 2026
+attn_s1: 8M tokens, 918s
+attn_s1: 16M tokens, 1800s
+attn_s1: 20M tokens, 2189s
+{"model": "attn_s1", "n_tokens": 20000000, "n_slots": 157277, "scale": 1.2141764323623085, "seconds": 2189.110277891159, "device": "cpu", "batch": 32}
+attn_s2: 8M tokens, 899s
+attn_s2: 16M tokens, 2345s
+attn_s2: 20M tokens, 2827s
+{"model": "attn_s2", "n_tokens": 20000000, "n_slots": 157277, "scale": 1.3174840691968528, "seconds": 2827.306126832962, "device": "cpu", "batch": 32}
+attn_s3: 8M tokens, 783s
+attn_s3: 16M tokens, 1564s
+attn_s3: 20M tokens, 1914s
+{"model": "attn_s3", "n_tokens": 20000000, "n_slots": 157277, "scale": 1.1019865025763944, "seconds": 1914.3459067344666, "device": "cpu", "batch": 32}
+attn_s4: 8M tokens, 829s
+attn_s4: 16M tokens, 2745s
+attn_s4: 20M tokens, 34844s
+{"model": "attn_s4", "n_tokens": 20000000, "n_slots": 157277, "scale": 1.2106191743918093, "seconds": 34844.46040606499, "device": "cpu", "batch": 32}
+attn_s1 L0H0 (expl): base 0.1882  own +0.0238  oqc +0.0423  shuf +0.0011  max other +0.0010  corr own 0.256  [2443s]
+attn_s1 L0H1 (expl): base 0.3940  own +0.0909  oqc +0.2395  shuf +0.0008  max other +0.0015  corr own 0.312  [1631s]
+attn_s1 L0H2 (expl): base 0.3760  own +0.1016  oqc +0.2179  shuf +0.0001  max other +0.0038  corr own 0.390  [26s]
+attn_s1 L0H3 (conf): base 0.2561  own +0.1019  oqc +0.1723  shuf -0.0002  max other +0.0002  corr own 0.425  [35s]
+attn_s2 L0H0 (expl): base 0.4411  own +0.0932  oqc +0.2363  shuf +0.0037  max other +0.0005  corr own 0.388  [30s]
+attn_s2 L0H1 (expl): base 0.2755  own +0.0435  oqc +0.0645  shuf +0.0005  max other +0.0001  corr own 0.371  [30s]
+attn_s2 L0H2 (conf): base 0.4495  own +0.1417  oqc +0.3335  shuf +0.0020  max other +0.0077  corr own 0.381  [30s]
+attn_s2 L0H3 (expl): base 0.4773  own +0.0696  oqc +0.0929  shuf +0.0074  max other +0.0010  corr own 0.260  [33s]
+attn_s3 L0H0 (conf): base 0.3484  own +0.1177  oqc +0.2499  shuf +0.0005  max other +0.0006  corr own 0.348  [38s]
+attn_s3 L0H1 (conf): base 0.2425  own +0.0650  oqc +0.1511  shuf +0.0038  max other +0.0072  corr own 0.477  [34s]
+attn_s3 L0H2 (expl): base 0.2027  own +0.0096  oqc +0.0149  shuf +0.0000  max other +0.0007  corr own 0.183  [37s]
+attn_s3 L0H3 (conf): base 0.3996  own +0.0956  oqc +0.2957  shuf +0.0000  max other +0.0017  corr own 0.407  [41s]
+attn_s4 L0H0 (conf): base 0.4412  own +0.1970  oqc +0.3523  shuf +0.0032  max other +0.0027  corr own 0.388  [45s]
+attn_s4 L0H1 (expl): base 0.2041  own +0.0079  oqc +0.0164  shuf +0.0000  max other +0.0002  corr own 0.161  [41s]
+attn_s4 L0H2 (conf): base 0.4388  own +0.1098  oqc +0.3076  shuf +0.0033  max other +0.0038  corr own 0.436  [43s]
+attn_s4 L0H3 (conf): base 0.2839  own +0.0744  oqc +0.1867  shuf +0.0014  max other +0.0027  corr own 0.472  [47s]
+attn_s1 L0H0 (expl): base 0.1882  own +0.0196  oqc +0.0423  shuf +0.0007  max other +0.0014  corr own 0.187  [47s]
+attn_s1 L0H1 (expl): base 0.3940  own +0.0561  oqc +0.2395  shuf +0.0008  max other +0.0020  corr own 0.236  [46s]
+attn_s1 L0H2 (expl): base 0.3760  own +0.0548  oqc +0.2179  shuf -0.0004  max other +0.0030  corr own 0.291  [42s]
+attn_s1 L0H3 (conf): base 0.2561  own +0.0493  oqc +0.1723  shuf -0.0025  max other -0.0024  corr own 0.336  [55s]
+attn_s2 L0H0 (expl): base 0.4411  own +0.0536  oqc +0.2363  shuf +0.0096  max other +0.0028  corr own 0.301  [49s]
+attn_s2 L0H1 (expl): base 0.2755  own +0.0292  oqc +0.0645  shuf -0.0003  max other +0.0006  corr own 0.266  [45s]
+attn_s2 L0H2 (conf): base 0.4495  own +0.0629  oqc +0.3335  shuf +0.0045  max other +0.0064  corr own 0.260  [48s]
+attn_s2 L0H3 (expl): base 0.4773  own +0.0385  oqc +0.0929  shuf +0.0127  max other +0.0015  corr own 0.150  [49s]
+attn_s3 L0H0 (conf): base 0.3484  own +0.0502  oqc +0.2499  shuf +0.0051  max other +0.0002  corr own 0.254  [63s]
+attn_s3 L0H1 (conf): base 0.2425  own +0.0434  oqc +0.1511  shuf +0.0035  max other +0.0050  corr own 0.387  [51s]
+attn_s3 L0H2 (expl): base 0.2027  own +0.0076  oqc +0.0149  shuf +0.0000  max other +0.0009  corr own 0.112  [50s]
+attn_s3 L0H3 (conf): base 0.3996  own +0.0172  oqc +0.2957  shuf +0.0025  max other +0.0053  corr own 0.296  [54s]
+attn_s4 L0H0 (conf): base 0.4412  own +0.0780  oqc +0.3523  shuf -0.0016  max other +0.0234  corr own 0.284  [57s]
+attn_s4 L0H1 (expl): base 0.2041  own +0.0064  oqc +0.0164  shuf +0.0001  max other +0.0003  corr own 0.111  [52s]
+attn_s4 L0H2 (conf): base 0.4388  own +0.0493  oqc +0.3076  shuf +0.0092  max other +0.0040  corr own 0.311  [54s]
+attn_s4 L0H3 (conf): base 0.2839  own +0.0390  oqc +0.1867  shuf +0.0001  max other +0.0032  corr own 0.378  [56s]
+== done Thu Oct 15 10:49:02 PDT 2026

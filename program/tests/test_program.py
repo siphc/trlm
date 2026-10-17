@@ -1,6 +1,6 @@
 """CLAIM (program/__init__.py): the five mechanisms together are within 0.62 nats of the model on held-out text,
 and each one is needed: switching it off raises KL by at least 0.05 nats (FOLLOW by at least 1.0).
-Measured on 64 TRAIN windows: 0.582; rises FOLLOW 1.29, PHRASE 0.17, LOCAL-0 0.094, RECALL 0.086, LOCAL-2 0.076."""
+Measured on 64 TRAIN windows (v1.3): 0.547; rises FOLLOW 1.36, PHRASE 0.14, LOCAL-2 0.13, RECALL 0.12, LOCAL-0 0.066."""
 from program.tests import measure as M
 
 

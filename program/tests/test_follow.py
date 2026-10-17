@@ -1,6 +1,6 @@
 """CLAIM (follow.py): FOLLOW is what the model predicts from the current token alone. On its own it is much closer
 to the model with the earlier-token parts of all four heads replaced by their mean than to the full model:
-KL at most 1.35 nats and at most 0.8 times its KL to the full model (TRAIN: 1.15 vs 1.70)."""
+KL at most 1.35 nats and at most 0.8 times its KL to the full model (TRAIN: 1.13 vs 1.67)."""
 import numpy as np
 
 from program.tests import measure as M

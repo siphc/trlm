@@ -1,0 +1,93 @@
+{
+ "n_windows": 16,
+ "corr(model size, program raw size)": 0.1791064958613609,
+ "corr(model size, head-1 attention concentration)": 0.07471976008983956,
+ "by program raw size decile": [
+  {
+   "program raw size": 0.3166896454247689,
+   "model size": 0.8511710078484399
+  },
+  {
+   "program raw size": 0.3479325090732893,
+   "model size": 0.8584675778083757
+  },
+  {
+   "program raw size": 0.3696817431071274,
+   "model size": 0.9192267946011329
+  },
+  {
+   "program raw size": 0.390135171591009,
+   "model size": 0.9341556934354023
+  },
+  {
+   "program raw size": 0.4121843545570538,
+   "model size": 0.9597783332082769
+  },
+  {
+   "program raw size": 0.4377766702241697,
+   "model size": 0.9600627285349536
+  },
+  {
+   "program raw size": 0.46924405362220517,
+   "model size": 1.0412436588045968
+  },
+  {
+   "program raw size": 0.5097526986071831,
+   "model size": 1.1208761651850254
+  },
+  {
+   "program raw size": 0.5702902511462437,
+   "model size": 1.1768657443867825
+  },
+  {
+   "program raw size": 0.8124922247566002,
+   "model size": 1.2495033579388222
+  }
+ ],
+ "by model attention concentration decile": [
+  {
+   "concentration": 0.02477874334140599,
+   "model size": 0.7850653514368844
+  },
+  {
+   "concentration": 0.032425746052371626,
+   "model size": 0.8538296542190071
+  },
+  {
+   "concentration": 0.03741388944812183,
+   "model size": 0.8804904349345667
+  },
+  {
+   "concentration": 0.04238729805970181,
+   "model size": 0.9430859514029662
+  },
+  {
+   "concentration": 0.04800781707221916,
+   "model size": 0.9728619242246088
+  },
+  {
+   "concentration": 0.055294308203427345,
+   "model size": 1.0556129782364998
+  },
+  {
+   "concentration": 0.06592705756136166,
+   "model size": 1.1278615187124845
+  },
+  {
+   "concentration": 0.08392475983940038,
+   "model size": 1.190307991980882
+  },
+  {
+   "concentration": 0.12212208166837743,
+   "model size": 1.1690627147922763
+  },
+  {
+   "concentration": 0.32833198794698815,
+   "model size": 1.0937616221807824
+  }
+ ],
+ "position 0": {
+  "model size": 0.6419793242414544,
+  "program raw size": 1.577215829530239
+ }
+}

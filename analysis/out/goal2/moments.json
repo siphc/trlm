@@ -1,0 +1,13 @@
+{
+ "n_windows": 256,
+ "min_positions": 30,
+ "model": 0.4256862115455252,
+ "n_tokens_used": 367,
+ "program": 0.4351741907166472,
+ "model_vs_program_means": 0.10922758119409594,
+ "corpus_bigram_as_prediction": 0.42091673109209277,
+ "model_vs_corpus_bigram": 0.10244168808253962,
+ "program_vs_corpus_bigram": 0.07791524289032338,
+ "model_vs_corpus_bigram_reverse": 0.20755698359129474,
+ "program_vs_corpus_bigram_reverse": 0.1711736530502359
+}

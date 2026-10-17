@@ -1,0 +1,7 @@
+{"round": 0, "output_kl": 0.5657133457448484, "pattern_kl": {"head0": 0.39436217678629515, "head2": 0.44276765076541486, "head1": 0.570132305367109}}
+/Users/svi/Desktop/trlm/analysis/vote_fit.py:144: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:219.)
+  put = torch.as_tensor(np.asarray(pu), dtype=torch.float32)
+{"round": 1, "output_kl": 0.546926550832227, "pattern_kl": {"head0": 0.3963868867316099, "head2": 0.4430965434242346, "head1": 0.570132771275795}}
+{"round": 2, "output_kl": 0.5472815962119939, "pattern_kl": {"head0": 0.39643566908644995, "head2": 0.4427756041420908, "head1": 0.570132771275795}}
+{"round": 3, "output_kl": 0.547447434017327, "pattern_kl": {"head0": 0.39635772239030925, "head2": 0.4427154514985842, "head1": 0.570132771275795}}
+constants written to program

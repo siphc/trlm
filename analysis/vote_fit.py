@@ -104,27 +104,69 @@ def all_features(P, t, cand):
     return F, beta
 
 
-def fit(stack, probs, beta0, iters=200):
-    """L-BFGS on mean cross-entropy of the model's distribution under softmax(F beta). stack (N, V, K) float16."""
+SATURATING = "head1."      # directions of the mechanism whose summed vote has a fixed size (program/head1.py SIZE)
+
+
+def saturation_of_program():
+    """The size of RECALL's vote (program/head1.py SIZE), or None if this program version has none."""
+    from program import head1
+
+    return getattr(head1, "SIZE", None)
+
+
+RECALL_RMS = 3.0           # scale convention for the fixed-size mechanism's strengths (only their ratios matter)
+
+
+def sat_mask(keys):
+    return torch.tensor([k.startswith(SATURATING) for k in keys])
+
+
+def combine(X, beta, mask=None, c=None, pu=None):
+    """Score from directions X (..., K): sum_k beta_k X_k; with c, the fixed-size mechanism's part is rescaled to
+    size c: c * g / spread(g), spread = unigram-weighted standard deviation over the vocabulary (program/head1.py)."""
+    if c is None:
+        return X @ beta
+    g = X[..., mask] @ beta[mask]
+    mu = (g * pu).sum(-1, keepdim=True)
+    n2 = (((g - mu) ** 2) * pu).sum(-1, keepdim=True)
+    return X[..., ~mask] @ beta[~mask] + c * g / torch.sqrt(n2 + 1e-18)
+
+
+def fit(stack, probs, beta0, iters=200, keys=None, c0=None, pu=None):
+    """L-BFGS on mean cross-entropy of the model's distribution under softmax(F beta). stack (N, V, K) float16.
+    With c0 (and keys, pu), the fixed-size mechanism's size is fitted too and (beta, c) is returned; its
+    strengths are then defined only up to a common factor and are rescaled to root-mean-square RECALL_RMS."""
     X = torch.from_numpy(stack)
     Pm = torch.from_numpy(probs)
     N = X.shape[0]
     beta = torch.tensor(beta0, dtype=torch.float32, requires_grad=True)
-    opt = torch.optim.LBFGS([beta], lr=1.0, max_iter=iters, line_search_fn="strong_wolfe",
+    params = [beta]
+    mask = logc = put = None
+    if c0 is not None:
+        mask = sat_mask(keys)
+        logc = torch.tensor(float(np.log(c0)), requires_grad=True)
+        put = torch.as_tensor(np.asarray(pu), dtype=torch.float32)
+        params.append(logc)
+    opt = torch.optim.LBFGS(params, lr=1.0, max_iter=iters, line_search_fn="strong_wolfe",
                             tolerance_grad=1e-7, tolerance_change=1e-10, history_size=50)
 
     def closure():
         opt.zero_grad()
         total = 0.0
         for c in range(0, N, 256):
-            score = X[c : c + 256].float() @ beta
+            score = combine(X[c : c + 256].float(), beta, mask, None if logc is None else torch.exp(logc), put)
             loss = -(Pm[c : c + 256] * torch.log_softmax(score, -1)).sum() / N
             loss.backward()
             total += float(loss.detach())
         return torch.tensor(total)
 
     opt.step(closure)
-    return beta.detach().numpy().astype(np.float64)
+    b = beta.detach().numpy().astype(np.float64)
+    if c0 is None:
+        return b
+    m = mask.numpy()
+    b[m] *= RECALL_RMS / np.sqrt(np.mean(b[m] ** 2))
+    return b, float(torch.exp(logc.detach()))
 
 
 def stacked(P, windows, cand, names=None):
@@ -137,15 +179,19 @@ def stacked(P, windows, cand, names=None):
 
 
 def evaluate(P, windows, lp, cand, betas):
-    """Per-window KL for each named strength vector in `betas` ({arm: (keys, beta)})."""
+    """Per-window KL for each named strength vector in `betas` ({arm: (keys, beta) or (keys, beta, saturation)})."""
     out = {arm: [] for arm in betas}
+    pu = torch.as_tensor(np.asarray(P.STATS.p_uni), dtype=torch.float64)
     for w, p in zip(windows, lp):
         t = np.asarray(w[:256], dtype=np.int64)
         F_base, _ = base_features(P, t)
         F_cand = all_features(P, t, cand)[0] if cand is not None else F_base
-        for arm, (keys, beta) in betas.items():
+        for arm, spec in betas.items():
+            keys, beta, c = (spec + (None,))[:3]
             F = F_cand if arm.startswith("cand") else F_base
-            score = sum(b * np.asarray(F[k], np.float64) for k, b in zip(keys, beta))
+            X = torch.as_tensor(np.stack([np.asarray(F[k], np.float64) for k in keys], -1))
+            score = combine(X, torch.as_tensor(np.asarray(beta, np.float64)), sat_mask(keys) if c is not None else None,
+                            c, pu).numpy()
             out[arm].append(M.kl(p, M.log_softmax(score)).mean())
     return {arm: np.asarray(v) for arm, v in out.items()}
 
@@ -214,15 +260,24 @@ def main():
     Wf, We = train_windows(args.fit, seed=args.fit_seed), train_windows(args.eval, seed=args.eval_seed)
     lpf = model_logprobs(Wf)
     probs = np.exp(lpf).reshape(-1, V).astype(np.float32)
+    sat0 = saturation_of_program()
+    pu = P.STATS.p_uni
     Xb, kb, b0 = stacked(P, Wf, None)
-    beta_base = fit(Xb, probs, [b0[k] for k in kb])
+    if sat0 is None:
+        beta_base, sat_base = fit(Xb, probs, [b0[k] for k in kb]), None
+    else:
+        beta_base, sat_base = fit(Xb, probs, [b0[k] for k in kb], keys=kb, c0=sat0, pu=pu)
     del Xb
-    betas = {"program as is": (kb, [b0[k] for k in kb]), "base refit": (kb, beta_base)}
+    betas = {"program as is": (kb, [b0[k] for k in kb], sat0), "base refit": (kb, beta_base, sat_base)}
     if cand is not None:
         Xc, kc, c0 = stacked(P, Wf, cand)
-        beta_c = fit(Xc, probs, [beta_base[kb.index(k)] if k in kb else 0.0 for k in kc])
+        init = [beta_base[kb.index(k)] if k in kb else 0.0 for k in kc]
+        if sat0 is None:
+            beta_c, sat_c = fit(Xc, probs, init), None
+        else:
+            beta_c, sat_c = fit(Xc, probs, init, keys=kc, c0=sat_base, pu=pu)
         del Xc
-        betas["candidate refit"] = (kc, beta_c)
+        betas["candidate refit"] = (kc, beta_c, sat_c)
     lpe = model_logprobs(We)
     kls = evaluate(P, We, lpe, cand, betas)
     res = {"candidate": getattr(cand, "NAME", None), "fit_windows": args.fit, "eval_windows": args.eval,
@@ -232,15 +287,17 @@ def main():
         d = kls["candidate refit"] - kls["base refit"]
         res["paired_diff"] = float(d.mean())
         res["paired_se"] = float(d.std(ddof=1) / np.sqrt(len(d)))
-        res["candidate_strengths"] = {k: round(float(b), 4) for k, b in zip(*betas["candidate refit"])
+        res["candidate_strengths"] = {k: round(float(b), 4) for k, b in zip(*betas["candidate refit"][:2])
                                       if k.startswith(cand.NAME + ".")}
         res["base_strengths_change"] = {k: [round(float(beta_base[kb.index(k)]), 3), round(float(b), 3)]
-                                        for k, b in zip(*betas["candidate refit"]) if k in kb}
+                                        for k, b in zip(*betas["candidate refit"][:2]) if k in kb}
+        res["saturation"] = {"base": sat_base, "candidate": betas["candidate refit"][2]}
         if not args.no_heads and getattr(cand, "HEADS", None):
             Wh = We[: args.heads_windows]
             res["head_effect_r2"] = {"heads": cand.HEADS, **head_r2(P, Wh, lpe[: args.heads_windows], cand, cand.HEADS)}
     else:
         res["base_strengths"] = {k: [round(float(b0[k]), 3), round(float(b), 3)] for k, b in zip(kb, beta_base)}
+        res["saturation"] = {"program": sat0, "refit": sat_base}
     res["seconds"] = round(time.time() - t0, 1)
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, f"{res['candidate'] or 'base'}{args.tag}.json"), "w") as f:

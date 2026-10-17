@@ -13,7 +13,8 @@ The whole algorithm, top-down (one module per mechanism):
                                       distance (corpus skip-grams)                         [model head 0]
                   head2.py   LOCAL-2  informative recent words, skipping word pieces, vote the same way [head 2]
                   head1.py   RECALL   earlier story words that could come next are recalled and vote for
-                                      themselves, their topic and what follows them        [model head 1]
+                                      themselves, their topic and what follows them; the summed vote
+                                      saturates, so one recalled word cannot drown the rest [model head 1]
                   phrase.py  PHRASE   continue the last two or three tokens as a known phrase (corpus 3/4-grams)
                   and turn the summed votes into probabilities with a softmax.
 

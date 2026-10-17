@@ -7,8 +7,8 @@ Why alternate: the local readers' attention includes the usefulness of their OWN
 which depends on their vote strengths, and the best vote strengths depend on the attention. Each round:
   1. attention: each head rule (program/head0.py, head2.py, head1.py) is fitted to its assigned model head's own
      attention pattern (pattern cross-entropy, train_windows(32, 2024); analysis/attention_fit.py);
-  2. votes: all vote strengths are refitted jointly to the model's log-probs (convex; analysis/vote_fit.py, same
-     fit windows).
+  2. votes: all vote strengths are refitted jointly to the model's log-probs (analysis/vote_fit.py, same fit
+     windows; convex, except RECALL's vote size when the program has one, fitted with them).
 Reported each round: held-out pattern KL per head (train_windows(16, 2025)) and held-out output KL
 (train_windows(64, 2000)). With --write, the final constants are written into that program directory.
 """
@@ -95,9 +95,16 @@ def main():
             fitted = fit_rule(mods[role], Af[:, h], Wf, s, keep=True)
             attn[role] = attention_constants(mods[role], fitted)
         X, keys, b0 = vote_fit.stacked(P, Wf, None)
-        beta = vote_fit.fit(X, probs, [b0[k] for k in keys])
+        sat0 = vote_fit.saturation_of_program()
+        if sat0 is None:
+            beta = vote_fit.fit(X, probs, [b0[k] for k in keys])
+        else:
+            beta, sat = vote_fit.fit(X, probs, [b0[k] for k in keys], keys=keys, c0=sat0, pu=s.p_uni)
         del X
         consts = set_strengths(dict(zip(keys, map(float, beta))))
+        if sat0 is not None:
+            head1.SIZE = sat
+            consts["head1"]["SIZE"] = sat
         for role, c in attn.items():
             consts[role].update(c)
         kl, pat = heldout()

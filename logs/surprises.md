@@ -147,3 +147,20 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   linearisation (LTOTAL): the per-position LayerNorm Jacobian hurts the prediction.
 - Head pairs cancel each other's effects in one-layer models (all 5 seeds), never in 2- and 4-block models, even within a
   layer of the same width.
+
+## 2026-10-17 goal 2 (readable copy), autonomous session (logs/goal2_plan.md)
+
+- **Seeds of the same network are far apart.** On 64 TRAIN windows, attn_s1..s4 are 0.38-0.42 nats from attn_s0
+  (KL(attn_s0 || seed k)); the average of seeds 1-4 is 0.25 away; mlp_s0 0.58. The program (v1.2) is 0.56 away, so a
+  re-trained copy of the very same network is only about 30% closer to attn_s0 than the program is.
+- **The program is equally far from every seed** (0.557-0.574), although it was fitted to attn_s0 only, and its data
+  cross-entropy (2.501) equals attn_s0's (2.506). It is a seed-agnostic description: refitting all its scalars to
+  attn_s1 made its held-out KL to attn_s1 slightly worse (0.561 -> 0.569).
+- **The model's current-token table is mostly per-token, and partly seed-specific.** With every head's earlier-token
+  part exact, a context-free per-token table reaches KL 0.07 where the program's corpus directions reach 0.33. Of that
+  table's variance (model-mass weighted), the corpus bigram explains 0.60-0.72, the mean of the other four seeds 0.83-0.87:
+  about 15% is seed-specific, about 20% shared by all seeds but not a corpus statistic tried.
+- **RECALL needs a saturation, the other mechanisms do not.** Dividing RECALL's summed vote by sqrt(1 + c spread^2)
+  (the final LayerNorm's limit on one large write) gains 0.016 nats; the same for LOCAL-0/LOCAL-2 0.002, PHRASE 0. With
+  it, RECALL's fitted strengths grow about fivefold: its vote acts almost like a fixed-size vector whose direction the
+  attention chooses.

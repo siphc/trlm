@@ -1,0 +1,32 @@
+{
+ "fit_windows": 16,
+ "eval_windows": 16,
+ "earlier parts only (S removed)": 1.7620236624372407,
+ "program as is (for reference)": null,
+ "program current-token directions": {
+  "kl": 0.3323710701928714,
+  "strengths": [
+   0.638273298740387,
+   1.7271665334701538,
+   1.2917969226837158,
+   0.4487767219543457
+  ]
+ },
+ "oracle table": {
+  "kl": 0.07161279754941521,
+  "strengths": [
+   0.9898483157157898
+  ]
+ },
+ "oracle table + program directions": {
+  "kl": 0.0707564991158866,
+  "strengths": [
+   0.9456504583358765,
+   0.03546471148729324,
+   0.1408015638589859,
+   -0.06334745138883591,
+   0.16232258081436157
+  ]
+ },
+ "exact S (check, should be 0)": -4.2096723740555975e-11
+}

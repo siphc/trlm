@@ -1,8 +1,8 @@
 """CLAIM (head0.py): LOCAL-0's votes from earlier tokens point the same way as model head 0's effect from earlier
-tokens (median weighted correlation >= 0.18; TRAIN 0.27), and its attention rule is what makes them agree: with
-uniform attention over earlier tokens the agreement falls below half of that (TRAIN 0.03). It captures only a small
+tokens (median weighted correlation >= 0.18; TRAIN 0.28), and its attention rule is what makes them agree: with
+uniform attention over earlier tokens the agreement falls below half of that (TRAIN 0.02). It captures only a small
 part of the head: removing it moves the program's output less than a quarter as far as ablating the head moves the
-model's (TRAIN 0.043 vs 0.46 nats)."""
+model's (TRAIN 0.030 vs 0.46 nats)."""
 from program.tests import measure as M
 
 

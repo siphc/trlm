@@ -1,0 +1,35 @@
+{
+ "model": "attn_s0",
+ "n_windows": 128,
+ "n_tokens": 134,
+ "corpus": [
+  0.648,
+  {
+   "log_P1": 0.718,
+   "log_P": -0.211
+  }
+ ],
+ "corpus + model context mean (oracle)": [
+  0.733,
+  {
+   "log_P1": 0.812,
+   "log_P": -0.049,
+   "Cm": -0.437
+  }
+ ],
+ "corpus + program context mean": [
+  0.656,
+  {
+   "log_P1": 0.67,
+   "log_P": -0.201,
+   "Cp": 0.206
+  }
+ ],
+ "model context mean alone": [
+  0.057,
+  {
+   "Cm": 0.259
+  }
+ ],
+ "corr(Cm, Cp) weighted": 0.613
+}

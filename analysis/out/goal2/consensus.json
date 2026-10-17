@@ -1,0 +1,47 @@
+{
+ "n_windows": 64,
+ "miss_mean": 0.4108930518908984,
+ "spread_mean": 0.1905132597566646,
+ "corr(miss, spread)": 0.4652610406397688,
+ "miss by spread quartile": [
+  0.24165349849143916,
+  0.34639349493944016,
+  0.44245204587536857,
+  0.6130731682573457
+ ],
+ "share of miss at low-spread positions (spread below median)": 0.35778591942887084,
+ "classes": {
+  "ensemble's top token appeared earlier in the window": {
+   "share_positions": 0.60845947265625,
+   "miss": 0.3913795725644454,
+   "share_of_miss": 0.5795634830890795,
+   "spread": 0.172942558246282
+  },
+  "ensemble's top token is a word piece": {
+   "share_positions": 0.1363525390625,
+   "miss": 0.5041598301667305,
+   "share_of_miss": 0.16730259277980067,
+   "spread": 0.3715508873121883
+  },
+  "current token is a word piece": {
+   "share_positions": 0.1376953125,
+   "miss": 0.5308886944248029,
+   "share_of_miss": 0.17790732733283166,
+   "spread": 0.3757459575766691
+  },
+  "ensemble is confident (top prob > 0.5)": {
+   "share_positions": 0.33856201171875,
+   "miss": 0.3219433202390573,
+   "share_of_miss": 0.2652704338950234,
+   "spread": 0.12185182348791102
+  }
+ },
+ "confident consensus": {
+  "share_positions": 0.249755859375,
+  "share_of_miss": 0.15905586390516474,
+  "ensemble top prob": 0.7760042415539956,
+  "program prob on it": 0.6004692926996962,
+  "of these, top token appeared earlier": 0.7182306940371457,
+  "of these, top token is a word piece": 0.1104594330400782
+ }
+}

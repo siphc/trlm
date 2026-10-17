@@ -12,10 +12,14 @@ head's attention rule, which were fitted to *that head's own attention pattern*,
 program says *what* each head reads and *what* it does with it in terms of the language itself; it contains no
 table learned from the model.
 
-Fidelity (harness, KL(model ‖ program) in nats per token): **0.571** on dev_fast (200 windows); the program's
-top token is the model's top token 63% of the time; it recovers 98.9% of the cross-entropy gap between a corpus
-bigram and the model (v1.2; v1 was 0.589, v1.1 0.578). For scale: the corpus bigram alone is 1.20 nats from the model, and the earlier
-distillation program (tables fitted to the model, git tag `distillation-v11`) reached 0.452.
+Fidelity (harness, KL(model ‖ program) in nats per token): **0.550** on dev_fast (200 windows); the program's
+top token is the model's top token 63% of the time; on dev text it predicts the next token as well as the model
+does (cross-entropy gap between a corpus bigram and the model recovered: 102%) (v1.3; v1 was 0.589, v1.1 0.578,
+v1.2 0.571). For scale: the corpus bigram alone is 1.20 nats from the model; the earlier distillation program
+(tables fitted to the model, git tag `distillation-v11`) reached 0.452; and **another training run of the same
+network (seeds 1-4) is 0.38-0.42 nats from this one**, the average of four such runs 0.25 (TRAIN windows,
+`logs/goal2_plan.md`). Part of the remaining gap is therefore specific to this training run and cannot be explained
+by any description that would fit every run equally; the program is equally far from all five runs.
 
 ## The algorithm, top-down
 
@@ -30,7 +34,7 @@ score_i[v] = FOLLOW(t_i, v)                          follow.py   the current tok
            + PHRASE   continues known phrases          phrase.py   [behavioural; parts of heads 0 and 2]
 ```
 
-1. **FOLLOW**: `0.42 · log P1(v | t_i) + 0.45 · log P(v)`, the corpus bigram. In the model this is the sum of
+1. **FOLLOW**: `0.51 · log P1(v | t_i) + 0.36 · log P(v)`, the corpus bigram. In the model this is the sum of
    the direct path and of heads 0 and 2 looking at the current token.
 2. **LOCAL-0 and LOCAL-2** (the local readers). Each spreads attention `a(i, j)` over the current and earlier
    positions by a short rule, and each token it reads votes for *what the stories put at the next position
@@ -49,7 +53,13 @@ score_i[v] = FOLLOW(t_i, v)                          follow.py   the current tok
 3. **RECALL**. Attention decays slowly (half-life about 23 tokens), favours names and content words, and
    favours earlier words of the kind that usually follows the current word (after `' the'`, nouns). Each
    recalled word votes to be repeated, for its topic (words that tend to appear 9 to 24 tokens after it in the
-   stories), and slightly against its own usual successor.
+   stories), and slightly against its own usual successor. The summed vote saturates: it is divided by
+   `sqrt(1 + SATURATION · spread²)`, where `spread` is its size over the vocabulary. Spread over many earlier
+   words, the votes are small and pass almost unchanged; when the attention falls on one or two words (at the start
+   of a window, or on one salient name) their full vote would otherwise drown everything else. In the model, head
+   1's contribution to the output is bounded in size (it writes an average of its value vectors, and the final
+   LayerNorm divides by the size of everything written); shrinking the whole score instead of RECALL's own vote
+   fits worse, so the limit acts on this head's vote.
 4. **PHRASE**. Corrects the bigram with trigram and 4-gram counts of the stories. It stands in for the part of
    heads 0 and 2 that their simple attention rules miss: token-pair-specific choices of where to look, mostly at
    the previous one or two tokens.
@@ -60,19 +70,19 @@ Model head 3 is not modelled (see "What is not explained").
 ## What each part contributes
 
 Measured with `analysis/mech_eval.py` on 64 TRAIN windows (not the harness splits): KL(model ‖ program) with
-everything on is 0.572.
+everything on is 0.547.
 
 | part | one-sentence role | KL rise when removed |
 |---|---|---|
-| FOLLOW | the current token's usual successors (corpus bigram) | +1.17 |
-| PHRASE | trigram and 4-gram corrections to the bigram | +0.170 |
-| LOCAL-0 (head 0) | the last few tokens vote for what follows them, and against words like them | +0.152 |
-| RECALL (head 1) | earlier names and content words vote for themselves and their topic | +0.096 |
-| LOCAL-2 (head 2) | informative recent words and sentence ends vote like LOCAL-0, and against repeats | +0.091 |
+| FOLLOW | the current token's usual successors (corpus bigram) | +1.36 |
+| PHRASE | trigram and 4-gram corrections to the bigram | +0.144 |
+| LOCAL-2 (head 2) | informative recent words and sentence ends vote like LOCAL-0, and against repeats | +0.134 |
+| RECALL (head 1) | earlier names and content words vote, with a fixed total size, for themselves and their topic | +0.121 |
+| LOCAL-0 (head 0) | the last few tokens vote for what follows them, and against words like them | +0.066 |
 
-Standard errors of the rises are 0.002 to 0.008. The context mechanisms overlap: FOLLOW on its own is 1.89 nats
+Standard errors of the rises are 0.002 to 0.008. The context mechanisms overlap: FOLLOW on its own is 1.67 nats
 from the model with its strengths as fitted here (1.20 if refitted alone), so the four context mechanisms
-together remove 1.32 nats, while their single-removal rises sum to only 0.51.
+together remove 1.12 nats, while their single-removal rises sum to only 0.47.
 
 ## Where the numbers come from
 
@@ -86,10 +96,10 @@ together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 - Named scalars, each with a comment saying how it was found:
   - 32 attention-rule parameters (head 0: 10, head 2: 14, head 1: 8), fitted to the matching model head's
     attention rows (cross-entropy between the rule's and the head's attention, 32 TRAIN windows);
-  - 28 vote strengths (FOLLOW 2, head 0: 5, head 2: 4, head 1: 15, PHRASE 2), fitted jointly to the model's
-    log-probs with the attention rules frozen, and the 3 smoothing numbers of the bigram rule. Because a
-    reader's attention depends on its own vote strengths, attention and votes are fitted in turn until they
-    agree (`scripts/fit_scalars.py`, two rounds);
+  - 29 vote numbers (FOLLOW 2, head 0: 5, head 2: 4, head 1: 15 strengths of which only the ratios matter plus
+    the size of its vote, PHRASE 2), fitted jointly to the model's log-probs with the attention rules frozen, and
+    the 3 smoothing numbers of the bigram rule. Because a reader's attention depends on its own vote strengths,
+    attention and votes are fitted in turn until they agree (`scripts/fit_scalars.py`, three rounds);
   - a few counting choices made by hand (skip-gram distances up to 8, topic window 9 to 24 tokens, the
     phrase back-off weight 300 chosen from {3, 30, 300}).
 
@@ -104,7 +114,7 @@ together remove 1.32 nats, while their single-removal rises sum to only 0.51.
 - **Inside split words**: completing a word whose first pieces have been seen is the largest single share of
   the remaining KL (about 27%).
 - **Pair-specific attention** of heads 0 and 2 (which earlier token to read given the current token) is
-  is only partly covered: the usefulness rule above brings part of it, PHRASE stands in for more. In the model,
+  only partly covered: the usefulness rule above brings part of it, PHRASE stands in for more. In the model,
   a local head's pair-specific attention follows the usefulness of its own vote, specifically to that head, in
   every one-layer seed (about a third of the token-token attention term; attention and vote co-adapt during
   training), and in the output layer of deeper models but not in heads that write for later layers

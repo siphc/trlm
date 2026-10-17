@@ -1,0 +1,75 @@
+{
+ "program": {
+  "kl": 0.5636477405121121,
+  "se": 0.012584550657146067
+ },
+ "hybrid BIAS only": {
+  "kl": 0.2121014116784382,
+  "se": 0.004540826963322298
+ },
+ "hybrid FOLLOW (centred)": {
+  "kl": 0.4019673216978702,
+  "se": 0.00892097869505765
+ },
+ "hybrid LOCAL (centred)": {
+  "kl": 0.6165032870766454,
+  "se": 0.017508539309780864
+ },
+ "hybrid LOCAL_no_phrase (centred)": {
+  "kl": 0.7787784865310682,
+  "se": 0.023600484447645297
+ },
+ "hybrid RECALL (centred)": {
+  "kl": 0.28683567631327844,
+  "se": 0.014164013753504704
+ },
+ "hybrid LOCAL+RECALL (centred)": {
+  "kl": 0.7600635998445069,
+  "se": 0.025383370332495183
+ },
+ "hybrid FOLLOW+LOCAL (centred)": {
+  "kl": 0.8239057432621931,
+  "se": 0.020470359266858147
+ },
+ "hybrid FOLLOW+RECALL (centred)": {
+  "kl": 0.6673082940928765,
+  "se": 0.011652466998392712
+ },
+ "hybrid all (centred) + BIAS": {
+  "kl": 0.5636477436565679,
+  "se": 0.012584551761643423
+ },
+ "model with earlier0 at its mean": {
+  "kl": 0.4666452240970016,
+  "se": 0.01155887418989745
+ },
+ "model with earlier1 at its mean": {
+  "kl": 0.4113331595595025,
+  "se": 0.03378708360884192
+ },
+ "model with earlier2 at its mean": {
+  "kl": 0.4988728881313048,
+  "se": 0.014879771588700075
+ },
+ "model with earlier3 at its mean": {
+  "kl": 0.31705012994468934,
+  "se": 0.014544072474763931
+ },
+ "model with self0 at its mean": {
+  "kl": 1.8605025633749874,
+  "se": 0.043269081283940365
+ },
+ "model with self1 at its mean": {
+  "kl": 0.01713622494124394,
+  "se": 0.0020030697417180872
+ },
+ "model with self2 at its mean": {
+  "kl": 0.718626376809481,
+  "se": 0.030990829306429577
+ },
+ "model with self3 at its mean": {
+  "kl": 0.18324841606026374,
+  "se": 0.02103350342045845
+ },
+ "n_windows": 16
+}

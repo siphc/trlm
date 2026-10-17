@@ -1,0 +1,20 @@
+{
+ "n_windows": 64,
+ "program (v1.2) vs attn_s0": 0.564387219617644,
+ "attn_s1 vs attn_s0": 0.4205495447371842,
+ "attn_s2 vs attn_s0": 0.4235697495982558,
+ "attn_s3 vs attn_s0": 0.3842393118830476,
+ "attn_s4 vs attn_s0": 0.3866279950852005,
+ "mlp_s0 vs attn_s0": 0.5823746002734451,
+ "mean of seeds 1-4 (probability average) vs attn_s0": 0.2484200780639233,
+ "geometric mean of seeds 1-4 vs attn_s0": 0.2641314157500204,
+ "data CE": {
+  "attn_s0": 2.5061624101774758,
+  "attn_s1": 2.4987619213752943,
+  "attn_s2": 2.5228102082307204,
+  "attn_s3": 2.493346534758316,
+  "attn_s4": 2.507209933334414,
+  "mlp_s0": 2.240962235609354,
+  "program": 2.5013872188371082
+ }
+}

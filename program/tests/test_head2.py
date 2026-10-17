@@ -1,7 +1,7 @@
 """CLAIM (head2.py): LOCAL-2's votes from earlier tokens point the same way as model head 2's effect from earlier
-tokens (median weighted correlation >= 0.25; TRAIN 0.36), and its attention rule is what makes them agree: with
-uniform attention the agreement falls below half (TRAIN 0.08). Removing it moves the program's output less than a
-quarter as far as ablating the head moves the model's (TRAIN 0.056 vs 0.49 nats)."""
+tokens (median weighted correlation >= 0.25; TRAIN 0.35), and its attention rule is what makes them agree: with
+uniform attention the agreement falls below half (TRAIN 0.09). Removing it moves the program's output less than a
+quarter as far as ablating the head moves the model's (TRAIN 0.11 vs 0.49 nats)."""
 from program.tests import measure as M
 
 

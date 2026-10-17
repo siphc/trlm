@@ -32,14 +32,14 @@ from .readers import earlier_only, mass_on_tokens, skipgram_votes, softmax_rows,
 
 NAME = "head2"
 # Fitted to model head 2's own attention rows (pattern cross-entropy, 32 TRAIN windows; scripts/fit_scalars.py).
-SELF_BASE, SELF_INFO, SELF_CONT, SELF_PIECE = -0.132, 0.397, 0.798, -1.157
-DECAY, DECAY_FAR, PREVIOUS = 0.276, 0.114, 0.041
-KEY_INFO, KEY_CONT, KEY_PIECE, KEY_SPACE, KEY_SENTENCE_END = 0.254, -1.336, -1.251, -0.356, 0.850
+SELF_BASE, SELF_INFO, SELF_CONT, SELF_PIECE = -0.130, 0.397, 0.798, -1.157
+DECAY, DECAY_FAR, PREVIOUS = 0.276, 0.114, 0.042
+KEY_INFO, KEY_CONT, KEY_PIECE, KEY_SPACE, KEY_SENTENCE_END = 0.255, -1.335, -1.250, -0.355, 0.851
 # Score per nat of own-vote usefulness, for d = 1 and for d = 2..7:
-USE_NEAR, USE_FAR = 0.345, 0.432
+USE_NEAR, USE_FAR = 0.306, 0.384
 # Fitted jointly to the model's log-probs with every attention rule frozen (scripts/fit_scalars.py).
-STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.253, 0.750, 3.084
-NO_REPEAT = -5.349
+STRENGTH_SELF, STRENGTH_NEAR, STRENGTH_FAR = 0.246, 0.804, 3.026
+NO_REPEAT = -6.000
 
 
 def attention(tokens, stats):

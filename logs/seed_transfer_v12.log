@@ -1,0 +1,24 @@
+head0 -> head 0: pattern KL 4.591 -> 0.634
+head0 -> head 1: pattern KL 2.095 -> 1.284
+head0 -> head 2: pattern KL 2.023 -> 1.178
+head0 -> head 3: pattern KL 0.351 -> 0.286
+head2 -> head 0: pattern KL 2.878 -> 0.569
+head2 -> head 1: pattern KL 1.564 -> 1.043
+head2 -> head 2: pattern KL 1.452 -> 1.040
+head2 -> head 3: pattern KL 0.546 -> 0.294
+head1 -> head 0: pattern KL 0.586 -> 0.568
+head1 -> head 1: pattern KL 1.801 -> 1.373
+head1 -> head 2: pattern KL 1.962 -> 1.204
+head1 -> head 3: pattern KL 2.435 -> 0.376
+attn_s1 assignment: {'head0': 3, 'head2': 2, 'head1': 0}
+{"round": 0, "output_kl": 0.5606996752081737, "pattern_kl": {"head0": 0.35756122983742294, "head2": 1.4085123485695397, "head1": 0.556639501161335}}
+{"round": 1, "output_kl": 0.5689999415910593, "pattern_kl": {"head0": 0.3091144033380764, "head2": 1.0329153049189985, "head1": 0.533520853604407}}
+{"round": 2, "output_kl": 0.5696447903809461, "pattern_kl": {"head0": 0.3053825598076704, "head2": 1.0317504619295987, "head1": 0.533520853604407}}
+{"round": 3, "output_kl": 0.5687775431935835, "pattern_kl": {"head0": 0.30541990092993887, "head2": 1.0313296227971973, "head1": 0.533520853604407}}
+constants written to programs/attn_s1
+ 
+attn_s1 dev_fast KL 0.575625 top1 0.62592
+head0 -> head 0: pattern KL 1.965 -> 1.311
+head0 -> head 1: pattern KL 2.450 -> 0.623
+head0 -> head 2: pattern KL 0.722 -> 0.642
+head0 -> head 3: pattern KL 4.930 -> 1.151
