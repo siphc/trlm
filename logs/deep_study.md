@@ -145,3 +145,15 @@ shared work among heads as "groups of attention heads", not as superposition.
   The one-layer heads correct each other (anti-correlated effects); in the deeper models even same-layer heads (also 4
   per layer) are uncorrelated. Direction as the essay predicts (fewer heads -> broader, shared work). One development
   model per depth so far; seeds 1-4 follow after the deep pre-registration.
+
+## 2026-10-17 calibration, FINAL pre-registration, confirmatory runs started
+
+- All 10 deep models trained: attn2L_s0..s4 dev 2.275 / 2.266 / 2.331 / 2.272 / 2.268; attn4L_s0..s4 2.127 / 2.146 / 2.132 /
+  2.142 / 2.133. All pass the selftests. Confirmatory heads (seeds 1-4): F1 11, F2 16, F3 21.
+- pass_bgu batched over heads (equal to the per-head version to 2e-7); MPS throughput: 4 blocks ~287 s per 10M tokens.
+- Calibration (attn_s1..s4, 200M tokens): R1 -> LTOTAL (median own gain 0.104 vs TOTAL 0.049); R2 -> theta 0.20 (median
+  own/oracle ratio 0.372); R3 -> c1 0.243, c2 0.271 (analysis/out/look_write_deep/rules.json).
+- logs/prereg_deep_look_write.md committed FINAL (9c149a1; descriptive correction 8ab4a9f) before any confirmatory fit.
+- Running unattended: scripts/confirmatory_passes.sh (8 models, ~8.5 h MPS) and scripts/confirmatory_fits.sh (fits as
+  passes finish, then summarize_deep, code_test, capacity on seeds 1-4). Remaining by hand: independent re-run of one
+  model per depth, write-up (logs/deep_look_write_results.md).
