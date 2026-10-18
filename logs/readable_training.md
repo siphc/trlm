@@ -127,3 +127,10 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   program's behaviour and its mechanism description are decoupled in this model. The lock does not loosen.
 - FINAL pre-registration written with all rule values; waiting for gate G2 (dose-response and lambda) before the
   confirmatory runs (arms O and I at 0.3, seeds 1-4: about 8 h of MPS).
+
+## Phase 4: confirmatory runs (2026-10-18)
+
+- Gate G2 approved by the human on 2026-10-18 (after the plan for the next studies, decision 10; these runs are part A
+  of study C in logs/plan_attention_law_and_readability.md). Started `scripts/readable/confirm_queue.sh` (arms O and I
+  at lambda 0.3, seeds 1-4, one epoch each, MPS) with the battery watchdog; the suite (`--lock --harness --refit`) runs
+  on each model in the background as it finishes (logs/runs/readable_suite_*.log).
