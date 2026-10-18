@@ -38,3 +38,6 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
 - Goal reframed (logs/decisions.md item 9): the main track aims at best-case understanding with an honest coverage
   measure. New side study, "can a language model be trained to be readable?": `logs/readable_training.md`,
   pre-registration `logs/prereg_readable_training.md`, config `configs/side_readable.yaml`.
+- Next (decision 10): three studies on attention and readability, planned in
+  `logs/plan_attention_law_and_readability.md` (fixed-vote models, training against the look-follows-write law,
+  readability and the arbitrariness between training runs).

@@ -47,3 +47,11 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
    rules and their votes follow its corpus tables), laptop MPS only, target = program v1.3 frozen (scalars as fitted
    to attn_s0). Pre-registered (logs/prereg_readable_training.md), with human gates G0-G3. configs/frozen.yaml is
    unchanged; the side study is recorded in configs/side_readable.yaml.
+10. **Three next studies** (2026-10-18, after the readable-training development results and a literature check showed
+    that output/mechanism decoupling alone is not new): (A) `fixed_votes`: models whose head votes are fixed corpus
+    tables and only attention is learned, to see how attention forms and whether the look-follows-write law predicts it
+    causally; the human expects no readable language model from it and values it as a study of how attention works;
+    (B) `law_pressure`: training against the look-follows-write law (can it be Goodharted?); (C) `canonical`: does
+    readability pressure remove the arbitrariness between training runs (part A = the readable-training confirmatory
+    runs as pre-registered; part B = a pressure curve and a non-readable canonicaliser control). Plan:
+    logs/plan_attention_law_and_readability.md.

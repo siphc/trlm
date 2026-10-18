@@ -26,5 +26,10 @@ Reports in reading order within each group. Raw run outputs (`.out`, `.log`, run
   `deep_look_write_results.md` (with the independent verification).
 - Pre-draft for outside readers: `../writeups/look_follows_write_predraft.md`.
 
+**Next studies (decision 10)**
+- `plan_attention_law_and_readability.md`: fixed-vote models, training against the look-follows-write law, readability
+  and the arbitrariness between training runs; the readable-training side study's running log is
+  `readable_training.md`.
+
 **Black-box track**
 - `blackbox_track.md` (started, not continued); `blackbox_queries.jsonl` (query log written by the server).
