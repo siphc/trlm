@@ -50,6 +50,17 @@ class TrainConfig:
     log_every: int = 50
     eval_every: int = 500
     resume_every_sec: float = 300.0
+    # side study "can a language model be trained to be readable?" (logs/decisions.md item 9; src/train/readable.py).
+    # readable_arm "" leaves training unchanged.
+    readable_arm: str = ""            # "", "O" (output level) or "I" (internal level)
+    readable_pool: str = "data/readable/pool"
+    readable_pool_limit: int = 0      # use only the first N pool windows (positive control); 0 = all
+    readable_targets: str = "data/readable/vote_targets.npz"
+    lambda_out: float = 0.0
+    lambda_att: float = 0.0
+    lambda_vote: float = 0.0
+    aux_windows: int = 16             # auxiliary pool windows per step
+    readable_ramp: float = 0.0        # fraction of the steps over which the lambdas ramp up linearly (rule R5)
 
     @property
     def tokens_per_step(self) -> int:
@@ -130,6 +141,12 @@ def train(cfg: TrainConfig) -> dict:
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
     sampler = BatchSampler(load_stream("train"), cfg.seed, cfg.batch_windows)
     dev_fast = load_eval("dev_fast")
+    aux = None
+    if cfg.readable_arm:
+        from src.train.readable import ReadableAux
+
+        aux = ReadableAux(cfg, device)
+        aux.check_or_write(cfg.out)
 
     step = 0
     latest = os.path.join(cfg.out, "latest.pt")
@@ -165,8 +182,12 @@ def train(cfg: TrainConfig) -> dict:
         with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
             logits = model(x[:, :-1])
         loss = F.cross_entropy(logits.float().reshape(-1, logits.size(-1)), x[:, 1:].reshape(-1))
+        total = loss
+        if aux is not None:
+            aux_loss, aux_info = aux.loss(model, step)
+            total = loss + aux_loss
         opt.zero_grad(set_to_none=True)
-        scaler.scale(loss).backward()
+        scaler.scale(total).backward()
         scaler.unscale_(opt)
         gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), cfg.grad_clip)
         scaler.step(opt)
@@ -176,8 +197,12 @@ def train(cfg: TrainConfig) -> dict:
         if step % cfg.log_every == 0 or step == cfg.total_steps:
             row = {"step": step, "tokens": step * cfg.tokens_per_step, "lr": lr,
                    "train_loss": loss.item(), "grad_norm": float(gnorm), "elapsed": time.time() - t0}
+            if aux is not None:
+                row.update({k: float(v) for k, v in aux_info.items()})
             if step % cfg.eval_every == 0 or step == cfg.total_steps:
                 row["dev_fast_loss"] = evaluate(model, dev_fast, device)
+                if aux is not None:
+                    row.update(aux.metrics(model))
             logf.write(json.dumps(row) + "\n")
             logf.flush()
             if "dev_fast_loss" in row:
@@ -194,11 +219,12 @@ def train(cfg: TrainConfig) -> dict:
 
     save_resume()
     dev_full = evaluate(model, load_eval("dev_full"), device)
+    extra = {"readable": aux.summary()} if aux is not None else {}
     save_weights(model, os.path.join(cfg.out, "final.pt"),
-                 {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full})
+                 {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full, **extra})
     result = {"variant": cfg.variant, "seed": cfg.seed, "n_blocks": cfg.n_blocks, "budget_tokens": cfg.budget_tokens,
               "peak_lr": cfg.peak_lr, "steps": step, "tokens": step * cfg.tokens_per_step,
-              "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device)}
+              "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device), **extra}
     with open(os.path.join(cfg.out, "result.json"), "w") as f:
         json.dump(result, f, indent=2)
     logf.close()

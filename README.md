@@ -22,7 +22,8 @@ human's decisions since then are in `logs/decisions.md`.
 
 Analysis folders: `look_write/` and `look_write_deep/` (the study "where a head looks follows from what it writes"),
 `program_gap/` (where the mechanism program differs from the model), `token_geometry/` (named properties versus the
-models' shared token geometry; tables versus attention), `investigations/` and `candidates/` (discovery rounds and the
+models' shared token geometry; tables versus attention), `readable_training/` (the side study "can a language model be
+trained to be readable?"; training code in `src/train/readable.py`), `investigations/` and `candidates/` (discovery rounds and the
 candidate mechanisms they tested), `out/` (outputs; large caches are not in git), `scratch/` (not in git).
 
 ## Status (2026-10-17)

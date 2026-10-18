@@ -31,7 +31,7 @@ from analysis import vote_fit
 from analysis.attention_fit import fit_rule, model_attention, module_copy
 from analysis.fitlib import REPO, train_windows
 from analysis.look_write import common as LW
-from analysis.mech_eval import EVAL_SEED, model_logprobs, program
+from analysis.mech_eval import EVAL_SEED, program
 
 OUT = os.path.join(REPO, "analysis", "out", "token_geometry")
 V = 2000
@@ -189,6 +189,9 @@ def main():
     ap.add_argument("--eval", type=int, default=32)
     ap.add_argument("--arms", default="A,B,C,D,B_cur,C_cur")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--model", default="attn_s0", help="model id or checkpoint path (heads 0, 1, 2 must play LOCAL-0, "
+                    "RECALL, LOCAL-2: use an aligned checkpoint, analysis/readable_training/models.py)")
+    ap.add_argument("--out", default=OUT)
     args = ap.parse_args()
     torch.set_num_threads(int(os.environ.get("VOTE_FIT_THREADS", "4")))
     os.makedirs(OUT, exist_ok=True)
@@ -196,7 +199,12 @@ def main():
     from harness.common import load_model
     from program import head0, head1, head2
 
-    model = load_model("attn_s0")
+    from harness.common import model_logprobs as mlp
+
+    model = load_model(args.model)
+
+    def model_logprobs(W):
+        return mlp(model, W)
     P = program()
     s = P.STATS
     Wf, We = train_windows(args.fit, seed=vote_fit.FIT_SEED), train_windows(args.eval, seed=EVAL_SEED)
@@ -257,7 +265,9 @@ def main():
             d = per_window[b] - per_window[a]
             res[f"{b} - {a}"] = {"diff": float(d.mean()), "se": float(d.std(ddof=1) / np.sqrt(len(d)))}
     res["seconds"] = time.time() - t0
-    with open(os.path.join(OUT, f"tables_vs_attention{args.tag}.json"), "w") as f:
+    os.makedirs(args.out, exist_ok=True)
+    res["model"] = args.model
+    with open(os.path.join(args.out, f"tables_vs_attention{args.tag}.json"), "w") as f:
         json.dump(res, f, indent=1)
     print(json.dumps({k: v for k, v in res.items() if k != "arms"}, indent=1))
 

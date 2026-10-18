@@ -8,6 +8,10 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
   python -m src.train.runs deep_lr                  # side study: 4-block attn, seed 0, 50M tokens, LR 1e-3 vs 2e-3
   python -m src.train.runs deep --n_blocks 2 --seeds 0,1,2,3,4 [--peak_lr 2e-3]
                                                     # side study: models/deep/attn{L}L_s{seed}, one epoch each
+  python -m src.train.runs readable_dev [--arms none,O,I,control] [--lams 0.1,0.3,1,3,10] [--extra I_att,I_vote --lam X]
+                                                    # side study "trained to be readable": seed 0, 100M tokens
+  python -m src.train.runs readable --arm O|I --lam X --seeds 1,2,3,4
+                                                    # side study: models/readable/{arm}_l{lam}_s{seed}, one epoch each
   Add --root /content/drive/MyDrive/trlm on Colab to write checkpoints to Drive.
 """
 from __future__ import annotations
@@ -25,6 +29,27 @@ LADDER = [12_500_000, 50_000_000, 200_000_000, EPOCH_STEPS * 64 * 256]
 WITHIN = 0.01                                  # choose smallest budget within 1% of the best run
 FROZEN_PEAK_LR = 2e-3                          # configs/frozen.yaml (chosen by the pilot)
 DEEP_LR_TOKENS = 50_000_000                    # side-study LR check
+READABLE_DEV_TOKENS = 100_000_000              # side study "trained to be readable": development grid
+
+
+def readable_kw(arm: str, lam: float, c: float) -> dict:
+    """TrainConfig settings for one readable-training run (configs/side_readable.yaml; c from rule R2)."""
+    if arm == "none":                                  # control: aux metrics logged, no pressure
+        return {"readable_arm": "O", "lambda_out": 0.0}
+    if arm == "O":
+        return {"readable_arm": "O", "lambda_out": lam}
+    if arm == "I":
+        return {"readable_arm": "I", "lambda_att": lam, "lambda_vote": lam * c}
+    if arm == "I_att":
+        return {"readable_arm": "I", "lambda_att": lam, "lambda_vote": 0.0}
+    if arm == "I_vote":
+        return {"readable_arm": "I", "lambda_att": 0.0, "lambda_vote": lam * c}
+    raise ValueError(arm)
+
+
+def readable_rules() -> dict:
+    p = os.path.join("analysis", "out", "readable_training", "rules.json")
+    return json.load(open(p)) if os.path.exists(p) else {}
 
 
 def _run(root: str, name: str, device: str, amp: bool, **kw) -> dict:
@@ -50,7 +75,8 @@ def budget_name(b: int, lr: float) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep"])
+    ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep",
+                                    "readable_dev", "readable"])
     ap.add_argument("--root", default="models")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--amp", action="store_true")
@@ -58,7 +84,12 @@ def main() -> None:
     ap.add_argument("--peak_lr", type=float, default=None)
     ap.add_argument("--only", default=None, help="comma list like attn_s0,mlp_s3 (final only)")
     ap.add_argument("--n_blocks", type=int, default=2, help="deep only")
-    ap.add_argument("--seeds", default="0,1,2,3,4", help="deep only")
+    ap.add_argument("--seeds", default="0,1,2,3,4", help="deep and readable")
+    ap.add_argument("--arms", default="none,O,I,control", help="readable_dev")
+    ap.add_argument("--lams", default="0.1,0.3,1,3,10", help="readable_dev")
+    ap.add_argument("--extra", default="", help="readable_dev: comma list of I_att, I_vote at --lam")
+    ap.add_argument("--arm", default="O", help="readable")
+    ap.add_argument("--lam", type=float, default=None, help="readable, readable_dev --extra")
     args = ap.parse_args()
 
     if args.cmd == "pilot_lr":
@@ -88,12 +119,48 @@ def main() -> None:
         for lr in (1e-3, 2e-3):
             _run(args.root, f"deep/pilot/attn4L_s0_50M_lr{lr:g}", args.device, args.amp, variant="attn", seed=0,
                  n_blocks=4, budget_tokens=DEEP_LR_TOKENS, peak_lr=lr)
+    elif args.cmd in ("readable_dev", "readable"):
+        run_readable(args)
     elif args.cmd == "deep":
         # side study: one epoch per model with the frozen hyperparameters; seed s has the batch order of attn_s{s}
         for seed in (int(s) for s in args.seeds.split(",")):
             _run(args.root, f"deep/attn{args.n_blocks}L_s{seed}", args.device, args.amp, variant="attn", seed=seed,
                  n_blocks=args.n_blocks, budget_tokens=args.budget_tokens or LADDER[-1],
                  peak_lr=args.peak_lr or FROZEN_PEAK_LR)
+
+
+def run_readable(args) -> None:
+    rules = readable_rules()
+    c = rules.get("R2", {}).get("c")
+    aux_windows = rules.get("R6", {}).get("aux_windows", 16)
+    common = {"variant": "attn", "peak_lr": args.peak_lr or FROZEN_PEAK_LR, "aux_windows": aux_windows}
+    if args.cmd == "readable_dev":
+        runs = []
+        lams = [float(x) for x in args.lams.split(",")]
+        for arm in args.arms.split(","):
+            if arm == "none":
+                runs.append(("readable/dev/none_s0_100M", "none", 0.0, {}))
+            elif arm == "control":                     # positive Goodhart control: arm O, lambda 10, 256-window pool
+                runs.append(("readable/dev/O_l10_pool256_s0_100M", "O", 10.0, {"readable_pool_limit": 256}))
+            elif arm in ("O", "I"):
+                runs += [(f"readable/dev/{arm}_l{lam:g}_s0_100M", arm, lam, {}) for lam in lams]
+        for arm in (x for x in args.extra.split(",") if x):
+            runs.append((f"readable/dev/{arm}_l{args.lam:g}_s0_100M", arm, args.lam, {}))
+        for name, arm, lam, kw in runs:
+            if arm.startswith("I"):
+                assert c is not None, "rule R2 (c) must be applied before arm I runs"
+            ramp = rules.get("R5", {}).get(f"ramp_{'I' if arm.startswith('I') else 'O'}", 0.0)
+            _run(args.root, name, args.device, args.amp, seed=0, budget_tokens=args.budget_tokens or READABLE_DEV_TOKENS,
+                 readable_ramp=ramp, **common, **readable_kw(arm, lam, c or 0.0), **kw)
+    else:
+        assert args.lam is not None, "--lam"
+        if args.arm.startswith("I"):
+            assert c is not None, "rule R2 (c) must be applied before arm I runs"
+        ramp = rules.get("R5", {}).get(f"ramp_{args.arm}", 0.0)
+        for seed in (int(s) for s in args.seeds.split(",")):
+            _run(args.root, f"readable/{args.arm}_l{args.lam:g}_s{seed}", args.device, args.amp, seed=seed,
+                 budget_tokens=args.budget_tokens or LADDER[-1], readable_ramp=ramp, **common,
+                 **readable_kw(args.arm, args.lam, c or 0.0))
 
 
 def report(root: str) -> None:

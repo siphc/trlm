@@ -1,0 +1,2 @@
+program samples [697s]
+program outputs for ['dev_fast', 'probe_attn_s0', 'probe_attn_s1', 'probe_attn_s2', 'probe_attn_s3', 'probe_attn_s4', 'program_samples', 'sent_shuffle', 'train_eval', 'word_shuffle'] [752s]

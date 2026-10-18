@@ -21,6 +21,7 @@ from analysis.fitlib import REPO, train_windows
 STATS_DIR = os.path.join(REPO, "analysis", "out", "program_stats")   # one .npy per table, memory-mapped
 EVAL_SEED = 2000            # same TRAIN windows as analysis/paired.py
 HEAD_OF = {"head0": 0, "head1": 1, "head2": 2}
+MODEL_ID = os.environ.get("TRLM_ANALYSIS_MODEL", "attn_s0")   # the model analysed (an id or a checkpoint path)
 
 
 def stats():
@@ -69,7 +70,7 @@ def model_logprobs(windows, ablate_heads=(), ablation="zero", means=None):
 
     global _MODEL
     if "_MODEL" not in globals():
-        _MODEL = load_model("attn_s0")
+        _MODEL = load_model(MODEL_ID)
     return mlp(_MODEL, windows, ablate_heads=tuple(ablate_heads), ablation=ablation, means=means)
 
 
@@ -111,7 +112,7 @@ def consistency(n=64):
 
     P = program()
     W = train_windows(n, seed=EVAL_SEED)
-    means = head_means(load_model("attn_s0"), W)
+    means = head_means(load_model(MODEL_ID), W)
     lp = model_logprobs(W)
     res = {}
     for name, h in HEAD_OF.items():
@@ -130,7 +131,7 @@ def claims(n=64):
 
     P = program()
     W = train_windows(n, seed=EVAL_SEED)
-    means = head_means(load_model("attn_s0"), W)
+    means = head_means(load_model(MODEL_ID), W)
     lp = model_logprobs(W)
     abl = {k: model_logprobs(W, ablate_heads=list(hs), ablation="earlier", means=means)
            for k, hs in {"h0": [0], "h1": [1], "h2": [2], "h3": [3], "h02": [0, 2], "all": [0, 1, 2, 3]}.items()}

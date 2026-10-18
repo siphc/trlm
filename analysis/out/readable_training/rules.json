@@ -1,0 +1,102 @@
+{
+ "selftest8_fresh_vs_cache": {
+  "max_abs_logprob_diff": 0.0,
+  "ok": true
+ },
+ "R1": {
+  "coverage_out": {
+   "64": 0.8921138617804003,
+   "128": 0.9387125613237511,
+   "256": 0.9725799329389108
+  },
+  "coverage_att": {
+   "head0": {
+    "8": 0.9019832442356309,
+    "16": 0.973342839273439,
+    "32": 0.9958368674917992,
+    "64": 0.9998445309916972,
+    "128": 0.999999797534844
+   },
+   "head1": {
+    "8": 0.35213022643608016,
+    "16": 0.5294593734927789,
+    "32": 0.7371366260929746,
+    "64": 0.91693604733483,
+    "128": 0.9926362169997387
+   },
+   "head2": {
+    "8": 0.9151285989523281,
+    "16": 0.9743054374900653,
+    "32": 0.9962560355127776,
+    "64": 0.9999168131353812,
+    "128": 0.9999999631396828
+   }
+  },
+  "k_out": 256,
+  "k_att": {
+   "head0": 16,
+   "head1": 128,
+   "head2": 16
+  },
+  "storage_gb": 13.476298752,
+  "storage_ok": false,
+  "n_windows": 256,
+  "conflict_resolution": "R1's two conditions conflict: coverage >= 0.95 needs k_out 256 and k_RECALL 128, 13.5 GB > the 10 GB storage cap. Resolved in favour of coverage (the cap was a disk-safety guard; 51 GB free, 37 GB after the pool). Recorded before the pool was built; stated as a deviation in the FINAL pre-registration. R7 (doubling the pool) would need about 27 GB."
+ },
+ "vote_targets": {
+  "sha": "ff0aff48d3816fb7",
+  "rank32_energy_share": {
+   "head0": 0.8725891238516977,
+   "head1": 0.7430184530968097,
+   "head2": 0.8338416804662868
+  },
+  "distance_profile_head0_d1_to_8": [
+   0.2724,
+   0.1587,
+   0.1183,
+   0.0903,
+   0.0698,
+   0.0542,
+   0.0428,
+   0.033
+  ],
+  "distance_profile_head2_d1_to_8": [
+   0.3088,
+   0.187,
+   0.1248,
+   0.0888,
+   0.065,
+   0.048,
+   0.0355,
+   0.0249
+  ],
+  "n_windows": 512
+ },
+ "R2": {
+  "L_att_attn_s0": 0.5585872791707516,
+  "L_vote_attn_s0": 0.6681699156761169,
+  "c": 0.8359958538473266,
+  "vote_rho_weighted_attn_s0": [
+   0.4554864466190338,
+   0.25047701597213745,
+   0.28952687978744507
+  ],
+  "vote_rho_uniform_attn_s0": [
+   0.44932976365089417,
+   0.2632584273815155,
+   0.17145194113254547
+  ]
+ },
+ "R6": {
+  "seconds_per_step": {
+   "baseline": 0.05832280158996582,
+   "O": 0.11011478662490845,
+   "I": 0.17094704151153564
+  },
+  "ratio_to_baseline": {
+   "O": 1.8880229279632756,
+   "I": 2.93104989560286
+  },
+  "aux_windows": 8
+ }
+}

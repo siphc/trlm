@@ -59,7 +59,10 @@ def main():
     ap.add_argument("--assign", default="head0=0,head2=2,head1=1")
     ap.add_argument("--iterations", type=int, default=3)
     ap.add_argument("--write", default="")
+    ap.add_argument("--out_dir", default="", help="where fit_scalars.json goes (default analysis/out/<model>)")
     args = ap.parse_args()
+    if args.write.rstrip("/") == "program" and args.model != "attn_s0":
+        raise SystemExit("refusing to write another model's constants into program/ (use a copy)")
     import torch
 
     from analysis import vote_fit
@@ -112,7 +115,7 @@ def main():
         print(json.dumps(history[-1]), flush=True)
         if abs(history[-2]["output_kl"] - kl) < 0.0003:
             break
-    out_dir = os.path.join(REPO, "analysis", "out", args.model)
+    out_dir = args.out_dir or os.path.join(REPO, "analysis", "out", args.model)
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "fit_scalars.json"), "w") as f:
         json.dump({"model": args.model, "assign": assign, "history": history, "constants": consts}, f, indent=1,
