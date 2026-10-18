@@ -1,0 +1,5 @@
+  "kl": 0.547114,  "top1": 0.63352,  "loss_recovered": 1.02277, attn_s1
+  "kl": 0.561317,  "top1": 0.6309,  "loss_recovered": 1.06092, attn_s2
+  "kl": 0.539552,  "top1": 0.63789,  "loss_recovered": 1.00111, attn_s3
+  "kl": 0.54514,  "top1": 0.63711,  "loss_recovered": 1.01877, attn_s4
+  "kl": 0.620647,  "top1": 0.61141,  "loss_recovered": 0.80589, mlp_s0

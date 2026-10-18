@@ -188,3 +188,6 @@ and >= 3 SE.
   better: 0.570 -> 0.563): paired vs v1.3 with all scalars refitted, fresh windows -0.00453 +- 0.00057, seed 2000
   -0.00463 +- 0.00085. Real, faithful, and just below the 0.005 bar; kept on branch `cand-recall-succ` (d602145-amended).
   It targets the in-context completion failures ('my cri' -> 'cket').
+- **RECALL key flags on v1.3** (capitalised, capitalised unspaced, quote, end of story, topicality in head 1's
+  attention): head 1 pattern KL 0.570 -> 0.476, but held-out output KL 0.5474 -> 0.5543 (worse); branch
+  `cand-recall-keyflags`. Not an attention sink: head 1's end-of-story value write is at the 18th percentile of size.

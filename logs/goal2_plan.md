@@ -124,6 +124,20 @@ on" is the natural target for an explanation; KL(ENS || program) is reported nex
 | window-start rule | at most about 0.004 nats per token available | not built |
 | smoothing of unseen continuations | unseen tokens carry 0.055 of 0.55 nats | not the problem |
 
+## 2d. v1.3 unchanged (seed-0 constants) on other models (harness dev_fast, no claims; logs/score_v13_*.out)
+
+| model | KL | top-1 | loss recovered |
+|---|---|---|---|
+| attn_s0 (fitted) | 0.5497 | 0.635 | 1.024 |
+| attn_s1 | 0.5471 | 0.634 | 1.023 |
+| attn_s2 | 0.5613 | 0.631 | 1.061 |
+| attn_s3 | 0.5396 | 0.638 | 1.001 |
+| attn_s4 | 0.5451 | 0.637 | 1.019 |
+| mlp_s0 | 0.6206 | 0.611 | 0.806 |
+
+The per-seed refit (scripts/seed_transfer.py) was stopped: with four jobs in parallel each model needed over 6 hours,
+and refitting changes little (attn_s1: 0.561 with seed-0 scalars vs 0.569 refitted, TRAIN). To rerun overnight.
+
 ## 3. Running / next
 
 - Phase 8 seed transfer of v1.2 (scripts/seed_transfer.py): attn_s1..s4 and mlp_s0, logs/seed_transfer_*.log.

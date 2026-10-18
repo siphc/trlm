@@ -1,0 +1,34 @@
+  25/200 windows  KL so far 0.54880
+  50/200 windows  KL so far 0.53576
+  75/200 windows  KL so far 0.53745
+  100/200 windows  KL so far 0.53589
+  125/200 windows  KL so far 0.53679
+  150/200 windows  KL so far 0.53794
+  175/200 windows  KL so far 0.53870
+  200/200 windows  KL so far 0.53955
+{
+  "timestamp": "2026-10-17T20:12:13",
+  "commit": "190d38d",
+  "dirty": true,
+  "program_sha": "d22a61cdb5b39f78",
+  "program": "program",
+  "model": "attn_s3",
+  "split": "dev_fast",
+  "n_windows": 200,
+  "kl": 0.539552,
+  "kl_sem": 0.003245,
+  "top1": 0.63789,
+  "ce_program": 2.51087,
+  "ce_model": 2.512,
+  "ce_bigram": 3.52753,
+  "loss_recovered": 1.00111,
+  "lint_ok": true,
+  "loc": 1875,
+  "numeric_literals": 232,
+  "largest_literal": 5,
+  "claims_passed": 0,
+  "claims_total": 0,
+  "sandbox": "enforced (sandbox-exec: models/, data/ except the train corpus, logs/, analysis/ unreadable; no network)",
+  "seconds": 180.8,
+  "note": "v1.3 unchanged (seed-0 constants) on attn_s3"
+}
