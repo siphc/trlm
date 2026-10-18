@@ -22,7 +22,7 @@
 cross-entropy against the data was 2.82 vs the model's 2.53; v1's is 2.547.
 
 The NumPy program reproduces the reference implementation (analysis/scratch/spec_v1/v1probe.py, 0.5886) to the
-fourth decimal. All corpus tables match the references (logs/verify_corpus.out). Corpus build: 104-112 s, peak RSS
+fourth decimal. All corpus tables match the references (logs/runs/verify_corpus.out). Corpus build: 104-112 s, peak RSS
 4.6 GB.
 
 ## Ledger (64 TRAIN windows; KL with everything on 0.582)

@@ -1,6 +1,6 @@
 #!/bin/sh
 # CPU-only analysis queue while the deep models train (one process at a time, 2 threads).
-cd "$(dirname "$0")/.." || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 export OMP_NUM_THREADS=2
 PY=.venv/bin/python
 echo "== B: paired SEs (regenerate shuffled tables, refit) $(date)"

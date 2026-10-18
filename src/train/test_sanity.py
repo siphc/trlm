@@ -84,7 +84,7 @@ def test_short_run_beats_baselines():
     uni, bi = _baseline_dev_ce("unigram", wins), _baseline_dev_ce("bigram", wins)
     rec = {"short_run_dev_full_loss": res["dev_full_loss"], "unigram_dev_full_ce": uni,
            "bigram_dev_full_ce": bi, "tokens": res["tokens"], "device": res["device"]}
-    with open("logs/sanity_short_run.json", "w") as f:
+    with open("logs/runs/sanity_short_run.json", "w") as f:
         json.dump(rec, f, indent=2)
     print(rec)
     assert res["dev_full_loss"] < bi < uni
@@ -120,7 +120,7 @@ def test_report_exact_duplicates_between_dev_and_train():
     test = set(D.load_split("test"))
     dup_test = sum(1 for i, t in enumerate(texts) if i not in idx and t in test)
     rec = {"train_rows_identical_to_a_dev_story": dup, "train_rows_identical_to_a_test_story": dup_test}
-    with open("logs/duplicates.json", "w") as f:
+    with open("logs/runs/duplicates.json", "w") as f:
         json.dump(rec, f, indent=2)
     print(rec)
 

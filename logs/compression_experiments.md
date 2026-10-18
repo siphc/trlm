@@ -156,4 +156,4 @@ as v11. Final 60k: 25,112 AFTER + 23,011 RECALL exceptions + 5,490 AFTER overrid
 Held-out KL 0.4413 vs v11 0.4494 (unpaired, -0.008). Not adopted: the distillation track ended (logs/decisions.md
 item 5) before this was merged. The implementation (student.py override tables, Fisher importance for overrides,
 override-aware lossless re-centring, emitter/runtime support) was never committed and was lost when its worktree was
-removed; this entry and logs/prune_ovr_gp60k_r16.out are the record.
+removed; this entry and logs/runs/prune_ovr_gp60k_r16.out are the record.

@@ -2,7 +2,7 @@
 # Step 5.4 (second half): run ONLY after logs/prereg_deep_look_write.md is committed. Arm fits with the primary
 # readout (CPU, two models at a time, as their passes finish), then the summary with the R1-R3 values, the code test
 # on the held-out heads, and the capacity metrics on seeds 1-4.
-cd "$(dirname "$0")/.." || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 git log --oneline -- logs/prereg_deep_look_write.md | grep -q "FINAL" || { echo "pre-registration not committed as FINAL"; exit 1; }
 OUT=analysis/out/look_write_deep
 PRIMARY=$(.venv/bin/python -c "import json;print(json.load(open('$OUT/rules.json'))['R1']['primary'])")

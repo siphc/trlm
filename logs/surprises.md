@@ -18,7 +18,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 ## 2026-10-12 — Duplicate stories (phase 2)
 
 - 6,213 rows of train-minus-dev are byte-identical to some dev story, and 6,553 are identical to some
-  test (official validation) story (`logs/duplicates.json`). Dev rows are excluded by index, so the
+  test (official validation) story (`logs/runs/duplicates.json`). Dev rows are excluded by index, so the
   tokenizer and model never see the dev *rows*, but they do see identical text from other rows.
   Fidelity is measured against the model, so this mostly affects data-loss numbers (model and
   n-gram cross-entropy on dev/test are slightly optimistic), not KL.

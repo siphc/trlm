@@ -1,6 +1,6 @@
 # Throughput (AGENTS.md section 5)
 
-Two-minute tests, random tokens, batch 64 × 256, AdamW + clip, fp32. Raw rows in `throughput.jsonl`.
+Two-minute tests, random tokens, batch 64 × 256, AdamW + clip, fp32. Raw rows in `logs/runs/throughput.jsonl`.
 
 | device | variant | tokens/s |
 |---|---|---|

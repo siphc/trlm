@@ -126,7 +126,7 @@ def test_short_run_beats_baselines_deep(n_blocks):
                             out=out, eval_every=200, log_every=50))
     wins = D.load_eval("dev_full")
     uni, bi = _baseline_dev_ce("unigram", wins), _baseline_dev_ce("bigram", wins)
-    path = "logs/sanity_short_run_deep.json"
+    path = "logs/runs/sanity_short_run_deep.json"
     rec = json.load(open(path)) if os.path.exists(path) else {}
     rec[f"attn_{n_blocks}L"] = {"short_run_dev_full_loss": res["dev_full_loss"], "unigram_dev_full_ce": uni,
                                 "bigram_dev_full_ce": bi, "tokens": res["tokens"], "device": res["device"],

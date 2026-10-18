@@ -29,7 +29,7 @@ next to it. A 15 s throughput test on battery still ran at full speed (307k toke
 background-process throttling plus CPU contention, not raw GPU speed. Resume with:
 
     nohup caffeinate -dimsu .venv/bin/python -m src.train.runs final --device mps \
-        --budget_tokens 527482880 --peak_lr 0.002 > logs/final_runs.out 2>&1 &
+        --budget_tokens 527482880 --peak_lr 0.002 > logs/runs/final_runs.out 2>&1 &
 
 (~30 min per attn model, ~35 min per mlp model on mains power; completed runs are skipped.)
 
@@ -98,11 +98,11 @@ attn_s0 is final; attn_s1 has a resume checkpoint at step ~650; probe samples ex
 1. Training (skips finished runs, resumes attn_s1):
 
        nohup caffeinate -dimsu .venv/bin/python -m src.train.runs final --device mps \
-           --budget_tokens 527482880 --peak_lr 0.002 > logs/final_runs.out 2>&1 &
+           --budget_tokens 527482880 --peak_lr 0.002 > logs/runs/final_runs.out 2>&1 &
 
 2. Probe samples as models finish (keep it off the CPU while training: it uses 8 threads):
 
-       nohup scripts/probes_as_models_finish.sh > logs/probes_build.out 2>&1 &
+       nohup scripts/training/probes_as_models_finish.sh > logs/runs/probes_build.out 2>&1 &
 
 3. Discovery on attn_s0 continues with gradual pruning (next step 1 above); fits run on MPS and share the GPU
    with training, so expect both to slow down.

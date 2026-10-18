@@ -127,7 +127,7 @@ on" is the natural target for an explanation; KL(ENS || program) is reported nex
 | window-start rule | at most about 0.004 nats per token available | not built |
 | smoothing of unseen continuations | unseen tokens carry 0.055 of 0.55 nats | not the problem |
 
-## 2d. v1.3 unchanged (seed-0 constants) on other models (harness dev_fast, no claims; logs/score_v13_*.out)
+## 2d. v1.3 unchanged (seed-0 constants) on other models (harness dev_fast, no claims; logs/runs/score_v13_*.out)
 
 | model | KL | top-1 | loss recovered |
 |---|---|---|---|

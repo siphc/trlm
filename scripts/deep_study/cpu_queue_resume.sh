@@ -1,7 +1,7 @@
 #!/bin/sh
 # CPU analysis of the deep study while the training queue uses MPS (one process at a time, lowest priority,
 # 2 threads; finished work is skipped). The echo test (addendum D) runs on MPS before training, not here.
-cd "$(dirname "$0")/.." || exit 1
+cd "$(dirname "$0")/../.." || exit 1
 export OMP_NUM_THREADS=2
 PY="nice -n 20 .venv/bin/python"
 OUT=analysis/out/look_write_deep

@@ -1,0 +1,135 @@
+{
+ "candidate": "sim_smooth",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5643872176293016,
+  "base refit": 0.5644183451396518,
+  "candidate refit": 0.5639221659065765
+ },
+ "paired_diff": -0.0004961792330752226,
+ "paired_se": 0.00023017668544583503,
+ "candidate_strengths": {
+  "sim_smooth.in2.self": -0.0529,
+  "sim_smooth.out2.self": 0.1195,
+  "sim_smooth.in8.self": 0.0651,
+  "sim_smooth.out8.self": -0.038
+ },
+ "base_strengths_change": {
+  "follow.bigram": [
+   0.391,
+   0.361
+  ],
+  "follow.unigram": [
+   0.486,
+   0.502
+  ],
+  "head0.self": [
+   0.516,
+   0.545
+  ],
+  "head0.near": [
+   0.367,
+   0.389
+  ],
+  "head0.far": [
+   4.982,
+   4.866
+  ],
+  "head0.earlier_successors": [
+   0.523,
+   0.527
+  ],
+  "head0.earlier_alike": [
+   -3.705,
+   -4.14
+  ],
+  "head2.self": [
+   0.259,
+   0.229
+  ],
+  "head2.near": [
+   0.744,
+   0.735
+  ],
+  "head2.far": [
+   3.083,
+   3.234
+  ],
+  "head2.no_repeat": [
+   -5.35,
+   -5.553
+  ],
+  "head1.copy.NAMES": [
+   3.714,
+   3.957
+  ],
+  "head1.topic.NAMES": [
+   2.984,
+   3.0
+  ],
+  "head1.next.NAMES": [
+   -0.034,
+   -0.019
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   8.637,
+   9.319
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -1.064,
+   -1.089
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.446,
+   -0.403
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.962,
+   2.981
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.007,
+   1.992
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.689,
+   -0.699
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.755,
+   3.666
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.315,
+   1.307
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.335,
+   -0.342
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.635,
+   5.629
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.959,
+   2.957
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.077,
+   -0.064
+  ],
+  "phrase.trigram": [
+   0.259,
+   0.256
+  ],
+  "phrase.fourgram": [
+   0.21,
+   0.209
+  ]
+ },
+ "seconds": 59.9
+}

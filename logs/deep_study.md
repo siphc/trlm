@@ -9,7 +9,7 @@ Plan: ~/.claude/plans/stateful-zooming-deer.md (approved 2026-10-14), summarised
 - src/train/test_sanity_deep.py: 14 tests pass (causality, SDPA = explicit, single-batch overfit to < 0.01 at 2 and 4
   blocks, parameter counts 354,560 / 420,224 / 551,552 and residual-projection init, CPU resume round trip,
   main track unchanged, short runs). Parameter counts in logs/param_counts_deep.json.
-- Short runs (25M tokens, peak LR 2e-3; logs/sanity_short_run_deep.json): dev_full loss 1 block 3.041, 2 blocks
+- Short runs (25M tokens, peak LR 2e-3; logs/runs/sanity_short_run_deep.json): dev_full loss 1 block 3.041, 2 blocks
   3.137, 4 blocks 3.179 (bigram 3.516, unigram 5.984). At 10M tokens and LR 1e-3, as in test_sanity.py's mlp test,
   the 2-block model was still above the bigram (3.948): attention-only models learn more slowly early on (attn_s0
   itself was at 3.545 after 8M tokens).
@@ -20,8 +20,8 @@ Plan: ~/.claude/plans/stateful-zooming-deer.md (approved 2026-10-14), summarised
 
 - 4 blocks, seed 0, 50M tokens: peak LR 1e-3 gives dev_full 2.742; 2e-3 gives 2.622, with no NaN and no loss spike
   (largest rise within 200 steps after warmup: 0.08 nats). The rule keeps the frozen 2e-3.
-- Training queue started (scripts/deep_queue.sh, on the charger, caffeinate): 2L s0, 4L s0, 2L s1-s4, 4L s1-s4.
-  scripts/battery_watchdog.sh stops it on battery below 25%; re-running the queue resumes.
+- Training queue started (scripts/deep_study/deep_queue.sh, on the charger, caffeinate): 2L s0, 4L s0, 2L s1-s4, 4L s1-s4.
+  scripts/deep_study/battery_watchdog.sh stops it on battery below 25%; re-running the queue resumes.
 - Deep analysis code in analysis/look_write_deep/. Selftests pass on attn_s0 and on the 2L/4L short-run models
   (explicit forward = model; own-pattern substitution exact; float64 gradients = finite differences to < 1e-7;
   SAME = TOTAL for the last block). Classifier reproduces the one-layer LOCAL/RECALL split.
@@ -83,7 +83,7 @@ are code checks only and set nothing.
   self-tested; attn2L_s1 classified and self-tested (5 confirmatory heads); 20M-token code-check passes on attn_s1..s3.
 - Running on the CPU: the code-check pass on attn_s4, then the one-layer arm fits (ltotal, total), then addendum D (echo
   trajectory, 20 checkpoint passes at 5M tokens).
-- Sleep needs nothing: processes pause and continue on wake. After a shutdown or crash: `sh scripts/resume_deep_study.sh`
+- Sleep needs nothing: processes pause and continue on wake. After a shutdown or crash: `sh scripts/deep_study/resume_deep_study.sh`
   (idempotent: starts the training queue, the battery watchdog and the CPU queue if they are not running; finished
   models, passes and arm files are skipped).
 - Next steps once training is done (MPS free):
@@ -100,7 +100,7 @@ are code checks only and set nothing.
   (resume state saved 10:56). Still to train: attn2L_s3 (rest), attn2L_s4, attn4L_s1..s4.
 - CPU: the first queue finished (B, C, 20M-token code-check passes and arm fits on attn_s1..s4). Addendum D (echo
   trajectory) had just started its first checkpoint pass; it restarts from scratch for that checkpoint.
-- To continue: `sh scripts/resume_deep_study.sh` (training queue + watchdog + CPU queue; finished work is skipped).
+- To continue: `sh scripts/deep_study/resume_deep_study.sh` (training queue + watchdog + CPU queue; finished work is skipped).
 
 ## 2026-10-16 essay read verbatim (step 0 of the reprioritised plan)
 
@@ -154,7 +154,7 @@ shared work among heads as "groups of attention heads", not as superposition.
 - Calibration (attn_s1..s4, 200M tokens): R1 -> LTOTAL (median own gain 0.104 vs TOTAL 0.049); R2 -> theta 0.20 (median
   own/oracle ratio 0.372); R3 -> c1 0.243, c2 0.271 (analysis/out/look_write_deep/rules.json).
 - logs/prereg_deep_look_write.md committed FINAL (9c149a1; descriptive correction 8ab4a9f) before any confirmatory fit.
-- Running unattended: scripts/confirmatory_passes.sh (8 models, ~8.5 h MPS) and scripts/confirmatory_fits.sh (fits as
+- Running unattended: scripts/deep_study/confirmatory_passes.sh (8 models, ~8.5 h MPS) and scripts/deep_study/confirmatory_fits.sh (fits as
   passes finish, then summarize_deep, code_test, capacity on seeds 1-4). Remaining by hand: independent re-run of one
   model per depth, write-up (logs/deep_look_write_results.md).
 
