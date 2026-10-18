@@ -1,0 +1,26 @@
+{
+ "tables_sha": "135ef9807fb12aba",
+ "tables": [
+  "next",
+  "copy",
+  "topic",
+  "skip2",
+  "skip3"
+ ],
+ "shrink": 20.0,
+ "perm_seed": 0,
+ "band": [
+  8,
+  63
+ ],
+ "band_tokens": 100000000,
+ "corpus_tokens": 527489811,
+ "N_1_max_abs_diff_vs_candidates_qk": 1.0,
+ "band_mean_usefulness": {
+  "next": 0.0045324108948292165,
+  "copy": 0.04152635765261229,
+  "topic": 0.16083455841015729,
+  "skip2": 0.02133666347201618,
+  "skip3": 0.04128148034441119
+ }
+}
