@@ -172,3 +172,8 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   `readable_O_l0.3_s1` etc. (the names verdicts.py expects), then `python -m analysis.readable_training.verdicts`,
   write logs/readable_training_results.md (verdicts with M at 0.2, plus the as-written and literal-floor variants),
   gate G3. If the queue stopped (battery or crash), re-run the same nohup commands; finished runs are skipped.
+- 2026-10-18 11:07: the human unplugged the laptop; all project processes were stopped (queue, training, caffeinate,
+  watchdog). arm O seed 1 was at step ~28,050 of 32,195; its resume state (models/readable/O_l0.3_s1/latest.pt) is
+  from 11:03. **To resume, on the charger:** `nohup caffeinate -dimsu scripts/readable/confirm_queue.sh >>
+  logs/runs/readable_confirm.out 2>&1 &` and `nohup scripts/readable/watchdog.sh scripts/readable/confirm_queue.sh >
+  /dev/null 2>&1 &` (the run continues from latest.pt; about 7.5 h of the queue remain).
