@@ -111,7 +111,8 @@ follows it; **PARTIAL** if at least one does; **NOT SUPPORTED** if none does.
 **H3: changing a head's table changes where it looks, as the new table's usefulness predicts** (head 3):
 - (a) Distance: the peak of head 3's attention over d = 1..7 (M5) is at the distance where its table's mean usefulness
   (M2 profile) peaks over d = 1..7: in base models for skip2, in shift models for skip3; at least 3 of 4 seeds of
-  each variant. (The predicted distances are fixed when M2 is computed, before any model is trained.)
+  each variant. (The predicted distances are fixed when M2 is computed, before any model is trained. If head 3's
+  beta ends negative, its usefulness in logit units is reversed and the predicted peak is the minimum over d = 1..7.)
 - (b) Crossover: in shift models head 3's arm with skip3 usefulness gains more than its arm with skip2 usefulness; in
   base models the reverse; at least 3 of 4 seeds of each variant.
 **SUPPORTED** if (a) and (b) hold; **PARTIAL** if one holds; **NOT SUPPORTED** if neither.
