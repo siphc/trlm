@@ -138,18 +138,28 @@ def cmd_r5():
 
 def cmd_r3full():
     """R3, second part: if a seed-0 one-epoch run at lambda* costs more than 2% dev_full CE against attn_s0, step down
-    one grid value (and repeat the seed-0 run)."""
+    one grid value and repeat the seed-0 run. Re-run after each repeated run: the check continues from the last
+    lambda until one passes (or the lowest grid value is reached)."""
     rules = load_rules()
     base = json.load(open(os.path.join(REPO, "models", "final", "attn_s0", "result.json")))["dev_full_loss"]
+    old = rules.get("R3full", {})
     res = {"attn_s0_dev_full": base}
     for arm in ("O", "I"):
-        lam = rules["R3"][arm]["lambda_star"]
+        hist = old.get(arm, {}).get("history", [])
+        lam = old.get(arm, {}).get("lambda_final", rules["R3"][arm]["lambda_star"])
         p = os.path.join(REPO, "models", "readable", f"{arm}_l{lam:g}_s0", "result.json")
-        r = json.load(open(p))
-        cost = r["dev_full_loss"] / base - 1
-        step_down = cost > 0.02
-        new = GRID[max(0, GRID.index(lam) - 1)] if step_down else lam
-        res[arm] = {"lambda": lam, "relative_cost": cost, "step_down": step_down, "lambda_final": new}
+        if not os.path.exists(p):
+            res[arm] = {"history": hist, "lambda_final": lam, "status": f"needs the seed-0 run at lambda {lam:g}"}
+            continue
+        if not any(h["lambda"] == lam for h in hist):
+            cost = json.load(open(p))["dev_full_loss"] / base - 1
+            hist.append({"lambda": lam, "relative_cost": cost})
+        cost = next(h["relative_cost"] for h in hist if h["lambda"] == lam)
+        if cost > 0.02 and GRID.index(lam) > 0:
+            res[arm] = {"history": hist, "lambda_final": GRID[GRID.index(lam) - 1],
+                        "status": f"stepped down from {lam:g}; needs the seed-0 run at the new lambda"}
+        else:
+            res[arm] = {"history": hist, "lambda_final": lam, "status": "final"}
     save_rules({"R3full": res})
     print(json.dumps(res, indent=1))
 

@@ -13,3 +13,4 @@ logs/.blackbox_key
 analysis/out/**/*.pkl
 analysis/out/program_stats/
 analysis/out/candidates/*/
+programs/

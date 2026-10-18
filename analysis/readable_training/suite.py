@@ -80,15 +80,23 @@ def main():
         res["lock"] = {"kl": kl, "L": sum(kl[f"S{h}-joint"] - kl["D"] for h in range(3)) / 3}; save()
     if a.harness and "harness" not in res:
         res["harness"] = harness(aligned, note=f"readable side study: {name} (aligned)"); save()
-    if a.refit and "refit" not in res:
-        prog = os.path.join(d, "program_refit")
-        shutil.rmtree(prog, ignore_errors=True)
-        shutil.copytree(os.path.join(REPO, "program"), prog, ignore=shutil.ignore_patterns("tests", "__pycache__"))
-        r = subprocess.run([sys.executable, "scripts/fit_scalars.py", "--model", aligned,
+    if a.refit and "kl" not in res.get("refit", {}).get("harness", {}):
+        # the harness sandbox cannot read analysis/, so refitted program copies live in programs/readable/ (not in git),
+        # under a name that is a valid module name
+        prog = os.path.join(REPO, "programs", "readable", "prog_" + re.sub(r"\W", "_", name))
+        old = os.path.join(d, "program_refit")
+        os.makedirs(os.path.dirname(prog), exist_ok=True)
+        if "refit" in res and os.path.isdir(old) and not os.path.isdir(prog):
+            shutil.move(old, prog)                                   # the fit is done; only the harness failed
+        if not os.path.isdir(prog):
+            shutil.copytree(os.path.join(REPO, "program"), prog, ignore=shutil.ignore_patterns("tests", "__pycache__"))
+            subprocess.run([sys.executable, "scripts/fit_scalars.py", "--model", aligned,
                             "--assign", "head0=0,head2=2,head1=1", "--iterations", "1", "--write", prog,
                             "--out_dir", d], cwd=REPO, capture_output=True, text=True)
         h = harness(aligned, program_dir=prog, claims=False, note=f"readable side study: {name} refitted program")
-        res["refit"] = {"fit": json.load(open(os.path.join(d, "fit_scalars.json")))["history"], "harness": h}; save()
+        res["refit"] = {"fit": json.load(open(os.path.join(d, "fit_scalars.json")))["history"], "harness": h,
+                        "program": os.path.relpath(prog, REPO)}
+        save()
     res["seconds_last_run"] = time.time() - t0
     save()
     print(json.dumps({"name": name, "dev_fast_kl": res["fidelity"]["dev_fast"]["kl_model_prog"],
