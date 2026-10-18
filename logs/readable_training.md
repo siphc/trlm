@@ -62,3 +62,37 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   0.31, lock 0.48. The generalised tables_vs_attention reproduces attn_s0's arm D (0.1152).
 - **Waiting for gate G1** (training code review before long runs). Note: the laptop was on battery during these checks;
   training needs the charger.
+
+## 2026-10-18 phase 3: development grid (seed 0, 100M tokens; analysis/out/readable_training/grid_table.json)
+
+| run | dev_full CE | cost | KL(model‖prog) | KL(prog‖model) | attn KL(model‖rule) | attn KL(rule‖model) | vote ρ (uniform, mean h0-2) | memo gap out | memo gap attn |
+|---|---|---|---|---|---|---|---|---|---|
+| I_l0.1_s0_100M | 2.5786 | -3.13% | 0.531 | 0.649 | 0.357 | 0.240 | 0.456 | 0.000 | -0.000 |
+| I_l0.3_s0_100M | 2.6066 | -2.08% | 0.524 | 0.623 | 0.255 | 0.132 | 0.532 | 0.003 | 0.000 |
+| I_l10_s0_100M | 2.9257 | +9.91% | 0.581 | 0.581 | 0.059 | 0.022 | 0.712 | 0.004 | 0.000 |
+| I_l1_s0_100M | 2.6680 | +0.23% | 0.510 | 0.585 | 0.165 | 0.067 | 0.607 | 0.002 | 0.000 |
+| I_l3_s0_100M | 2.7747 | +4.24% | 0.519 | 0.568 | 0.107 | 0.037 | 0.670 | 0.002 | 0.000 |
+| O_l0.1_s0_100M | 2.6647 | +0.11% | 0.544 | 0.591 | 0.924 | 0.881 | 0.274 | 0.002 | 0.008 |
+| O_l0.3_s0_100M | 2.6704 | +0.32% | 0.465 | 0.477 | 0.775 | 0.741 | 0.269 | 0.001 | 0.004 |
+| O_l10_pool256_s0_100M | 3.0314 | +13.88% | 0.383 | 0.351 | 2.136 | 1.344 | 0.227 | 0.158 | 0.046 |
+| O_l10_s0_100M | 2.8977 | +8.86% | 0.248 | 0.229 | 1.907 | 4.582 | 0.264 | 0.003 | 0.003 |
+| O_l1_s0_100M | 2.7445 | +3.10% | 0.349 | 0.334 | 0.765 | 0.718 | 0.266 | 0.002 | -0.000 |
+| O_l3_s0_100M | 2.8378 | +6.61% | 0.279 | 0.258 | 1.665 | 2.659 | 0.173 | 0.002 | 0.026 |
+| none_s0_100M | 2.6618 | +0.00% | 0.608 | 0.696 | 0.869 | 0.832 | 0.274 | 0.000 | 0.006 |
+
+(Online metrics at the last evaluation, on 64 held-out pool windows; attention KL is the mean over heads 0-2; the
+"memo gap" is the trained loss on held-out minus pool-training windows.)
+
+- **Rule R3:** lambda_O* = 0.3 (cost +0.32%; 1 costs +3.1%); lambda_I* = 1 (cost +0.23%; 3 costs +4.2%).
+- **Rule R5:** fired in every arm, but the lambda = 0 control "spikes" at the same steps (1450, 5200-5600): all seed-0
+  runs see the same batches, and some batches are harder. The rule as written measures batch difficulty, not
+  instability (a defect: it should have compared against the control). Applied as written: lambda ramps linearly over
+  the first 5% of steps in both arms (harmless). Recorded as a deviation-free application of a poorly calibrated rule.
+- **Positive control** (arm O, lambda 10, 256-window pool): memorisation gap 0.158 (flag threshold 0.02; all other runs
+  <= 0.005). The memorisation check is sensitive.
+- **Development observations (one seed, no verdict weight):** (1) arm I at small lambda lowers dev cross-entropy
+  (-3.1% at 0.1, -2.1% at 0.3): the program's attention rules and corpus votes act as a useful head start at 100M
+  tokens; (2) strong output pressure moves attention away from the rules (attention KL 1.7-1.9 at lambda_O 3-10 vs 0.87
+  in the control) while output agreement improves (KL 0.25-0.28): the Goodhart signature on the development seed;
+  (3) moderate output pressure (0.3-1) moves attention slightly toward the rules (0.87 -> 0.77) and leaves the vote
+  correlation unchanged; (4) strong internal pressure barely moves output agreement (KL 0.51-0.58 at lambda_I 1-10).

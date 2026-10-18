@@ -171,11 +171,52 @@ def cmd_r7():
     print(json.dumps(res, indent=1))
 
 
+def tool_values(suite: dict, seed: int) -> dict:
+    """The scalar value of every pre-registered tool in one suite.json (lower is better for KLs, higher for rho)."""
+    f, i = suite["fidelity"], suite["internals"]
+    v = {"b1_harness_kl": suite["harness"]["kl"] if "harness" in suite and "kl" in suite["harness"]
+         else f["dev_fast"]["kl_model_prog"],
+         "b1_cached_kl": f["dev_fast"]["kl_model_prog"],
+         "train_eval_kl": f["train_eval"]["kl_model_prog"],
+         "d3_pattern_kl": i["d3_pattern"]["mean_kl_model_rule"],
+         "d4_vote_rho_uniform": i["d4_vote"]["mean_uniform"], "d4_vote_rho_weighted": i["d4_vote"]["mean_weighted"]}
+    for name in [f"probe_attn_s{seed}", "program_samples", "sent_shuffle", "word_shuffle"]:
+        key = "probe_twin" if name.startswith("probe") else name
+        v[f"c_kl_{key}"] = f[name]["kl_model_prog"]
+        v[f"d3_pattern_kl_{key}"] = i["d3_pattern_ood"][name]["mean_kl_model_rule"]
+    v["c_kl_ood_mean"] = float(np.mean([v[f"c_kl_{k}"] for k in ("probe_twin", "program_samples", "sent_shuffle",
+                                                                    "word_shuffle")]))
+    v["d3_pattern_kl_ood_mean"] = float(np.mean([v[f"d3_pattern_kl_{k}"] for k in ("probe_twin", "program_samples",
+                                                                                   "sent_shuffle", "word_shuffle")]))
+    for h in range(4):
+        v[f"d5_ablation_h{h}"] = i["d5_ablation"][f"h{h}"]
+    if "lock" in suite:
+        v["d2_lock"] = suite["lock"]["L"]
+    if "refit" in suite and "kl" in suite["refit"]["harness"]:
+        v["b2_refit_kl"] = suite["refit"]["harness"]["kl"]
+    return v
+
+
+def cmd_r4():
+    """R4: sigma_T = the standard deviation of each tool over the aligned attn_s1..s4 (suite.json)."""
+    from analysis.readable_training.common import OUT
+
+    vals = {}
+    for k in range(1, 5):
+        su = json.load(open(os.path.join(OUT, f"attn_s{k}", "suite.json")))
+        vals[f"attn_s{k}"] = tool_values(su, k)
+    keys = sorted(set.intersection(*(set(v) for v in vals.values())))
+    res = {"values": vals, "sigma": {t: float(np.std([vals[m][t] for m in vals], ddof=1)) for t in keys}}
+    save_rules({"R4": res})
+    print(json.dumps(res["sigma"], indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("rule", choices=["r2", "r6", "r3", "r5", "r7", "r3full"])
+    ap.add_argument("rule", choices=["r2", "r6", "r3", "r5", "r7", "r3full", "r4"])
     a = ap.parse_args()
-    {"r2": cmd_r2, "r6": cmd_r6, "r3": cmd_r3, "r5": cmd_r5, "r7": cmd_r7, "r3full": cmd_r3full}[a.rule]()
+    {"r2": cmd_r2, "r6": cmd_r6, "r3": cmd_r3, "r5": cmd_r5, "r7": cmd_r7, "r3full": cmd_r3full,
+     "r4": cmd_r4}[a.rule]()
 
 
 if __name__ == "__main__":

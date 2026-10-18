@@ -1272,5 +1272,56 @@
   },
   "L": 0.4845679799715678
  },
- "seconds_last_run": 66.8103699684143
+ "seconds_last_run": 1222.47886800766,
+ "harness": {
+  "timestamp": "2026-10-18T02:17:55",
+  "commit": "5f11183",
+  "dirty": true,
+  "program_sha": "1bd2d6bb1b5c59d8",
+  "program": "program",
+  "model": "/Users/svi/Desktop/trlm/analysis/out/readable_training/attn_s1/aligned.pt",
+  "split": "dev_fast",
+  "n_windows": 200,
+  "kl": 0.547114,
+  "kl_sem": 0.00326,
+  "top1": 0.63352,
+  "ce_program": 2.51087,
+  "ce_model": 2.5335,
+  "ce_bigram": 3.52753,
+  "loss_recovered": 1.02277,
+  "lint_ok": true,
+  "loc": 1875,
+  "numeric_literals": 232,
+  "largest_literal": 5,
+  "claims_passed": 6,
+  "claims_total": 7,
+  "sandbox": "enforced (sandbox-exec: models/, data/ except the train corpus, logs/, analysis/ unreadable; no network)",
+  "seconds": 818.2,
+  "note": "readable side study: attn_s1 (aligned)"
+ },
+ "refit": {
+  "fit": [
+   {
+    "round": 0,
+    "output_kl": 0.5439807827226504,
+    "pattern_kl": {
+     "head0": 0.36093472440181235,
+     "head2": 1.4074508498866127,
+     "head1": 0.5566414571738613
+    }
+   },
+   {
+    "round": 1,
+    "output_kl": 0.5485177240909167,
+    "pattern_kl": {
+     "head0": 0.30972560811003247,
+     "head2": 1.034356190755926,
+     "head1": 0.5335211243735201
+    }
+   }
+  ],
+  "harness": {
+   "error": "PROGRAM ERROR: Traceback (most recent call last):\n  File \"/Users/svi/Desktop/trlm/harness/program_worker.py\", line 41, in main\n    raise RuntimeError(\"program import failed:\\n\" + err)\nRuntimeError: program import failed:\nTraceback (most recent call last):\n  File \"/Users/svi/Desktop/trlm/harness/program_worker.py\", line 24, in main\n    mod = importlib.import_module(program_name)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/nix/store/n3ivwxv7ybmcip8h62nkk0g9m5gzmv6v-python3-3.12.14/lib/python3.12/importlib/__init__.py\", line 90, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen importlib._bootstrap>\", line 1387, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1360, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1324, in _find_and_load_unlocked\nModuleNotFoundError: No module named 'program_refit'\n\n\n"
+  }
+ }
 }
