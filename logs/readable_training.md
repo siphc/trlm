@@ -134,3 +134,30 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   of study C in logs/plan_attention_law_and_readability.md). Started `scripts/readable/confirm_queue.sh` (arms O and I
   at lambda 0.3, seeds 1-4, one epoch each, MPS) with the battery watchdog; the suite (`--lock --harness --refit`) runs
   on each model in the background as it finishes (logs/runs/readable_suite_*.log).
+- **Clarifications of the FINAL pre-registration, written before any confirmatory output** (implemented in
+  `analysis/readable_training/verdicts.py`; no rule value changes):
+  1. Noise floor: a tool's change against the twin (raw scale, sign such that positive = toward the program) counts
+     as closure 0 when its size is below 2 sigma_T; a worsening of at least 2 sigma_T keeps its negative closure (a
+     model that moves away from the program's description is evidence against H-genuine). The literal alternative
+     (every change below +2 sigma_T, including all worsenings, counts as 0) is reported next to it.
+  2. tau and tau_OOD are undefined, and count toward neither threshold, when their denominator closure is <= 0.
+  3. tau_OOD numerators: arm O, the mean over the four out-of-distribution sets of each set's closure (each with its own
+     sigma); arm I, the closure of the pattern KL averaged over the four sets (sigma of that average), as worded.
+  4. Flags are counted per flag: "no flag occurs in more than 1 seed" means each of (i), (ii), (iii) occurs in at most
+     one seed; the number of seeds with any flag is reported as well.
+  5. Flag (i) uses the last logged evaluation of the trained loss (arm O output, arm I attention), as R7 did.
+  6. Seed convergence uses tool e's windows (train_windows(64, 9100)) for both distances: the mean pairwise KL over
+     ordered pairs among the arm's seeds 1-4 vs among attn_s1..s4, and the mean KL to the program on the same windows.
+  7. attn_s0 specificity as worded (the mean over k = 1..4 includes the twin); also reported without the twin.
+  8. Positive control: its twin is the lambda = 0 run with the same tokens and batches (none_s0_100M); attn_s0 as an
+     alternative; b1 from the harness for both.
+  9. A noted risk, no change: sigma of the pattern KL (0.20) is large; the twins' values are 0.585-1.038, so arm I's
+     pattern closure counts only if it improves by more than 0.40 nats (for attn_s3's twin, from 0.585 to below 0.18).
+     If it does not, arm I's trained closure rests on the vote correlation alone and may fall below the 0.3 of test M.
+- **Found while checking verdicts.py on development models (before any confirmatory output):** the seed-0 one-epoch
+  runs fall just below test M (trained closure >= 0.3) under the FINAL rules: arm O 0.28 (harness KL 0.550 -> 0.396, about
+  15 sigma), arm I 0.274 (the pattern-KL improvement 0.475 -> 0.201 is below the 2 sigma floor of 0.40 and counts as 0;
+  vote correlation closure 0.55). These values were available when the FINAL was written and were not checked against
+  M (an oversight). If seeds 1-4 behave alike, arm O is INCONCLUSIVE by rule. Rules unchanged; the human was asked
+  whether to amend M before any confirmatory output is read. Other seed-0 values (no verdict weight): arm O tau 0
+  (no internal closure beyond 2 sigma), tau_OOD 0.94; arm I tau 0.21, tau_OOD undefined; no flags.

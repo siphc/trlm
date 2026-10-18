@@ -164,3 +164,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   (the final LayerNorm's limit on one large write) gains 0.016 nats; the same for LOCAL-0/LOCAL-2 0.002, PHRASE 0. With
   it, RECALL's fitted strengths grow about fivefold: its vote acts almost like a fixed-size vector whose direction the
   attention chooses.
+
+- 2026-10-18 (readable training): the seed-0 one-epoch runs, already in hand when the FINAL pre-registration was written,
+  sit just below its manipulation check (trained closure 0.28 and 0.274 vs 0.3); noticed only when the verdicts script
+  was tested, after the confirmatory runs had started and before any confirmatory output (logs/readable_training.md).
