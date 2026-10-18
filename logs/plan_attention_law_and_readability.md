@@ -153,10 +153,12 @@ attention works, which is little understood in the field. A readable model is a 
    shapes) plus one own-usefulness feature to each head's attention pattern, and measure, as in
    `analysis/look_write/fit_arms.py`: output gain from substituting the arm's pattern, pure-pair correlation with the
    exact token-token term, other heads' usefulness and a shuffled table as controls, and the ceiling (the model's exact
-   token-token attention term). Pre-register thresholds from goal 1's values (own/ceiling about 1/3, pure-pair
-   correlation 0.34-0.44, controls <= 0.25 of own).
-3. **Intervention (the causal test).** Train variants that change one head's table (for example swap the copy and the
-   PMI_1 tables between heads 0 and 1, or replace head 2's topic table with a shuffled table) and test that the attention
+   token-token attention term). Pre-register thresholds from goal 1's tests (own usefulness >= half of the
+   pre-registered ceiling's output gain, controls <= a quarter of own, pure-pair correlation >= 0.25; against the
+   stricter `tt_self` ceiling of goal 1's addendum own usefulness recovered 26-46%). Done: logs/prereg_fixed_votes.md.
+3. **Intervention (the causal test).** Train variants that change one head's table (swapping tables between heads
+   changes nothing, since heads differ only by their table; a shuffled table would likely be switched off; the DRAFT
+   uses head 3 voting PMI_3 instead of PMI_2, which moves the predicted distance from 1 to 2) and test that the attention
    of the changed head reorganises as its new table's usefulness predicts, and the others do not.
 4. Coupling constant: compare the fitted coefficient with one-layer models (about 0.25) and the last layer of deeper
    models (0.65-0.8).
