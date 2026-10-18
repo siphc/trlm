@@ -163,3 +163,12 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   (no internal closure beyond 2 sigma), tau_OOD 0.94; arm I tau 0.21, tau_OOD undefined; no flags.
 - The human chose to lower test M to 0.2 (decision 11; amendment section of the pre-registration); verdicts.py reports
   the verdict with M at 0.3 as well.
+- Status at the end of the 2026-10-18 session: the queue (scripts/readable/confirm_queue.sh, log
+  logs/runs/readable_confirm.out) runs unattended with the battery watchdog; models land in models/readable/
+  {O,I}_l0.3_s{1..4}, suites in analysis/out/readable_training/readable_*_s{k}/suite.json (logs/runs/readable_suite_*.log).
+  Suites on the positive control and its lambda = 0 twin (for the sensitivity check) were started too
+  (analysis/out/readable_training/dev_*). **Next:** when all eight suites have lock, harness and refit, run
+  `python -m analysis.readable_training.seed_distances O_s1=models/readable/O_l0.3_s1/final.pt ...` with names
+  `readable_O_l0.3_s1` etc. (the names verdicts.py expects), then `python -m analysis.readable_training.verdicts`,
+  write logs/readable_training_results.md (verdicts with M at 0.2, plus the as-written and literal-floor variants),
+  gate G3. If the queue stopped (battery or crash), re-run the same nohup commands; finished runs are skipped.

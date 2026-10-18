@@ -40,4 +40,6 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
   pre-registration `logs/prereg_readable_training.md`, config `configs/side_readable.yaml`.
 - Next (decision 10): three studies on attention and readability, planned in
   `logs/plan_attention_law_and_readability.md` (fixed-vote models, training against the look-follows-write law,
-  readability and the arbitrariness between training runs).
+  readability and the arbitrariness between training runs). Readable-training confirmatory runs started 2026-10-18
+  (gate G2; test M amended, decision 11). Studies A (`logs/fixed_votes.md`, `logs/prereg_fixed_votes.md`) and B
+  (`logs/law_pressure.md`, `logs/prereg_law_pressure.md`): DRAFTs and code, waiting for gates G0/G1.

@@ -131,8 +131,9 @@ and other usefulness (the unique part of own usefulness, since tables are correl
 ## Pipeline checks before any confirmatory analysis
 
 - The law-fit code, run on attn_s1 with its own OV tables, reproduces goal 1's own-arm gains (within 0.002 nats).
-- Synthetic check: a fixed-vote model whose head patterns are set by hand to softmax(base rule + c x own U) gives a fitted
-  c within 10% and an own/ceiling ratio >= 0.9.
+- Synthetic check: when a head's pattern is replaced by hand with softmax(base rule + c x own usefulness), the own arm
+  recovers c within 10% and its gain is at least 0.9 of the base rule's KL (it describes that pattern almost exactly;
+  the token-token ceiling does not apply to a hand-made pattern).
 
 ## Recorded expectations (no verdict weight)
 

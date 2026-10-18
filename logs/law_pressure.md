@@ -19,3 +19,11 @@ Decision: logs/decisions.md item 10.
 - `src/train/test_sanity_law_pressure.py`: 10 tests pass on CPU.
 - Baseline in-batch correlation on train_windows(16, 9300): attn_s0 0.131/0.143/0.132/0.110; attn_s1..s4 0.106-0.161,
   every head positive.
+- Law tools accept checkpoint paths (analysis/look_write/common.out_name, commit 507144a).
+
+## Next steps (for whoever resumes)
+
+1. Ask the human for G0/G1 (DRAFT + code + tests). Then on MPS: step time with the penalty vs plain (R2); the
+   development grid `python -m src.train.runs law_dev --device mps` (arm both, lambda 1..100, 100M tokens); measure
+   corr_on (train_windows(16, 9300)) on each and on models/readable/dev/none_s0_100M; apply R1, then arms attn and vote
+   at lambda* (`law_dev --arms attn,vote --lams <lambda*>`), R3; uov_tables + fit_arms on the dev models (paths); FINAL.
