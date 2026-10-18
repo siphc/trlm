@@ -18,7 +18,7 @@ does (cross-entropy gap between a corpus bigram and the model recovered: 102%) (
 v1.2 0.571). For scale: the corpus bigram alone is 1.20 nats from the model; the earlier distillation program
 (tables fitted to the model, git tag `distillation-v11`) reached 0.452; and **another training run of the same
 network (seeds 1-4) is 0.38-0.42 nats from this one**, the average of four such runs 0.25 (TRAIN windows,
-`logs/goal2_plan.md`). Part of the remaining gap is therefore specific to this training run and cannot be explained
+`logs/mech_v3_report.md`). Part of the remaining gap is therefore specific to this training run and cannot be explained
 by any description that would fit every run equally; the program is equally far from all five runs.
 
 ## The algorithm, top-down

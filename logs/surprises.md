@@ -148,7 +148,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - Head pairs cancel each other's effects in one-layer models (all 5 seeds), never in 2- and 4-block models, even within a
   layer of the same width.
 
-## 2026-10-17 goal 2 (readable copy), autonomous session (logs/goal2_plan.md)
+## 2026-10-17 mechanism program round 3 (logs/mech_v3_report.md)
 
 - **Seeds of the same network are far apart.** On 64 TRAIN windows, attn_s1..s4 are 0.38-0.42 nats from attn_s0
   (KL(attn_s0 || seed k)); the average of seeds 1-4 is 0.25 away; mlp_s0 0.58. The program (v1.2) is 0.56 away, so a

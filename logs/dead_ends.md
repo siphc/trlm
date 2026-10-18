@@ -153,7 +153,7 @@ Adoption bar: gain >= 0.005 and >= 3 SE.
 - **Recursive generalisation of a head's key set (growth G3).** Not robust: the effect disappears when the current
   attention level is matched (2 of 8 heads).
 
-## 2026-10-17 goal 2, program v1.2 (analysis/goal2/, logs/goal2_plan.md)
+## 2026-10-17 mechanism program round 3, from v1.2 (analysis/program_gap/, logs/mech_v3_report.md)
 
 Paired KL differences from analysis/vote_fit.py (all strengths refitted; 32 fit / 64 eval TRAIN windows). Bar: >= 0.005
 and >= 3 SE.

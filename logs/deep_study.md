@@ -166,4 +166,4 @@ shared work among heads as "groups of attention heads", not as superposition.
   re-run of attn2L_s1's fits, code audit with float64 and finite-difference checks): no error that changes any per-head
   number or verdict. One rounding fix in the results doc (F3 median own gain 0.012). Bootstrap over eval windows:
   F1 REFUTED 99.3%, F2 MIXED 100%, F3 REFUTED 100%.
-- No processes left running. The side study is closed; work returns to the readable copy (goal 2).
+- No processes left running. The side study is closed; work returns to the mechanism program (logs/mech_v3_report.md).

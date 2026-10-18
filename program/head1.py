@@ -23,7 +23,7 @@ by how common it is): the attention and the recalled words choose only the vote'
 RECALL's attention falls on one or two words (at the start of a window, or on a single salient name) their full
 vote drowns everything else, and when it is spread over many words their votes are too weak. In the model, head 1's
 contribution to the output varies within a factor of about two across positions and does not grow when its attention
-concentrates on one word (logs/goal2_plan.md).
+concentrates on one word (logs/mech_v3_report.md).
 
 CLAIMS (tests/test_head1.py): RECALL's votes from earlier tokens change the output in the same direction as model
 head 1's earlier-token part (median probability-weighted correlation >= 0.5), and more so than the same votes with

@@ -1,0 +1,10 @@
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:821.)
+  loss += float(l)
+base 0.567737340927124 None
+base + saturation 0.5657202005386353 3.031920909881592
+{
+ "base + saturation vs base": {
+  "diff": -0.002017151564359665,
+  "se": 0.00048644530187323
+ }
+}

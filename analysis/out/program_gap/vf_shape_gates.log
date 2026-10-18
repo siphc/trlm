@@ -1,0 +1,131 @@
+{
+ "candidate": "shape_gates",
+ "fit_windows": 32,
+ "eval_windows": 64,
+ "fit_seed": 2024,
+ "eval_seed": 2000,
+ "kl": {
+  "program as is": 0.5643872176293016,
+  "base refit": 0.5644183451396518,
+  "candidate refit": 0.5626389765506816
+ },
+ "paired_diff": -0.0017793685889702189,
+ "paired_se": 0.00022494674040632036,
+ "candidate_strengths": {
+  "shape_gates.bigram.wordstart.self": 0.4452,
+  "shape_gates.trigram.wordstart.self": 0.2565,
+  "shape_gates.fourgram.wordstart.self": 0.2061,
+  "shape_gates.bigram.cont.self": 0.418,
+  "shape_gates.trigram.cont.self": 0.2605,
+  "shape_gates.fourgram.cont.self": 0.1929,
+  "shape_gates.bigram.other.self": 0.4889,
+  "shape_gates.trigram.other.self": 0.2572,
+  "shape_gates.fourgram.other.self": 0.2616,
+  "shape_gates.bigram.eos.self": 0.8663,
+  "shape_gates.trigram.eos.self": 0.0,
+  "shape_gates.fourgram.eos.self": 0.0
+ },
+ "base_strengths_change": {
+  "follow.unigram": [
+   0.486,
+   0.427
+  ],
+  "head0.self": [
+   0.516,
+   0.407
+  ],
+  "head0.near": [
+   0.367,
+   0.37
+  ],
+  "head0.far": [
+   4.982,
+   4.769
+  ],
+  "head0.earlier_successors": [
+   0.523,
+   0.514
+  ],
+  "head0.earlier_alike": [
+   -3.705,
+   -3.924
+  ],
+  "head2.self": [
+   0.259,
+   0.259
+  ],
+  "head2.near": [
+   0.744,
+   0.748
+  ],
+  "head2.far": [
+   3.083,
+   3.581
+  ],
+  "head2.no_repeat": [
+   -5.35,
+   -5.262
+  ],
+  "head1.copy.NAMES": [
+   3.714,
+   3.912
+  ],
+  "head1.topic.NAMES": [
+   2.984,
+   2.974
+  ],
+  "head1.next.NAMES": [
+   -0.034,
+   -0.007
+  ],
+  "head1.copy.SENTENCE_ENDS": [
+   8.637,
+   8.783
+  ],
+  "head1.topic.SENTENCE_ENDS": [
+   -1.064,
+   -1.128
+  ],
+  "head1.next.SENTENCE_ENDS": [
+   -0.446,
+   -0.541
+  ],
+  "head1.copy.WORD_ENDS_AND_LINKERS": [
+   2.962,
+   3.091
+  ],
+  "head1.topic.WORD_ENDS_AND_LINKERS": [
+   2.007,
+   1.955
+  ],
+  "head1.next.WORD_ENDS_AND_LINKERS": [
+   -0.689,
+   -0.617
+  ],
+  "head1.copy.FUNCTION_WORDS": [
+   3.755,
+   3.357
+  ],
+  "head1.topic.FUNCTION_WORDS": [
+   1.315,
+   1.439
+  ],
+  "head1.next.FUNCTION_WORDS": [
+   -0.335,
+   -0.328
+  ],
+  "head1.copy.CONTENT_WORDS": [
+   5.635,
+   5.687
+  ],
+  "head1.topic.CONTENT_WORDS": [
+   2.959,
+   2.894
+  ],
+  "head1.next.CONTENT_WORDS": [
+   -0.077,
+   -0.029
+  ]
+ },
+ "seconds": 75.6
+}

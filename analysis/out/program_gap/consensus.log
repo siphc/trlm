@@ -1,0 +1,167 @@
+{
+ "n_windows": 64,
+ "miss_mean": 0.4272143498108393,
+ "spread_mean": 0.1905132597566646,
+ "corr(miss, spread)": 0.40523706615745964,
+ "miss by spread quartile": [
+  0.26189683877691927,
+  0.35580189653217675,
+  0.4587447705652868,
+  0.6324138933689742
+ ],
+ "share of miss at low-spread positions (spread below median)": 0.3614688595915604,
+ "classes": {
+  "ensemble's top token appeared earlier in the window": {
+   "share_positions": 0.60845947265625,
+   "miss": 0.4099950425797837,
+   "share_of_miss": 0.583934897107809,
+   "spread": 0.172942558246282
+  },
+  "ensemble's top token is a word piece": {
+   "share_positions": 0.1363525390625,
+   "miss": 0.5383714273115165,
+   "share_of_miss": 0.17183016231812193,
+   "spread": 0.3715508873121883
+  },
+  "current token is a word piece": {
+   "share_positions": 0.1376953125,
+   "miss": 0.5343658269080125,
+   "share_of_miss": 0.17223126881856635,
+   "spread": 0.3757459575766691
+  },
+  "ensemble is confident (top prob > 0.5)": {
+   "share_positions": 0.33856201171875,
+   "miss": 0.351531267025478,
+   "share_of_miss": 0.27858411825090634,
+   "spread": 0.12185182348791102
+  }
+ },
+ "confident consensus": {
+  "share_positions": 0.249755859375,
+  "share_of_miss": 0.1680447792458293,
+  "ensemble top prob": 0.7760042415539956,
+  "program prob on it": 0.5928819639621576,
+  "of these, top token appeared earlier": 0.7182306940371457,
+  "of these, top token is a word piece": 0.1104594330400782
+ }
+}
+miss 8.02 spread 0.39 ...': Jane and' -> ' L'
+   seeds: ' her':0.14 ' Tom':0.05 ' the':0.04 ' she':0.04
+   prog:  ' Jane':1.00 ' she':0.00 ' her':0.00 ' Joe':0.00
+miss 6.34 spread 0.01 ...' was the perfect day.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.88 ' there':0.11 ',':0.00 ' in':0.00
+   prog:  ' there':0.51 ' loved':0.05 ',':0.05 ' lived':0.04
+miss 6.34 spread 0.01 ...' hard lesson that day.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.90 ' there':0.09 ',':0.01 ' in':0.00
+   prog:  ' there':0.57 ' loved':0.05 ',':0.05 ' three':0.04
+miss 6.82 spread 0.27 ...'air' -> ' and'
+   seeds: '.':0.08 's':0.06 ' and':0.04 ',':0.03
+   prog:  'air':0.99 's':0.00 ' of':0.00 ' fix':0.00
+miss 5.21 spread 0.03 ...' found such a great friend!<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.84 ' there':0.15 ',':0.00 ' was':0.00
+   prog:  ' there':0.60 ',':0.05 ' loved':0.03 ' lived':0.03
+miss 4.39 spread 0.15 ...' tree' -> ' and'
+   seeds: ' tree':0.21 '.':0.19 ' and':0.06 ',':0.05
+   prog:  ' bran':0.88 ' tree':0.11 '.':0.00 ' and':0.00
+miss 4.93 spread 0.39 ...' restroom had a tap inside.//"Over there,' -> ' mom'
+   seeds: ' ow':0.27 ' you':0.06 ' I':0.05 ' it':0.04
+   prog:  ' a':0.08 ' he':0.07 ' the':0.06 ' but':0.04
+miss 4.24 spread 0.27 ...' pus' -> 'hing'
+   seeds: ' pus':0.34 '.':0.04 ' the':0.04 ' and':0.03
+   prog:  ' pus':0.68 'hing':0.25 'hes':0.04 'h':0.02
+miss 3.88 spread 0.20 ...' different' -> '.'
+   seeds: ' different':0.09 '.':0.05 ' and':0.04 's':0.03
+   prog:  ' shapes':0.39 ' colors':0.21 ' different':0.08 ' col':0.07
+miss 3.41 spread 0.19 ...' says' -> '.'
+   seeds: '.':0.16 ' "':0.14 ' says':0.11 ',':0.07
+   prog:  ' says':0.78 '.':0.11 ' Ben':0.02 ' sorry':0.01
+miss 3.25 spread 0.17 ...' poppy worked very hard every day. It practiced and pract' -> 'iced'
+   seeds: 'iced':0.74 'ice':0.10 'ic':0.08 'ised':0.05
+   prog:  'ice':0.71 'ic':0.12 'ised':0.07 'is':0.02
+miss 4.09 spread 0.48 ...'/The poppy was so determined and so it worked even' -> ' hard'
+   seeds: ' hard':0.20 ' more':0.20 ' better':0.05 ' bigger':0.05
+   prog:  ' hard':0.98 ' to':0.00 ' on':0.00 ' the':0.00
+miss 3.11 spread 0.20 ...' dark' -> ' at'
+   seeds: ' dark':0.17 '.':0.11 ' and':0.06 ',':0.05
+   prog:  ' cloud':0.54 ' dark':0.15 ' night':0.11 ' stor':0.07
+miss 3.61 spread 0.37 ...' about who should keep the glass.//Their mom heard the' -> ' ar'
+   seeds: ' gl':0.53 ' noise':0.06 ' cry':0.04 ' broken':0.02
+   prog:  ' noise':0.35 ' loud':0.07 ' voice':0.03 ' sound':0.03
+miss 2.84 spread 0.12 ...' Sam.//Joe and Sam played football in the' -> ' park'
+   seeds: ' fo':0.87 ' park':0.02 ' sun':0.01 ' garden':0.00
+   prog:  ' park':0.25 ' garden':0.04 ' air':0.04 ' fo':0.03
+miss 3.41 spread 0.32 ...' car' -> 'p'
+   seeds: ' car':0.21 'ry':0.08 '.':0.07 'ried':0.06
+   prog:  ' car':0.89 ' drove':0.05 ' dri':0.04 '.':0.00
+miss 3.15 spread 0.25 ...' and see his water collection," mom said.//Tim,' -> ' Lily'
+   seeds: ' "':0.76 ' and':0.02 ' but':0.02 ' hold':0.02
+   prog:  ' Sam':0.12 ' the':0.06 ' you':0.06 ' Tim':0.06
+miss 2.39 spread 0.01 ...' his guitar and music filled the air once again!<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.90 ' there':0.09 ',':0.00 ' in':0.00
+   prog:  ' there':0.67 ',':0.08 ' upon':0.05 ' was':0.02
+miss 2.64 spread 0.11 ...' played football in the park and had lots of fun. A' -> 't'
+   seeds: 'b':0.92 't':0.02 ' little':0.00 'm':0.00
+   prog:  't':0.15 'nn':0.10 'l':0.06 'b':0.04
+miss 2.77 spread 0.15 ...' water collection," mom said.//Tim, Lily, and' -> ' mom'
+   seeds: ' Sam':0.17 ' Lily':0.16 ' Ben':0.16 ' Tom':0.12
+   prog:  ' said':0.09 ' the':0.04 ' they':0.03 ' saw':0.02
+miss 2.74 spread 0.14 ...' and asked herself, â€œWhat is this?â€//' -> 'Lily'
+   seeds: 'Her':0.36 'Lily':0.30 'The':0.15 'L':0.02
+   prog:  'â':0.51 'The':0.17 'M':0.06 'J':0.02
+miss 2.29 spread 0.01 ...'nah and the old toy were the best of friends.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.89 ' there':0.10 ',':0.00 ' in':0.00
+   prog:  ' there':0.66 ',':0.09 ' upon':0.05 ' a':0.01
+miss 2.35 spread 0.03 ...'able," she suggested.//Together, M' -> 'um'
+   seeds: 'um':0.94 'ummy':0.01 'im':0.00 'o':0.00
+   prog:  'ama':0.23 'andy':0.07 'um':0.07 'itt':0.06
+miss 2.39 spread 0.06 ...' woods and explore or to the beach and swim.//One day,' -> ' B'
+   seeds: ' B':0.87 ' a':0.01 ' he':0.01 ' they':0.01
+   prog:  ' they':0.17 ' the':0.11 ' she':0.08 ' he':0.08
+miss 2.43 spread 0.08 ...' and explore or to the beach and swim.//One day, B' -> 'ig'
+   seeds: 'ear':0.89 'ig':0.02 'e':0.02 'l':0.01
+   prog:  'ell':0.10 'u':0.08 'o':0.07 'r':0.07
+miss 2.52 spread 0.13 ...' It was a needle!//"What is this?" asked T' -> 'in'
+   seeds: 'in':0.91 'r':0.01 'u':0.01 'V':0.01
+   prog:  'eddy':0.21 'w':0.18 'r':0.06 'on':0.06
+miss 2.16 spread 0.01 ...' some more. They learned to be careful with their tails.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.90 ' there':0.09 ',':0.01 ' in':0.00
+   prog:  ' there':0.60 ',':0.13 ' upon':0.06 ' a':0.01
+miss 2.14 spread 0.01 ...' splashed and giggled.//The end.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.91 ' there':0.08 ',':0.00 ' in':0.00
+   prog:  ' there':0.56 ',':0.16 ' upon':0.07 ' a':0.02
+miss 2.14 spread 0.01 ...' eager to tell their mothers what they had seen.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.84 ' there':0.15 ',':0.01 ' they':0.00
+   prog:  ' there':0.63 ',':0.11 ' upon':0.05 ' a':0.02
+miss 2.58 spread 0.17 ...', excitedly.//"It\'s a needle," explained T' -> 'in'
+   seeds: 'in':0.88 'r':0.02 'V':0.02 'ess':0.01
+   prog:  'eddy':0.21 'w':0.17 'V':0.08 'r':0.06
+miss 2.07 spread 0.01 ...' down to rest. He felt very happy and peaceful.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.88 ' there':0.11 ',':0.00 ' in':0.00
+   prog:  ' there':0.70 ',':0.09 ' upon':0.06 ' was':0.01
+miss 2.07 spread 0.01 ...' the refrigerator again the next day.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.89 ' there':0.10 ',':0.00 ' in':0.00
+   prog:  ' there':0.69 ',':0.08 ' upon':0.07 ' was':0.01
+miss 2.08 spread 0.01 ...' did not want to fight anymore. They wanted to be friends.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.89 ' there':0.10 ',':0.01 ' in':0.00
+   prog:  ' there':0.57 ',':0.15 ' upon':0.07 ' a':0.02
+miss 2.05 spread 0.01 ...' happy and went back to playing with his toy. The end.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.88 ' there':0.11 ',':0.00 ' he':0.00
+   prog:  ' there':0.64 ',':0.11 ' upon':0.07 ' was':0.02
+miss 2.85 spread 0.28 ...' long' -> '.'
+   seeds: '.':0.10 ',':0.09 ' long':0.09 ' and':0.07
+   prog:  ' hair':0.61 ' tail':0.10 ' time':0.04 ' stick':0.03
+miss 2.43 spread 0.15 ...' promise of being reliable.<|eos|>One day, Char' -> 'l'
+   seeds: 'ia':0.80 'l':0.14 'ar':0.01 'ie':0.00
+   prog:  'l':0.80 'ia':0.03 'p':0.02 'le':0.01
+miss 1.98 spread 0.01 ...'. They had a fun day under the enormous tree.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.88 ' there':0.11 ',':0.01 ' in':0.00
+   prog:  ' there':0.68 ',':0.10 ' upon':0.07 ' was':0.01
+miss 1.98 spread 0.01 ...' school again. She felt very lonely and sad. The end.<|eos|>Once' -> ' there'
+   seeds: ' upon':0.90 ' there':0.09 ',':0.00 ' in':0.00
+   prog:  ' there':0.60 ',':0.14 ' upon':0.08 ' a':0.01
+miss 2.78 spread 0.28 ...' held' -> ' their'
+   seeds: ' held':0.14 ' on':0.07 '.':0.05 ' it':0.05
+   prog:  ' hands':0.57 ' it':0.15 ' the':0.07 ' tight':0.05
+miss 1.96 spread 0.01 ...' happy and safe knowing her mommy was nearby. The end.<|eos|>Once' -> ' upon'
+   seeds: ' upon':0.86 ' there':0.13 ',':0.00 ' in':0.00
+   prog:  ' there':0.64 ',':0.12 ' upon':0.07 ' was':0.01
