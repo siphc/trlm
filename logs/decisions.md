@@ -35,3 +35,15 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
    for now; the study comes before further work on the readable copy; a per-token corpus code (e.g. a low-rank
    factorisation of corpus PMI) is allowed as an analysis test only, not as a program component. configs/frozen.yaml
    is unchanged: the main track stays at 1 block; the side study is recorded in configs/side_deep_attn.yaml.
+9. **Goal reframed; side study "can a language model be trained to be readable?"** (2026-10-17, human decisions on the
+   agent's proposal after reading Hubinger's "A transparency and interpretability tech tree"; plan in
+   logs/readable_training.md). (a) Main track: a readable replacement with KL near zero is not reachable for a model
+   trained without regard to readability (another seed of the same network is 0.38-0.42 nats from attn_s0; the
+   remaining gap is in per-head tables locked to the model's own attention, logs/token_geometry_results.md). The main
+   track's goal becomes best-case understanding (most important pieces, why they formed) with an honest coverage
+   measure of what is not explained. (b) Side study: train new 1-block attention-only models with an extra loss pulling
+   them toward the readable program, and check with tools that were not trained on whether the agreement is genuine or
+   Goodharted. Choices: both arms (O: the program's next-token predictions; I: heads' attention follows the program's
+   rules and their votes follow its corpus tables), laptop MPS only, target = program v1.3 frozen (scalars as fitted
+   to attn_s0). Pre-registered (logs/prereg_readable_training.md), with human gates G0-G3. configs/frozen.yaml is
+   unchanged; the side study is recorded in configs/side_readable.yaml.

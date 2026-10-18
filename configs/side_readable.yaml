@@ -1,0 +1,60 @@
+# Side study (logs/decisions.md item 9): can a language model be trained to be readable?
+# New 1-block attention-only models trained with an extra loss pulling them toward the readable program v1.3.
+# NOT the main track. Everything not listed here is as in configs/frozen.yaml v3 (data, tokenizer, d_model 128,
+# 4 heads x 32, learned positions, pre-LN + final LN, no biases, tied embeddings, AdamW (0.9, 0.95), weight decay 0.1,
+# clip 1.0, 1% warmup + cosine to 10%, batch 64 x 256, fp32 on Apple MPS, 20 log-spaced checkpoints).
+version: 1
+variant: attn
+n_blocks: 1
+target_program: program v1.3 (commit 573c4ac; scalars as fitted to attn_s0), frozen
+seeds: [0, 1, 2, 3, 4]            # seed s shares initialisation and data order with attn_s{s} (its untreated twin);
+                                  # seed 0 = development only (the program was fitted to attn_s0); seeds 1-4 confirmatory
+budget_tokens: 527482880          # one epoch, as the main track
+dev_budget_tokens: 100000000      # development grid (own cosine schedule)
+peak_lr: 2.0e-3
+arms:
+  O: "loss = CE + lambda_out * KL(program || model) on the auxiliary batch, over {top-k_out tokens, rest}"
+  I: "loss = CE + lambda_I * (L_att + c * L_vote); L_att = KL(rule || model pattern) for heads 0,1,2 vs LOCAL-0,
+      RECALL, LOCAL-2 over {top-k_h keys, rest}; L_vote = weighted (1 - row correlation) of each head's OV table
+      with its corpus vote table; head 3 and the direct path free"
+lambda_grid: [0.1, 0.3, 1, 3, 10] # both arms, development grid at dev_budget_tokens, plus lambda = 0
+aux_windows: 16                   # auxiliary windows per step (rule R6 may halve it)
+pool:
+  rng: 9001                       # default_rng(9001) draws the pool from the TRAIN windows
+  n_train: 32768
+  n_heldout: 512
+  k_out: [64, 128, 256]           # rule R1 picks the smallest with mean coverage >= 0.95
+  k_att: [8, 16, 32, 64, 128]
+  path: data/readable/pool
+  exclude:                        # (n, seed) pairs of analysis.fitlib.train_windows used anywhere in the repository
+    - [16, 2000]
+    - [32, 2000]
+    - [64, 2000]
+    - [200, 2000]
+    - [16, 2025]
+    - [32, 2025]
+    - [64, 2025]
+    - [160, 2025]
+    - [32, 2024]
+    - [32, 1000]
+    - [12, 11]
+    - [12, 2034]
+    - [60, 13]
+    - [100, 13]
+    - [640, 3000]
+    - [8, 777]
+    - [4, 778]
+    - [4, 4242]
+    - [4, 2033]
+    - [1, 7]
+    - [64, 9100]                  # this study's TRAIN evaluation set
+    - [16, 9125]                  # this study's role-assignment / pattern windows
+eval_sets:
+  train_eval: [64, 9100]
+  pattern: [16, 9125]
+paths:
+  models: models/readable/{arm}_l{lambda}_s{seed}
+  dev_models: models/readable/dev/{arm}_l{lambda}_s0_100M
+commands:
+  dev_grid: python -m src.train.runs readable_dev --device mps
+  confirmatory: python -m src.train.runs readable --arm O|I --lam X --seeds 1,2,3,4 --device mps

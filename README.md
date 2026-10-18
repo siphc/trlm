@@ -34,3 +34,6 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
 - Study "where a head looks follows from what it writes": complete and independently verified; pre-draft in
   `writeups/look_follows_write_predraft.md`.
 - Token geometry: `logs/token_geometry_results.md`.
+- Goal reframed (logs/decisions.md item 9): the main track aims at best-case understanding with an honest coverage
+  measure. New side study, "can a language model be trained to be readable?": `logs/readable_training.md`,
+  pre-registration `logs/prereg_readable_training.md`, config `configs/side_readable.yaml`.
