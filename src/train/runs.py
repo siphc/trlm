@@ -12,6 +12,10 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
                                                     # side study "trained to be readable": seed 0, 100M tokens
   python -m src.train.runs readable --arm O|I --lam X --seeds 1,2,3,4
                                                     # side study: models/readable/{arm}_l{lam}_s{seed}, one epoch each
+  python -m src.train.runs fixed_lr                 # study A (fixed votes, rule R1): seed 0, 50M tokens, three LRs
+  python -m src.train.runs fixed --name base --seeds 0,1,2,3,4 --peak_lr X
+                                                    # study A: models/fixed_votes/{name}_s{seed}, one epoch each;
+                                                    # names: base (next,copy,topic,skip2), shift (head 3 votes skip3)
   Add --root /content/drive/MyDrive/trlm on Colab to write checkpoints to Drive.
 """
 from __future__ import annotations
@@ -30,6 +34,9 @@ WITHIN = 0.01                                  # choose smallest budget within 1
 FROZEN_PEAK_LR = 2e-3                          # configs/frozen.yaml (chosen by the pilot)
 DEEP_LR_TOKENS = 50_000_000                    # side-study LR check
 READABLE_DEV_TOKENS = 100_000_000              # side study "trained to be readable": development grid
+FIXED_LR_TOKENS = 50_000_000                   # study A, rule R1
+FIXED_LRS = [1e-3, 2e-3, 4e-3]
+FIXED_TABLES = {"base": "next,copy,topic,skip2", "shift": "next,copy,topic,skip3"}   # one vote table per head
 
 
 def readable_kw(arm: str, lam: float, c: float) -> dict:
@@ -76,7 +83,7 @@ def budget_name(b: int, lr: float) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep",
-                                    "readable_dev", "readable"])
+                                    "readable_dev", "readable", "fixed_lr", "fixed"])
     ap.add_argument("--root", default="models")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--amp", action="store_true")
@@ -90,6 +97,7 @@ def main() -> None:
     ap.add_argument("--extra", default="", help="readable_dev: comma list of I_att, I_vote at --lam")
     ap.add_argument("--arm", default="O", help="readable")
     ap.add_argument("--lam", type=float, default=None, help="readable, readable_dev --extra")
+    ap.add_argument("--name", default="base", help="fixed: " + ", ".join(FIXED_TABLES))
     args = ap.parse_args()
 
     if args.cmd == "pilot_lr":
@@ -121,6 +129,16 @@ def main() -> None:
                  n_blocks=4, budget_tokens=DEEP_LR_TOKENS, peak_lr=lr)
     elif args.cmd in ("readable_dev", "readable"):
         run_readable(args)
+    elif args.cmd == "fixed_lr":
+        for lr in FIXED_LRS:
+            _run(args.root, f"fixed_votes/lr/base_s0_50M_lr{lr:g}", args.device, args.amp, variant="fixed", seed=0,
+                 fixed_tables=FIXED_TABLES["base"], budget_tokens=FIXED_LR_TOKENS, peak_lr=lr)
+    elif args.cmd == "fixed":
+        assert args.peak_lr, "fixed needs --peak_lr (rule R1, analysis/out/fixed_votes/rules.json)"
+        for seed in (int(s) for s in args.seeds.split(",")):
+            _run(args.root, f"fixed_votes/{args.name}_s{seed}", args.device, args.amp, variant="fixed", seed=seed,
+                 fixed_tables=FIXED_TABLES[args.name], budget_tokens=args.budget_tokens or LADDER[-1],
+                 peak_lr=args.peak_lr)
     elif args.cmd == "deep":
         # side study: one epoch per model with the frozen hyperparameters; seed s has the batch order of attn_s{s}
         for seed in (int(s) for s in args.seeds.split(",")):

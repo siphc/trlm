@@ -23,6 +23,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 
 from src.train.data import BatchSampler, load_eval, load_stream
@@ -61,6 +62,10 @@ class TrainConfig:
     lambda_vote: float = 0.0
     aux_windows: int = 16             # auxiliary pool windows per step
     readable_ramp: float = 0.0        # fraction of the steps over which the lambdas ramp up linearly (rule R5)
+    # study A "fixed_votes" (logs/decisions.md item 10; src/train/fixed_votes.py): heads vote with fixed corpus tables,
+    # one table name per head. "" trains the usual TinyLM.
+    fixed_tables: str = ""
+    fixed_tables_path: str = "data/fixed_votes/tables.npz"
 
     @property
     def tokens_per_step(self) -> int:
@@ -74,6 +79,15 @@ class TrainConfig:
 def model_config(variant: str, n_blocks: int = 1) -> ModelConfig:
     assert variant in ("attn", "mlp")
     return ModelConfig(mlp=(variant == "mlp"), n_blocks=n_blocks)
+
+
+def build_model(cfg: TrainConfig) -> nn.Module:
+    if cfg.fixed_tables:
+        from src.train.fixed_votes import FixedVoteConfig, FixedVoteLM
+
+        assert not cfg.readable_arm, "fixed-vote models take no readable-training loss"
+        return FixedVoteLM(FixedVoteConfig(tables=cfg.fixed_tables), cfg.fixed_tables_path)
+    return TinyLM(model_config(cfg.variant, cfg.n_blocks))
 
 
 def lr_at(step: int, cfg: TrainConfig) -> float:
@@ -136,7 +150,7 @@ def train(cfg: TrainConfig) -> dict:
 
     torch.manual_seed(cfg.seed)
     np.random.seed(cfg.seed)
-    model = TinyLM(model_config(cfg.variant, cfg.n_blocks)).to(device)
+    model = build_model(cfg).to(device)
     opt = torch.optim.AdamW(param_groups(model, cfg.weight_decay), lr=cfg.peak_lr, betas=cfg.betas)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
     sampler = BatchSampler(load_stream("train"), cfg.seed, cfg.batch_windows)
@@ -235,6 +249,10 @@ def train(cfg: TrainConfig) -> dict:
 def load_model(path: str, device: str = "cpu") -> TinyLM:
     """Load an fp32 model from a weights checkpoint (final.pt / ckpt_step*.pt)."""
     st = torch.load(path, map_location=device, weights_only=False)
+    if st["model_config"].get("arch") == "fixed_votes":
+        from src.train.fixed_votes import load
+
+        return load(st, device)
     model = TinyLM(ModelConfig(**st["model_config"]))
     model.load_state_dict(st["model"])
     return model.float().eval()
