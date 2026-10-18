@@ -66,6 +66,13 @@ class TrainConfig:
     # one table name per head. "" trains the usual TinyLM.
     fixed_tables: str = ""
     fixed_tables_path: str = "data/fixed_votes/tables.npz"
+    # study B "law_pressure" (logs/decisions.md item 10; src/train/law_pressure.py): a penalty against the
+    # look-follows-write law. law_arm "" leaves training unchanged.
+    law_arm: str = ""                 # "", "both", "attn" or "vote"
+    lambda_law: float = 0.0
+    law_ramp: float = 0.05            # fraction of the steps over which lambda_law ramps up linearly
+    law_p1_path: str = "data/fixed_votes/tables.npz"   # FOLLOW's bigram rule ('follow')
+    init_from: str = ""               # start from these weights (fresh optimizer and schedule); "" = random init
 
     @property
     def tokens_per_step(self) -> int:
@@ -161,9 +168,16 @@ def train(cfg: TrainConfig) -> dict:
 
         aux = ReadableAux(cfg, device)
         aux.check_or_write(cfg.out)
+    law = None
+    if cfg.law_arm:
+        from src.train.law_pressure import LawPenalty
+
+        law = LawPenalty(cfg, device)
 
     step = 0
     latest = os.path.join(cfg.out, "latest.pt")
+    if cfg.init_from and not os.path.exists(latest):
+        model.load_state_dict(torch.load(cfg.init_from, map_location=device, weights_only=False)["model"])
     if os.path.exists(latest):
         st = torch.load(latest, map_location=device, weights_only=False)
         model.load_state_dict(st["model"])
@@ -200,6 +214,9 @@ def train(cfg: TrainConfig) -> dict:
         if aux is not None:
             aux_loss, aux_info = aux.loss(model, step)
             total = loss + aux_loss
+        if law is not None:
+            law_loss, law_info = law.loss(model, x, step)
+            total = total + law_loss
         opt.zero_grad(set_to_none=True)
         scaler.scale(total).backward()
         scaler.unscale_(opt)
@@ -213,6 +230,8 @@ def train(cfg: TrainConfig) -> dict:
                    "train_loss": loss.item(), "grad_norm": float(gnorm), "elapsed": time.time() - t0}
             if aux is not None:
                 row.update({k: float(v) for k, v in aux_info.items()})
+            if law is not None:
+                row.update({k: float(v) for k, v in law_info.items()})
             if step % cfg.eval_every == 0 or step == cfg.total_steps:
                 row["dev_fast_loss"] = evaluate(model, dev_fast, device)
                 if aux is not None:
@@ -234,6 +253,8 @@ def train(cfg: TrainConfig) -> dict:
     save_resume()
     dev_full = evaluate(model, load_eval("dev_full"), device)
     extra = {"readable": aux.summary()} if aux is not None else {}
+    if law is not None:
+        extra["law_pressure"] = law.summary()
     save_weights(model, os.path.join(cfg.out, "final.pt"),
                  {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full, **extra})
     result = {"variant": cfg.variant, "seed": cfg.seed, "n_blocks": cfg.n_blocks, "budget_tokens": cfg.budget_tokens,

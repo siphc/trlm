@@ -16,6 +16,12 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
   python -m src.train.runs fixed --name base --seeds 0,1,2,3,4 --peak_lr X
                                                     # study A: models/fixed_votes/{name}_s{seed}, one epoch each;
                                                     # names: base (next,copy,topic,skip2), shift (head 3 votes skip3)
+  python -m src.train.runs law_dev [--arms both] [--lams 1,3,10,30,100]
+                                                    # study B (penalty against the law): seed 0, 100M tokens
+  python -m src.train.runs law --arm both|attn|vote --lam X --seeds 1,2,3,4
+                                                    # study B: models/law_pressure/{arm}_l{lam}_s{seed}, one epoch each
+  python -m src.train.runs law_restore --from models/law_pressure/both_l10_s1 [--seeds ...]
+                                                    # study B: continue without the penalty (restoring force)
   Add --root /content/drive/MyDrive/trlm on Colab to write checkpoints to Drive.
 """
 from __future__ import annotations
@@ -37,6 +43,8 @@ READABLE_DEV_TOKENS = 100_000_000              # side study "trained to be reada
 FIXED_LR_TOKENS = 50_000_000                   # study A, rule R1
 FIXED_LRS = [1e-3, 2e-3, 4e-3]
 FIXED_TABLES = {"base": "next,copy,topic,skip2", "shift": "next,copy,topic,skip3"}   # one vote table per head
+LAW_DEV_TOKENS = 100_000_000                   # study B: development grid
+RESTORE_STEPS, RESTORE_LR, RESTORE_SEED_OFFSET = 3000, 2e-4, 10   # study B: continuation without the penalty
 
 
 def readable_kw(arm: str, lam: float, c: float) -> dict:
@@ -83,7 +91,8 @@ def budget_name(b: int, lr: float) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep",
-                                    "readable_dev", "readable", "fixed_lr", "fixed"])
+                                    "readable_dev", "readable", "fixed_lr", "fixed", "law_dev", "law",
+                                    "law_restore"])
     ap.add_argument("--root", default="models")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--amp", action="store_true")
@@ -98,6 +107,7 @@ def main() -> None:
     ap.add_argument("--arm", default="O", help="readable")
     ap.add_argument("--lam", type=float, default=None, help="readable, readable_dev --extra")
     ap.add_argument("--name", default="base", help="fixed: " + ", ".join(FIXED_TABLES))
+    ap.add_argument("--from", dest="from_dir", default="", help="law_restore: run folder whose final.pt to continue")
     args = ap.parse_args()
 
     if args.cmd == "pilot_lr":
@@ -133,6 +143,26 @@ def main() -> None:
         for lr in FIXED_LRS:
             _run(args.root, f"fixed_votes/lr/base_s0_50M_lr{lr:g}", args.device, args.amp, variant="fixed", seed=0,
                  fixed_tables=FIXED_TABLES["base"], budget_tokens=FIXED_LR_TOKENS, peak_lr=lr)
+    elif args.cmd == "law_dev":
+        arms = args.arms.split(",") if args.arms != "none,O,I,control" else ["both"]
+        for arm in arms:
+            for lam in (float(x) for x in args.lams.split(",")):
+                _run(args.root, f"law_pressure/dev/{arm}_l{lam:g}_s0_100M", args.device, args.amp, variant="attn",
+                     seed=0, budget_tokens=args.budget_tokens or LAW_DEV_TOKENS, peak_lr=FROZEN_PEAK_LR, law_arm=arm,
+                     lambda_law=lam)
+    elif args.cmd == "law":
+        assert args.lam is not None, "--lam"
+        for seed in (int(s) for s in args.seeds.split(",")):
+            _run(args.root, f"law_pressure/{args.arm}_l{args.lam:g}_s{seed}", args.device, args.amp, variant="attn",
+                 seed=seed, budget_tokens=args.budget_tokens or LADDER[-1], peak_lr=FROZEN_PEAK_LR, law_arm=args.arm,
+                 lambda_law=args.lam)
+    elif args.cmd == "law_restore":
+        # continue a model without the penalty: fresh optimizer, 1% warmup and cosine at RESTORE_LR, another batch order
+        name = os.path.basename(os.path.normpath(args.from_dir))
+        seed = int(name.rsplit("_s", 1)[1])
+        _run(args.root, f"law_pressure/restore/{name}", args.device, args.amp, variant="attn",
+             seed=seed + RESTORE_SEED_OFFSET, init_from=os.path.join(args.from_dir, "final.pt"),
+             budget_tokens=RESTORE_STEPS * 64 * 256, peak_lr=RESTORE_LR)
     elif args.cmd == "fixed":
         assert args.peak_lr, "fixed needs --peak_lr (rule R1, analysis/out/fixed_votes/rules.json)"
         for seed in (int(s) for s in args.seeds.split(",")):
