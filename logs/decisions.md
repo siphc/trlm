@@ -55,3 +55,7 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     readability pressure remove the arbitrariness between training runs (part A = the readable-training confirmatory
     runs as pre-registered; part B = a pressure curve and a non-readable canonicaliser control). Plan:
     logs/plan_attention_law_and_readability.md.
+11. **Readable training, test M amended** (2026-10-18, gate G2 approved the same day): the manipulation check's
+    threshold is lowered from 0.3 to 0.2 trained closure, before any confirmatory output is read, because both seed-0
+    development runs sit at 0.27-0.28 while their trained tools moved far beyond noise. The as-written verdict is
+    reported as well. Amendment section in logs/prereg_readable_training.md.

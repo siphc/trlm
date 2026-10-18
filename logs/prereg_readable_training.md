@@ -174,3 +174,13 @@ lambda.
 
 The development grid's dose-response curves; arm I attention-only and vote-only; refits beyond one round; the new
 models' own samples as a fifth OOD set; no use of the test split.
+
+## Amendment (2026-10-18, before any confirmatory output was read)
+
+- **Test M lowered from 0.3 to 0.2** (human decision, logs/decisions.md item 11). Reason: the seed-0 one-epoch runs
+  (development) have trained closures 0.28 (arm O) and 0.274 (arm I) although the trained tools moved far beyond noise
+  (arm O's harness KL by about 15 sigma); these values were in hand when the FINAL was written but were not checked
+  against M. Based on development outputs only; the confirmatory runs had started, no confirmatory output had been read.
+  The verdict with M at 0.3 is reported next to the amended one.
+- Clarifications of ambiguous wording (noise floor, undefined ratios, flag counting, the positive control's twin and
+  others) are listed in logs/readable_training.md, phase 4; all are implemented in analysis/readable_training/verdicts.py.

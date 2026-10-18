@@ -23,6 +23,8 @@ from analysis.readable_training.common import OUT, REPO, load_rules
 SEEDS = [1, 2, 3, 4]
 OOD = ["probe_twin", "program_samples", "sent_shuffle", "word_shuffle"]
 RHO = {"d4_vote_rho_uniform", "d4_vote_rho_weighted"}                    # higher is better; every other tool is a KL
+M_MIN = 0.2              # test M: trained closure >= 0.2 (amendment of 2026-10-18, logs/decisions.md item 11; FINAL: 0.3)
+M_MIN_AS_WRITTEN = 0.3
 
 
 def final_committed():
@@ -76,17 +78,19 @@ def score_seed(arm, new, twin, sigma, gap, literal=False):
              "ii_decorative": any(abl[h] < 0.5 for h in range(3)) or abl[3] > 1.5,
              "iii_refit": new["b2_refit_kl"] - new["b1_harness_kl"] > 0.05}
     return {"closures": cl, "trained_closure": trained, "untrained_closure": untrained,
-            "tau": ratio(untrained, trained), "tau_ood": tau_ood, "M": trained >= 0.3,
+            "tau": ratio(untrained, trained), "tau_ood": tau_ood, "M": trained >= M_MIN,
+            "M_as_written": trained >= M_MIN_AS_WRITTEN,
             "ablation_ratio_to_twin": abl, "memorisation_gap": gap, "flags": flags}
 
 
-def verdict(per):
-    """The pre-registered verdict from the four seeds' scores (clarification 4: flags counted per flag)."""
+def verdict(per, m="M"):
+    """The pre-registered verdict from the four seeds' scores (clarification 4: flags counted per flag); m = "M_as_written"
+    applies test M with the FINAL's 0.3."""
     n = lambda f: sum(bool(f(s)) for s in per.values())                 # noqa: E731
     ge = lambda x, t: x is not None and x >= t                          # noqa: E731
     le = lambda x, t: x is not None and x <= t                          # noqa: E731
     flag_counts = {f: n(lambda s, f=f: s["flags"][f]) for f in next(iter(per.values()))["flags"]}
-    counts = {"M_fail": n(lambda s: not s["M"]), "P_and_S_ge_0.5": n(lambda s: ge(s["tau"], .5) and ge(s["tau_ood"], .5)),
+    counts = {"M_fail": n(lambda s: not s[m]), "P_and_S_ge_0.5": n(lambda s: ge(s["tau"], .5) and ge(s["tau_ood"], .5)),
               "P_le_0.2": n(lambda s: le(s["tau"], .2)), "S_le_0.2": n(lambda s: le(s["tau_ood"], .2)),
               "flags": flag_counts, "seeds_with_any_flag": n(lambda s: any(s["flags"].values()))}
     if counts["M_fail"] >= 2:
@@ -202,6 +206,7 @@ def main():
         if len(per) == 4:
             r["verdict"], r["counts"] = verdict(per)
             r["verdict_literal_floor"], r["counts_literal_floor"] = verdict(alt)
+            r["verdict_M_as_written"], r["counts_M_as_written"] = verdict(per, "M_as_written")
         elif not a.partial:
             raise SystemExit(f"arm {arm}: seeds complete {sorted(per)}; use --partial")
         res["arms"][arm] = r
@@ -216,7 +221,8 @@ def summary(res):
     out = []
     for arm, r in res["arms"].items():
         out += [f"### Arm {arm} (lambda {r['lambda']:g}): verdict {r.get('verdict', '(partial)')}"
-                f" (literal floor: {r.get('verdict_literal_floor', '-')})", "",
+                f" (M at 0.3 as in the FINAL: {r.get('verdict_M_as_written', '-')};"
+                f" literal noise floor: {r.get('verdict_literal_floor', '-')})", "",
                 "| seed | trained closure | untrained closure | tau | tau_OOD | M | flags | cost | b1 | b2 | lock drop |",
                 "|---|---|---|---|---|---|---|---|---|---|---|"]
         for seed, s in r["per_seed"].items():

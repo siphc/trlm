@@ -161,3 +161,5 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   M (an oversight). If seeds 1-4 behave alike, arm O is INCONCLUSIVE by rule. Rules unchanged; the human was asked
   whether to amend M before any confirmatory output is read. Other seed-0 values (no verdict weight): arm O tau 0
   (no internal closure beyond 2 sigma), tau_OOD 0.94; arm I tau 0.21, tau_OOD undefined; no flags.
+- The human chose to lower test M to 0.2 (decision 11; amendment section of the pre-registration); verdicts.py reports
+  the verdict with M at 0.3 as well.
