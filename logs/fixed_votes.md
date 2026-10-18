@@ -33,9 +33,10 @@ Decision: logs/decisions.md item 10.
   N_1 recount differs from analysis/out/candidates/qk/N_1.npy by at most 1 count.
 - `analysis/fixed_votes/law.py` (M1, M3-M6 on one model) and `analysis/fixed_votes/check_pipeline.py` (the DRAFT's two
   pipeline checks) written, **not yet run or tested**. A random-init checkpoint for the synthetic check:
-  models/fixed_votes/scratch/init_s0/final.pt. The pipeline checks were started in the background at the end of the
-  session (logs/runs/fixed_votes_pipeline_checks.log; output analysis/out/fixed_votes/pipeline_checks.json); check
-  whether they finished and passed.
+  models/fixed_votes/scratch/init_s0/final.pt. **Both pipeline checks pass** (analysis/out/fixed_votes/
+  pipeline_checks.json): goal 1's fit code reproduces attn_s1 head 0's stored base, own and tt KLs exactly (difference
+  0.0); on the synthetic pattern the own arm recovers c1, c2, cb to within 1e-6 and 100% of the base rule's KL.
+  law.py's full run on a trained model is still untested.
 - DRAFT edits after the first commit (all before any model output): negative-beta rule for H3a; the synthetic check
   compares with the base rule's KL instead of the token-token ceiling.
 
