@@ -1,0 +1,75 @@
+/Users/svi/Desktop/trlm/analysis/token_geometry/tables_vs_attention.py:224: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:219.)
+  pu = torch.as_tensor(np.asarray(s.p_uni), dtype=torch.float32)
+D 0.1152 [26s]
+Scur-tab 0.2387 [33s]
+S0-tab 0.8433 [41s]
+S0-att 0.3483 [43s]
+S0-joint 0.8257 [51s]
+S1-tab 0.2837 [76s]
+S1-att 0.2857 [79s]
+S1-joint 0.3338 [106s]
+S2-tab 0.6797 [114s]
+S2-att 0.3456 [116s]
+S2-joint 0.689 [124s]
+S3-tab 0.4165 [131s]
+S3-att 0.3605 [134s]
+S3-joint 0.4335 [141s]
+{
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "final_ln_scale": 1.161398140563655,
+ "head3_rule_pattern_kl": 1.0335976606879673,
+ "Scur-tab - D": {
+  "diff": 0.12350441515445709,
+  "se": 0.00320378445774926
+ },
+ "S0-tab - D": {
+  "diff": 0.7281131744384766,
+  "se": 0.009315901001736127
+ },
+ "S0-att - D": {
+  "diff": 0.23306730389595032,
+  "se": 0.004867330117369613
+ },
+ "S0-joint - D": {
+  "diff": 0.710429310798645,
+  "se": 0.008503035149386261
+ },
+ "S1-tab - D": {
+  "diff": 0.1685163378715515,
+  "se": 0.006020630553121145
+ },
+ "S1-att - D": {
+  "diff": 0.17048822343349457,
+  "se": 0.0065401852914270635
+ },
+ "S1-joint - D": {
+  "diff": 0.21853718161582947,
+  "se": 0.007560123878867016
+ },
+ "S2-tab - D": {
+  "diff": 0.5645161867141724,
+  "se": 0.007419669506204461
+ },
+ "S2-att - D": {
+  "diff": 0.23034709692001343,
+  "se": 0.005878139302295401
+ },
+ "S2-joint - D": {
+  "diff": 0.5737665891647339,
+  "se": 0.007641429100911578
+ },
+ "S3-tab - D": {
+  "diff": 0.30128559470176697,
+  "se": 0.007409622092646169
+ },
+ "S3-att - D": {
+  "diff": 0.24531665444374084,
+  "se": 0.0075930925925701545
+ },
+ "S3-joint - D": {
+  "diff": 0.3183199167251587,
+  "se": 0.008418562986802809
+ },
+ "seconds": 141.2095332145691
+}

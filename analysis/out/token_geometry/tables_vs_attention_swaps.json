@@ -1,0 +1,352 @@
+{
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "final_ln_scale": 1.161398140563655,
+ "head3_rule_pattern_kl": 1.0335976606879673,
+ "arms": {
+  "D": {
+   "kl": 0.11522427201271057,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 1.0026,
+    "ov0.self": 0.8724,
+    "ov0.earlier": 0.8974,
+    "ov1.self": 0.7518,
+    "ov1.earlier": 0.8122,
+    "ov2.self": 0.8552,
+    "ov2.earlier": 0.8623,
+    "ov3.self": 0.8747,
+    "ov3.earlier": 0.8898,
+    "phrase.trigram": 0.0404,
+    "phrase.fourgram": 0.07
+   }
+  },
+  "Scur-tab": {
+   "kl": 0.23872867226600647,
+   "n_directions": 12,
+   "recall_size": null,
+   "strengths": {
+    "ov0.self": 0.3028,
+    "ov0.earlier": 0.6905,
+    "ov1.self": 0.5282,
+    "ov1.earlier": 0.7194,
+    "ov2.self": 0.3583,
+    "ov2.earlier": 0.6604,
+    "ov3.self": 0.3738,
+    "ov3.earlier": 0.6807,
+    "phrase.trigram": 0.1206,
+    "phrase.fourgram": 0.0799,
+    "follow.bigram": 0.535,
+    "follow.unigram": -0.0543
+   }
+  },
+  "S0-tab": {
+   "kl": 0.8433374166488647,
+   "n_directions": 14,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.4205,
+    "ov1.self": 0.2957,
+    "ov1.earlier": 0.6035,
+    "ov2.self": 0.3861,
+    "ov2.earlier": 0.7724,
+    "ov3.self": 0.3426,
+    "ov3.earlier": 0.8221,
+    "phrase.trigram": 0.1943,
+    "phrase.fourgram": 0.2723,
+    "local0.self": 1.01,
+    "local0.near": 0.6002,
+    "local0.far": 0.7929,
+    "local0.successors": 0.0747,
+    "local0.alike": -1.5094
+   }
+  },
+  "S0-att": {
+   "kl": 0.3482915461063385,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.9692,
+    "ov0.self": 0.8676,
+    "ov0.earlier": 0.5994,
+    "ov1.self": 0.7834,
+    "ov1.earlier": 0.762,
+    "ov2.self": 0.8232,
+    "ov2.earlier": 0.7228,
+    "ov3.self": 0.8548,
+    "ov3.earlier": 0.7806,
+    "phrase.trigram": 0.2175,
+    "phrase.fourgram": 0.1613
+   }
+  },
+  "S0-joint": {
+   "kl": 0.8256535530090332,
+   "n_directions": 14,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.3598,
+    "ov1.self": 0.1189,
+    "ov1.earlier": 0.5541,
+    "ov2.self": 0.3209,
+    "ov2.earlier": 0.7728,
+    "ov3.self": 0.256,
+    "ov3.earlier": 0.7956,
+    "phrase.trigram": 0.2114,
+    "phrase.fourgram": 0.2682,
+    "local0.self": 1.1357,
+    "local0.near": 0.4442,
+    "local0.far": 5.844,
+    "local0.successors": 0.1544,
+    "local0.alike": -5.3137
+   }
+  },
+  "S1-tab": {
+   "kl": 0.2837406098842621,
+   "n_directions": 24,
+   "recall_size": 0.5889338254928589,
+   "strengths": {
+    "direct": 0.9175,
+    "ov0.self": 0.8093,
+    "ov0.earlier": 0.8212,
+    "ov2.self": 0.7744,
+    "ov2.earlier": 0.7604,
+    "ov3.self": 0.8282,
+    "ov3.earlier": 0.8264,
+    "phrase.trigram": 0.1006,
+    "phrase.fourgram": 0.1236,
+    "head1.copy.NAMES": 5.2699,
+    "head1.topic.NAMES": 2.1261,
+    "head1.next.NAMES": -0.2437,
+    "head1.copy.SENTENCE_ENDS": 0.0302,
+    "head1.topic.SENTENCE_ENDS": -1.3701,
+    "head1.next.SENTENCE_ENDS": 0.7424,
+    "head1.copy.WORD_ENDS_AND_LINKERS": 2.1203,
+    "head1.topic.WORD_ENDS_AND_LINKERS": 2.641,
+    "head1.next.WORD_ENDS_AND_LINKERS": -0.2617,
+    "head1.copy.FUNCTION_WORDS": 8.6063,
+    "head1.topic.FUNCTION_WORDS": 2.07,
+    "head1.next.FUNCTION_WORDS": -0.1931,
+    "head1.copy.CONTENT_WORDS": 2.4409,
+    "head1.topic.CONTENT_WORDS": 2.0729,
+    "head1.next.CONTENT_WORDS": 0.1847
+   }
+  },
+  "S1-att": {
+   "kl": 0.28571248054504395,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.9583,
+    "ov0.self": 0.8462,
+    "ov0.earlier": 0.8764,
+    "ov1.self": 0.6326,
+    "ov1.earlier": 0.9369,
+    "ov2.self": 0.8127,
+    "ov2.earlier": 0.7942,
+    "ov3.self": 0.8615,
+    "ov3.earlier": 0.8518,
+    "phrase.trigram": 0.1027,
+    "phrase.fourgram": 0.1264
+   }
+  },
+  "S1-joint": {
+   "kl": 0.33376145362854004,
+   "n_directions": 24,
+   "recall_size": 0.6147046089172363,
+   "strengths": {
+    "direct": 0.8778,
+    "ov0.self": 0.7863,
+    "ov0.earlier": 0.8042,
+    "ov2.self": 0.7569,
+    "ov2.earlier": 0.7424,
+    "ov3.self": 0.8164,
+    "ov3.earlier": 0.7808,
+    "phrase.trigram": 0.1296,
+    "phrase.fourgram": 0.1375,
+    "head1.copy.NAMES": 4.5715,
+    "head1.topic.NAMES": 2.2134,
+    "head1.next.NAMES": -0.0876,
+    "head1.copy.SENTENCE_ENDS": 1.975,
+    "head1.topic.SENTENCE_ENDS": -2.6109,
+    "head1.next.SENTENCE_ENDS": 0.5799,
+    "head1.copy.WORD_ENDS_AND_LINKERS": 2.8327,
+    "head1.topic.WORD_ENDS_AND_LINKERS": 5.0768,
+    "head1.next.WORD_ENDS_AND_LINKERS": -0.4598,
+    "head1.copy.FUNCTION_WORDS": 5.4326,
+    "head1.topic.FUNCTION_WORDS": 1.091,
+    "head1.next.FUNCTION_WORDS": -0.1962,
+    "head1.copy.CONTENT_WORDS": 5.155,
+    "head1.topic.CONTENT_WORDS": 2.6102,
+    "head1.next.CONTENT_WORDS": 0.051
+   }
+  },
+  "S2-tab": {
+   "kl": 0.6797404885292053,
+   "n_directions": 13,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.7369,
+    "ov0.self": 0.5982,
+    "ov0.earlier": 0.7626,
+    "ov1.self": 0.1455,
+    "ov1.earlier": 0.5886,
+    "ov3.self": 0.496,
+    "ov3.earlier": 0.7613,
+    "phrase.trigram": 0.2154,
+    "phrase.fourgram": 0.2795,
+    "local2.self": 0.7722,
+    "local2.near": 0.6233,
+    "local2.far": 1.5928,
+    "local2.no_repeat": 1.6379
+   }
+  },
+  "S2-att": {
+   "kl": 0.345571368932724,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.969,
+    "ov0.self": 0.8327,
+    "ov0.earlier": 0.7882,
+    "ov1.self": 0.7313,
+    "ov1.earlier": 0.7658,
+    "ov2.self": 0.8478,
+    "ov2.earlier": 0.7065,
+    "ov3.self": 0.8563,
+    "ov3.earlier": 0.8186,
+    "phrase.trigram": 0.2008,
+    "phrase.fourgram": 0.1933
+   }
+  },
+  "S2-joint": {
+   "kl": 0.6889908313751221,
+   "n_directions": 13,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.692,
+    "ov0.self": 0.5494,
+    "ov0.earlier": 0.7453,
+    "ov1.self": 0.0883,
+    "ov1.earlier": 0.5528,
+    "ov3.self": 0.4589,
+    "ov3.earlier": 0.7464,
+    "phrase.trigram": 0.2116,
+    "phrase.fourgram": 0.2767,
+    "local2.self": 0.8569,
+    "local2.near": 0.6917,
+    "local2.far": 3.418,
+    "local2.no_repeat": 5.3913
+   }
+  },
+  "S3-tab": {
+   "kl": 0.41650986671447754,
+   "n_directions": 12,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.8269,
+    "ov0.self": 0.7559,
+    "ov0.earlier": 0.8248,
+    "ov1.self": 0.7306,
+    "ov1.earlier": 0.7399,
+    "ov2.self": 0.7358,
+    "ov2.earlier": 0.782,
+    "phrase.trigram": 0.1503,
+    "phrase.fourgram": 0.1713,
+    "local3.self": 0.5088,
+    "local3.near": 0.4378,
+    "local3.far": 0.2756
+   }
+  },
+  "S3-att": {
+   "kl": 0.3605409264564514,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.905,
+    "ov0.self": 0.8465,
+    "ov0.earlier": 0.8512,
+    "ov1.self": 0.7358,
+    "ov1.earlier": 0.7889,
+    "ov2.self": 0.8259,
+    "ov2.earlier": 0.7885,
+    "ov3.self": 0.8216,
+    "ov3.earlier": 0.7249,
+    "phrase.trigram": 0.202,
+    "phrase.fourgram": 0.1733
+   }
+  },
+  "S3-joint": {
+   "kl": 0.43354418873786926,
+   "n_directions": 12,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.8066,
+    "ov0.self": 0.7267,
+    "ov0.earlier": 0.8154,
+    "ov1.self": 0.6654,
+    "ov1.earlier": 0.7082,
+    "ov2.self": 0.7023,
+    "ov2.earlier": 0.7677,
+    "phrase.trigram": 0.1638,
+    "phrase.fourgram": 0.1792,
+    "local3.self": 0.6663,
+    "local3.near": 0.5283,
+    "local3.far": 1.3493
+   }
+  }
+ },
+ "Scur-tab - D": {
+  "diff": 0.12350441515445709,
+  "se": 0.00320378445774926
+ },
+ "S0-tab - D": {
+  "diff": 0.7281131744384766,
+  "se": 0.009315901001736127
+ },
+ "S0-att - D": {
+  "diff": 0.23306730389595032,
+  "se": 0.004867330117369613
+ },
+ "S0-joint - D": {
+  "diff": 0.710429310798645,
+  "se": 0.008503035149386261
+ },
+ "S1-tab - D": {
+  "diff": 0.1685163378715515,
+  "se": 0.006020630553121145
+ },
+ "S1-att - D": {
+  "diff": 0.17048822343349457,
+  "se": 0.0065401852914270635
+ },
+ "S1-joint - D": {
+  "diff": 0.21853718161582947,
+  "se": 0.007560123878867016
+ },
+ "S2-tab - D": {
+  "diff": 0.5645161867141724,
+  "se": 0.007419669506204461
+ },
+ "S2-att - D": {
+  "diff": 0.23034709692001343,
+  "se": 0.005878139302295401
+ },
+ "S2-joint - D": {
+  "diff": 0.5737665891647339,
+  "se": 0.007641429100911578
+ },
+ "S3-tab - D": {
+  "diff": 0.30128559470176697,
+  "se": 0.007409622092646169
+ },
+ "S3-att - D": {
+  "diff": 0.24531665444374084,
+  "se": 0.0075930925925701545
+ },
+ "S3-joint - D": {
+  "diff": 0.3183199167251587,
+  "se": 0.008418562986802809
+ },
+ "seconds": 141.2095332145691
+}

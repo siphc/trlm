@@ -1,0 +1,256 @@
+frequency {
+ "embedding_dims_per_seed": [
+  128,
+  128,
+  128,
+  128,
+  128
+ ],
+ "mean_projector_eigenvalues": {
+  "> 0.9": 36,
+  "> 0.8": 57,
+  "> 0.6": 92,
+  "> 0.4": 123,
+  "top 20": [
+   0.998,
+   0.995,
+   0.993,
+   0.992,
+   0.99,
+   0.986,
+   0.985,
+   0.983,
+   0.982,
+   0.979,
+   0.978,
+   0.976,
+   0.974,
+   0.973,
+   0.97,
+   0.969,
+   0.964,
+   0.961,
+   0.959,
+   0.956
+  ]
+ },
+ "seed_to_seed_subspace_overlap": {
+  "mean": 0.5302337367918365,
+  "min": 0.5157943268314717
+ },
+ "coverage": {
+  "spelling": {
+   "n_named_dims": 15,
+   "shared_directions_covered (eigenvalue-weighted)": 0.1361670167761896,
+   "share of each seed's embedding inside the named span (mean)": 0.06580012674687394,
+   "random span of the same size (expected)": 0.007503751875937969
+  },
+  "+corpus scalars": {
+   "n_named_dims": 27,
+   "shared_directions_covered (eigenvalue-weighted)": 0.21628378345386462,
+   "share of each seed's embedding inside the named span (mean)": 0.10976128132951338,
+   "random span of the same size (expected)": 0.013506753376688344
+  },
+  "+association axes": {
+   "n_named_dims": 33,
+   "shared_directions_covered (eigenvalue-weighted)": 0.2769884722195639,
+   "share of each seed's embedding inside the named span (mean)": 0.1389221396555814,
+   "random span of the same size (expected)": 0.016508254127063533
+  },
+  "+ATTENTION classes": {
+   "n_named_dims": 95,
+   "shared_directions_covered (eigenvalue-weighted)": 0.4863837743542639,
+   "share of each seed's embedding inside the named span (mean)": 0.27740182977847605,
+   "random span of the same size (expected)": 0.04752376188094047
+  },
+  "+CONTEXT, TARGET classes": {
+   "n_named_dims": 224,
+   "shared_directions_covered (eigenvalue-weighted)": 0.6886738527469449,
+   "share of each seed's embedding inside the named span (mean)": 0.4527755811187009,
+   "random span of the same size (expected)": 0.112056028014007
+  },
+  "classes only": {
+   "n_named_dims": 192,
+   "shared_directions_covered (eigenvalue-weighted)": 0.6207334838304593
+  }
+ },
+ "unnamed_shared_eigenvalues_top": [
+  0.807,
+  0.805,
+  0.775,
+  0.767,
+  0.751,
+  0.74,
+  0.728,
+  0.724,
+  0.712,
+  0.702,
+  0.691,
+  0.674
+ ]
+}
+uniform {
+ "embedding_dims_per_seed": [
+  128,
+  128,
+  128,
+  128,
+  128
+ ],
+ "mean_projector_eigenvalues": {
+  "> 0.9": 19,
+  "> 0.8": 36,
+  "> 0.6": 71,
+  "> 0.4": 113,
+  "top 20": [
+   0.997,
+   0.987,
+   0.979,
+   0.973,
+   0.967,
+   0.964,
+   0.959,
+   0.952,
+   0.948,
+   0.946,
+   0.936,
+   0.934,
+   0.93,
+   0.924,
+   0.92,
+   0.918,
+   0.918,
+   0.908,
+   0.902,
+   0.893
+  ]
+ },
+ "seed_to_seed_subspace_overlap": {
+  "mean": 0.39713714787041166,
+  "min": 0.3806927525030157
+ },
+ "coverage": {
+  "spelling": {
+   "n_named_dims": 15,
+   "shared_directions_covered (eigenvalue-weighted)": 0.13536871677838785,
+   "share of each seed's embedding inside the named span (mean)": 0.04523076084654476,
+   "random span of the same size (expected)": 0.007503751875937969
+  },
+  "+corpus scalars": {
+   "n_named_dims": 27,
+   "shared_directions_covered (eigenvalue-weighted)": 0.1883399574607696,
+   "share of each seed's embedding inside the named span (mean)": 0.06551266290896665,
+   "random span of the same size (expected)": 0.013506753376688344
+  },
+  "+association axes": {
+   "n_named_dims": 33,
+   "shared_directions_covered (eigenvalue-weighted)": 0.2597171714810082,
+   "share of each seed's embedding inside the named span (mean)": 0.08843039077628224,
+   "random span of the same size (expected)": 0.016508254127063533
+  },
+  "+ATTENTION classes": {
+   "n_named_dims": 95,
+   "shared_directions_covered (eigenvalue-weighted)": 0.42790393404323146,
+   "share of each seed's embedding inside the named span (mean)": 0.18281608003873867,
+   "random span of the same size (expected)": 0.04752376188094047
+  },
+  "+CONTEXT, TARGET classes": {
+   "n_named_dims": 224,
+   "shared_directions_covered (eigenvalue-weighted)": 0.5282595041982462,
+   "share of each seed's embedding inside the named span (mean)": 0.28142262009087776,
+   "random span of the same size (expected)": 0.112056028014007
+  },
+  "classes only": {
+   "n_named_dims": 192,
+   "shared_directions_covered (eigenvalue-weighted)": 0.4488239007580373
+  }
+ },
+ "unnamed_shared_eigenvalues_top": [
+  0.822,
+  0.811,
+  0.796,
+  0.789,
+  0.783,
+  0.765,
+  0.761,
+  0.744,
+  0.742,
+  0.717,
+  0.711,
+  0.705
+ ]
+}
+===== weighting: frequency; unnamed shared directions (eigenvalue = share of seeds that hold it)
+[0] eigenvalue 0.807
+   + ' w' ' about' ' tree' ' walked' '?"' 'ar' ' on' ' l' 'ing' ' safe' ' walk' '."' ' forest' ' lived'
+   - '!' '!"' ' started' ' b' ' that' ' get' ' got' ' make' ' ball' ' in' ' ran' ' into' ' p' ' shouted'
+[1] eigenvalue 0.805
+   + ' see' ' loud' '!"' ' noise' ' heard' ' did' ' shouted' ' ro' '!' ' door' ' ran' ' Tom' 'age' ' z'
+   - ' eat' ' some' ' food' ' tast' ' yummy' ' ate' 'an' 'itt' ' b' ' drink' ' home' 'ed' ' hungry' ' ju'
+[2] eigenvalue 0.775
+   + ' man' 'er' ' m' ' make' ' work' '?"' ' s' ' sad' ' got' ' old' ' on' ' fix' 'it' ' worked'
+   - '!' '!"' ' ran' ' dog' ' ball' ' run' ' friends' 'a' 'g' 'y' ' around' ' careful' 'll' ' jump'
+[3] eigenvalue 0.767
+   + '!' ' so' ' happy' ' smiled' ' put' ' go' '!"' ' c' ' box' ' now' 'e' ' beautiful' ' that' 'Wow'
+   - ' very' ' hurt' 'er' ' for' ' saw' ' loud' ' b' ' listen' ' away' ' scared' 'ch' ' help' ' came' ' mean'
+[4] eigenvalue 0.751
+   + 'ed' ' in' ' their' ' away' 'l' ' go' ' m' ' s' ' knew' ' fire' ' safe' 'ay' ' that' ' out'
+   - ' on' 'ing' ' st' 'le' 'g' ' park' ' tree' ' looked' ' slide' ' too' ' te' 'ite' 'in' ' swing'
+[5] eigenvalue 0.740
+   + ' wanted' ' found' ' find' ' for' ' asked' ' decided' ' l' ' very' ' toys' ' f' 't' ' put' ' n' ' help'
+   - ' heard' ' make' ' started' ' loved' ' made' ' feel' 'ars' ' loud' ' that' ' hear' ' saw' 'in' 'a' ' sh'
+[6] eigenvalue 0.728
+   + ' is' ' made' ' that' 'l' 'ed' ' make' ' helped' ' happy' ' their' '."' 'et' ' together' ' loved' 'e'
+   - ' for' ' saw' ' asked' ' see' 'ing' ' wanted' 'king' ' But' '?"' ' m' ' outside' 'g' ' c' ' excited'
+[7] eigenvalue 0.724
+   + ' on' ' go' 'in' ' ball' 'ed' ' back' ' hurt' ' off' ' hugged' ' that' 'en' 't' 'er' ' should'
+   - ' in' ' around' 'h' 'e' ' asked' ' looked' 'a' 'es' ' make' ' made' ' together' ' came' 'ing' ' when'
+[8] eigenvalue 0.712
+   + ' in' ' came' 'y' ' that' ' new' '!' ' old' ' sad' 'n' ' g' ' toys' ' so' ' share' ' toy'
+   - ' on' 'er' 'f' ' ready' 'at' ' go' ' Ben' ' fl' ' watched' ' water' ' very' ' their' ' hands' ' as'
+[9] eigenvalue 0.702
+   + ' find' ' found' 'r' ' sh' 'at' 'n' ' under' ' t' 'in' 'ur' 'et' ' sorry' ' inside' ' gl'
+   - ' m' 'c' ' loved' ' very' ' ro' 'ed' ' kind' 'i' ' g' ' v' 'an' ' h' ' eat' ' You'
+[10] eigenvalue 0.691
+   + ' we' ' sh' 'h' ' on' ' outside' ' water' 'ly' ' some' 'll' ' co' ' man' ' if' ' excited' ' who'
+   - ' c' 't' ' bed' ' one' 'w' ' good' ' proud' ' night' ' home' ' dream' ' cat' ' sleep' ' back' ' flew'
+[11] eigenvalue 0.674
+   + 'h' ' did' 'p' 'e' 'er' 'k' ' door' ' away' ' sp' ' who' ' They' 'oo' 'ic' ' him'
+   - ' see' 'm' ' their' ' s' 't' 'y' 'a' ' asked' ' saw' "'t" ' n' 'ing' ' is' ' sky'
+===== weighting: uniform; unnamed shared directions (eigenvalue = share of seeds that hold it)
+[0] eigenvalue 0.822
+   + ' broken' ' upset' ' wrong' 'ble' ' hit' ' cry' ' bad' ' strange' ' broke' ' trou' ' naughty' ' lost' ' noise' ' cried'
+   - ' enjoy' ' pic' ' delicious' ' enjoyed' ' yummy' 'llo' ' hopped' ' ready' ' cont' ' joy' ' ate' ' warm' ' beaut' ' wonderful'
+[1] eigenvalue 0.811
+   + ' drink' ' eat' ' dinner' ' tast' ' lunch' ' food' ' ju' ' bro' ' soup' ' smell' ' bowl' ' heal' ' hungry' ' break'
+   - ' amazed' ' flying' ' waved' ' higher' ' castle' ' amazing' ' z' ' ab' ' stories' 'bow' ' clapped' ' butt' ' balloon' ' bow'
+[2] eigenvalue 0.796
+   + 'bye' ' dream' ' safe' ' listened' 'ave' ' heart' ' left' ' stayed' ' warm' ' sleep' ' lonely' ' bed' ' pet' ' woods'
+   - ' dif' ' worked' ' mix' 'dded' ' idea' ' use' ' try' 'asure' 'atter' ' sor' ' mine' ' job' 'dd' ' hard'
+[3] eigenvalue 0.789
+   + ' pack' ' mail' 'aut' ' open' ' curi' ' wonder' 'side' ' asked' ' arrived' ' here' ' opened' 'ity' ' curious' ' walking'
+   - ' played' ' ball' ' catch' 'irl' 'ng' ' laughed' 'ue' 'oun' ' fell' ' anymore' ' share' ' dan' ' throw' ' loo'
+[4] eigenvalue 0.783
+   + ' others' ' kind' ' wise' ' belong' ' resp' ' tree' ' coll' ' ac' 'ue' ' replied' 'ield' 'ign' ' friend' ' important'
+   - ' smo' ' hear' ' ready' ' light' ' see' ' noise' ' noises' 'room' ' fro' ' Dad' 'ady' ' arri' ' window' ' stop'
+[5] eigenvalue 0.765
+   + ' rocks' ' cast' 'ft' ' boat' ' bucket' ' far' 'Okay' ' deep' ' sail' ' tow' ' climbed' ' leaves' ' cra' 'OK'
+   - ' shop' ' tast' ' app' ' treat' ' delicious' 'ho' 'Hi' ' cream' 'col' ' party' ' bar' 'Hello' ' candy' ' shared'
+[6] eigenvalue 0.761
+   + ' fix' ' clean' ' stars' ' star' ' light' ' heart' ' bed' 'rew' ' des' ' closed' 'ith' ' gl' ' worked' ' proud'
+   - ' pet' 'ark' ' catch' ' bar' ' join' ' bite' 'll' ' animal' ' bre' 'llo' ' dog' ' closer' ' af' ' game'
+[7] eigenvalue 0.744
+   + ' hid' ' hide' ' treasure' ' secret' ' nap' ' key' ' under' ' sear' ' box' ' toys' ' pocket' ' mine' ' mat' ' find'
+   - ' song' ' ba' ' gre' ' hear' ' loud' ' sang' ' singing' ' helped' ' music' ' heard' ' wings' ' sing' ' vo' ' voice'
+[8] eigenvalue 0.742
+   + ' bran' ' nap' ' sleep' 'wn' ' chair' ' wr' ' dream' ' spot' ' sat' 'ches' ' quiet' ' funny' ' nam' 'umb'
+   - ' ride' ' fix' ' money' ' moral' ' whe' ' coming' ' bike' ' treasure' ' Now' ' pass' ' relie' ' sa' ' quickly' ' del'
+[9] eigenvalue 0.717
+   + 'ract' ' slow' ' school' ' pass' 'ax' ' op' ' chair' ' perf' ' dream' ' arm' ' tired' ' train' ' dan' ' stu'
+   - ' hole' 'X' 'sel' ' look' ' grow' 'h' ' shapes' ' sorry' ' color' ' dir' ' neck' ' gl' ' bu' ' nam'
+[10] eigenvalue 0.711
+   + ' gra' ' quick' ' smart' ' piece' 'ved' ' brave' ' reach' ' wo' ' block' ' best' ' comp' ' bite' 'lf' ' tri'
+   - ' wear' ' clothes' ' sh' ' mu' ' Jo' ' wet' ' sk' ' spark' ' outside' ' flo' 'sh' ' cold' ' sail' ' drink'
+[11] eigenvalue 0.705
+   + ' creat' ' naughty' ' o' ' explore' ' bath' 'gan' ' game' ' gu' ' stu' ' mon' ' woods' ' swam' ' room' 'And'
+   - ' bench' ' buck' ' bran' 'itting' ' lady' ' bel' ' gent' ' man' ' stand' ' fruit' ' sit' ' hold' ' gi' 'ries'

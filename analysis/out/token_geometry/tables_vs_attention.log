@@ -1,0 +1,43 @@
+/Users/svi/Desktop/trlm/analysis/token_geometry/tables_vs_attention.py:189: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:219.)
+  pu = torch.as_tensor(np.asarray(s.p_uni), dtype=torch.float32)
+A 0.5507 [53s]
+B 0.9215 [55s]
+C 0.523 [96s]
+D 0.1152 [98s]
+B_cur 0.8699 [127s]
+C_cur 0.7544 [163s]
+{
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "final_ln_scale": 1.161398140563655,
+ "head3_rule_pattern_kl": 1.0335976606879673,
+ "B - A": {
+  "diff": 0.37075936794281006,
+  "se": 0.012600196806125575
+ },
+ "D - C": {
+  "diff": -0.40772897005081177,
+  "se": 0.010646723304871037
+ },
+ "C - A": {
+  "diff": -0.027737870812416077,
+  "se": 0.003054706774026926
+ },
+ "D - B": {
+  "diff": -0.8062261939048767,
+  "se": 0.016305064158004094
+ },
+ "B_cur - A": {
+  "diff": 0.3191721439361572,
+  "se": 0.007552678374659763
+ },
+ "C_cur - C": {
+  "diff": 0.23145243525505066,
+  "se": 0.007277074863890963
+ },
+ "D - A": {
+  "diff": -0.43546682596206665,
+  "se": 0.011464298408997486
+ },
+ "seconds": 163.44010996818542
+}

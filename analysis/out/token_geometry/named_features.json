@@ -1,0 +1,399 @@
+{
+ "n_features": 232,
+ "feature_sets": {
+  "spelling": 15,
+  "corpus_scalars": 12,
+  "association_axes": 6,
+  "classes_ATTENTION": 64,
+  "classes_CONTEXT": 71,
+  "classes_TARGET": 64
+ },
+ "weightings": {
+  "frequency": {
+   "embedding_dims_per_seed": [
+    128,
+    128,
+    128,
+    128,
+    128
+   ],
+   "mean_projector_eigenvalues": {
+    "> 0.9": 36,
+    "> 0.8": 57,
+    "> 0.6": 92,
+    "> 0.4": 123,
+    "top 20": [
+     0.998,
+     0.995,
+     0.993,
+     0.992,
+     0.99,
+     0.986,
+     0.985,
+     0.983,
+     0.982,
+     0.979,
+     0.978,
+     0.976,
+     0.974,
+     0.973,
+     0.97,
+     0.969,
+     0.964,
+     0.961,
+     0.959,
+     0.956
+    ]
+   },
+   "seed_to_seed_subspace_overlap": {
+    "mean": 0.5302337367918365,
+    "min": 0.5157943268314717
+   },
+   "coverage": {
+    "spelling": {
+     "n_named_dims": 15,
+     "shared_directions_covered (eigenvalue-weighted)": 0.1361670167761896,
+     "share of each seed's embedding inside the named span (mean)": 0.06580012674687394,
+     "random span of the same size (expected)": 0.007503751875937969
+    },
+    "+corpus scalars": {
+     "n_named_dims": 27,
+     "shared_directions_covered (eigenvalue-weighted)": 0.21628378345386462,
+     "share of each seed's embedding inside the named span (mean)": 0.10976128132951338,
+     "random span of the same size (expected)": 0.013506753376688344
+    },
+    "+association axes": {
+     "n_named_dims": 33,
+     "shared_directions_covered (eigenvalue-weighted)": 0.2769884722195639,
+     "share of each seed's embedding inside the named span (mean)": 0.1389221396555814,
+     "random span of the same size (expected)": 0.016508254127063533
+    },
+    "+ATTENTION classes": {
+     "n_named_dims": 95,
+     "shared_directions_covered (eigenvalue-weighted)": 0.4863837743542639,
+     "share of each seed's embedding inside the named span (mean)": 0.27740182977847605,
+     "random span of the same size (expected)": 0.04752376188094047
+    },
+    "+CONTEXT, TARGET classes": {
+     "n_named_dims": 224,
+     "shared_directions_covered (eigenvalue-weighted)": 0.6886738527469449,
+     "share of each seed's embedding inside the named span (mean)": 0.4527755811187009,
+     "random span of the same size (expected)": 0.112056028014007
+    },
+    "classes only": {
+     "n_named_dims": 192,
+     "shared_directions_covered (eigenvalue-weighted)": 0.6207334838304593
+    }
+   },
+   "head_value_codes": {
+    "attn_s0/h0": {
+     "named": 0.6470557734936161,
+     "best_other_seed_head (mean over seeds)": 0.3723127031149409,
+     "own_embedding": 0.9999780251006014
+    },
+    "attn_s0/h1": {
+     "named": 0.4505590497142828,
+     "best_other_seed_head (mean over seeds)": 0.4536426827224053,
+     "own_embedding": 0.9999776817175332
+    },
+    "attn_s0/h2": {
+     "named": 0.5653332235429605,
+     "best_other_seed_head (mean over seeds)": 0.3239482177355934,
+     "own_embedding": 0.9999751546185179
+    },
+    "attn_s0/h3": {
+     "named": 0.561439436136069,
+     "best_other_seed_head (mean over seeds)": 0.3129630292224623,
+     "own_embedding": 0.9999772611640507
+    },
+    "attn_s1/h0": {
+     "named": 0.5020464632335802,
+     "best_other_seed_head (mean over seeds)": 0.43605478707321715,
+     "own_embedding": 0.999924610318108
+    },
+    "attn_s1/h1": {
+     "named": 0.5511399625072562,
+     "best_other_seed_head (mean over seeds)": 0.3209945710615313,
+     "own_embedding": 0.9999132199423315
+    },
+    "attn_s1/h2": {
+     "named": 0.5810208915866659,
+     "best_other_seed_head (mean over seeds)": 0.3004048326119071,
+     "own_embedding": 0.9999173846488535
+    },
+    "attn_s1/h3": {
+     "named": 0.6478685003323837,
+     "best_other_seed_head (mean over seeds)": 0.3828488682390006,
+     "own_embedding": 0.9999258788500311
+    },
+    "attn_s2/h0": {
+     "named": 0.5695217459651772,
+     "best_other_seed_head (mean over seeds)": 0.2885032843640706,
+     "own_embedding": 0.9999055869277917
+    },
+    "attn_s2/h1": {
+     "named": 0.5754550969646661,
+     "best_other_seed_head (mean over seeds)": 0.39900296001076085,
+     "own_embedding": 0.9999178757583894
+    },
+    "attn_s2/h2": {
+     "named": 0.6118520931662816,
+     "best_other_seed_head (mean over seeds)": 0.3568121602702003,
+     "own_embedding": 0.9999116868176889
+    },
+    "attn_s2/h3": {
+     "named": 0.49366845848617213,
+     "best_other_seed_head (mean over seeds)": 0.2686588905599827,
+     "own_embedding": 0.99991410560225
+    },
+    "attn_s3/h0": {
+     "named": 0.6127764589348756,
+     "best_other_seed_head (mean over seeds)": 0.3586032243938543,
+     "own_embedding": 0.9999853461941933
+    },
+    "attn_s3/h1": {
+     "named": 0.5920967663958467,
+     "best_other_seed_head (mean over seeds)": 0.35197333053442614,
+     "own_embedding": 0.9999871353534686
+    },
+    "attn_s3/h2": {
+     "named": 0.43965576484103436,
+     "best_other_seed_head (mean over seeds)": 0.44021433851326386,
+     "own_embedding": 0.9999857908687416
+    },
+    "attn_s3/h3": {
+     "named": 0.6021920695900201,
+     "best_other_seed_head (mean over seeds)": 0.3301885294341437,
+     "own_embedding": 0.9999850426311712
+    },
+    "attn_s4/h0": {
+     "named": 0.6224115714838522,
+     "best_other_seed_head (mean over seeds)": 0.3724787253551616,
+     "own_embedding": 0.9999784067559332
+    },
+    "attn_s4/h1": {
+     "named": 0.4497800877890439,
+     "best_other_seed_head (mean over seeds)": 0.43142610606457776,
+     "own_embedding": 0.9999803854431422
+    },
+    "attn_s4/h2": {
+     "named": 0.617009873088872,
+     "best_other_seed_head (mean over seeds)": 0.34792281426327604,
+     "own_embedding": 0.9999838900915401
+    },
+    "attn_s4/h3": {
+     "named": 0.559355631626655,
+     "best_other_seed_head (mean over seeds)": 0.3386631322551317,
+     "own_embedding": 0.9999826603942656
+    }
+   },
+   "unnamed_shared_eigenvalues_top": [
+    0.807,
+    0.805,
+    0.775,
+    0.767,
+    0.751,
+    0.74,
+    0.728,
+    0.724,
+    0.712,
+    0.702,
+    0.691,
+    0.674
+   ]
+  },
+  "uniform": {
+   "embedding_dims_per_seed": [
+    128,
+    128,
+    128,
+    128,
+    128
+   ],
+   "mean_projector_eigenvalues": {
+    "> 0.9": 19,
+    "> 0.8": 36,
+    "> 0.6": 71,
+    "> 0.4": 113,
+    "top 20": [
+     0.997,
+     0.987,
+     0.979,
+     0.973,
+     0.967,
+     0.964,
+     0.959,
+     0.952,
+     0.948,
+     0.946,
+     0.936,
+     0.934,
+     0.93,
+     0.924,
+     0.92,
+     0.918,
+     0.918,
+     0.908,
+     0.902,
+     0.893
+    ]
+   },
+   "seed_to_seed_subspace_overlap": {
+    "mean": 0.39713714787041166,
+    "min": 0.3806927525030157
+   },
+   "coverage": {
+    "spelling": {
+     "n_named_dims": 15,
+     "shared_directions_covered (eigenvalue-weighted)": 0.13536871677838785,
+     "share of each seed's embedding inside the named span (mean)": 0.04523076084654476,
+     "random span of the same size (expected)": 0.007503751875937969
+    },
+    "+corpus scalars": {
+     "n_named_dims": 27,
+     "shared_directions_covered (eigenvalue-weighted)": 0.1883399574607696,
+     "share of each seed's embedding inside the named span (mean)": 0.06551266290896665,
+     "random span of the same size (expected)": 0.013506753376688344
+    },
+    "+association axes": {
+     "n_named_dims": 33,
+     "shared_directions_covered (eigenvalue-weighted)": 0.2597171714810082,
+     "share of each seed's embedding inside the named span (mean)": 0.08843039077628224,
+     "random span of the same size (expected)": 0.016508254127063533
+    },
+    "+ATTENTION classes": {
+     "n_named_dims": 95,
+     "shared_directions_covered (eigenvalue-weighted)": 0.42790393404323146,
+     "share of each seed's embedding inside the named span (mean)": 0.18281608003873867,
+     "random span of the same size (expected)": 0.04752376188094047
+    },
+    "+CONTEXT, TARGET classes": {
+     "n_named_dims": 224,
+     "shared_directions_covered (eigenvalue-weighted)": 0.5282595041982462,
+     "share of each seed's embedding inside the named span (mean)": 0.28142262009087776,
+     "random span of the same size (expected)": 0.112056028014007
+    },
+    "classes only": {
+     "n_named_dims": 192,
+     "shared_directions_covered (eigenvalue-weighted)": 0.4488239007580373
+    }
+   },
+   "head_value_codes": {
+    "attn_s0/h0": {
+     "named": 0.3855359599384567,
+     "best_other_seed_head (mean over seeds)": 0.24515215176630337,
+     "own_embedding": 0.9985628148584991
+    },
+    "attn_s0/h1": {
+     "named": 0.265282085195065,
+     "best_other_seed_head (mean over seeds)": 0.38266366794112794,
+     "own_embedding": 0.9992892324569126
+    },
+    "attn_s0/h2": {
+     "named": 0.3245249872167535,
+     "best_other_seed_head (mean over seeds)": 0.2038856574308798,
+     "own_embedding": 0.9989520727176824
+    },
+    "attn_s0/h3": {
+     "named": 0.31697620102025414,
+     "best_other_seed_head (mean over seeds)": 0.23520342540741945,
+     "own_embedding": 0.9990315528329751
+    },
+    "attn_s1/h0": {
+     "named": 0.299114059208589,
+     "best_other_seed_head (mean over seeds)": 0.3741891934472125,
+     "own_embedding": 0.9992573065825502
+    },
+    "attn_s1/h1": {
+     "named": 0.31613553144078177,
+     "best_other_seed_head (mean over seeds)": 0.19766784952247782,
+     "own_embedding": 0.9990730830689383
+    },
+    "attn_s1/h2": {
+     "named": 0.3236617662239659,
+     "best_other_seed_head (mean over seeds)": 0.17970643161227434,
+     "own_embedding": 0.9989846818008749
+    },
+    "attn_s1/h3": {
+     "named": 0.3863116830237033,
+     "best_other_seed_head (mean over seeds)": 0.24561520356113883,
+     "own_embedding": 0.9987399328377937
+    },
+    "attn_s2/h0": {
+     "named": 0.3428767076452548,
+     "best_other_seed_head (mean over seeds)": 0.20421101385224733,
+     "own_embedding": 0.9979464017831832
+    },
+    "attn_s2/h1": {
+     "named": 0.3380107329399523,
+     "best_other_seed_head (mean over seeds)": 0.33194406053597214,
+     "own_embedding": 0.9980104470238578
+    },
+    "attn_s2/h2": {
+     "named": 0.3530485818980915,
+     "best_other_seed_head (mean over seeds)": 0.2184448979495407,
+     "own_embedding": 0.9977875235423928
+    },
+    "attn_s2/h3": {
+     "named": 0.2691891829660834,
+     "best_other_seed_head (mean over seeds)": 0.2296358790748486,
+     "own_embedding": 0.9982174004069937
+    },
+    "attn_s3/h0": {
+     "named": 0.3564083450036086,
+     "best_other_seed_head (mean over seeds)": 0.22775595639620394,
+     "own_embedding": 0.9990566671080512
+    },
+    "attn_s3/h1": {
+     "named": 0.3443060565855801,
+     "best_other_seed_head (mean over seeds)": 0.2650684028917378,
+     "own_embedding": 0.9992386700383236
+    },
+    "attn_s3/h2": {
+     "named": 0.25765642334519107,
+     "best_other_seed_head (mean over seeds)": 0.382168217031045,
+     "own_embedding": 0.999482701139357
+    },
+    "attn_s3/h3": {
+     "named": 0.3467608303100664,
+     "best_other_seed_head (mean over seeds)": 0.21611902798753674,
+     "own_embedding": 0.9990557167335443
+    },
+    "attn_s4/h0": {
+     "named": 0.3565288093830725,
+     "best_other_seed_head (mean over seeds)": 0.23293236628222797,
+     "own_embedding": 0.9994019606064924
+    },
+    "attn_s4/h1": {
+     "named": 0.2613228690863487,
+     "best_other_seed_head (mean over seeds)": 0.37186840736883797,
+     "own_embedding": 0.999583564203677
+    },
+    "attn_s4/h2": {
+     "named": 0.3669683870155829,
+     "best_other_seed_head (mean over seeds)": 0.2263377486189811,
+     "own_embedding": 0.9994724489536804
+    },
+    "attn_s4/h3": {
+     "named": 0.3224662572467726,
+     "best_other_seed_head (mean over seeds)": 0.26250860461389924,
+     "own_embedding": 0.9995018176732067
+    }
+   },
+   "unnamed_shared_eigenvalues_top": [
+    0.822,
+    0.811,
+    0.796,
+    0.789,
+    0.783,
+    0.765,
+    0.761,
+    0.744,
+    0.742,
+    0.717,
+    0.711,
+    0.705
+   ]
+  }
+ }
+}
