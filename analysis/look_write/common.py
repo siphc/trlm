@@ -242,8 +242,18 @@ def perm():
     return np.random.default_rng(PERM_SEED).permutation(V)
 
 
+def out_name(model_id):
+    """'attn_s1' -> 'attn_s1'; a checkpoint path such as models/law_pressure/both_l10_s1/final.pt ->
+    'law_pressure_both_l10_s1' (its folder relative to models/, with '_' for '/')."""
+    p = str(model_id)
+    if not p.endswith(".pt"):
+        return p
+    rel = os.path.relpath(os.path.dirname(os.path.abspath(p)), os.path.join(REPO, "models"))
+    return rel.replace(os.sep, "_")
+
+
 def model_dir(model_id):
-    d = os.path.join(OUT, model_id)
+    d = os.path.join(OUT, out_name(model_id))
     os.makedirs(d, exist_ok=True)
     return d
 
