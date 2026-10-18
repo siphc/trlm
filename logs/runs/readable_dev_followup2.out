@@ -1,0 +1,139 @@
+step 500/32195 tok 8,192,000 lr 2.00e-03 train 3.3164 dev_fast 3.3834 (61s)
+step 1000/32195 tok 16,384,000 lr 2.00e-03 train 3.0168 dev_fast 2.9891 (126s)
+step 1500/32195 tok 24,576,000 lr 1.99e-03 train 2.8180 dev_fast 2.8672 (199s)
+step 2000/32195 tok 32,768,000 lr 1.99e-03 train 2.7562 dev_fast 2.8055 (269s)
+step 2500/32195 tok 40,960,000 lr 1.98e-03 train 2.7421 dev_fast 2.7684 (344s)
+step 3000/32195 tok 49,152,000 lr 1.97e-03 train 2.7065 dev_fast 2.7499 (419s)
+step 3500/32195 tok 57,344,000 lr 1.96e-03 train 2.6750 dev_fast 2.7334 (495s)
+step 4000/32195 tok 65,536,000 lr 1.94e-03 train 2.6591 dev_fast 2.7193 (567s)
+step 4500/32195 tok 73,728,000 lr 1.92e-03 train 2.7032 dev_fast 2.7067 (638s)
+step 5000/32195 tok 81,920,000 lr 1.91e-03 train 2.7361 dev_fast 2.7034 (710s)
+step 5500/32195 tok 90,112,000 lr 1.89e-03 train 2.5893 dev_fast 2.6916 (782s)
+step 6000/32195 tok 98,304,000 lr 1.86e-03 train 2.6971 dev_fast 2.6830 (853s)
+step 6500/32195 tok 106,496,000 lr 1.84e-03 train 2.6833 dev_fast 2.6807 (924s)
+step 7000/32195 tok 114,688,000 lr 1.81e-03 train 2.6503 dev_fast 2.6775 (994s)
+step 7500/32195 tok 122,880,000 lr 1.78e-03 train 2.6598 dev_fast 2.6665 (1062s)
+step 8000/32195 tok 131,072,000 lr 1.75e-03 train 2.5921 dev_fast 2.6624 (1133s)
+step 8500/32195 tok 139,264,000 lr 1.72e-03 train 2.6663 dev_fast 2.6585 (1206s)
+step 9000/32195 tok 147,456,000 lr 1.69e-03 train 2.5659 dev_fast 2.6592 (1278s)
+step 9500/32195 tok 155,648,000 lr 1.66e-03 train 2.6081 dev_fast 2.6541 (1350s)
+step 10000/32195 tok 163,840,000 lr 1.62e-03 train 2.6080 dev_fast 2.6454 (1420s)
+step 10500/32195 tok 172,032,000 lr 1.58e-03 train 2.5886 dev_fast 2.6431 (1492s)
+step 11000/32195 tok 180,224,000 lr 1.55e-03 train 2.6188 dev_fast 2.6376 (1564s)
+step 11500/32195 tok 188,416,000 lr 1.51e-03 train 2.6366 dev_fast 2.6368 (1635s)
+step 12000/32195 tok 196,608,000 lr 1.47e-03 train 2.6113 dev_fast 2.6367 (1699s)
+step 12500/32195 tok 204,800,000 lr 1.43e-03 train 2.7027 dev_fast 2.6331 (1762s)
+step 13000/32195 tok 212,992,000 lr 1.38e-03 train 2.6216 dev_fast 2.6301 (1823s)
+step 13500/32195 tok 221,184,000 lr 1.34e-03 train 2.5602 dev_fast 2.6256 (1886s)
+step 14000/32195 tok 229,376,000 lr 1.30e-03 train 2.5427 dev_fast 2.6220 (1949s)
+step 14500/32195 tok 237,568,000 lr 1.26e-03 train 2.5754 dev_fast 2.6184 (2017s)
+step 15000/32195 tok 245,760,000 lr 1.21e-03 train 2.6310 dev_fast 2.6149 (2089s)
+step 15500/32195 tok 253,952,000 lr 1.17e-03 train 2.5732 dev_fast 2.6179 (2155s)
+step 16000/32195 tok 262,144,000 lr 1.12e-03 train 2.5842 dev_fast 2.6133 (2215s)
+step 16500/32195 tok 270,336,000 lr 1.08e-03 train 2.6006 dev_fast 2.6116 (2275s)
+step 17000/32195 tok 278,528,000 lr 1.03e-03 train 2.6283 dev_fast 2.6048 (2334s)
+step 17500/32195 tok 286,720,000 lr 9.90e-04 train 2.5756 dev_fast 2.6044 (2394s)
+step 18000/32195 tok 294,912,000 lr 9.46e-04 train 2.5626 dev_fast 2.6015 (2454s)
+step 18500/32195 tok 303,104,000 lr 9.03e-04 train 2.5855 dev_fast 2.6000 (2515s)
+step 19000/32195 tok 311,296,000 lr 8.60e-04 train 2.5342 dev_fast 2.5980 (2573s)
+step 19500/32195 tok 319,488,000 lr 8.17e-04 train 2.6687 dev_fast 2.5984 (2629s)
+step 20000/32195 tok 327,680,000 lr 7.76e-04 train 2.6016 dev_fast 2.5931 (2686s)
+step 20500/32195 tok 335,872,000 lr 7.35e-04 train 2.6111 dev_fast 2.5966 (2742s)
+step 21000/32195 tok 344,064,000 lr 6.95e-04 train 2.5714 dev_fast 2.5874 (2798s)
+step 21500/32195 tok 352,256,000 lr 6.55e-04 train 2.5702 dev_fast 2.5873 (2853s)
+step 22000/32195 tok 360,448,000 lr 6.17e-04 train 2.4848 dev_fast 2.5868 (2909s)
+step 22500/32195 tok 368,640,000 lr 5.81e-04 train 2.4873 dev_fast 2.5845 (2964s)
+step 23000/32195 tok 376,832,000 lr 5.45e-04 train 2.6105 dev_fast 2.5814 (3020s)
+step 23500/32195 tok 385,024,000 lr 5.11e-04 train 2.5413 dev_fast 2.5796 (3075s)
+step 24000/32195 tok 393,216,000 lr 4.78e-04 train 2.6413 dev_fast 2.5767 (3131s)
+step 24500/32195 tok 401,408,000 lr 4.47e-04 train 2.5785 dev_fast 2.5742 (3186s)
+step 25000/32195 tok 409,600,000 lr 4.17e-04 train 2.6123 dev_fast 2.5751 (3239s)
+step 25500/32195 tok 417,792,000 lr 3.89e-04 train 2.5656 dev_fast 2.5725 (3294s)
+step 26000/32195 tok 425,984,000 lr 3.63e-04 train 2.5005 dev_fast 2.5699 (3350s)
+step 26500/32195 tok 434,176,000 lr 3.38e-04 train 2.5288 dev_fast 2.5703 (3405s)
+step 27000/32195 tok 442,368,000 lr 3.15e-04 train 2.5719 dev_fast 2.5680 (3461s)
+step 27500/32195 tok 450,560,000 lr 2.95e-04 train 2.5128 dev_fast 2.5664 (3516s)
+step 28000/32195 tok 458,752,000 lr 2.76e-04 train 2.6188 dev_fast 2.5670 (3572s)
+step 28500/32195 tok 466,944,000 lr 2.59e-04 train 2.5130 dev_fast 2.5663 (3627s)
+step 29000/32195 tok 475,136,000 lr 2.44e-04 train 2.5704 dev_fast 2.5643 (3682s)
+step 29500/32195 tok 483,328,000 lr 2.32e-04 train 2.5279 dev_fast 2.5625 (3738s)
+step 30000/32195 tok 491,520,000 lr 2.21e-04 train 2.5441 dev_fast 2.5628 (3793s)
+step 30500/32195 tok 499,712,000 lr 2.13e-04 train 2.5400 dev_fast 2.5628 (3849s)
+step 31000/32195 tok 507,904,000 lr 2.06e-04 train 2.5736 dev_fast 2.5611 (3904s)
+step 31500/32195 tok 516,096,000 lr 2.02e-04 train 2.5036 dev_fast 2.5611 (3960s)
+step 32000/32195 tok 524,288,000 lr 2.00e-04 train 2.5957 dev_fast 2.5614 (4015s)
+step 32195/32195 tok 527,482,880 lr 2.00e-04 train 2.4944 dev_fast 2.5610 (4037s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 527482880, "peak_lr": 0.002, "steps": 32195, "tokens": 527482880, "dev_full_loss": 2.537165756225586, "elapsed": 4037.725998878479, "device": "mps", "readable": {"arm": "I", "lambda": {"out": 0.0, "att": 0.3, "vote": 0.25079875615419794}, "ramp_steps": 1610, "pool_sha": "aaab44dec80966d6:1bd2d6bb1b5c59d8:32768", "pool_train_windows": 32768, "targets_sha": "ff0aff48d3816fb7"}}
+{
+ "attn_s0_dev_full": 2.509478500366211,
+ "O": {
+  "history": [
+   {
+    "lambda": 0.3,
+    "relative_cost": 0.008071705589032474
+   }
+  ],
+  "lambda_final": 0.3,
+  "status": "final"
+ },
+ "I": {
+  "history": [
+   {
+    "lambda": 1,
+    "relative_cost": 0.03736681743314474
+   },
+   {
+    "lambda": 0.3,
+    "relative_cost": 0.011033071554641616
+   }
+  ],
+  "lambda_final": 0.3,
+  "status": "final"
+ }
+}
+{
+ "O": {
+  "heldout": 0.4044673219323158,
+  "train": 0.40024130791425705,
+  "gap": 0.004226014018058777,
+  "relative_gap": 0.010448344746045923,
+  "grow": false
+ },
+ "I": {
+  "heldout": 0.10600535323222478,
+  "train": 0.10676245763897896,
+  "gap": -0.0007571044067541804,
+  "relative_gap": -0.007142133709941988,
+  "grow": false
+ },
+ "grow_pool": false
+}
+step 500/6103 tok 8,192,000 lr 1.98e-03 train 3.1882 dev_fast 3.2573 (55s)
+step 1000/6103 tok 16,384,000 lr 1.90e-03 train 2.9706 dev_fast 2.9549 (112s)
+step 1500/6103 tok 24,576,000 lr 1.76e-03 train 2.7821 dev_fast 2.8334 (172s)
+step 2000/6103 tok 32,768,000 lr 1.58e-03 train 2.7290 dev_fast 2.7731 (237s)
+step 2500/6103 tok 40,960,000 lr 1.37e-03 train 2.7026 dev_fast 2.7329 (297s)
+step 3000/6103 tok 49,152,000 lr 1.14e-03 train 2.6654 dev_fast 2.7015 (356s)
+step 3500/6103 tok 57,344,000 lr 9.06e-04 train 2.6350 dev_fast 2.6812 (415s)
+step 4000/6103 tok 65,536,000 lr 6.87e-04 train 2.6166 dev_fast 2.6608 (476s)
+step 4500/6103 tok 73,728,000 lr 4.95e-04 train 2.6417 dev_fast 2.6465 (536s)
+step 5000/6103 tok 81,920,000 lr 3.44e-04 train 2.6777 dev_fast 2.6363 (595s)
+step 5500/6103 tok 90,112,000 lr 2.44e-04 train 2.5339 dev_fast 2.6261 (655s)
+step 6000/6103 tok 98,304,000 lr 2.01e-04 train 2.6287 dev_fast 2.6229 (713s)
+step 6103/6103 tok 99,991,552 lr 2.00e-04 train 2.5577 dev_fast 2.6224 (726s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 100000000, "peak_lr": 0.002, "steps": 6103, "tokens": 99991552, "dev_full_loss": 2.5962348403930666, "elapsed": 726.3247261047363, "device": "mps", "readable": {"arm": "I", "lambda": {"out": 0.0, "att": 0.3, "vote": 0.0}, "ramp_steps": 305, "pool_sha": "aaab44dec80966d6:1bd2d6bb1b5c59d8:32768", "pool_train_windows": 32768, "targets_sha": "ff0aff48d3816fb7"}}
+step 500/6103 tok 8,192,000 lr 1.98e-03 train 3.3551 dev_fast 3.4314 (60s)
+step 1000/6103 tok 16,384,000 lr 1.90e-03 train 3.1024 dev_fast 3.0691 (121s)
+step 1500/6103 tok 24,576,000 lr 1.76e-03 train 2.8614 dev_fast 2.9146 (182s)
+step 2000/6103 tok 32,768,000 lr 1.58e-03 train 2.8003 dev_fast 2.8372 (242s)
+step 2500/6103 tok 40,960,000 lr 1.37e-03 train 2.7578 dev_fast 2.7848 (301s)
+step 3000/6103 tok 49,152,000 lr 1.14e-03 train 2.7128 dev_fast 2.7468 (360s)
+step 3500/6103 tok 57,344,000 lr 9.06e-04 train 2.6714 dev_fast 2.7196 (418s)
+step 4000/6103 tok 65,536,000 lr 6.87e-04 train 2.6454 dev_fast 2.6959 (480s)
+step 4500/6103 tok 73,728,000 lr 4.95e-04 train 2.6765 dev_fast 2.6782 (549s)
+step 5000/6103 tok 81,920,000 lr 3.44e-04 train 2.7085 dev_fast 2.6650 (609s)
+step 5500/6103 tok 90,112,000 lr 2.44e-04 train 2.5690 dev_fast 2.6529 (668s)
+step 6000/6103 tok 98,304,000 lr 2.01e-04 train 2.6582 dev_fast 2.6505 (728s)
+step 6103/6103 tok 99,991,552 lr 2.00e-04 train 2.5907 dev_fast 2.6483 (740s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 100000000, "peak_lr": 0.002, "steps": 6103, "tokens": 99991552, "dev_full_loss": 2.6225080223083497, "elapsed": 741.1343569755554, "device": "mps", "readable": {"arm": "I", "lambda": {"out": 0.0, "att": 0.0, "vote": 0.25079875615419794}, "ramp_steps": 305, "pool_sha": "aaab44dec80966d6:1bd2d6bb1b5c59d8:32768", "pool_train_windows": 32768, "targets_sha": "ff0aff48d3816fb7"}}
+phase 3b (continued) done Sun Oct 18 07:31:39 EDT 2026

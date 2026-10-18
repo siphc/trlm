@@ -1,0 +1,112 @@
+{
+ "fit_windows": 16,
+ "eval_windows": 32,
+ "final_ln_scale": 1.0259977993411669,
+ "head3_rule_pattern_kl": 1.065485885230448,
+ "arms": {
+  "D": {
+   "kl": 0.07922463864088058,
+   "n_directions": 11,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.9909,
+    "ov0.self": 0.8073,
+    "ov0.earlier": 0.8215,
+    "ov1.self": 0.858,
+    "ov1.earlier": 0.771,
+    "ov2.self": 0.8005,
+    "ov2.earlier": 0.8107,
+    "ov3.self": 0.6115,
+    "ov3.earlier": 0.8036,
+    "phrase.trigram": 0.0472,
+    "phrase.fourgram": 0.0599
+   }
+  },
+  "S0-joint": {
+   "kl": 0.9180948734283447,
+   "n_directions": 14,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.2013,
+    "ov1.self": 0.0644,
+    "ov1.earlier": 0.8369,
+    "ov2.self": 0.0964,
+    "ov2.earlier": 0.8057,
+    "ov3.self": 0.1142,
+    "ov3.earlier": 0.2885,
+    "phrase.trigram": 0.1847,
+    "phrase.fourgram": 0.2707,
+    "local0.self": 1.4387,
+    "local0.near": 0.2697,
+    "local0.far": 2.6192,
+    "local0.successors": 0.6066,
+    "local0.alike": -7.1108
+   }
+  },
+  "S1-joint": {
+   "kl": 0.16783690452575684,
+   "n_directions": 24,
+   "recall_size": 0.551957905292511,
+   "strengths": {
+    "direct": 1.005,
+    "ov0.self": 0.8081,
+    "ov0.earlier": 0.7633,
+    "ov2.self": 0.7976,
+    "ov2.earlier": 0.7682,
+    "ov3.self": 0.5707,
+    "ov3.earlier": 0.7297,
+    "phrase.trigram": 0.0774,
+    "phrase.fourgram": 0.0918,
+    "head1.copy.NAMES": -1.617,
+    "head1.topic.NAMES": 1.7418,
+    "head1.next.NAMES": -0.0462,
+    "head1.copy.SENTENCE_ENDS": 8.3835,
+    "head1.topic.SENTENCE_ENDS": -0.9991,
+    "head1.next.SENTENCE_ENDS": -1.0688,
+    "head1.copy.WORD_ENDS_AND_LINKERS": -0.422,
+    "head1.topic.WORD_ENDS_AND_LINKERS": 5.9958,
+    "head1.next.WORD_ENDS_AND_LINKERS": -0.415,
+    "head1.copy.FUNCTION_WORDS": 2.7672,
+    "head1.topic.FUNCTION_WORDS": 1.664,
+    "head1.next.FUNCTION_WORDS": -0.4301,
+    "head1.copy.CONTENT_WORDS": -1.5688,
+    "head1.topic.CONTENT_WORDS": 2.7376,
+    "head1.next.CONTENT_WORDS": -0.2423
+   }
+  },
+  "S2-joint": {
+   "kl": 0.6426712274551392,
+   "n_directions": 13,
+   "recall_size": null,
+   "strengths": {
+    "direct": 0.4189,
+    "ov0.self": 0.5354,
+    "ov0.earlier": 0.8122,
+    "ov1.self": 0.5801,
+    "ov1.earlier": 0.6177,
+    "ov3.self": 0.2767,
+    "ov3.earlier": 0.4121,
+    "phrase.trigram": 0.1882,
+    "phrase.fourgram": 0.2396,
+    "local2.self": 0.5377,
+    "local2.near": 1.0176,
+    "local2.far": 6.1342,
+    "local2.no_repeat": 0.0414
+   }
+  }
+ },
+ "S0-joint - D": {
+  "diff": 0.8388702869415283,
+  "se": 0.008375986108728202
+ },
+ "S1-joint - D": {
+  "diff": 0.08861225098371506,
+  "se": 0.00423491928964168
+ },
+ "S2-joint - D": {
+  "diff": 0.563446581363678,
+  "se": 0.007624254918687897
+ },
+ "seconds": 128.60665488243103,
+ "model": "/Users/svi/Desktop/trlm/analysis/out/readable_training/readable_I_l1_s0/aligned.pt"
+}

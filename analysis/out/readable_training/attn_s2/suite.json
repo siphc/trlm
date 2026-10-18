@@ -1320,8 +1320,32 @@
    }
   ],
   "harness": {
-   "error": "PROGRAM ERROR: Traceback (most recent call last):\n  File \"/Users/svi/Desktop/trlm/harness/program_worker.py\", line 41, in main\n    raise RuntimeError(\"program import failed:\\n\" + err)\nRuntimeError: program import failed:\nTraceback (most recent call last):\n  File \"/Users/svi/Desktop/trlm/harness/program_worker.py\", line 24, in main\n    mod = importlib.import_module(program_name)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/nix/store/n3ivwxv7ybmcip8h62nkk0g9m5gzmv6v-python3-3.12.14/lib/python3.12/importlib/__init__.py\", line 90, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen importlib._bootstrap>\", line 1387, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1360, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1324, in _find_and_load_unlocked\nModuleNotFoundError: No module named 'program_refit'\n\n\n"
-  }
+   "timestamp": "2026-10-18T06:14:44",
+   "commit": "a17e853",
+   "dirty": true,
+   "program_sha": "76c9a5ca73b6aed1",
+   "program": "programs/readable/prog_attn_s2",
+   "model": "/Users/svi/Desktop/trlm/analysis/out/readable_training/attn_s2/aligned.pt",
+   "split": "dev_fast",
+   "n_windows": 200,
+   "kl": 0.580693,
+   "kl_sem": 0.003838,
+   "top1": 0.61867,
+   "ce_program": 2.56048,
+   "ce_model": 2.56924,
+   "ce_bigram": 3.52753,
+   "loss_recovered": 1.00915,
+   "lint_ok": true,
+   "loc": 1871,
+   "numeric_literals": 232,
+   "largest_literal": 5,
+   "claims_passed": 0,
+   "claims_total": 0,
+   "sandbox": "enforced (sandbox-exec: models/, data/ except the train corpus, logs/, analysis/ unreadable; no network)",
+   "seconds": 765.3,
+   "note": "readable side study: attn_s2 refitted program"
+  },
+  "program": "programs/readable/prog_attn_s2"
  },
- "seconds_last_run": 1370.6699209213257
+ "seconds_last_run": 766.2774319648743
 }

@@ -414,10 +414,31 @@
     {
      "lambda": 1,
      "relative_cost": 0.03736681743314474
+    },
+    {
+     "lambda": 0.3,
+     "relative_cost": 0.011033071554641616
     }
    ],
    "lambda_final": 0.3,
-   "status": "stepped down from 1; needs the seed-0 run at the new lambda"
+   "status": "final"
   }
+ },
+ "R7": {
+  "O": {
+   "heldout": 0.4044673219323158,
+   "train": 0.40024130791425705,
+   "gap": 0.004226014018058777,
+   "relative_gap": 0.010448344746045923,
+   "grow": false
+  },
+  "I": {
+   "heldout": 0.10600535323222478,
+   "train": 0.10676245763897896,
+   "gap": -0.0007571044067541804,
+   "relative_gap": -0.007142133709941988,
+   "grow": false
+  },
+  "grow_pool": false
  }
 }

@@ -96,3 +96,34 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   in the control) while output agreement improves (KL 0.25-0.28): the Goodhart signature on the development seed;
   (3) moderate output pressure (0.3-1) moves attention slightly toward the rules (0.87 -> 0.77) and leaves the vote
   correlation unchanged; (4) strong internal pressure barely moves output agreement (KL 0.51-0.58 at lambda_I 1-10).
+- **Arm-I extras** (seed 0, 100M tokens, lambda 0.3; exploratory): attention-only: dev CE -2.46%, attention-pattern KL
+  0.185, vote correlation 0.322, KL to the program 0.537; votes-only: -1.48%, 0.848, 0.541, 0.555; both (I_l0.3):
+  -2.08%, 0.255, 0.532, 0.524; control: 0.869, 0.274, 0.608. The two internal parts are separable: training one does
+  not move the other, and each alone improves prediction at 100M tokens.
+
+## 2026-10-18 phase 3b: seed-0 one-epoch runs, rules R3 (second part) and R7, FINAL pre-registration
+
+- R3, second part: arm O at 0.3 costs +0.81% against attn_s0 (2.5297 vs 2.5095): kept. Arm I at 1 costs +3.74%
+  (2.6032): stepped down to 0.3, rerun: +1.10%: kept. Final lambda_O = lambda_I = 0.3. (Arm I's head start at 100M tokens
+  turns into a small cost by the end of the epoch.)
+- R7: memorisation gaps 1.0% (O) and -0.7% (I) of the held-out values: no pool growth.
+- Measurement fix: the harness sandbox cannot read analysis/, so the refitted programs (tool b2) failed to import for
+  every model; moved to programs/readable/ (gitignored) and re-scored. Refitting never helps: attn_s1..s4 0.552, 0.581,
+  0.543, 0.549 (unchanged program 0.547, 0.561, 0.540, 0.545); seed-0 arm O 0.3965 (0.396).
+- Development preview against attn_s0 (seed 0; no verdict weight):
+
+  | | attn_s0 | O (0.3) | I (1) | I (0.3) |
+  |---|---|---|---|---|
+  | harness KL to program | 0.550 | 0.396 | 0.503 | 0.518 |
+  | OOD KL to program (mean of 4 sets) | 0.810 | 0.604 | 0.834 | 0.854 |
+  | attention-pattern KL to the rules | 0.475 | 0.441 | 0.146 | 0.201 |
+  | same, out of distribution | 0.491 | 0.444 | 0.160 | 0.216 |
+  | vote correlation (weighted) | 0.332 | 0.367 | 0.785 | 0.698 |
+  | lock | 0.501 | 0.488 | 0.497 | 0.551 |
+  | ablation shift RECALL head | 0.452 | 0.327 | 0.207 | 0.353 |
+  | claims passed (of 7) | 7 | 6 | 7 | 7 |
+
+  Each arm robustly changes the level it is trained on (including out of distribution) and barely moves the other: the
+  program's behaviour and its mechanism description are decoupled in this model. The lock does not loosen.
+- FINAL pre-registration written with all rule values; waiting for gate G2 (dose-response and lambda) before the
+  confirmatory runs (arms O and I at 0.3, seeds 1-4: about 8 h of MPS).
