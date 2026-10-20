@@ -49,3 +49,20 @@ Decision: logs/decisions.md item 10.
   own usefulness +0.398, +0.252, +0.368, +0.261 (mean 0.320; full-epoch normal models 0.326-0.351), other heads and
   shuffled controls within +-0.08; own-usefulness gains +0.122, +0.025, +0.046, +0.036 (mean 0.057; full-epoch
   0.070-0.090). The law is present at 100M tokens, so the development grid can show whether the penalty removes it.
+- **R1 (2026-10-20 01:14): lambda* = 1** (the smallest grid value meeting the 20% criterion). Development grid (seed 0,
+  100M tokens, penalty on 16 windows; in-batch correlation on train_windows(16, 9300); goal 1's law tools):
+
+  | lambda | mean abs in-batch corr (share of control) | pure-pair corr, own (mean of 4 heads) | own-usefulness gain (mean) | dev_full CE (cost) |
+  |---|---|---|---|---|
+  | 0 (control) | 0.110 (1.00) | 0.320 (0.398, 0.252, 0.368, 0.261) | 0.057 | 2.6618 |
+  | 1 | 0.018 (0.16) | 0.175 (0.308, 0.090, 0.272, 0.028) | 0.048 | 2.6676 (+0.22%) |
+  | 3 | 0.011 (0.10) | 0.189 | 0.051 | 2.6526 (-0.35%) |
+  | 10 | 0.006 (0.05) | 0.142 | 0.048 | 2.6462 (-0.59%) |
+  | 30 | 0.005 (0.05) | 0.140 | 0.044 | 2.6640 (+0.08%) |
+  | 100 | 0.004 (0.035) | (law tools running) | | 2.6833 (+0.81%) |
+
+  Reading (development only, one seed, 100M tokens): the penalised instance statistic falls 6-30x at no measurable
+  cost; the aggregate law (never seen by the penalty) roughly halves and then plateaus near 0.14; the own-usefulness
+  output gain stays at 77-89% of the control's. Head-specificity weakens at lambda 1-3 (another head's usefulness
+  reaches |0.23| pure-pair correlation; control <= 0.08). On the pre-registered definitions seed 0 would be PARTLY
+  BROKEN with LOW cost. The outcome thresholds stay as in the DRAFT (fixed before any output).
