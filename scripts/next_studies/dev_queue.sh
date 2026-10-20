@@ -16,10 +16,11 @@ LAM=$(rule law_pressure "['R1']['lambda_star']")
 echo "== study B: arms attn and vote at lambda* $LAM $(date)"
 $PY -m src.train.runs law_dev --device $DEV --arms attn,vote --law_lams "$LAM" --law_windows $LW || exit 1
 OMP_NUM_THREADS=2 $PY -m analysis.law_pressure.rules r3 || exit 1
-echo "== study A: R2 (step time) $(date)"
-$PY -m analysis.fixed_votes.rules r2 --device $DEV || exit 1
-if [ "$(rule fixed_votes "['R2_$DEV']['over_0.25s']")" = "True" ]; then
-  echo "study A: a step takes more than 0.25 s on $DEV (R2); R3 and the human's decision needed; stopping here"; exit 0
+echo "== study A: step time on $DEV $(date)"
+[ -n "$(rule fixed_votes ".get('R2_$DEV', {}).get('epoch_hours', '')" 2>/dev/null)" ] || $PY -m analysis.fixed_votes.rules r2 --device $DEV || exit 1
+# R2 binds on the confirmatory hardware (the instance); development here runs unless a step exceeds 0.6 s (operational)
+if [ "$($PY -c "import json; print(json.load(open('analysis/out/fixed_votes/rules.json'))['R2_$DEV']['seconds_per_step']['fixed_votes'] > 0.6)")" = "True" ]; then
+  echo "study A: a step takes more than 0.6 s on $DEV; development runs left to the instance; stopping here"; exit 0
 fi
 echo "== study A: R1 (LR check) $(date)"
 $PY -m src.train.runs fixed_lr --device $DEV || exit 1

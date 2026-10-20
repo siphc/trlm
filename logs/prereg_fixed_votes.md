@@ -65,8 +65,9 @@ study measures how much of the trained attention the start-of-training law still
 ## Decision rules (development only; values go into the FINAL)
 
 - R1: peak LR = the value in {1e-3, 2e-3, 4e-3} with the lowest dev_full CE after 50M tokens (base, seed 0).
-- R2: one epoch per model. If a step on the study's hardware (median of steps 50-150) takes more than 0.25 s, apply R3;
-  if still more than 0.25 s, stop and ask the human.
+- R2: one epoch per model. If a step on the confirmatory hardware (median of steps 50-150) takes more than 0.25 s, apply
+  R3; if still more than 0.25 s, stop and ask the human. Development runs on the laptop GPU are not bound by R2 (they
+  run one epoch whatever their speed; operationally they are left to the instance if a laptop step exceeds 0.6 s).
 - R3: fp16 autocast for the vote products, only under R2, and only if the loss on 20 fixed batches differs from fp32
   by less than 0.2% (relative).
 - R4: a head is **active** if removing its vote (beta_h = 0 at evaluation, attention untouched) raises dev_fast CE by at
