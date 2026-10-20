@@ -180,3 +180,10 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
 - 2026-10-19 19:46: training paused at the human's request (queue, watchdog, caffeinate stopped). Seed 1 arm O is
   finished (its suite was left running); seed 1 arm I resumes from latest.pt (19:41, about step 4,000). Resume with the
   same two nohup commands as above.
+- 2026-10-20 13:58: paused at the human's request (the machine is needed for other work). Seven of eight confirmatory
+  models are trained and measured (suites complete with lock, harness and refit). Seed 4 arm I resumes from latest.pt
+  (13:57, about 13 minutes of training left). **To finish:** on the charger, `nohup caffeinate -dimsu
+  scripts/readable/confirm_queue.sh >> logs/runs/readable_confirm.out 2>&1 &` and the watchdog command above (finished
+  runs are skipped; the last suite starts by itself), then `nohup scripts/readable/finish.sh > /dev/null 2>&1 &`
+  (seed distances and verdicts once all eight suites are complete), then write logs/readable_training_results.md and
+  ask for gate G3.

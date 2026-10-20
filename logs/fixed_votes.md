@@ -83,3 +83,7 @@ Decision: logs/decisions.md item 10.
   pure-pair 0.36 -> 0.48, attention at d = 1 0.20 -> 0.28.
 - **FINAL pre-registration written (2026-10-20); waiting for gate G2.** Confirmatory: base and shift, seeds 1-4, on the
   instance (job files: `scripts/aws/make_jobs.py A`).
+- 2026-10-20 (after the FINAL; exploratory): KL on the 200 dev_fast windows: KL(attn_s0 || base_s0) 0.636, KL(attn_s0 ||
+  shift_s0) 0.686 (attn_s1: 0.421; program v1.3: 0.550). The fixed-vote model is a different model of similar quality,
+  not an approximation of attn_s0. Proposed next (exploratory, not started): all four heads replaced by readable rules
+  at once (KL to the fixed-vote model, CE), and usefulness relative to the model's own prediction (explaining away).

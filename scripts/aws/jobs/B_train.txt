@@ -1,0 +1,8 @@
+B_twin_s1 .venv/bin/python -m src.train.runs law --arm both --lam 0 --seeds 1 --law_windows 16 --device cuda
+B_twin_s2 .venv/bin/python -m src.train.runs law --arm both --lam 0 --seeds 2 --law_windows 16 --device cuda
+B_twin_s3 .venv/bin/python -m src.train.runs law --arm both --lam 0 --seeds 3 --law_windows 16 --device cuda
+B_twin_s4 .venv/bin/python -m src.train.runs law --arm both --lam 0 --seeds 4 --law_windows 16 --device cuda
+B_both_s1 .venv/bin/python -m src.train.runs law --arm both --lam 1 --seeds 1 --law_windows 16 --device cuda
+B_both_s2 .venv/bin/python -m src.train.runs law --arm both --lam 1 --seeds 2 --law_windows 16 --device cuda
+B_both_s3 .venv/bin/python -m src.train.runs law --arm both --lam 1 --seeds 3 --law_windows 16 --device cuda
+B_both_s4 .venv/bin/python -m src.train.runs law --arm both --lam 1 --seeds 4 --law_windows 16 --device cuda

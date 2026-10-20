@@ -1,0 +1,8 @@
+A_base_s1 .venv/bin/python -m src.train.runs fixed --name base --seeds 1 --peak_lr 0.004 --device cuda
+A_base_s2 .venv/bin/python -m src.train.runs fixed --name base --seeds 2 --peak_lr 0.004 --device cuda
+A_base_s3 .venv/bin/python -m src.train.runs fixed --name base --seeds 3 --peak_lr 0.004 --device cuda
+A_base_s4 .venv/bin/python -m src.train.runs fixed --name base --seeds 4 --peak_lr 0.004 --device cuda
+A_shift_s1 .venv/bin/python -m src.train.runs fixed --name shift --seeds 1 --peak_lr 0.004 --device cuda
+A_shift_s2 .venv/bin/python -m src.train.runs fixed --name shift --seeds 2 --peak_lr 0.004 --device cuda
+A_shift_s3 .venv/bin/python -m src.train.runs fixed --name shift --seeds 3 --peak_lr 0.004 --device cuda
+A_shift_s4 .venv/bin/python -m src.train.runs fixed --name shift --seeds 4 --peak_lr 0.004 --device cuda
