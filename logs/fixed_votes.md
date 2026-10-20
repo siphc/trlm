@@ -54,3 +54,6 @@ Decision: logs/decisions.md item 10.
   `scripts/next_studies/dev_queue.sh` after study B's (R2 timing on MPS, R1 LR check, base and shift seed 0).
 - Cloud kit in scripts/aws/ (README there); `scripts/aws/make_jobs.py A` writes the confirmatory job files once the
   FINAL is committed.
+- 2026-10-20 00:35: `law.py` smoke test on the random-initialised checkpoint ran end to end (all arms, pure-pair
+  correlations, vote removal; values meaningless at initialisation: near-uniform attention, all gains 0). About 35 min
+  per model on the CPU while the GPU queues run.
