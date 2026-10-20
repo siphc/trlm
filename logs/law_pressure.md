@@ -27,3 +27,14 @@ Decision: logs/decisions.md item 10.
    development grid `python -m src.train.runs law_dev --device mps` (arm both, lambda 1..100, 100M tokens); measure
    corr_on (train_windows(16, 9300)) on each and on models/readable/dev/none_s0_100M; apply R1, then arms attn and vote
    at lambda* (`law_dev --arms attn,vote --lams <lambda*>`), R3; uov_tables + fit_arms on the dev models (paths); FINAL.
+
+## Phase 1 (2026-10-19; G0/G1 approved, decision 12)
+
+- DRAFT edits before any output: twins are lambda-0 runs on the same hardware; development grid includes lambda 0 as
+  its control; each comparison within one hardware (development on the laptop GPU, confirmatory runs on the cloud
+  instance if available); R2's option `law_windows`.
+- `analysis/law_pressure/rules.py` (R1-R3) and `scripts/next_studies/dev_queue.sh` (B's development, then A's).
+- **R2 (MPS, 19:04):** plain 0.096 s/step, penalised 0.247 s/step (ratio 2.56 > 1.6), measured while the
+  readable-training run shared the GPU (both timings equally affected) -> **law_windows = 16**. Because lambda* is chosen
+  with this penalty, every run of study B (development, confirmatory, continuations) uses 16 windows, on any hardware.
+- Development grid started 19:05 (lambda 0, 1, 3, 10, 30, 100; seed 0; 100M tokens; log logs/runs/next_studies_dev.out).

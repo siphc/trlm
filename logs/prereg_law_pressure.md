@@ -56,8 +56,8 @@ consumes no random numbers, so seed s has exactly the initialisation and batch o
 - R1: lambda* = the smallest grid value whose 100M-token run (arm both) has a mean over heads of |in-batch correlation|
   (on train_windows(16, 9300), src/train/law_pressure.corr_on) at most 20% of the control's; the largest grid value if
   none does. No cost cap: the cost is an outcome.
-- R2: if a penalised step takes more than 1.6x the plain step on the study's hardware, the penalty uses the first 16
-  windows of each batch (TrainConfig.law_windows).
+- R2: if a penalised step takes more than 1.6x the plain step on the development hardware, the penalty uses the first
+  16 windows of each batch (TrainConfig.law_windows), in every run of the study (lambda* is chosen with that penalty).
 - R3: arms attn and vote enter the confirmatory runs only if their 100M-token run at lambda* meets R1's 20% criterion.
 - R4: development may fix only these analysis details: the number of windows of the law measurements (default goal 1's:
   32 fit, 32 evaluation), and the restoring-force checkpoints analysed (default: the end of the continuation).
