@@ -71,3 +71,7 @@ Decision: logs/decisions.md item 10.
   0.015; arm attn pure-pair 0.179, own gain 0.050; arm vote pending (exploratory).
 - **FINAL pre-registration written (2026-10-20); waiting for gate G2.** Confirmatory: twins and lambda 1, seeds 1-4,
   continuations, law tools (job files: `scripts/aws/make_jobs.py B`).
+- Development (exploratory, after the FINAL): arm vote at lambda 1: pure-pair 0.279 (0.353, 0.182, 0.376, 0.203), own
+  gain 0.040, dev_full 2.6627 (+0.03%); with arm attn (pure-pair 0.179, own gain 0.050): when only the votes may move
+  the law weakens less, when only attention may move it weakens as much as with both. The development models'
+  usefulness tables were deleted after their fits (regenerable, 0.9 GB each); arms.json kept.
