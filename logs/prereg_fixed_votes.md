@@ -52,7 +52,12 @@ study measures how much of the trained attention the start-of-training law still
   beta_follow (initialised 1) and beta_h (initialised 0.1): about 0.32M parameters (attn models: 0.35M).
 - Variants: **base** = heads (next, copy, topic, skip2); **shift** = (next, copy, topic, skip3) (head 3 changed).
 - Training as configs/frozen.yaml v3: one epoch (527,482,880 tokens), batch 64 x 256, AdamW (0.9, 0.95), 1% warmup,
-  cosine to 10%, weight decay 0.1 on W_Q and W_K only, gradient clip 1.0, no dropout, fp32 on MPS; peak LR by R1.
+  cosine to 10%, weight decay 0.1 on W_Q and W_K only, gradient clip 1.0, no dropout, fp32; peak LR by R1.
+- Hardware (decision 12): each comparison within one kind of hardware. The confirmatory runs (base and shift, seeds
+  1-4) all on the cloud instance (NVIDIA L4, CUDA, fp32, TF32 off as PyTorch's default) if available, otherwise all on
+  the laptop GPU (MPS); development runs (R1 and seed 0) may run on the laptop GPU (they only fix rule values and
+  analysis details). The cost comparison (M0) is reported
+  against attn_s{s} (laptop) and against study B's lambda = 0 runs of the same seed if they ran on the same hardware.
   Seed s uses the batch order of attn_s{s}; the initialisation differs (different parameters).
 - Runs: R1 LR check (base, seed 0, 50M tokens, three LRs); base and shift seed 0 (development); base and shift seeds
   1-4 (confirmatory). Ten one-epoch runs in all.
@@ -60,8 +65,8 @@ study measures how much of the trained attention the start-of-training law still
 ## Decision rules (development only; values go into the FINAL)
 
 - R1: peak LR = the value in {1e-3, 2e-3, 4e-3} with the lowest dev_full CE after 50M tokens (base, seed 0).
-- R2: one epoch per model. If an MPS step (median of steps 50-150) takes more than 0.25 s, apply R3; if still more than
-  0.25 s, stop and ask the human.
+- R2: one epoch per model. If a step on the study's hardware (median of steps 50-150) takes more than 0.25 s, apply R3;
+  if still more than 0.25 s, stop and ask the human.
 - R3: fp16 autocast for the vote products, only under R2, and only if the loss on 20 fixed batches differs from fp32
   by less than 0.2% (relative).
 - R4: a head is **active** if removing its vote (beta_h = 0 at evaluation, attention untouched) raises dev_fast CE by at

@@ -37,21 +37,27 @@ first 5% of steps. Arms: **both** (gradients reach attention and votes), **attn*
 
 ## Models
 
-TinyLM attention-only, configs/frozen.yaml v3, one epoch (527,482,880 tokens), peak LR 2e-3, MPS. The penalty consumes
-no random numbers, so seed s has exactly the initialisation and batch order of attn_s{s} (its untreated twin).
-- Development (seed 0, 100M tokens): arm both at lambda in {1, 3, 10, 30, 100}; arms attn and vote at lambda* (R1).
-  Control: models/readable/dev/none_s0_100M (bitwise the plain run at 100M tokens).
-- Confirmatory: arm both at lambda*, seeds 1-4; arms attn and vote at lambda*, seeds 1-4, if R3 admits them.
-- Restoring force: each confirmatory model and its twin attn_s{s} continued without the penalty for 3,000 steps
-  (49M tokens; fresh AdamW, 1% warmup, cosine from 2e-4 to 2e-5; batch order of seed s + 10).
+TinyLM attention-only, configs/frozen.yaml v3, one epoch (527,482,880 tokens), peak LR 2e-3, fp32. The penalty
+consumes no random numbers, so seed s has exactly the initialisation and batch order of attn_s{s}.
+- Hardware (decision 12): each comparison within one kind of hardware. The development grid and its lambda = 0 control
+  on one (the laptop GPU, MPS, if it runs before the instance is available); the confirmatory runs, their twins and
+  the continuations all on the cloud instance (NVIDIA L4, CUDA) if available, otherwise all on the laptop GPU. The **twin** of a penalised model is the lambda = 0 run of the same seed
+  on the same hardware (`law --arm both --lam 0`: initialisation and batch order of attn_s{s}, and bitwise the plain
+  run on that hardware), so hardware differences cannot enter the paired comparisons.
+- Development (seed 0, 100M tokens): arm both at lambda in {0, 1, 3, 10, 30, 100} (lambda 0 is the control); arms attn
+  and vote at lambda* (R1).
+- Confirmatory: twins (lambda 0) and arm both at lambda*, seeds 1-4; arms attn and vote at lambda*, seeds 1-4, if R3
+  admits them.
+- Restoring force: each confirmatory model and its twin continued without the penalty for 3,000 steps (49M tokens;
+  fresh AdamW, 1% warmup, cosine from 2e-4 to 2e-5; batch order of seed s + 10).
 
 ## Decision rules (development only; values go into the FINAL)
 
 - R1: lambda* = the smallest grid value whose 100M-token run (arm both) has a mean over heads of |in-batch correlation|
   (on train_windows(16, 9300), src/train/law_pressure.corr_on) at most 20% of the control's; the largest grid value if
   none does. No cost cap: the cost is an outcome.
-- R2: if a penalised step takes more than 1.6x the plain step on MPS, the penalty uses the first 16 windows of each
-  batch.
+- R2: if a penalised step takes more than 1.6x the plain step on the study's hardware, the penalty uses the first 16
+  windows of each batch (TrainConfig.law_windows).
 - R3: arms attn and vote enter the confirmatory runs only if their 100M-token run at lambda* meets R1's 20% criterion.
 - R4: development may fix only these analysis details: the number of windows of the law measurements (default goal 1's:
   32 fit, 32 evaluation), and the restoring-force checkpoints analysed (default: the end of the continuation).

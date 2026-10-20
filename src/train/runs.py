@@ -16,7 +16,7 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
   python -m src.train.runs fixed --name base --seeds 0,1,2,3,4 --peak_lr X
                                                     # study A: models/fixed_votes/{name}_s{seed}, one epoch each;
                                                     # names: base (next,copy,topic,skip2), shift (head 3 votes skip3)
-  python -m src.train.runs law_dev [--arms both] [--lams 1,3,10,30,100]
+  python -m src.train.runs law_dev [--arms both] [--law_lams 0,1,3,10,30,100]
                                                     # study B (penalty against the law): seed 0, 100M tokens
   python -m src.train.runs law --arm both|attn|vote --lam X --seeds 1,2,3,4
                                                     # study B: models/law_pressure/{arm}_l{lam}_s{seed}, one epoch each
@@ -108,6 +108,8 @@ def main() -> None:
     ap.add_argument("--lam", type=float, default=None, help="readable, readable_dev --extra")
     ap.add_argument("--name", default="base", help="fixed: " + ", ".join(FIXED_TABLES))
     ap.add_argument("--from", dest="from_dir", default="", help="law_restore: run folder whose final.pt to continue")
+    ap.add_argument("--law_lams", default="0,1,3,10,30,100", help="law_dev (lambda 0 is the control)")
+    ap.add_argument("--law_windows", type=int, default=0, help="law, law_dev: rule R2")
     args = ap.parse_args()
 
     if args.cmd == "pilot_lr":
@@ -146,16 +148,16 @@ def main() -> None:
     elif args.cmd == "law_dev":
         arms = args.arms.split(",") if args.arms != "none,O,I,control" else ["both"]
         for arm in arms:
-            for lam in (float(x) for x in args.lams.split(",")):
+            for lam in (float(x) for x in args.law_lams.split(",")):
                 _run(args.root, f"law_pressure/dev/{arm}_l{lam:g}_s0_100M", args.device, args.amp, variant="attn",
                      seed=0, budget_tokens=args.budget_tokens or LAW_DEV_TOKENS, peak_lr=FROZEN_PEAK_LR, law_arm=arm,
-                     lambda_law=lam)
+                     lambda_law=lam, law_windows=args.law_windows)
     elif args.cmd == "law":
         assert args.lam is not None, "--lam"
         for seed in (int(s) for s in args.seeds.split(",")):
             _run(args.root, f"law_pressure/{args.arm}_l{args.lam:g}_s{seed}", args.device, args.amp, variant="attn",
                  seed=seed, budget_tokens=args.budget_tokens or LADDER[-1], peak_lr=FROZEN_PEAK_LR, law_arm=args.arm,
-                 lambda_law=args.lam)
+                 lambda_law=args.lam, law_windows=args.law_windows)
     elif args.cmd == "law_restore":
         # continue a model without the penalty: fresh optimizer, 1% warmup and cosine at RESTORE_LR, another batch order
         name = os.path.basename(os.path.normpath(args.from_dir))

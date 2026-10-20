@@ -82,7 +82,7 @@ def test_arm_gradients(p1, arm):
     D = m.cfg.d_model
 
     class Cfg:
-        law_arm, lambda_law, law_ramp, law_p1_path, total_steps = arm, 1.0, 0.0, P1_PATH, 1
+        law_arm, lambda_law, law_ramp, law_p1_path, total_steps, law_windows = arm, 1.0, 0.0, P1_PATH, 1, 0
 
     pen = L.LawPenalty(Cfg, "cpu")
     pen.p1 = p1
@@ -159,3 +159,18 @@ def test_trained_model_follows_the_law_and_penalty_can_remove_it(p1):
         rho1 = L.head_correlations(*L.law_terms(m, x, p1f))
     assert float((rho1 ** 2).mean()) < 0.25 * float((rho0 ** 2).mean()), (rho0, rho1)
     assert all(math.isfinite(float(r)) for r in rho1)
+
+
+def test_law_windows_uses_the_first_windows(p1):
+    m = _random_model()
+    x = _batch(n=4)
+
+    class Cfg:
+        law_arm, lambda_law, law_ramp, law_p1_path, total_steps, law_windows = "both", 1.0, 0.0, P1_PATH, 1, 2
+
+    pen = L.LawPenalty(Cfg, "cpu")
+    pen.p1 = p1
+    with torch.no_grad():
+        got, _ = pen.loss(m, x, 0)
+        ref = (L.head_correlations(*L.law_terms(m, x[:2], p1)) ** 2).mean()
+    assert torch.allclose(got.double(), ref.double(), rtol=1e-5)

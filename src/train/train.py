@@ -71,6 +71,7 @@ class TrainConfig:
     law_arm: str = ""                 # "", "both", "attn" or "vote"
     lambda_law: float = 0.0
     law_ramp: float = 0.05            # fraction of the steps over which lambda_law ramps up linearly
+    law_windows: int = 0              # compute the penalty on the first N windows of each batch; 0 = all (rule R2)
     law_p1_path: str = "data/fixed_votes/tables.npz"   # FOLLOW's bigram rule ('follow')
     init_from: str = ""               # start from these weights (fresh optimizer and schedule); "" = random init
 

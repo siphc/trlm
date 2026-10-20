@@ -82,17 +82,19 @@ class LawPenalty:
         self.p1 = torch.as_tensor(np.exp(z["follow"].astype(np.float64)), dtype=torch.float32, device=device)
         self.p1_sha = str(z["sha"])
         self.arm, self.lam = cfg.law_arm, cfg.lambda_law
+        self.windows = cfg.law_windows
         self.ramp = int(round(cfg.law_ramp * cfg.total_steps))
 
     def summary(self) -> dict:
-        return {"arm": self.arm, "lambda": self.lam, "ramp_steps": self.ramp, "p1_sha": self.p1_sha}
+        return {"arm": self.arm, "lambda": self.lam, "ramp_steps": self.ramp, "windows": self.windows,
+                "p1_sha": self.p1_sha}
 
     def scale(self, step: int) -> float:
         return 1.0 if self.ramp <= 0 else min(1.0, (step + 1) / self.ramp)
 
     def loss(self, model, x: torch.Tensor, step: int):
         """The weighted penalty on the training batch x (B, T + 1) and the per-head correlations for logging."""
-        s, u = law_terms(model, x, self.p1)
+        s, u = law_terms(model, x[:self.windows] if self.windows else x, self.p1)
         if self.arm == "attn":
             u = u.detach()
         elif self.arm == "vote":

@@ -59,3 +59,10 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     threshold is lowered from 0.3 to 0.2 trained closure, before any confirmatory output is read, because both seed-0
     development runs sit at 0.27-0.28 while their trained tools moved far beyond noise. The as-written verdict is
     reported as well. Amendment section in logs/prereg_readable_training.md.
+12. **Studies A and B approved; their runs move to a cloud GPU** (2026-10-19): the human approved gates G0 and G1 for
+    study A (fixed votes) and study B (training against the law): DRAFT pre-registrations, training code and tests. The
+    human has USD 200 of AWS credits and 2-3 days; the plan is one g6.8xlarge instance (1 NVIDIA L4, 32 vCPUs,
+    128 GiB) once AWS grants the GPU quota. Each study runs on one kind of hardware: studies A and B entirely on the
+    instance (development, confirmatory runs and their controls), falling back to the laptop GPU only if the instance
+    is not available; the readable-training study stays on the laptop (its baselines, development runs and harness
+    sandbox are there). Until then, work that carries over (setup kit, rule scripts) is prepared on the laptop.
