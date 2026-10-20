@@ -61,3 +61,19 @@ Decision: logs/decisions.md item 10.
   2.6120, 2e-3 2.5874, 4e-3 2.5775). The best value is the largest of the pre-registered grid, so the optimum may lie
   higher; applied as written. For scale: attn_s0..s4 reach 2.491-2.540 after a full epoch. Laptop step time 0.21 s
   (R2_mps; R2 binds on the instance). Development runs base_s0 and shift_s0 (one epoch, LR 4e-3) started 03:00.
+- **Development: base, seed 0** (one epoch, LR 4e-3, laptop GPU, 3.98 h; law.py on the CPU; no verdict weight):
+  dev_full CE 2.5428 (attn_s0 2.5095: +1.3%); beta_follow 0.93; head vote strengths next 0.70, copy 0.68, topic 1.51,
+  skip2 1.78; vote-removal shifts 0.060, 0.081, 0.249, 0.481 (all active).
+
+  | head | own-usefulness gain | ceiling tt (tt_self) | own / tt | largest other / own | pure-pair: own (largest other) | attention peak d=1..7 (mass at peak) | coef c1, c2, cb |
+  |---|---|---|---|---|---|---|---|
+  | next | 0.0090 | 0.0368 (0.0472) | 0.24 | 0.05 | 0.361 (0.021) | 1 (0.20) | 2.22, 2.30, 3.24 |
+  | copy | 0.0130 | 0.0394 (0.0394) | 0.33 | 0.49 (topic) | -0.035 (0.054) | flat, ~0.01 | 0.30, 0.41, 1.25 |
+  | topic | 0.0106 | 0.0909 (0.0894) | 0.12 | 0.62 (copy) | 0.203 (0.131) | 7, rising | 0.29, 0.48, 0.45 |
+  | skip2 | 0.0367 | 0.0849 (0.0894) | 0.43 | 0.09 | 0.433 (0.054; skip3 alt 0.112) | **1 (0.53)** | 0.43, 0.59, 0.49 |
+
+  Reading: head-specific and as strong as in normal models by the pure-pair correlation for the locally looking heads
+  (next 0.36, skip2 0.43; normal 0.34-0.44); but own usefulness recovers only 12-43% of the token-token ceiling's output
+  gain (P1' would fail for every head at seed 0; normal models: >= 50% in 7 of 8 local heads). copy and topic partly
+  follow each other's tables. Each head's attention-by-distance matches its table's usefulness profile (skip2 peaks at
+  d = 1 as predicted for H3a). The fixed-vote model does not make the law a larger share of attention.
