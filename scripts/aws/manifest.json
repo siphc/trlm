@@ -1,0 +1,23 @@
+{
+ "data/tokens/train.bin": "94cb5d19d19c3c9fe91eeb67e959c403bea13decb7c3e61336bda6f1e517b2d9",
+ "data/tokens/dev.bin": "242ce8e56406f9735094eb4d58a0373529759cafd406c21f01aa5eb833966c19",
+ "data/eval/dev_fast.npy": "aa2b523ee78b7e572ced9477282e9a1514742dd0a8737d3db92b94231b196b0f",
+ "data/eval/dev_full.npy": "f85ec2969d3fd7b1bbc0473eb357fcdef1784ab9a54ef855238adc239dcda441",
+ "data/eval/dev_full_window_idx.npy": "732d1cb048099d09c45a991f239ebeb08ec1ba1737255df2fa1ac2232c438b57",
+ "data/prep_meta.json": "971ba1d2bce45fd50edb72d66ce421b65e64415d8348cf0e1b72edd3e9074b3b",
+ "data/tokenizer.json": "3852a55d710c7ef79bc2a96d33455c320867e46114dcf7d067671f68c4421709",
+ "data/splits/dev_indices.npy": "f37994e4b7a0d5be47807005129d33b42e768be6e4a780b534e2bfd136143add",
+ "data/baselines/bigram_logprobs.npy": "25a29e570a0caf2d560e1b948b86f1e1b29221b8ac0f52628fa43e2371ecebce",
+ "data/fixed_votes/tables.npz": "c793355fb403adfee2be1acf4d859dd685c5e67ba0aec265ee9aaf43533f8f2d",
+ "analysis/out/candidates/qk/N_1.npy": "d206a0e610bfb97c8853280423234f46f2dcc98b5f71ca4489a23d3175540a58",
+ "models/final/attn_s0/final.pt": "56ccc62c3e60ff48aade0dde4291bb67132637d346508a0daa13b74916fe534a",
+ "models/final/attn_s0/result.json": "c6e4a487a3d40f3328278ad8b5a1eb400b0f8806ec3f00fd504437921d75c3c2",
+ "models/final/attn_s1/final.pt": "e1d8eace288918ba489afb0f4dfffec1336aedf8ecfd34c50634c1251faea4c7",
+ "models/final/attn_s1/result.json": "1413383da3e823c0596abafa8c969deeebe3824360ebe5fd1cc75e0433683dbc",
+ "models/final/attn_s2/final.pt": "9301cd2bb946f1c9220392e11bd269650b0ce7927458ef22be5e8ec6049a3289",
+ "models/final/attn_s2/result.json": "4418f8a46098aba6cfc814e9915473cea01b368a89485cb97bf69d86d9b5e9a8",
+ "models/final/attn_s3/final.pt": "a3c6ca69508e98bdbf7ed60d1a0888eef66b60124cdd5ca0b38062419dc8d51d",
+ "models/final/attn_s3/result.json": "a9d39f7f4eec3ab25f11c33782ac305cc46239f7061a48fdffa7c6c8ecec33a9",
+ "models/final/attn_s4/final.pt": "2af1a699bd1303cb01d98dac820c2b6824e1881c16e012181fced0983a9e5d22",
+ "models/final/attn_s4/result.json": "faeac7e24d7405db863d1353dc32d2dabac7152c0e3fb309acafed1baeaa9a01"
+}
