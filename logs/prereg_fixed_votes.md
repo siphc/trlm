@@ -1,11 +1,15 @@
-# Pre-registration (DRAFT): how attention forms when what a head writes is fixed (study A, `fixed_votes`)
+# Pre-registration (FINAL): how attention forms when what a head writes is fixed (study A, `fixed_votes`)
 
-DRAFT, 2026-10-18. Committed before any fixed-vote model is trained and before the usefulness tables (the law's
-model-free prediction) are computed. Decision: logs/decisions.md item 10. Plan: logs/plan_attention_law_and_readability.md
-section 4. Code: src/train/fixed_votes.py (model), src/train/test_sanity_fixed_votes.py (tests), analysis/fixed_votes/
-(measurements, to be written before the outputs they use). Running log: logs/fixed_votes.md.
+FINAL, 2026-10-20. The DRAFT was committed 2026-10-18 (a7a9c5f) before any fixed-vote model was trained and before the
+usefulness tables (the law's model-free prediction) were computed. This version adds the values fixed by the decision
+rules (development outputs only, seed 0), what has been seen, and the deviations. It is committed before any
+confirmatory model (seeds 1-4) is trained; the confirmatory runs wait for the human's gate G2. Decisions:
+logs/decisions.md items 10 and 12. Plan: logs/plan_attention_law_and_readability.md section 4. Code:
+src/train/fixed_votes.py (model), src/train/test_sanity_fixed_votes.py (9 tests), analysis/fixed_votes/ (usefulness.py
+M2, law.py M1 and M3-M6, rules.py, verdicts.py: the tests below, refuses to run before this commit; check_pipeline.py).
+Running log: logs/fixed_votes.md.
 
-## What has been seen before writing this
+## What has been seen before writing the DRAFT
 
 - The look-follows-write law in normal one-layer attention-only models (logs/look_follows_write_results.md): in 7 of 8
   local heads of attn_s1..s4, own-vote usefulness recovers at least half of the output gain of the exact token-token
@@ -18,8 +22,49 @@ section 4. Code: src/train/fixed_votes.py (model), src/train/test_sanity_fixed_v
 - The fixed tables (data/fixed_votes/tables.npz, sha 135ef9807fb12aba): row means 0 and unigram-weighted RMS 1 by
   construction; value ranges next -1.5..9.2, copy -0.6..9.6, topic -27..25 (rare tokens), skip2 -2.2..10.3,
   skip3 -3.0..13.0. Not clipped.
-- Sanity tests on CPU (synthetic and real tables; 150 steps on one repeated batch bring the loss more than 0.5 nats
-  below the bigram's). One full-size training step takes 0.8 s on the CPU. Nothing about trained fixed-vote models.
+
+## Values fixed by the rules and the model-free predictions (analysis/out/fixed_votes/rules.json, usefulness/profile.json)
+
+| rule | value | from |
+|---|---|---|
+| R1 | **peak LR 4e-3** | dev_full CE after 50M tokens: 1e-3 2.6120, 2e-3 2.5874, 4e-3 2.5775 (the largest grid value; the optimum may lie higher) |
+| R2 | measured on the instance at setup (binding there); laptop GPU 0.21 s/step (not binding) | |
+| R3 | not applied (applies only if R2 fires on the instance) | |
+| R4 | all four heads active in both development models (vote-removal shifts 0.060-0.481) | |
+| R5 | defaults kept: band 8-63 (first 100M tokens), shrinkage pseudo-count 20, 32 fit and 32 evaluation windows | |
+| M2 | **H3a predictions: skip2 peaks at d = 1, skip3 at d = 2** (mean usefulness d = 1..7: skip2 0.839, 0.261, 0.152, ...; skip3 0.277, 0.700, 0.301, ...) | computed from corpus counts after the DRAFT, before any model (commits 3ad0532, a22b1f6) |
+
+**Confirmatory runs:** base and shift, seeds 1-4, one epoch each at LR 4e-3; law.py on all eight. All on the cloud
+instance (NVIDIA L4) if it is available, otherwise all on the laptop GPU.
+
+## What has been seen in development (seed 0, laptop GPU; no verdict weight)
+
+| | base | shift |
+|---|---|---|
+| dev_full CE (attn_s0 2.5095) | 2.5428 (+1.3%) | 2.6213 (+4.5%) |
+| vote strengths next, copy, topic, head 3 | 0.70, 0.68, 1.51, 1.78 | 0.83, 0.66, 1.33, 1.67 |
+| own / tt (P1' needs >= 0.5): next, copy, topic, head 3 | 0.24, 0.33, 0.12, 0.43 | 0.45, 0.40, 0.10, 0.35 |
+| own / tt_self (H2 needs > 0.46) | 0.19, 0.33, 0.12, 0.41 | 0.34, 0.39, 0.10, 0.35 |
+| pure-pair, own: next, head 3 | 0.361, 0.433 | 0.481, 0.437 |
+| largest other table's arm / own (P2' needs <= 0.25) | next 0.05, copy 0.49 (topic), topic 0.62 (copy), skip2 0.09 | next 0.02, copy 0.55, topic 1.42 (skip3), skip3 0.02 (shuffled 0.06) |
+| head 3 attention at d = 1, 2 (peak) | 0.525, 0.133 (1) | 0.185, 0.393 (2) |
+| head 3 own arm vs the other skip table's arm | 0.0367 vs 0.0008 | 0.0269 vs 0.0010 |
+
+On the tests below, seed 0 would give H1 NOT SUPPORTED (P1' fails for every head), H2 NOT STRONGER for every head, and
+H3 SUPPORTED (both (a) and (b)). Changing head 3 also moved head 0 (next: more attention at d = 1, pure-pair 0.36 ->
+0.48).
+
+## Deviations and clarifications (all before any confirmatory output)
+
+- Hardware (decision 12): development on the laptop GPU; the eight confirmatory runs on one hardware. R2 binds on the
+  confirmatory hardware (clarified before any study A output).
+- "Another table" in P2' and P3' means the tables of the model's other heads; the alt_ arm (the skip table no head of
+  the model has) is used only in H3b.
+- A head type inactive (R4) in 2 or more seeds is excluded from H1 and H2 and reported; in the remaining seeds an
+  inactive head counts as not meeting the tests. If no head type is active, H1 is NOT SUPPORTED.
+- P3' applies to the heads whose tables look locally (next, skip2 in base models); for copy and topic it counts as met.
+- The tests below are unchanged from the DRAFT although the development results are known.
+- "The joint fit with own and other usefulness" (reported separately) is computed only if time allows (exploratory).
 
 ## Question
 
@@ -62,7 +107,7 @@ study measures how much of the trained attention the start-of-training law still
 - Runs: R1 LR check (base, seed 0, 50M tokens, three LRs); base and shift seed 0 (development); base and shift seeds
   1-4 (confirmatory). Ten one-epoch runs in all.
 
-## Decision rules (development only; values go into the FINAL)
+## Decision rules (development only; values in the table above)
 
 - R1: peak LR = the value in {1e-3, 2e-3, 4e-3} with the lowest dev_full CE after 50M tokens (base, seed 0).
 - R2: one epoch per model. If a step on the confirmatory hardware (median of steps 50-150) takes more than 0.25 s, apply
@@ -143,12 +188,14 @@ and other usefulness (the unique part of own usefulness, since tables are correl
 
 ## Recorded expectations (no verdict weight)
 
-Dev CE between the attn models' and the bigram's, nearer the attn models (about 2.6-2.7). Head `skip2` peaks at
-distance 1 and `skip3` at distance 2; `next` and `skip2` follow the law more closely than in normal models;
-`copy` and `topic` look far and their law test relies on the band feature.
+DRAFT: dev CE between the attn models' and the bigram's, nearer the attn models (about 2.6-2.7); skip2 peaks at
+distance 1 and skip3 at distance 2; next and skip2 follow the law more closely than in normal models; copy and topic
+look far and their law test relies on the band feature. After development: H3 SUPPORTED, H1 NOT SUPPORTED, H2 NOT
+STRONGER are the most likely outcomes.
 
 ## Exploratory
 
 Growth over training (checkpoints: when the own-usefulness correlation appears relative to beta_h); usefulness relative
-to the model's own prediction instead of the bigram (explaining away); a readable description (tables, fitted rules,
+to the model's own prediction instead of the bigram (explaining away: does the law describe more of the attention with
+the right baseline?); a readable description (tables, fitted rules,
 the law) and its KL to the model; further table changes. No use of the test split.

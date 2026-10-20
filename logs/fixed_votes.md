@@ -77,3 +77,9 @@ Decision: logs/decisions.md item 10.
   gain (P1' would fail for every head at seed 0; normal models: >= 50% in 7 of 8 local heads). copy and topic partly
   follow each other's tables. Each head's attention-by-distance matches its table's usefulness profile (skip2 peaks at
   d = 1 as predicted for H3a). The fixed-vote model does not make the law a larger share of attention.
+- **Development: shift, seed 0** (one epoch, LR 4e-3): dev_full CE 2.6213 (+3.1% vs base); head 3 (skip3) attention
+  at d = 1, 2: 0.185, **0.393 (peak at d = 2, as predicted)**; its own arm 0.0269 vs the skip2 arm 0.0010 (crossover);
+  pure-pair own 0.437. own/tt: next 0.45, copy 0.40, topic 0.10, skip3 0.35. Head 0 (same table as in base) moved:
+  pure-pair 0.36 -> 0.48, attention at d = 1 0.20 -> 0.28.
+- **FINAL pre-registration written (2026-10-20); waiting for gate G2.** Confirmatory: base and shift, seeds 1-4, on the
+  instance (job files: `scripts/aws/make_jobs.py A`).
