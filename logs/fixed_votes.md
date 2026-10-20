@@ -57,3 +57,7 @@ Decision: logs/decisions.md item 10.
 - 2026-10-20 00:35: `law.py` smoke test on the random-initialised checkpoint ran end to end (all arms, pure-pair
   correlations, vote removal; values meaningless at initialisation: near-uniform attention, all gains 0). About 35 min
   per model on the CPU while the GPU queues run.
+- **R1 (2026-10-20 03:00): peak LR = 4e-3** (dev_full CE after 50M tokens, base tables, seed 0, laptop GPU: 1e-3
+  2.6120, 2e-3 2.5874, 4e-3 2.5775). The best value is the largest of the pre-registered grid, so the optimum may lie
+  higher; applied as written. For scale: attn_s0..s4 reach 2.491-2.540 after a full epoch. Laptop step time 0.21 s
+  (R2_mps; R2 binds on the instance). Development runs base_s0 and shift_s0 (one epoch, LR 4e-3) started 03:00.
