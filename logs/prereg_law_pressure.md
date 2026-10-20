@@ -1,23 +1,70 @@
-# Pre-registration (DRAFT): can the look-follows-write law be Goodharted? (study B, `law_pressure`)
+# Pre-registration (FINAL): can the look-follows-write law be Goodharted? (study B, `law_pressure`)
 
-DRAFT, 2026-10-18. Committed before any model is trained with the penalty. Decision: logs/decisions.md item 10. Plan:
-logs/plan_attention_law_and_readability.md section 5. Code: src/train/law_pressure.py (penalty), src/train/train.py
-(hook, default off), src/train/runs.py (`law_dev`, `law`, `law_restore`), src/train/test_sanity_law_pressure.py.
-Running log: logs/law_pressure.md.
+FINAL, 2026-10-20. The DRAFT was committed 2026-10-18 (b1d0897) before any model was trained with the penalty. This
+version adds the values fixed by the decision rules (development outputs only, seed 0), what has been seen, and the
+deviations. It is committed before any confirmatory model (seeds 1-4) is trained; the confirmatory runs wait for the
+human's gate G2. Decisions: logs/decisions.md items 10 and 12. Plan: logs/plan_attention_law_and_readability.md
+section 5. Code: src/train/law_pressure.py (penalty), src/train/train.py (hook, default off), src/train/runs.py
+(`law_dev`, `law`, `law_restore`), src/train/test_sanity_law_pressure.py (11 tests), analysis/law_pressure/rules.py,
+analysis/law_pressure/verdicts.py (the outcomes below; refuses to run before this commit). Running log:
+logs/law_pressure.md.
 
-## What has been seen before writing this
+## What has been seen before writing the DRAFT
 
 - The law in normal models (logs/look_follows_write_results.md and addendum): per local head, the pair-specific part of
   attention follows the usefulness of the head's own vote, aggregated over the corpus (pure-pair correlation 0.34-0.44,
   other heads' at most 0.08; own usefulness gains 0.06-0.18 nats in the output test); about 0.24 attention score per
-  logit of usefulness.
+  logit of usefulness. Averaged over all four heads (as the law strength below): 0.326-0.351 in attn_s0..s4, mean
+  own-usefulness gain 0.070-0.090.
 - The penalty's trained quantity in the normal models: the pooled in-batch correlation of attention scores and
   instance usefulness (definition below) on train_windows(16, 9300) is positive for every head of attn_s0..s4:
   0.106-0.161 (attn_s0: 0.131, 0.143, 0.132, 0.110).
-- Sanity tests (10 pass on CPU): the terms equal a direct computation from the attention scores and OV tables; the arms
-  route gradients as intended; lambda = 0 is bitwise the plain run; resume is bitwise; optimising the penalty alone on
-  one batch of attn_s1 removes most of the correlation (squared correlation below a quarter of the start in 60 steps).
-- Nothing about models trained with the penalty.
+- Sanity tests pass on CPU (terms equal a direct computation; arms route gradients as intended; lambda = 0 bitwise the
+  plain run; bitwise resume; optimising the penalty alone on one batch of attn_s1 removes most of the correlation).
+
+## Values fixed by the rules (analysis/out/law_pressure/rules.json)
+
+| rule | value | from |
+|---|---|---|
+| R1 | **lambda* = 1** | development grid: mean abs in-batch correlation 0.110 at lambda 0; 0.018 (16%) at 1, 0.011 at 3, 0.006 at 10, 0.005 at 30, 0.004 at 100 |
+| R2 | **law_windows = 16** (in every run of the study) | laptop GPU: plain 0.096 s/step, penalised 0.247 s/step (2.56x > 1.6x) |
+| R3 | **neither arm attn nor arm vote admitted** | at lambda 1: arm attn 0.056 (51% of control), arm vote 0.080 (72%) |
+| R4 | defaults kept: law measurements on goal 1's windows (32 fit, 32 evaluation); continuation analysed at its end | |
+
+**Confirmatory runs:** for seeds 1-4, the twin (`law --arm both --lam 0 --law_windows 16`) and the penalised model
+(`law --arm both --lam 1 --law_windows 16`), one epoch each; both continued without the penalty (`law_restore`); goal 1's
+law tools on all 16 models; in-batch correlations. All on the cloud instance (NVIDIA L4) if it is available, otherwise
+all on the laptop GPU.
+
+## What has been seen in development (seed 0, 100M tokens, laptop GPU; no verdict weight)
+
+| lambda | in-batch corr (share of control) | law strength: pure-pair corr, mean of 4 heads | own-usefulness gain (mean) | dev_full CE (vs control) |
+|---|---|---|---|---|
+| 0 (control) | 0.110 (1.00) | 0.320 | 0.057 | 2.6618 |
+| 1 | 0.018 (0.16) | 0.175 | 0.048 | +0.22% |
+| 3 | 0.011 (0.10) | 0.189 | 0.051 | -0.35% |
+| 10 | 0.006 (0.05) | 0.142 | 0.048 | -0.59% |
+| 30 | 0.005 (0.05) | 0.140 | 0.044 | +0.08% |
+| 100 | 0.004 (0.035) | 0.256 | 0.015 | +0.81% |
+| arm attn, 1 | 0.056 (0.51) | 0.179 | 0.050 | +0.34% |
+
+The penalised statistic falls 6-30x at no measurable cost; the law strength roughly halves at lambda 1-30 and partly
+returns at 100, where the own-usefulness gain falls to a quarter: the two held-out measures of the law come apart
+under strong pressure. Head-specificity weakens at lambda 1-3 (another head's usefulness up to |0.23| pure-pair
+correlation; control <= 0.08). On the definitions below, seed 0 at lambda* would be PARTLY BROKEN with LOW cost.
+
+## Deviations and clarifications (all before any confirmatory output)
+
+- Hardware (decision 12): development on the laptop GPU; confirmatory runs, twins and continuations on one hardware.
+- The twin of a penalised model is the lambda = 0 run of the same seed on the same hardware (DRAFT text edited before
+  any output; attn_s{s} are on the laptop).
+- R2's scope (every run uses the development value) was written after R2's timing was measured; it does not depend on
+  the measured value.
+- The outcome thresholds below are unchanged from the DRAFT although the development results are known.
+- Counting: a seed failing M is INCONCLUSIVE and counts toward no cell; the verdict names a cell only if that same cell
+  holds in at least 3 of 4 seeds; a recovery with a denominator <= 0 is undefined and counts toward neither FAST nor NONE.
+- "Where the work goes" is reported, not tested: goal 1's base-rule pattern cross-entropy against the pair arms, and the
+  other heads' usefulness arms (head-specificity).
 
 ## Question
 
@@ -51,7 +98,7 @@ consumes no random numbers, so seed s has exactly the initialisation and batch o
 - Restoring force: each confirmatory model and its twin continued without the penalty for 3,000 steps (49M tokens;
   fresh AdamW, 1% warmup, cosine from 2e-4 to 2e-5; batch order of seed s + 10).
 
-## Decision rules (development only; values go into the FINAL)
+## Decision rules (development only; values in the table above)
 
 - R1: lambda* = the smallest grid value whose 100M-token run (arm both) has a mean over heads of |in-batch correlation|
   (on train_windows(16, 9300), src/train/law_pressure.corr_on) at most 20% of the control's; the largest grid value if
@@ -95,8 +142,9 @@ FAST if >= 0.5 in at least 3 of 4 seeds; NONE if <= 0.1 in at least 3 of 4; othe
 
 ## Recorded expectations (no verdict weight)
 
-The in-batch correlation is easy to suppress (it is noisy at instance level). The aggregate law weakens but does not
-vanish, at a cost of 1-3%; a FAST return without the penalty.
+DRAFT: the in-batch correlation is easy to suppress (it is noisy at instance level); the aggregate law weakens but does
+not vanish, at a cost of 1-3%; a FAST return without the penalty. After development: PARTLY BROKEN with LOW cost in
+most seeds (verdict MIXED) is the most likely outcome.
 
 ## Exploratory
 

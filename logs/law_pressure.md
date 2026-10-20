@@ -66,3 +66,8 @@ Decision: logs/decisions.md item 10.
   output gain stays at 77-89% of the control's. Head-specificity weakens at lambda 1-3 (another head's usefulness
   reaches |0.23| pure-pair correlation; control <= 0.08). On the pre-registered definitions seed 0 would be PARTLY
   BROKEN with LOW cost. The outcome thresholds stay as in the DRAFT (fixed before any output).
+- **R3 (01:50): neither arm admitted** (at lambda 1 arm attn reaches 51% of the control's in-batch correlation, arm vote
+  72%; only the joint penalty meets the 20% criterion). Development law tools: lambda 100 pure-pair 0.256, own gain
+  0.015; arm attn pure-pair 0.179, own gain 0.050; arm vote pending (exploratory).
+- **FINAL pre-registration written (2026-10-20); waiting for gate G2.** Confirmatory: twins and lambda 1, seeds 1-4,
+  continuations, law tools (job files: `scripts/aws/make_jobs.py B`).
