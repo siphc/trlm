@@ -44,3 +44,8 @@ Decision: logs/decisions.md item 10.
   latest.pt (19:45, about step 5,000 of 6,103). Resume: `nohup caffeinate -dimsu scripts/next_studies/dev_queue.sh mps
   >> logs/runs/next_studies_dev.out 2>&1 &` and `nohup scripts/next_studies/watchdog.sh scripts/next_studies/dev_queue.sh
   > /dev/null 2>&1 &` (finished steps are skipped; R2 is not re-measured).
+- Development: goal 1's law tools on the lambda = 0 control (models/law_pressure/dev/both_l0_s0_100M, 100M tokens;
+  10 min on the CPU; first use with a checkpoint path): heads LOCAL, RECALL, LOCAL, RECALL; pure-pair correlation with
+  own usefulness +0.398, +0.252, +0.368, +0.261 (mean 0.320; full-epoch normal models 0.326-0.351), other heads and
+  shuffled controls within +-0.08; own-usefulness gains +0.122, +0.025, +0.046, +0.036 (mean 0.057; full-epoch
+  0.070-0.090). The law is present at 100M tokens, so the development grid can show whether the penalty removes it.
