@@ -38,3 +38,5 @@ Decision: logs/decisions.md item 10.
   readable-training run shared the GPU (both timings equally affected) -> **law_windows = 16**. Because lambda* is chosen
   with this penalty, every run of study B (development, confirmatory, continuations) uses 16 windows, on any hardware.
 - Development grid started 19:05 (lambda 0, 1, 3, 10, 30, 100; seed 0; 100M tokens; log logs/runs/next_studies_dev.out).
+- Cloud kit in scripts/aws/ (README there); `scripts/aws/make_jobs.py B` writes the confirmatory job files (twins,
+  penalised runs, continuations, law tools) once the FINAL is committed.

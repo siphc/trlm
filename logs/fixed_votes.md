@@ -46,3 +46,11 @@ Decision: logs/decisions.md item 10.
    confirmatory queue runs first): MPS step time (R2, R3), `python -m src.train.runs fixed_lr --device mps` (R1), record
    R1 in analysis/out/fixed_votes/rules.json, then `fixed --name base --seeds 0` and `--name shift --seeds 0` with the
    chosen LR (development), run law.py on them, the pipeline checks, then the FINAL pre-registration and gate G2.
+
+## 2026-10-19 (G0/G1 approved, decision 12)
+
+- DRAFT edit before any output: confirmatory runs all on one hardware (the cloud instance if available); development
+  (R1, seed 0) may run on the laptop GPU. `analysis/fixed_votes/rules.py` (R1, R2). Development runs are queued in
+  `scripts/next_studies/dev_queue.sh` after study B's (R2 timing on MPS, R1 LR check, base and shift seed 0).
+- Cloud kit in scripts/aws/ (README there); `scripts/aws/make_jobs.py A` writes the confirmatory job files once the
+  FINAL is committed.
