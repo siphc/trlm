@@ -40,3 +40,7 @@ Decision: logs/decisions.md item 10.
 - Development grid started 19:05 (lambda 0, 1, 3, 10, 30, 100; seed 0; 100M tokens; log logs/runs/next_studies_dev.out).
 - Cloud kit in scripts/aws/ (README there); `scripts/aws/make_jobs.py B` writes the confirmatory job files (twins,
   penalised runs, continuations, law tools) once the FINAL is committed.
+- 2026-10-19 19:46: development queue paused at the human's request. Grid run lambda 0 finished; lambda 1 resumes from
+  latest.pt (19:45, about step 5,000 of 6,103). Resume: `nohup caffeinate -dimsu scripts/next_studies/dev_queue.sh mps
+  >> logs/runs/next_studies_dev.out 2>&1 &` and `nohup scripts/next_studies/watchdog.sh scripts/next_studies/dev_queue.sh
+  > /dev/null 2>&1 &` (finished steps are skipped; R2 is not re-measured).

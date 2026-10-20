@@ -177,3 +177,6 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   from 11:03. **To resume, on the charger:** `nohup caffeinate -dimsu scripts/readable/confirm_queue.sh >>
   logs/runs/readable_confirm.out 2>&1 &` and `nohup scripts/readable/watchdog.sh scripts/readable/confirm_queue.sh >
   /dev/null 2>&1 &` (the run continues from latest.pt; about 7.5 h of the queue remain).
+- 2026-10-19 19:46: training paused at the human's request (queue, watchdog, caffeinate stopped). Seed 1 arm O is
+  finished (its suite was left running); seed 1 arm I resumes from latest.pt (19:41, about step 4,000). Resume with the
+  same two nohup commands as above.
