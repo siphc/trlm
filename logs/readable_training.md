@@ -187,3 +187,7 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   runs are skipped; the last suite starts by itself), then `nohup scripts/readable/finish.sh > /dev/null 2>&1 &`
   (seed distances and verdicts once all eight suites are complete), then write logs/readable_training_results.md and
   ask for gate G3.
+- 2026-11-06: seed 4 arm I finished training and its suite; finish.sh ran the seed distances and verdicts (01:19,
+  logs/runs/readable_verdicts.out). Both arms GOODHARTED (M 0.2 and literal floor; INCONCLUSIVE with M 0.3), via tau
+  <= 0.2 in 3 of 4 seeds; positive control trips flag (i) but not tau_OOD <= 0.2, so the suite is declared insensitive.
+  Results: logs/readable_training_results.md. Gate G3 pending (the human reviews in the morning).

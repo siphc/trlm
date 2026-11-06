@@ -200,3 +200,11 @@ rules (distance, spelling, own-vote usefulness) gives a readable model better th
 fixed-vote model, 0.77 from attn_s0 (v1.3: 0.55), CE 2.70 vs 2.44 for attn_s0 (v1.3 matches the model). The missing
 part is the token-pair structure of learned attention (the non-readable token-token term reaches 0.09). Status:
 development only; the confirmatory runs test the law, not this route.
+
+## Training a model toward program v1.3 (readable-training side study, confirmatory, 2026-11-06)
+
+Hypothesis (H-genuine): a loss pulling a new model toward v1.3, at its outputs (arm O) or its attention and votes
+(arm I), makes v1.3 a faithful description of that model. Evidence (logs/readable_training_results.md, seeds 1-4,
+lambda 0.3, cost about 1% CE): arm O brings the harness KL from 0.54-0.56 to 0.39-0.40 but the heads do not move toward
+the rules; arm I makes the heads look and vote like the rules but the harness KL stays 0.50-0.52. Verdict GOODHARTED in
+both arms (tau <= 0.2 in 3 of 4 seeds). Output and mechanism agreement are separately trainable.

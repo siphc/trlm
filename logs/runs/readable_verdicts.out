@@ -1,0 +1,26 @@
+### Arm O (lambda 0.3): verdict GOODHARTED (M at 0.3 as in the FINAL: INCONCLUSIVE; literal noise floor: GOODHARTED)
+
+| seed | trained closure | untrained closure | tau | tau_OOD | M | flags | cost | b1 | b2 | lock drop |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0.27 | 0.00 | 0.00 | 1.18 | pass | none | +1.23% | 0.399 | 0.409 | +19% |
+| 2 | 0.28 | 0.04 | 0.13 | 0.90 | pass | none | +0.56% | 0.403 | 0.412 | +17% |
+| 3 | 0.28 | 0.06 | 0.21 | 0.98 | pass | ii | +1.08% | 0.388 | 0.387 | +31% |
+| 4 | 0.29 | 0.00 | 0.00 | 0.94 | pass | none | +0.81% | 0.389 | 0.392 | +22% |
+
+counts: {"M_fail": 0, "P_and_S_ge_0.5": 0, "P_le_0.2": 3, "S_le_0.2": 0, "flags": {"i_memorisation": 0, "ii_decorative": 1, "iii_refit": 0}, "seeds_with_any_flag": 1}
+seed convergence: pairwise 0.417 -> 0.303, to program 0.554 -> 0.398, ratio 0.97
+
+### Arm I (lambda 0.3): verdict GOODHARTED (M at 0.3 as in the FINAL: INCONCLUSIVE; literal noise floor: GOODHARTED)
+
+| seed | trained closure | untrained closure | tau | tau_OOD | M | flags | cost | b1 | b2 | lock drop |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0.61 | 0.05 | 0.08 | 0.96 | pass | none | +1.29% | 0.521 | 0.525 | -23% |
+| 2 | 0.66 | 0.08 | 0.12 | 0.98 | pass | none | -0.05% | 0.515 | 0.519 | -19% |
+| 3 | 0.29 | 0.05 | 0.16 | - | pass | ii | +1.84% | 0.515 | 0.515 | +5% |
+| 4 | 0.26 | 0.08 | 0.28 | - | pass | none | +0.90% | 0.504 | 0.505 | -5% |
+
+counts: {"M_fail": 0, "P_and_S_ge_0.5": 0, "P_le_0.2": 3, "S_le_0.2": 0, "flags": {"i_memorisation": 0, "ii_decorative": 1, "iii_refit": 0}, "seeds_with_any_flag": 1}
+seed convergence: pairwise 0.417 -> 0.310, to program 0.554 -> 0.515, ratio 3.60
+
+positive control: gap 0.158, tau_OOD 1.20, suite sensitive: False
+readable verdicts done Fri Nov  6 01:18:51 PST 2026

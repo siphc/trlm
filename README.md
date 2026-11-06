@@ -43,4 +43,6 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
   readability and the arbitrariness between training runs). Readable-training confirmatory runs started 2026-10-18
   (gate G2; test M amended, decision 11). Studies A (`logs/fixed_votes.md`, `logs/prereg_fixed_votes.md`) and B
   (`logs/law_pressure.md`, `logs/prereg_law_pressure.md`): development done on the laptop, FINAL pre-registrations
-  committed 2026-10-20, waiting for gate G2; confirmatory runs planned on a cloud GPU (decision 12, `scripts/aws/`).
+  committed 2026-10-20. Gate G2 (decision 13, 2026-11-06): study B runs in full on the laptop GPU
+  (`scripts/law_pressure/`); study A's confirmatory runs are not run. Readable-training results:
+  `logs/readable_training_results.md` (both arms GOODHARTED: output and mechanism agreement come apart), gate G3 pending.

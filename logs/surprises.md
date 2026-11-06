@@ -168,3 +168,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - 2026-10-18 (readable training): the seed-0 one-epoch runs, already in hand when the FINAL pre-registration was written,
   sit just below its manipulation check (trained closure 0.28 and 0.274 vs 0.3); noticed only when the verdicts script
   was tested, after the confirmatory runs had started and before any confirmatory output (logs/readable_training.md).
+- 2026-11-06 (readable training, confirmatory): (1) the positive control (256-window pool) memorises (gap 0.158) yet its
+  agreement transfers out of distribution as well as on dev (tau_OOD 1.20), so tau_OOD cannot detect pool gaming here;
+  (2) arm I's heads look and vote like the program's rules but the lock tightens in seeds 1-2 (+19-23%); (3) arm I
+  makes seeds 26% more alike while moving them only 7% toward the program (logs/readable_training_results.md).
