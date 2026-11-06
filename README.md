@@ -47,6 +47,8 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
   (`scripts/law_pressure/`); study A's confirmatory runs are not run; its development and exploratory results are in
   `logs/fixed_votes_results.md` (no verdicts). Readable-training results:
   `logs/readable_training_results.md` (both arms GOODHARTED: output and mechanism agreement come apart; G3 passed).
+- Running write-up draft (updated at each milestone, not published): `writeups/draft.md`. Study C part B: addendum
+  DRAFT `logs/prereg_canonical_addendum.md` (awaiting G0/G1).
 - **Coverage (decision 14, `logs/coverage.md`):** v1.3 covers 0.728 of the way from the bigram (KL 1.33) to the seed
   floor (the average of the other four seeds, KL 0.256), equally for every seed; the gap left is 0.29 nats of shared
   behaviour, mostly copying. Next: the copying diagnostic, then study C part B.
