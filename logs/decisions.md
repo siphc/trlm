@@ -66,3 +66,13 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     instance (development, confirmatory runs and their controls), falling back to the laptop GPU only if the instance
     is not available; the readable-training study stays on the laptop (its baselines, development runs and harness
     sandbox are there). Until then, work that carries over (setup kit, rule scripts) is prepared on the laptop.
+13. **Gate G2 for studies A and B** (2026-11-06, after the human reviewed the two FINAL pre-registrations and the
+    seed-0 development results): **study B approved in full** as pre-registered (lambda* = 1, law_windows 16, arm both
+    only; twins, penalised models, continuations and law tools for seeds 1-4). It runs on the **laptop GPU** (MPS), the
+    pre-registered fallback, since the instance's GPU quota has not arrived; every run of study B's confirmatory phase
+    (twins, penalised models, continuations) stays on that hardware. **Study A's confirmatory runs are not run**:
+    seed 0 already makes H3 near-certain and near-built-in and H1 a clear failure, and 8 one-epoch runs (about 32 h of
+    laptop GPU) would add little. Its pre-registered tests are therefore never scored; the seed-0 results remain
+    development results with no verdict weight. Instead the pre-registered exploratory analysis "usefulness relative
+    to the model's own prediction" (explaining away) runs on the seed-0 models (CPU). Study A's confirmatory runs may
+    be reopened only if that analysis shows something that needs seeds to confirm, and then as a new decision.

@@ -150,3 +150,8 @@ most seeds (verdict MIXED) is the most likely outcome.
 
 The development grid's dose-response; arms attn and vote compared; where the function goes; checkpoints of the
 continuation (how quickly the law returns); the in-batch correlation over training. No use of the test split.
+
+## Status (2026-11-06, decision 13)
+
+Gate G2 approved. The confirmatory runs run on the laptop GPU (MPS), the fallback named above, because the instance is
+not available; all twins, penalised models and continuations on that hardware. Queue: scripts/law_pressure/.

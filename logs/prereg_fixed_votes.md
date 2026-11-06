@@ -199,3 +199,8 @@ Growth over training (checkpoints: when the own-usefulness correlation appears r
 to the model's own prediction instead of the bigram (explaining away: does the law describe more of the attention with
 the right baseline?); a readable description (tables, fitted rules,
 the law) and its KL to the model; further table changes. No use of the test split.
+
+## Status (2026-11-06, decision 13)
+
+The confirmatory runs (seeds 1-4) were not run, by the human's decision at gate G2; H1-H3 are never scored. No
+confirmatory output exists. The development results above remain development results.
