@@ -1,8 +1,0 @@
-A_law_base_s1 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/base_s1/final.pt
-A_law_base_s2 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/base_s2/final.pt
-A_law_base_s3 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/base_s3/final.pt
-A_law_base_s4 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/base_s4/final.pt
-A_law_shift_s1 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/shift_s1/final.pt
-A_law_shift_s2 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/shift_s2/final.pt
-A_law_shift_s3 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/shift_s3/final.pt
-A_law_shift_s4 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/shift_s4/final.pt

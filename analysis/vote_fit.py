@@ -16,7 +16,7 @@ A candidate is a Python file defining
     def features(P, tokens):       # -> {direction name: (n, V) array}; P.STATS holds the program's corpus tables
         ...
 
-Run: python -m analysis.vote_fit analysis/candidates/<file>.py [--fit 32] [--eval 64] [--no_heads]
+Run: python -m analysis.vote_fit <candidate>.py (the discovery rounds' candidate files are at git tag pre-cleanup, analysis/candidates/) [--fit 32] [--eval 64] [--no_heads]
          [--fit_seed 2024] [--eval_seed 2000] [--tag _suffix]
 (When a candidate REPLACES directions of a program part, the head-effect check drops that whole part from the
 'program+candidate' set, so the candidate's directions must carry the part's replaced role. Candidate directions
