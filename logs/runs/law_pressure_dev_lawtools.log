@@ -1,0 +1,183 @@
+models/law_pressure/dev/both_l1_s0_100M/final.pt: final-LN scale 0.6255
+  d=1 done in 123s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 148s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 154s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 168s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 156s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 156s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 155s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l1_s0_100M/final.pt: tables built in 1068s
+models/law_pressure/dev/both_l1_s0_100M/final.pt: mean distances [5.99, 31.83, 9.17, 23.29] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.44619; gains own +0.12035, other_h1 +0.00123, other_h2 +0.00059, other_h3 +0.00452, perm +0.00318, tt +0.16108; own coef {'c1': 0.18894617230802116, 'c2': 0.23067611762907703} [49s]
+  head 1 (RECALL): base KL 0.38465; gains own +0.01666, other_h0 -0.00010, other_h2 -0.00049, other_h3 -0.00007, perm -0.00002, tt +0.33845; own coef {'c1': 0.143374992704442, 'c2': 0.2965149388750451} [54s]
+  head 2 (LOCAL): base KL 0.49899; gains own +0.02837, other_h0 -0.00003, other_h1 +0.00002, other_h3 +0.00385, perm +0.00023, tt +0.16922; own coef {'c1': 0.10458492176540742, 'c2': 0.24474542933503954} [70s]
+  head 3 (RECALL): base KL 0.43825; gains own +0.02785, other_h0 +0.00036, other_h1 -0.00022, other_h2 +0.00019, perm +0.00016, tt +0.34844; own coef {'c1': 0.2059012029808172, 'c2': 0.341424739573158} [48s]
+  head 0: pure-pair corr own +0.308, perm -0.046, tt +0.997, other_h1 +0.027, other_h2 -0.042, other_h3 -0.069
+  head 1: pure-pair corr own +0.090, perm +0.009, tt +1.000, other_h0 -0.013, other_h2 -0.008, other_h3 -0.060
+  head 2: pure-pair corr own +0.272, perm -0.026, tt +0.998, other_h0 -0.029, other_h1 -0.088, other_h3 -0.127
+  head 3: pure-pair corr own +0.028, perm +0.056, tt +0.999, other_h0 -0.072, other_h1 -0.227, other_h2 -0.109
+models/law_pressure/dev/both_l1_s0_100M/final.pt: done in 235s
+models/law_pressure/dev/both_l3_s0_100M/final.pt: final-LN scale 0.6148
+  d=1 done in 162s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 186s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 244s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 198s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 110s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 98s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 101s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l3_s0_100M/final.pt: tables built in 1108s
+models/law_pressure/dev/both_l3_s0_100M/final.pt: mean distances [6.18, 31.98, 11.52, 15.09] -> ['LOCAL', 'RECALL', 'RECALL', 'RECALL']
+  head 0 (LOCAL): base KL 0.40040; gains own +0.09941, other_h1 +0.00481, other_h2 -0.00001, other_h3 +0.00545, perm +0.00090, tt +0.07473; own coef {'c1': 0.21135240103478511, 'c2': 0.23062620309852533} [35s]
+  head 1 (RECALL): base KL 0.34457; gains own +0.00778, other_h0 +0.00023, other_h2 +0.00001, other_h3 -0.00019, perm -0.00003, tt +0.29808; own coef {'c1': 0.09533366688047772, 'c2': 0.15254820510229508} [34s]
+  head 2 (RECALL): base KL 0.51952; gains own +0.04707, other_h0 -0.00077, other_h1 +0.00079, other_h3 +0.00375, perm +0.00047, tt +0.18449; own coef {'c1': 0.17939887776218674, 'c2': 0.30129266451120995} [31s]
+  head 3 (RECALL): base KL 0.47434; gains own +0.04980, other_h0 +0.00041, other_h1 -0.00057, other_h2 +0.00001, perm -0.00011, tt +0.37048; own coef {'c1': 0.21284937429998999, 'c2': 0.33428248608805233} [41s]
+  head 0: pure-pair corr own +0.341, perm -0.013, tt +0.998, other_h1 +0.090, other_h2 -0.024, other_h3 -0.062
+  head 1: pure-pair corr own +0.080, perm -0.003, tt +1.000, other_h0 +0.015, other_h2 -0.021, other_h3 -0.038
+  head 2: pure-pair corr own +0.248, perm +0.026, tt +0.998, other_h0 -0.091, other_h1 -0.103, other_h3 -0.084
+  head 3: pure-pair corr own +0.086, perm -0.000, tt +0.999, other_h0 -0.126, other_h1 -0.202, other_h2 -0.043
+models/law_pressure/dev/both_l3_s0_100M/final.pt: done in 153s
+models/law_pressure/dev/both_l10_s0_100M/final.pt: final-LN scale 0.6350
+  d=1 done in 108s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 83s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 72s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 115s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 93s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 75s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 71s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l10_s0_100M/final.pt: tables built in 624s
+models/law_pressure/dev/both_l10_s0_100M/final.pt: mean distances [8.52, 33.58, 10.21, 19.01] -> ['LOCAL', 'RECALL', 'RECALL', 'RECALL']
+  head 0 (LOCAL): base KL 0.37951; gains own +0.08494, other_h1 -0.00124, other_h2 +0.00056, other_h3 -0.00043, perm +0.00056, tt +0.19911; own coef {'c1': 0.27027609077190407, 'c2': 0.2283777549905847} [41s]
+  head 1 (RECALL): base KL 0.36135; gains own +0.01330, other_h0 +0.00066, other_h2 +0.00019, other_h3 +0.00006, perm -0.00004, tt +0.31933; own coef {'c1': 0.05546477450521878, 'c2': 0.2908923393810456} [31s]
+  head 2 (RECALL): base KL 0.54424; gains own +0.02204, other_h0 +0.00088, other_h1 +0.00129, other_h3 +0.00057, perm +0.00100, tt +0.21906; own coef {'c1': 0.06539050909284368, 'c2': 0.18602935866755602} [32s]
+  head 3 (RECALL): base KL 0.48572; gains own +0.07004, other_h0 -0.00114, other_h1 +0.00022, other_h2 +0.00243, perm +0.00045, tt +0.18766; own coef {'c1': 0.5267003851666392, 'c2': 0.47191925918038125} [30s]
+  head 0: pure-pair corr own +0.272, perm -0.036, tt +0.999, other_h1 +0.048, other_h2 +0.000, other_h3 +0.005
+  head 1: pure-pair corr own +0.011, perm +0.033, tt +1.000, other_h0 +0.068, other_h2 +0.074, other_h3 +0.016
+  head 2: pure-pair corr own +0.123, perm -0.038, tt +0.999, other_h0 -0.032, other_h1 -0.029, other_h3 -0.017
+  head 3: pure-pair corr own +0.161, perm -0.013, tt +0.999, other_h0 +0.022, other_h1 +0.001, other_h2 -0.012
+models/law_pressure/dev/both_l10_s0_100M/final.pt: done in 143s
+models/law_pressure/dev/both_l30_s0_100M/final.pt: final-LN scale 0.6257
+  d=1 done in 64s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 69s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 72s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 72s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 72s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 74s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 69s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l30_s0_100M/final.pt: tables built in 498s
+models/law_pressure/dev/both_l30_s0_100M/final.pt: mean distances [5.9, 27.35, 22.77, 18.6] -> ['LOCAL', 'RECALL', 'RECALL', 'RECALL']
+  head 0 (LOCAL): base KL 0.49735; gains own +0.04958, other_h1 +0.00716, other_h2 +0.00378, other_h3 +0.01007, perm -0.00158, tt +0.23183; own coef {'c1': 0.0532520812847884, 'c2': 0.14808337251258905} [41s]
+  head 1 (RECALL): base KL 0.41420; gains own +0.01713, other_h0 -0.00005, other_h2 +0.00081, other_h3 -0.00002, perm +0.00008, tt +0.23760; own coef {'c1': 0.17221844293796204, 'c2': 0.30877302613115587} [33s]
+  head 2 (RECALL): base KL 0.36112; gains own +0.03772, other_h0 -0.00100, other_h1 +0.00088, other_h3 +0.00009, perm +0.00004, tt +0.28987; own coef {'c1': 0.25740286402458085, 'c2': 0.3597500108468113} [38s]
+  head 3 (RECALL): base KL 0.72296; gains own +0.06957, other_h0 +0.00029, other_h1 +0.00112, other_h2 +0.00081, perm +0.00025, tt +0.55525; own coef {'c1': 0.3252861537424817, 'c2': 0.3663712015095264} [34s]
+  head 0: pure-pair corr own +0.204, perm -0.023, tt +0.998, other_h1 -0.011, other_h2 -0.018, other_h3 -0.021
+  head 1: pure-pair corr own +0.090, perm +0.016, tt +0.999, other_h0 +0.096, other_h2 +0.022, other_h3 +0.025
+  head 2: pure-pair corr own +0.142, perm +0.009, tt +0.999, other_h0 +0.001, other_h1 +0.000, other_h3 -0.049
+  head 3: pure-pair corr own +0.122, perm +0.005, tt +0.999, other_h0 -0.049, other_h1 -0.016, other_h2 -0.036
+models/law_pressure/dev/both_l30_s0_100M/final.pt: done in 155s
+models/law_pressure/dev/both_l100_s0_100M/final.pt: final-LN scale 0.6509
+  d=1 done in 73s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 73s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 67s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 71s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 69s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 70s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 66s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l100_s0_100M/final.pt: tables built in 492s
+models/law_pressure/dev/both_l100_s0_100M/final.pt: mean distances [9.27, 26.86, 21.72, 10.54] -> ['LOCAL', 'RECALL', 'RECALL', 'RECALL']
+  head 0 (LOCAL): base KL 0.90383; gains own -0.08339, other_h1 -0.00095, other_h2 -0.00240, other_h3 -0.00051, perm -0.00433, tt +0.42997; own coef {'c1': 0.024984559310469768, 'c2': 0.113657515293012} [37s]
+  head 1 (RECALL): base KL 0.48745; gains own +0.03820, other_h0 +0.00001, other_h2 +0.00142, other_h3 -0.00104, perm +0.00004, tt +0.41330; own coef {'c1': 0.35591982085145385, 'c2': 0.2471196003116583} [36s]
+  head 2 (RECALL): base KL 0.47949; gains own +0.06329, other_h0 -0.00001, other_h1 +0.00006, other_h3 +0.00136, perm +0.00086, tt +0.34831; own coef {'c1': 0.29075977438819467, 'c2': 0.5408885583716239} [30s]
+  head 3 (RECALL): base KL 0.32573; gains own +0.04091, other_h0 +0.00314, other_h1 +0.00399, other_h2 -0.00112, perm -0.00001, tt +0.23636; own coef {'c1': 0.16721088184419033, 'c2': 0.3199409884055488} [34s]
+  head 0: pure-pair corr own +0.349, perm -0.018, tt +0.997, other_h1 -0.026, other_h2 -0.052, other_h3 +0.030
+  head 1: pure-pair corr own +0.156, perm +0.039, tt +1.000, other_h0 +0.131, other_h2 +0.025, other_h3 +0.061
+  head 2: pure-pair corr own +0.263, perm +0.037, tt +0.999, other_h0 -0.133, other_h1 +0.057, other_h3 -0.046
+  head 3: pure-pair corr own +0.256, perm +0.000, tt +0.997, other_h0 -0.166, other_h1 +0.066, other_h2 -0.041
+models/law_pressure/dev/both_l100_s0_100M/final.pt: done in 145s
+models/law_pressure/dev/attn_l1_s0_100M/final.pt: final-LN scale 0.6231
+  d=1 done in 63s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 70s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 75s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 71s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 71s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 68s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 70s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/attn_l1_s0_100M/final.pt: tables built in 493s
+models/law_pressure/dev/attn_l1_s0_100M/final.pt: mean distances [5.67, 31.6, 9.81, 22.35] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.41070; gains own +0.11692, other_h1 -0.00008, other_h2 -0.00025, other_h3 +0.00758, perm +0.00054, tt +0.14171; own coef {'c1': 0.18559248336214001, 'c2': 0.24383523285557937} [37s]
+  head 1 (RECALL): base KL 0.39844; gains own +0.01998, other_h0 +0.00007, other_h2 -0.00012, other_h3 -0.00001, perm -0.00009, tt +0.34243; own coef {'c1': 0.2170059009396719, 'c2': 0.32468164446923337} [30s]
+  head 2 (LOCAL): base KL 0.49439; gains own +0.03094, other_h0 +0.00051, other_h1 -0.00027, other_h3 +0.00288, perm +0.00011, tt +0.19299; own coef {'c1': 0.103735679651001, 'c2': 0.2647120283077324} [32s]
+  head 3 (RECALL): base KL 0.41539; gains own +0.03297, other_h0 +0.00072, other_h1 -0.00116, other_h2 +0.00023, perm -0.00004, tt +0.34446; own coef {'c1': 0.2953346273852535, 'c2': 0.3287709579960075} [28s]
+  head 0: pure-pair corr own +0.187, perm -0.019, tt +0.999, other_h1 +0.039, other_h2 -0.021, other_h3 -0.052
+  head 1: pure-pair corr own +0.164, perm -0.002, tt +1.000, other_h0 +0.008, other_h2 +0.015, other_h3 -0.034
+  head 2: pure-pair corr own +0.175, perm -0.028, tt +0.999, other_h0 +0.018, other_h1 +0.010, other_h3 -0.033
+  head 3: pure-pair corr own +0.191, perm +0.016, tt +0.999, other_h0 +0.020, other_h1 -0.005, other_h2 -0.039
+models/law_pressure/dev/attn_l1_s0_100M/final.pt: done in 137s
+models/law_pressure/dev/vote_l1_s0_100M/final.pt: final-LN scale 0.6263
+  d=1 done in 47s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 54s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 59s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 53s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 52s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 57s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 50s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/vote_l1_s0_100M/final.pt: tables built in 376s
+models/law_pressure/dev/vote_l1_s0_100M/final.pt: mean distances [5.71, 30.69, 9.41, 24.62] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.65161; gains own +0.04833, other_h1 +0.00437, other_h2 +0.01780, other_h3 +0.00038, perm -0.00211, tt +0.40300; own coef {'c1': 0.050440195423133605, 'c2': 0.13369330425895237} [30s]
+  head 1 (RECALL): base KL 0.40382; gains own +0.02187, other_h0 -0.00031, other_h2 +0.00014, other_h3 -0.00027, perm -0.00006, tt +0.35707; own coef {'c1': 0.18072350262523465, 'c2': 0.28335115818632384} [27s]
+  head 2 (LOCAL): base KL 0.40597; gains own +0.06428, other_h0 +0.00004, other_h1 +0.00004, other_h3 +0.00359, perm +0.00088, tt +0.16999; own coef {'c1': 0.2802852616679152, 'c2': 0.3103722720451042} [27s]
+  head 3 (RECALL): base KL 0.51419; gains own +0.02355, other_h0 +0.00070, other_h1 +0.00171, other_h2 +0.00036, perm +0.00030, tt +0.42756; own coef {'c1': 0.26601611706721817, 'c2': 0.29374713005345876} [27s]
+  head 0: pure-pair corr own +0.353, perm -0.044, tt +0.995, other_h1 +0.069, other_h2 -0.078, other_h3 -0.065
+  head 1: pure-pair corr own +0.182, perm +0.017, tt +1.000, other_h0 +0.030, other_h2 +0.042, other_h3 -0.069
+  head 2: pure-pair corr own +0.376, perm -0.009, tt +0.999, other_h0 -0.017, other_h1 -0.013, other_h3 -0.079
+  head 3: pure-pair corr own +0.203, perm +0.014, tt +1.000, other_h0 +0.022, other_h1 -0.062, other_h2 -0.069
+models/law_pressure/dev/vote_l1_s0_100M/final.pt: done in 119s
+development law tools done Tue Oct 20 02:00:04 PDT 2026

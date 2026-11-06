@@ -4,3 +4,5 @@ Sun Oct 18 05:59:21 EDT 2026 scripts/readable/dev_followup.sh finished; watchdog
 Sun Oct 18 07:31:58 EDT 2026 scripts/readable/dev_followup2.sh finished; watchdog exits
 Mon Oct 19 23:46:35 PDT 2026 on AC power: starting queues
 Tue Oct 20 10:56:25 PDT 2026 scripts/next_studies/dev_queue.sh finished; watchdog exits
+Fri Nov  6 01:01:54 PST 2026 scripts/readable/confirm_queue.sh finished; watchdog exits
+Fri Nov  6 08:52:50 PST 2026 scripts/law_pressure/confirm_queue.sh finished; watchdog exits

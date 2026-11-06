@@ -1,0 +1,26 @@
+models/law_pressure/dev/both_l0_s0_100M/final.pt: final-LN scale 0.6145
+  d=1 done in 55s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 68s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 55s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 69s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 66s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 77s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 63s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/dev/both_l0_s0_100M/final.pt: tables built in 459s
+models/law_pressure/dev/both_l0_s0_100M/final.pt: mean distances [6.01, 30.15, 9.91, 23.79] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.41182; gains own +0.12223, other_h1 +0.00073, other_h2 +0.00387, other_h3 +0.00731, perm +0.00367, tt +0.19368; own coef {'c1': 0.1873319164612516, 'c2': 0.2448249833863531} [35s]
+  head 1 (RECALL): base KL 0.36728; gains own +0.02506, other_h0 -0.00016, other_h2 -0.00029, other_h3 -0.00024, perm -0.00004, tt +0.32253; own coef {'c1': 0.25423096012341645, 'c2': 0.33796828944229956} [29s]
+  head 2 (LOCAL): base KL 0.41932; gains own +0.04576, other_h0 +0.00262, other_h1 +0.00017, other_h3 +0.00246, perm +0.00099, tt +0.21679; own coef {'c1': 0.1586808775957215, 'c2': 0.3128965197004062} [35s]
+  head 3 (RECALL): base KL 0.47384; gains own +0.03645, other_h0 +0.00069, other_h1 -0.00066, other_h2 +0.00020, perm +0.00008, tt +0.38548; own coef {'c1': 0.36226287838401544, 'c2': 0.374839233272128} [27s]
+  head 0: pure-pair corr own +0.398, perm -0.031, tt +0.996, other_h1 +0.067, other_h2 -0.056, other_h3 -0.073
+  head 1: pure-pair corr own +0.252, perm +0.000, tt +1.000, other_h0 +0.020, other_h2 +0.029, other_h3 -0.070
+  head 2: pure-pair corr own +0.368, perm -0.045, tt +0.999, other_h0 -0.008, other_h1 +0.006, other_h3 -0.077
+  head 3: pure-pair corr own +0.261, perm +0.033, tt +0.999, other_h0 +0.004, other_h1 -0.020, other_h2 -0.075
+models/law_pressure/dev/both_l0_s0_100M/final.pt: done in 136s
