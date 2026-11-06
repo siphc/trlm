@@ -9,6 +9,12 @@ a model toward the readable program v1.3, computed on a few windows per step fro
                           and its corpus vote table (analysis/readable_training/vote_targets.py)
 Head 3 and the direct path are unconstrained.
 
+Non-readable canonicaliser controls (study C part B, logs/prereg_canonical_addendum.md; readable_target "model:<path>"):
+the same losses, on the same pool windows and with the same k values, with a frozen trained model (attn_s0) in place
+of the program: arm O against its top-k_out next-token log-probs, arm I against its own heads 0, 1, 2's attention
+(top-k_h keys) and their vote (OV) tables, row-standardised as the corpus targets are (same column and row weights).
+The targets are computed online by a forward pass of the frozen model (no second pool on disk).
+
 Nothing here touches the global torch or NumPy random state, so a model trained with lambda = 0 is bitwise the model
 trained without the hook (src/train/test_sanity_readable.py).
 """
@@ -42,6 +48,10 @@ class Pool:
         self.att = [(load(f"att{h}_keys"), load(f"att{h}_p"), load(f"att{h}_tail")) for h in range(3)]
         self.heldout_lp, self.heldout_att = load("heldout_lp"), load("heldout_att")
         self.sha = f"{self.meta['indices_sha']}:{self.meta['program_sha']}:{self.n_train}"
+
+    def train_x(self, idx: np.ndarray, device):
+        """The input tokens of pool training windows idx (sorted, as in train_batch)."""
+        return torch.as_tensor(np.asarray(self.tokens[np.sort(idx), :T], np.int64), device=device)
 
     def train_batch(self, idx: np.ndarray, device, attention: bool):
         idx = np.sort(idx)                                   # faster memmap reads; order within a batch is irrelevant
@@ -109,6 +119,37 @@ def attention_topk_kl(pattern, keys, p, tail):
     return kl[:, 1:].mean()
 
 
+@torch.no_grad()
+def model_out_targets(teacher, x, k):
+    """A frozen model's top-k next tokens, their log-probs and the probability left outside them: the pool's out_ids,
+    out_lp and out_tail, computed online."""
+    lp = F.log_softmax(teacher(x).float(), -1)
+    v, i = lp.topk(k, -1)
+    return i, v, (1 - v.exp().sum(-1)).clamp(0, 1)
+
+
+@torch.no_grad()
+def model_att_targets(teacher, x, ks, heads=HEADS):
+    """Per constrained head, a frozen model's top-k keys per query row, their attention and the tail. Keys after the
+    query (rows with fewer than k earlier keys) point at the query with probability 0, as in build_pool.py."""
+    _, pats = teacher(x, return_patterns=True)
+    pos = torch.arange(x.shape[1], device=x.device)[:, None]
+    out = []
+    for i, h in enumerate(heads):
+        p, keys = pats[0][:, h].float().topk(ks[i], -1)
+        bad = keys > pos
+        keys = torch.where(bad, pos.expand_as(keys), keys)
+        p = torch.where(bad, torch.zeros_like(p), p)
+        out.append((keys, p, (1 - p.sum(-1)).clamp(0, 1)))
+    return out
+
+
+def standardise_rows(tab, colw):
+    """Rows with colw-weighted mean 0 and weighted norm 1 (as vote_targets.py standardises the corpus targets)."""
+    x = tab - (tab @ colw)[:, None]
+    return x / ((x * x) @ colw).clamp_min(1e-12).sqrt()[:, None]
+
+
 def ov_tables_torch(model, heads=HEADS):
     """Each head's vote table OV_h(s, v) (direct path only, scale-free): embed s at the mean position, LN1, W_V^h,
     W_O^h, centre over d_model, final LayerNorm gain, tied unembedding. (len(heads), V, V); differentiable. Equal to
@@ -148,11 +189,32 @@ class ReadableAux:
         self.colw = torch.as_tensor(tg["colw"], dtype=torch.float32, device=device)
         self.roww = torch.as_tensor(tg["roww"], dtype=torch.float32, device=device)           # (3, V), rows sum to 1
         self.targets_sha = str(tg["sha"])
+        self.target = cfg.readable_target
+        self.teacher = None
+        if self.target:
+            assert self.target.startswith("model:"), self.target
+            from src.train.train import load_model
+
+            with torch.random.fork_rng(devices=[]):     # building the module draws an initialisation: keep the
+                self.teacher = load_model(self.target[len("model:"):]).to(device)   # global RNG untouched
+            for p in self.teacher.parameters():
+                p.requires_grad_(False)
+            self.k_out, self.k_att = int(self.pool.meta["k_out"]), [int(k) for k in self.pool.meta["k_att"]]
+            if self.arm == "I":                      # the frozen model's own vote tables replace the corpus targets
+                with torch.no_grad():
+                    ov = ov_tables_torch(self.teacher)
+                    self.targets = torch.stack([standardise_rows(ov[i], self.colw) for i in range(len(HEADS))])
+                import hashlib
+
+                self.targets_sha = "model:" + hashlib.sha256(self.targets.cpu().numpy().tobytes()).hexdigest()[:16]
         self._metric_train = np.random.default_rng([SAMPLER_TAG, 1]).permutation(self.pool.n_train)[:N_METRIC]
 
     def summary(self) -> dict:
-        return {"arm": self.arm, "lambda": self.lam, "ramp_steps": self.ramp, "pool_sha": self.pool.sha,
-                "pool_train_windows": self.pool.n_train, "targets_sha": self.targets_sha}
+        s = {"arm": self.arm, "lambda": self.lam, "ramp_steps": self.ramp, "pool_sha": self.pool.sha,
+             "pool_train_windows": self.pool.n_train, "targets_sha": self.targets_sha}
+        if self.target:                              # absent for the program target, so part-A runs resume unchanged
+            s["target"] = self.target
+        return s
 
     def check_or_write(self, out_dir: str) -> None:
         p = os.path.join(out_dir, "readable.json")
@@ -174,8 +236,16 @@ class ReadableAux:
 
     def loss(self, model, step: int):
         """The weighted auxiliary loss for this step and a dict of detached parts for logging."""
-        b = self.pool.train_batch(self.sampler.indices(step), self.device, attention=(self.arm == "I"))
         k = self.scale(step)
+        if self.teacher is not None:
+            x = self.pool.train_x(self.sampler.indices(step), self.device)
+            if self.arm == "O":
+                b = {"x": x}
+                b["ids"], b["lp"], b["tail"] = model_out_targets(self.teacher, x, self.k_out)
+            else:
+                b = {"x": x, "att": model_att_targets(self.teacher, x, self.k_att)}
+        else:
+            b = self.pool.train_batch(self.sampler.indices(step), self.device, attention=(self.arm == "I"))
         if self.arm == "O":
             l_out = topk_forward_kl(model(b["x"]), b["ids"], b["lp"], b["tail"])
             return k * self.lam["out"] * l_out, {"aux_out": l_out.detach()}
@@ -220,6 +290,14 @@ class ReadableAux:
                 res["heldout_att_coarse"] += float(attention_topk_kl(pat[:, h], pk, pv,
                                                                      (1 - pv.sum(-1)).clamp_min(0))) / len(HEADS)
             nb += 1
+            if self.teacher is not None:            # exact KL to the frozen target model, outputs and heads 0-2
+                tl, tp = self.teacher(x, return_patterns=True)
+                lt = F.log_softmax(tl.float(), -1)
+                res["kl_teacher_model"] = res.get("kl_teacher_model", 0.0) + float((lt.exp() * (lt - lq)).sum(-1).mean())
+                for i, h in enumerate(HEADS):
+                    a, m = tp[0][:, h, 1:].float(), pat[:, h, 1:]
+                    res["att_kl_teacher_model"] = res.get("att_kl_teacher_model", 0.0) + float(
+                        (a * (a.clamp_min(1e-30).log() - m.clamp_min(1e-30).log())).sum(-1).mean()) / len(HEADS)
         res = {k: v / nb for k, v in res.items()}
         # the same coarsened losses on pool-training windows (memorisation gap = held-out - training)
         tr_out, tr_att = 0.0, 0.0

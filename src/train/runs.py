@@ -12,6 +12,10 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
                                                     # side study "trained to be readable": seed 0, 100M tokens
   python -m src.train.runs readable --arm O|I --lam X --seeds 1,2,3,4
                                                     # side study: models/readable/{arm}_l{lam}_s{seed}, one epoch each
+                                                    # (study C part B: also --arm Octl|Ictl, the attn_s0-target controls)
+  python -m src.train.runs canonical_dev --arms none,Octl,Ictl --lams 0.3,1 --seeds 5
+                                                    # study C part B development: one epoch each, seed 5,
+                                                    # models/readable/dev/{arm}_l{lam}_s{seed} (none: _s{seed})
   python -m src.train.runs fixed_lr                 # study A (fixed votes, rule R1): seed 0, 50M tokens, three LRs
   python -m src.train.runs fixed --name base --seeds 0,1,2,3,4 --peak_lr X
                                                     # study A: models/fixed_votes/{name}_s{seed}, one epoch each;
@@ -47,8 +51,14 @@ LAW_DEV_TOKENS = 100_000_000                   # study B: development grid
 RESTORE_STEPS, RESTORE_LR, RESTORE_SEED_OFFSET = 3000, 2e-4, 10   # study B: continuation without the penalty
 
 
+CONTROL_TARGET = "model:models/final/attn_s0/final.pt"   # study C part B: the non-readable canonicaliser's target
+
+
 def readable_kw(arm: str, lam: float, c: float) -> dict:
-    """TrainConfig settings for one readable-training run (configs/side_readable.yaml; c from rule R2)."""
+    """TrainConfig settings for one readable-training run (configs/side_readable.yaml; c from rule R2). Octl and Ictl
+    are arms O and I with attn_s0 as the target instead of the program (logs/prereg_canonical_addendum.md)."""
+    if arm in ("Octl", "Ictl"):
+        return {**readable_kw(arm[0], lam, c), "readable_target": CONTROL_TARGET}
     if arm == "none":                                  # control: aux metrics logged, no pressure
         return {"readable_arm": "O", "lambda_out": 0.0}
     if arm == "O":
@@ -91,7 +101,7 @@ def budget_name(b: int, lr: float) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["pilot_lr", "pilot_budget", "pilot_report", "final", "deep_lr", "deep",
-                                    "readable_dev", "readable", "fixed_lr", "fixed", "law_dev", "law",
+                                    "readable_dev", "readable", "canonical_dev", "fixed_lr", "fixed", "law_dev", "law",
                                     "law_restore"])
     ap.add_argument("--root", default="models")
     ap.add_argument("--device", default="auto")
@@ -139,7 +149,7 @@ def main() -> None:
         for lr in (1e-3, 2e-3):
             _run(args.root, f"deep/pilot/attn4L_s0_50M_lr{lr:g}", args.device, args.amp, variant="attn", seed=0,
                  n_blocks=4, budget_tokens=DEEP_LR_TOKENS, peak_lr=lr)
-    elif args.cmd in ("readable_dev", "readable"):
+    elif args.cmd in ("readable_dev", "readable", "canonical_dev"):
         run_readable(args)
     elif args.cmd == "fixed_lr":
         for lr in FIXED_LRS:
@@ -202,11 +212,24 @@ def run_readable(args) -> None:
             ramp = rules.get("R5", {}).get(f"ramp_{'I' if arm.startswith('I') else 'O'}", 0.0)
             _run(args.root, name, args.device, args.amp, seed=0, budget_tokens=args.budget_tokens or READABLE_DEV_TOKENS,
                  readable_ramp=ramp, **common, **readable_kw(arm, lam, c or 0.0), **kw)
+    elif args.cmd == "canonical_dev":
+        lams = [float(x) for x in args.lams.split(",")]
+        for seed in (int(s) for s in args.seeds.split(",")):
+            assert seed not in range(5), "part B development uses a seed outside attn_s0..s4 (seed 0 is attn_s0's twin)"
+            for arm in args.arms.split(","):
+                todo = [(f"readable/dev/none_s{seed}", "none", 0.0)] if arm == "none" else \
+                    [(f"readable/dev/{arm}_l{lam:g}_s{seed}", arm, lam) for lam in lams]
+                for name, arm_, lam in todo:
+                    if arm_.startswith("I"):
+                        assert c is not None, "rule R2 (c) must be applied before arm I runs"
+                    ramp = rules.get("R5", {}).get(f"ramp_{arm_[0]}", 0.0) if arm_ != "none" else 0.0
+                    _run(args.root, name, args.device, args.amp, seed=seed, budget_tokens=args.budget_tokens or LADDER[-1],
+                         readable_ramp=ramp, **common, **readable_kw(arm_, lam, c or 0.0))
     else:
         assert args.lam is not None, "--lam"
         if args.arm.startswith("I"):
             assert c is not None, "rule R2 (c) must be applied before arm I runs"
-        ramp = rules.get("R5", {}).get(f"ramp_{args.arm}", 0.0)
+        ramp = rules.get("R5", {}).get(f"ramp_{args.arm[0]}", 0.0)
         for seed in (int(s) for s in args.seeds.split(",")):
             _run(args.root, f"readable/{args.arm}_l{args.lam:g}_s{seed}", args.device, args.amp, seed=seed,
                  budget_tokens=args.budget_tokens or LADDER[-1], readable_ramp=ramp, **common,

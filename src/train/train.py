@@ -62,6 +62,10 @@ class TrainConfig:
     lambda_vote: float = 0.0
     aux_windows: int = 16             # auxiliary pool windows per step
     readable_ramp: float = 0.0        # fraction of the steps over which the lambdas ramp up linearly (rule R5)
+    # study C part B (logs/prereg_canonical_addendum.md): "" = the program's targets from the pool; "model:<path>" =
+    # a frozen trained model's outputs (arm O) or attention and vote tables (arm I), computed online on the same pool
+    # windows (the non-readable canonicaliser controls)
+    readable_target: str = ""
     # study A "fixed_votes" (logs/decisions.md item 10; src/train/fixed_votes.py): heads vote with fixed corpus tables,
     # one table name per head. "" trains the usual TinyLM.
     fixed_tables: str = ""
