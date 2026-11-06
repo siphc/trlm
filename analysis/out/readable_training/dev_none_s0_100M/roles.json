@@ -1,0 +1,29 @@
+{
+ "assignment": {
+  "head0": 0,
+  "head1": 1,
+  "head2": 2
+ },
+ "pattern_kl": {
+  "head0->h0": 0.8007359041437907,
+  "head0->h1": 5.628044685005953,
+  "head0->h2": 1.3720071434203962,
+  "head0->h3": 4.0864775677095,
+  "head1->h0": 1.743694001840359,
+  "head1->h1": 0.7214967100931259,
+  "head1->h2": 1.5047222342096418,
+  "head1->h3": 1.0088527261590507,
+  "head2->h0": 0.5802868512942424,
+  "head2->h1": 3.3887779632746238,
+  "head2->h2": 0.9235637355092858,
+  "head2->h3": 2.511589786724901
+ },
+ "order_new_head_from_old": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "aligned": "/Users/svi/Desktop/trlm/analysis/out/readable_training/dev_none_s0_100M/aligned.pt",
+ "max_abs_logit_diff": 0.0
+}

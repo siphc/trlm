@@ -1,0 +1,48 @@
+{
+ "sigma": {
+  "b1_cached_kl": 0.009261814895922017,
+  "b1_harness_kl": 0.009262118309724447,
+  "c_kl_ood_mean": 0.00857785565616368,
+  "c_kl_probe_twin": 0.01544189017097205,
+  "c_kl_program_samples": 0.03937001228230312,
+  "c_kl_sent_shuffle": 0.013108537698835633,
+  "c_kl_word_shuffle": 0.01266274470728334,
+  "d2_lock": 0.03450300104606202,
+  "d3_pattern_kl": 0.20107204520240557,
+  "d3_pattern_kl_ood_mean": 0.20333981109392338,
+  "d3_pattern_kl_probe_twin": 0.2065382190498615,
+  "d3_pattern_kl_program_samples": 0.20288215314943972,
+  "d3_pattern_kl_sent_shuffle": 0.20433383180289785,
+  "d3_pattern_kl_word_shuffle": 0.20309425147716098,
+  "d4_vote_rho_uniform": 0.02142317689616434,
+  "d4_vote_rho_weighted": 0.042562206285427895,
+  "d5_ablation_h0": 0.8361021469161277,
+  "d5_ablation_h1": 0.10588808938286143,
+  "d5_ablation_h2": 1.2361066387736628,
+  "d5_ablation_h3": 0.2901230504228012,
+  "train_eval_kl": 0.012198013973352188
+ },
+ "arms": {
+  "O": {
+   "lambda": 0.3,
+   "seeds_complete": [],
+   "per_seed": {},
+   "per_seed_literal_floor": {},
+   "cost": {},
+   "models": {},
+   "seed_convergence": null,
+   "attn_s0_specificity": {}
+  },
+  "I": {
+   "lambda": 0.3,
+   "seeds_complete": [],
+   "per_seed": {},
+   "per_seed_literal_floor": {},
+   "cost": {},
+   "models": {},
+   "seed_convergence": null,
+   "attn_s0_specificity": {}
+  }
+ },
+ "positive_control": null
+}
