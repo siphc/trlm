@@ -1,0 +1,335 @@
+== law tools both_l0_s1 Fri Nov  6 02:09:16 PST 2026
+models/law_pressure/both_l0_s1/final.pt: final-LN scale 1.2153
+  d=1 done in 160s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 171s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 178s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 181s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 184s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 181s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 175s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l0_s1/final.pt: tables built in 1241s
+models/law_pressure/both_l0_s1/final.pt: mean distances [25.44, 12.73, 12.95, 4.07] -> ['RECALL', 'RECALL', 'RECALL', 'LOCAL']
+  head 0 (RECALL): base KL 0.19740; gains own +0.02958, other_h1 +0.00136, other_h2 +0.00040, other_h3 -0.00009, perm +0.00164, tt +0.14941; own coef {'c1': 0.2575385899831452, 'c2': 0.26525379201702165} [39s]
+  head 1 (RECALL): base KL 0.37772; gains own +0.08485, other_h0 -0.00006, other_h2 -0.00045, other_h3 +0.00193, perm -0.00003, tt +0.15493; own coef {'c1': 0.4189113768375401, 'c2': 0.4715079483406577} [35s]
+  head 2 (RECALL): base KL 0.37537; gains own +0.10089, other_h0 +0.00307, other_h1 -0.00059, other_h3 +0.00128, perm -0.00064, tt +0.02643; own coef {'c1': 0.404406840913071, 'c2': 0.5172191740327328} [32s]
+  head 3 (LOCAL): base KL 0.24980; gains own +0.09279, other_h0 -0.00063, other_h1 -0.00183, other_h2 -0.00382, perm -0.00057, tt -0.05644; own coef {'c1': 0.23709989417390068, 'c2': 0.2526342616156133} [285s]
+  head 0: pure-pair corr own +0.227, perm +0.025, tt +1.000, other_h1 +0.033, other_h2 -0.025, other_h3 +0.065
+  head 1: pure-pair corr own +0.306, perm -0.001, tt +0.999, other_h0 +0.030, other_h2 -0.005, other_h3 -0.022
+  head 2: pure-pair corr own +0.364, perm -0.011, tt +0.999, other_h0 -0.055, other_h1 +0.020, other_h3 -0.071
+  head 3: pure-pair corr own +0.404, perm +0.005, tt +0.999, other_h0 +0.057, other_h1 -0.018, other_h2 -0.074
+models/law_pressure/both_l0_s1/final.pt: done in 402s
+== law tools both_l1_s1 Fri Nov  6 03:08:48 PST 2026
+models/law_pressure/both_l1_s1/final.pt: final-LN scale 1.2630
+  d=1 done in 117s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 128s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 129s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 125s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 126s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 124s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 124s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l1_s1/final.pt: tables built in 882s
+models/law_pressure/both_l1_s1/final.pt: mean distances [24.33, 13.3, 12.99, 4.14] -> ['RECALL', 'RECALL', 'RECALL', 'LOCAL']
+  head 0 (RECALL): base KL 0.20628; gains own +0.03646, other_h1 +0.00142, other_h2 +0.00028, other_h3 +0.00021, perm +0.00061, tt +0.15338; own coef {'c1': 0.26537686638148295, 'c2': 0.28767664291156037} [37s]
+  head 1 (RECALL): base KL 0.41066; gains own +0.09439, other_h0 +0.00058, other_h2 +0.00072, other_h3 +0.00163, perm -0.00010, tt +0.17009; own coef {'c1': 0.43302480312812053, 'c2': 0.49488421114183284} [36s]
+  head 2 (RECALL): base KL 0.39936; gains own +0.09119, other_h0 +0.00080, other_h1 +0.00036, other_h3 +0.00021, perm -0.00011, tt +0.05095; own coef {'c1': 0.2957067465044793, 'c2': 0.4665394258736783} [36s]
+  head 3 (LOCAL): base KL 0.26621; gains own +0.09468, other_h0 -0.00082, other_h1 -0.00127, other_h2 -0.00071, perm +0.00005, tt +0.01435; own coef {'c1': 0.2881362325149245, 'c2': 0.2807403211400674} [47s]
+  head 0: pure-pair corr own -0.094, perm +0.025, tt +1.000, other_h1 -0.023, other_h2 -0.048, other_h3 -0.030
+  head 1: pure-pair corr own +0.101, perm +0.071, tt +1.000, other_h0 +0.143, other_h2 +0.023, other_h3 +0.029
+  head 2: pure-pair corr own +0.195, perm -0.017, tt +1.000, other_h0 +0.114, other_h1 +0.014, other_h3 +0.002
+  head 3: pure-pair corr own +0.195, perm +0.026, tt +1.000, other_h0 +0.111, other_h1 -0.005, other_h2 -0.010
+models/law_pressure/both_l1_s1/final.pt: done in 167s
+== law tools restore/both_l0_s1 Fri Nov  6 03:26:23 PST 2026
+models/law_pressure/restore/both_l0_s1/final.pt: final-LN scale 1.1955
+  d=1 done in 106s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 116s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 121s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 124s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 124s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 125s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 125s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/restore/both_l0_s1/final.pt: tables built in 848s
+models/law_pressure/restore/both_l0_s1/final.pt: mean distances [25.43, 12.88, 12.97, 4.13] -> ['RECALL', 'RECALL', 'RECALL', 'LOCAL']
+  head 0 (RECALL): base KL 0.20006; gains own +0.02967, other_h1 +0.00132, other_h2 +0.00037, other_h3 -0.00007, perm +0.00161, tt +0.15116; own coef {'c1': 0.2532631356676419, 'c2': 0.261701042386952} [37s]
+  head 1 (RECALL): base KL 0.37770; gains own +0.08711, other_h0 -0.00005, other_h2 -0.00046, other_h3 +0.00178, perm +0.00002, tt +0.15154; own coef {'c1': 0.4184849892069433, 'c2': 0.4692679868249242} [40s]
+  head 2 (RECALL): base KL 0.38047; gains own +0.10403, other_h0 +0.00324, other_h1 -0.00058, other_h3 +0.00139, perm -0.00052, tt +0.02166; own coef {'c1': 0.39894985307656283, 'c2': 0.5069869436113472} [32s]
+  head 3 (LOCAL): base KL 0.24869; gains own +0.09284, other_h0 -0.00082, other_h1 -0.00188, other_h2 -0.00458, perm -0.00054, tt -0.05640; own coef {'c1': 0.23397288637832542, 'c2': 0.25107082878849707} [46s]
+  head 0: pure-pair corr own +0.224, perm +0.026, tt +1.000, other_h1 +0.032, other_h2 -0.025, other_h3 +0.067
+  head 1: pure-pair corr own +0.306, perm -0.001, tt +0.999, other_h0 +0.031, other_h2 -0.005, other_h3 -0.022
+  head 2: pure-pair corr own +0.363, perm -0.011, tt +0.999, other_h0 -0.053, other_h1 +0.020, other_h3 -0.072
+  head 3: pure-pair corr own +0.399, perm +0.004, tt +0.999, other_h0 +0.058, other_h1 -0.019, other_h2 -0.076
+models/law_pressure/restore/both_l0_s1/final.pt: done in 165s
+== law tools restore/both_l1_s1 Fri Nov  6 03:43:23 PST 2026
+models/law_pressure/restore/both_l1_s1/final.pt: final-LN scale 1.2456
+  d=1 done in 55s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 56s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 59s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 56s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 56s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 57s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 59s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/restore/both_l1_s1/final.pt: tables built in 402s
+models/law_pressure/restore/both_l1_s1/final.pt: mean distances [24.54, 13.21, 13.26, 4.22] -> ['RECALL', 'RECALL', 'RECALL', 'LOCAL']
+  head 0 (RECALL): base KL 0.20792; gains own +0.03717, other_h1 +0.00141, other_h2 +0.00031, other_h3 +0.00025, perm +0.00052, tt +0.15473; own coef {'c1': 0.2705285777413798, 'c2': 0.28861903400128774} [30s]
+  head 1 (RECALL): base KL 0.40745; gains own +0.09663, other_h0 +0.00064, other_h2 +0.00055, other_h3 +0.00159, perm -0.00009, tt +0.16528; own coef {'c1': 0.43038892753982766, 'c2': 0.49794350104999013} [28s]
+  head 2 (RECALL): base KL 0.40554; gains own +0.09520, other_h0 +0.00098, other_h1 +0.00048, other_h3 +0.00021, perm +0.00003, tt +0.04338; own coef {'c1': 0.30362289498967077, 'c2': 0.4677212671681546} [30s]
+  head 3 (LOCAL): base KL 0.26095; gains own +0.09363, other_h0 -0.00088, other_h1 -0.00123, other_h2 -0.00094, perm +0.00003, tt +0.01333; own coef {'c1': 0.2803612799444006, 'c2': 0.27993880291583545} [50s]
+  head 0: pure-pair corr own -0.045, perm +0.029, tt +1.000, other_h1 -0.027, other_h2 -0.044, other_h3 -0.026
+  head 1: pure-pair corr own +0.105, perm +0.071, tt +1.000, other_h0 +0.115, other_h2 +0.020, other_h3 +0.027
+  head 2: pure-pair corr own +0.192, perm -0.015, tt +1.000, other_h0 +0.086, other_h1 +0.016, other_h3 -0.001
+  head 3: pure-pair corr own +0.187, perm +0.028, tt +1.000, other_h0 +0.100, other_h1 -0.002, other_h2 -0.011
+models/law_pressure/restore/both_l1_s1/final.pt: done in 149s
+== law tools both_l0_s2 Fri Nov  6 04:12:40 PST 2026
+models/law_pressure/both_l0_s2/final.pt: final-LN scale 1.3152
+  d=1 done in 46s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 50s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 50s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 50s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 51s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 50s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 50s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l0_s2/final.pt: tables built in 348s
+models/law_pressure/both_l0_s2/final.pt: mean distances [13.42, 17.31, 6.28, 28.94] -> ['RECALL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (RECALL): base KL 0.44819; gains own +0.09215, other_h1 +0.00051, other_h2 -0.00066, other_h3 -0.00098, perm +0.00237, tt -0.10529; own coef {'c1': 0.4427012957988339, 'c2': 0.4189915451775971} [29s]
+  head 1 (RECALL): base KL 0.27293; gains own +0.04185, other_h0 -0.00021, other_h2 +0.00045, other_h3 -0.00031, perm +0.00003, tt +0.14790; own coef {'c1': 0.2645394944191551, 'c2': 0.2463814415720595} [27s]
+  head 2 (LOCAL): base KL 0.41366; gains own +0.11410, other_h0 -0.00122, other_h1 +0.00038, other_h3 +0.00497, perm +0.00039, tt +0.05048; own coef {'c1': 0.20926238193563063, 'c2': 0.2379061283653176} [29s]
+  head 3 (RECALL): base KL 0.47902; gains own +0.06495, other_h0 +0.00032, other_h1 +0.00087, other_h2 +0.00041, perm +0.01076, tt +0.17344; own coef {'c1': 0.28145666579738393, 'c2': 0.3009221151289007} [27s]
+  head 0: pure-pair corr own +0.363, perm -0.017, tt +0.999, other_h1 -0.037, other_h2 -0.058, other_h3 +0.077
+  head 1: pure-pair corr own +0.335, perm -0.018, tt +1.000, other_h0 -0.013, other_h2 +0.029, other_h3 -0.050
+  head 2: pure-pair corr own +0.369, perm +0.009, tt +0.999, other_h0 -0.085, other_h1 +0.020, other_h3 -0.064
+  head 3: pure-pair corr own +0.239, perm +0.005, tt +1.000, other_h0 +0.002, other_h1 -0.029, other_h2 +0.024
+models/law_pressure/both_l0_s2/final.pt: done in 119s
+== law tools both_l1_s2 Fri Nov  6 05:04:31 PST 2026
+models/law_pressure/both_l1_s2/final.pt: final-LN scale 1.2898
+  d=1 done in 49s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 53s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 51s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 54s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 54s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 54s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 53s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l1_s2/final.pt: tables built in 370s
+models/law_pressure/both_l1_s2/final.pt: mean distances [8.5, 13.66, 7.01, 33.04] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.53635; gains own +0.08886, other_h1 -0.00337, other_h2 +0.00061, other_h3 -0.01515, perm -0.00365, tt -0.00879; own coef {'c1': 0.21800646194495904, 'c2': 0.26805145121928037} [32s]
+  head 1 (RECALL): base KL 0.30227; gains own +0.02577, other_h0 +0.00015, other_h2 +0.00012, other_h3 +0.00091, perm +0.00020, tt +0.15160; own coef {'c1': 0.2590833296395021, 'c2': 0.18135427229470885} [26s]
+  head 2 (LOCAL): base KL 0.44109; gains own +0.10911, other_h0 -0.00105, other_h1 +0.00312, other_h3 +0.00430, perm -0.00046, tt +0.01525; own coef {'c1': 0.18287749505212866, 'c2': 0.23681933752935796} [32s]
+  head 3 (RECALL): base KL 0.43694; gains own +0.06941, other_h0 +0.01883, other_h1 +0.02309, other_h2 +0.00645, perm -0.00057, tt +0.22767; own coef {'c1': 0.17879483765401297, 'c2': 0.2344869784343086} [26s]
+  head 0: pure-pair corr own +0.186, perm +0.006, tt +0.999, other_h1 +0.010, other_h2 -0.054, other_h3 +0.004
+  head 1: pure-pair corr own +0.182, perm +0.003, tt +0.999, other_h0 -0.005, other_h2 -0.010, other_h3 -0.034
+  head 2: pure-pair corr own +0.253, perm +0.005, tt +0.999, other_h0 -0.059, other_h1 -0.018, other_h3 +0.006
+  head 3: pure-pair corr own -0.115, perm -0.089, tt +1.000, other_h0 +0.031, other_h1 -0.094, other_h2 +0.048
+models/law_pressure/both_l1_s2/final.pt: done in 123s
+== law tools restore/both_l0_s2 Fri Nov  6 05:12:47 PST 2026
+models/law_pressure/restore/both_l0_s2/final.pt: final-LN scale 1.2970
+  d=1 done in 47s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 49s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 49s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 52s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 51s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 50s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 50s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/restore/both_l0_s2/final.pt: tables built in 351s
+models/law_pressure/restore/both_l0_s2/final.pt: mean distances [13.0, 17.24, 5.89, 28.78] -> ['RECALL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (RECALL): base KL 0.45103; gains own +0.09222, other_h1 +0.00043, other_h2 -0.00066, other_h3 -0.00068, perm +0.00212, tt -0.11449; own coef {'c1': 0.4360267023172796, 'c2': 0.41408207231872773} [33s]
+  head 1 (RECALL): base KL 0.27436; gains own +0.04229, other_h0 -0.00022, other_h2 +0.00030, other_h3 -0.00028, perm +0.00002, tt +0.14603; own coef {'c1': 0.26123578538352954, 'c2': 0.24140012479576808} [26s]
+  head 2 (LOCAL): base KL 0.42109; gains own +0.11745, other_h0 -0.00119, other_h1 +0.00033, other_h3 +0.00489, perm +0.00029, tt +0.04611; own coef {'c1': 0.20778117029292895, 'c2': 0.2346112142770542} [30s]
+  head 3 (RECALL): base KL 0.48222; gains own +0.06756, other_h0 +0.00044, other_h1 +0.00099, other_h2 +0.00042, perm +0.01134, tt +0.17409; own coef {'c1': 0.2812816511274782, 'c2': 0.2979151052413349} [27s]
+  head 0: pure-pair corr own +0.360, perm -0.017, tt +0.999, other_h1 -0.036, other_h2 -0.057, other_h3 +0.077
+  head 1: pure-pair corr own +0.332, perm -0.016, tt +1.000, other_h0 -0.012, other_h2 +0.029, other_h3 -0.049
+  head 2: pure-pair corr own +0.364, perm +0.010, tt +0.999, other_h0 -0.084, other_h1 +0.021, other_h3 -0.064
+  head 3: pure-pair corr own +0.238, perm +0.003, tt +1.000, other_h0 +0.001, other_h1 -0.028, other_h2 +0.025
+models/law_pressure/restore/both_l0_s2/final.pt: done in 122s
+== law tools restore/both_l1_s2 Fri Nov  6 05:20:43 PST 2026
+models/law_pressure/restore/both_l1_s2/final.pt: final-LN scale 1.2723
+  d=1 done in 47s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 48s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 50s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 51s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 53s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 50s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 51s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/restore/both_l1_s2/final.pt: tables built in 352s
+models/law_pressure/restore/both_l1_s2/final.pt: mean distances [8.47, 13.63, 6.85, 32.77] -> ['LOCAL', 'RECALL', 'LOCAL', 'RECALL']
+  head 0 (LOCAL): base KL 0.53658; gains own +0.09431, other_h1 -0.00372, other_h2 +0.00050, other_h3 -0.01435, perm -0.00254, tt -0.02334; own coef {'c1': 0.23459961009694966, 'c2': 0.26676815833770845} [33s]
+  head 1 (RECALL): base KL 0.29769; gains own +0.03638, other_h0 +0.00020, other_h2 +0.00017, other_h3 +0.00081, perm +0.00018, tt +0.14663; own coef {'c1': 0.2778882026439562, 'c2': 0.20322871230919026} [25s]
+  head 2 (LOCAL): base KL 0.44455; gains own +0.11294, other_h0 -0.00100, other_h1 +0.00351, other_h3 +0.00426, perm -0.00049, tt +0.01224; own coef {'c1': 0.18223668087119455, 'c2': 0.2365480389726079} [28s]
+  head 3 (RECALL): base KL 0.44271; gains own +0.08477, other_h0 +0.01435, other_h1 +0.02223, other_h2 +0.00611, perm -0.00052, tt +0.22717; own coef {'c1': 0.21044887313198993, 'c2': 0.23900416179868575} [27s]
+  head 0: pure-pair corr own +0.192, perm +0.004, tt +0.999, other_h1 +0.012, other_h2 -0.053, other_h3 +0.010
+  head 1: pure-pair corr own +0.209, perm +0.005, tt +0.999, other_h0 -0.009, other_h2 -0.008, other_h3 -0.020
+  head 2: pure-pair corr own +0.255, perm +0.005, tt +0.999, other_h0 -0.059, other_h1 -0.023, other_h3 +0.000
+  head 3: pure-pair corr own -0.037, perm -0.071, tt +1.000, other_h0 +0.031, other_h1 -0.066, other_h2 +0.047
+models/law_pressure/restore/both_l1_s2/final.pt: done in 122s
+== law tools both_l0_s3 Fri Nov  6 06:04:41 PST 2026
+models/law_pressure/both_l0_s3/final.pt: final-LN scale 1.1033
+  d=1 done in 47s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 50s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 51s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 51s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 52s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 51s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 51s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l0_s3/final.pt: tables built in 355s
+models/law_pressure/both_l0_s3/final.pt: mean distances [3.68, 6.65, 30.31, 6.59] -> ['LOCAL', 'LOCAL', 'RECALL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.34685; gains own +0.11386, other_h1 -0.00139, other_h2 +0.00022, other_h3 +0.00063, perm +0.00015, tt +0.06239; own coef {'c1': 0.2334179377739386, 'c2': 0.22247365145140427} [33s]
+  head 1 (LOCAL): base KL 0.23910; gains own +0.06321, other_h0 +0.00014, other_h2 +0.00673, other_h3 +0.00015, perm +0.00706, tt +0.16832; own coef {'c1': 0.2821823847414391, 'c2': 0.335463680169591} [29s]
+  head 2 (RECALL): base KL 0.20343; gains own +0.01363, other_h0 -0.00019, other_h1 +0.00148, other_h3 +0.00004, perm +0.00005, tt +0.17096; own coef {'c1': 0.17795227466530694, 'c2': 0.3061458035274841} [29s]
+  head 3 (LOCAL): base KL 0.39281; gains own +0.08948, other_h0 +0.00033, other_h1 +0.00070, other_h2 +0.00082, perm +0.00002, tt +0.11524; own coef {'c1': 0.17068169139864553, 'c2': 0.3112059103807505} [29s]
+  head 0: pure-pair corr own +0.336, perm -0.007, tt +0.999, other_h1 -0.014, other_h2 -0.006, other_h3 -0.094
+  head 1: pure-pair corr own +0.436, perm -0.030, tt +0.999, other_h0 -0.045, other_h2 +0.086, other_h3 -0.059
+  head 2: pure-pair corr own +0.169, perm +0.006, tt +1.000, other_h0 +0.066, other_h1 +0.010, other_h3 -0.009
+  head 3: pure-pair corr own +0.377, perm -0.006, tt +0.999, other_h0 -0.121, other_h1 -0.017, other_h2 +0.019
+models/law_pressure/both_l0_s3/final.pt: done in 128s
+== law tools both_l1_s3 Fri Nov  6 06:56:48 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.4 GB free; stopping (rule: >= 10.0 GB)
+== law tools restore/both_l0_s3 Fri Nov  6 07:00:49 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.4 GB free; stopping (rule: >= 10.0 GB)
+== law tools restore/both_l1_s3 Fri Nov  6 07:02:50 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.3 GB free; stopping (rule: >= 10.0 GB)
+== law tools both_l0_s4 Fri Nov  6 07:54:51 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.3 GB free; stopping (rule: >= 10.0 GB)
+== law tools both_l1_s4 Fri Nov  6 08:46:53 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.3 GB free; stopping (rule: >= 10.0 GB)
+== law tools restore/both_l0_s4 Fri Nov  6 08:50:54 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.2 GB free; stopping (rule: >= 10.0 GB)
+== law tools restore/both_l1_s4 Fri Nov  6 08:52:55 PST 2026
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 128, in <module>
+    main()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 123, in main
+    build(mid, a.band, a.max_tokens)
+  File "/Users/svi/Desktop/trlm/analysis/look_write/uov_tables.py", line 69, in build
+    C.check_disk()
+  File "/Users/svi/Desktop/trlm/analysis/look_write/common.py", line 266, in check_disk
+    raise RuntimeError(f"only {free:.1f} GB free; stopping (rule: >= {min_gb} GB)")
+RuntimeError: only 9.2 GB free; stopping (rule: >= 10.0 GB)
+study B confirmatory law tools done Fri Nov  6 08:52:55 PST 2026

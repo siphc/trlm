@@ -44,7 +44,9 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
   (gate G2; test M amended, decision 11). Studies A (`logs/fixed_votes.md`, `logs/prereg_fixed_votes.md`) and B
   (`logs/law_pressure.md`, `logs/prereg_law_pressure.md`): development done on the laptop, FINAL pre-registrations
   committed 2026-10-20. Gate G2 (decision 13, 2026-11-06): study B runs in full on the laptop GPU
-  (`scripts/law_pressure/`); study A's confirmatory runs are not run; its development and exploratory results are in
+  (`scripts/law_pressure/`); results `logs/law_pressure_results.md` (verdict MIXED at cost below 0.4%, restoring
+  force SLOW; the pair-specific law breaks, the own-usefulness output gain stays; G3 pending). Study A's confirmatory
+  runs are not run; its development and exploratory results are in
   `logs/fixed_votes_results.md` (no verdicts). Readable-training results:
   `logs/readable_training_results.md` (both arms GOODHARTED: output and mechanism agreement come apart; G3 passed).
 - Running write-up draft (updated at each milestone, not published): `writeups/draft.md`. Study C part B: addendum

@@ -1,0 +1,119 @@
+{
+ "lambda": 1,
+ "arms": {
+  "both": {
+   "per_seed": {
+    "1": {
+     "M": true,
+     "corr_ratio": 0.10772629845726686,
+     "law": {
+      "strength": 0.09939433995814678,
+      "own_gain": 0.07918051631905036
+     },
+     "twin_law": {
+      "strength": 0.32510629084457493,
+      "own_gain": 0.0770253730260086
+     },
+     "state": "BROKEN",
+     "relative_cost": 0.002935849443106431,
+     "cost": "LOW",
+     "cell": "FREE BREAK",
+     "restoring": {
+      "law_continued": {
+       "strength": 0.10994322996629616,
+       "own_gain": 0.08065838355377289
+      },
+      "twin_law_continued": {
+       "strength": 0.3232996907988075,
+       "own_gain": 0.07840966527937496
+      },
+      "recovery": 0.047113166204126825
+     }
+    },
+    "2": {
+     "M": true,
+     "corr_ratio": 0.14510961321727187,
+     "law": {
+      "strength": 0.1264989360495608,
+      "own_gain": 0.07328729755598704
+     },
+     "twin_law": {
+      "strength": 0.32635766694797047,
+      "own_gain": 0.07826363089553502
+     },
+     "state": "PARTLY BROKEN",
+     "relative_cost": -0.0012528783192129467,
+     "cost": "LOW",
+     "cell": "PARTLY BROKEN, cost LOW",
+     "restoring": {
+      "law_continued": {
+       "strength": 0.1546746816769667,
+       "own_gain": 0.08209997960482318
+      },
+      "twin_law_continued": {
+       "strength": 0.3233887268216331,
+       "own_gain": 0.07987987853745077
+      },
+      "recovery": 0.1431041473350099
+     }
+    },
+    "3": {
+     "M": false,
+     "corr_ratio": 0.27597255198141796,
+     "law": {
+      "strength": 0.056131563254891916,
+      "own_gain": 0.06405523200889718
+     },
+     "twin_law": {
+      "strength": 0.32965629777154704,
+      "own_gain": 0.07004456079538146
+     },
+     "state": "BROKEN",
+     "relative_cost": 0.003854538423040177,
+     "cost": "LOW",
+     "cell": "INCONCLUSIVE",
+     "restoring": {
+      "law_continued": {
+       "strength": 0.08839569034157362,
+       "own_gain": 0.06583125026134609
+      },
+      "twin_law_continued": {
+       "strength": 0.3269551938288904,
+       "own_gain": 0.07062241257268771
+      },
+      "recovery": 0.11913335264836138
+     }
+    },
+    "4": {
+     "M": true,
+     "corr_ratio": 0.07013544505639624,
+     "law": {
+      "strength": 0.21311578724465796,
+      "own_gain": 0.0808917416762949
+     },
+     "twin_law": {
+      "strength": 0.3434109108708771,
+      "own_gain": 0.09013824743032973
+     },
+     "state": "PARTLY BROKEN",
+     "relative_cost": 0.001071571977393937,
+     "cost": "LOW",
+     "cell": "PARTLY BROKEN, cost LOW",
+     "restoring": {
+      "law_continued": {
+       "strength": 0.2203887734124306,
+       "own_gain": 0.08372980857875158
+      },
+      "twin_law_continued": {
+       "strength": 0.34036878050357194,
+       "own_gain": 0.09300047533371998
+      },
+      "recovery": 0.057153753177143204
+     }
+    }
+   },
+   "verdict": "MIXED",
+   "restoring_force": "SLOW"
+  }
+ }
+}

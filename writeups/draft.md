@@ -13,7 +13,7 @@ named in brackets; nothing here is new analysis. Not published anywhere. Each se
 | 3. the lock | done | logs/token_geometry_results.md, logs/coverage.md |
 | 4. readable training (study C part A) | done, both arms GOODHARTED | logs/readable_training_results.md |
 | 5. seed convergence (study C part B) | addendum DRAFT, awaiting G0/G1 | logs/prereg_canonical_addendum.md |
-| 6. the law under pressure (study B) | confirmatory runs training | logs/prereg_law_pressure.md |
+| 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 pending | logs/law_pressure_results.md |
 
 ## Summary (as of 2026-11-06)
 
@@ -34,6 +34,9 @@ attention adds.
 - They cannot be found in any one part. Making any single head exact inside the program closes at most 0.035 of the
   0.41 nats to the seed consensus. Making everything exact closes 0.13.
 - Within one model, attention and vote tables help only together.
+
+**Penalising the law (study B).** Its pair-specific form can be removed at no cost and does not come back, but
+attention still goes where the head's own vote helps, as measured by the output test.
 
 **Training the models toward the program.** It does not make the program a faithful description.
 - At the output level (arm O), outputs move a quarter of the way to the program; internals do not.
@@ -151,9 +154,25 @@ mechanistic convergence of attention patterns and value codes.
 
 ## 6. The law under pressure (study B)
 
-Pre-registered [logs/prereg_law_pressure.md]. Models are trained with a penalty against the look-follows-write law,
-then continued without it. Does the law come back (restoring force), and what does suppressing it cost?
-Confirmatory runs (seeds 1-4) are training on the laptop GPU; results to follow.
+Pre-registered [logs/prereg_law_pressure.md; results logs/law_pressure_results.md]. Seeds 1-4 are trained with a
+penalty on the in-batch correlation between attention scores and the usefulness of the head's own vote (lambda 1),
+each against an unpenalised twin, then both are continued for 3,000 steps without the penalty.
+- **Verdict MIXED.** Cells: FREE BREAK (seed 1), PARTLY BROKEN at low cost (seeds 2 and 4), INCONCLUSIVE (seed 3, whose
+  penalised statistic fell only to 28% of the twin's).
+- **The cost is LOW in every seed** (-0.13% to +0.39% cross-entropy).
+- **The law's strength** (pure-pair correlation) falls from 0.33-0.34 to 0.06-0.21; in RECALL heads to almost nothing.
+- **Restoring force SLOW.** Recovery is 0.05-0.14 of what was removed; the twins do not move.
+- **The two held-out measures come apart.** The own-usefulness output gain stays at 0.90-1.03 of the twin's, with
+  unchanged fitted coefficients.
+
+**Reading.** The pair-specific form of the law is not load-bearing for prediction: it can be removed for free and
+stays removed. The coarser statement, that attention goes where the head's own vote helps, survives as measured by the
+output test.
+
+*Caveats.*
+- One lambda; four seeds, one of them failing the manipulation check; MPS only.
+- The continuation is short and at a low learning rate.
+- Which part of usefulness carries the surviving gain is an exploratory question (logs/law_pressure_results.md).
 
 ## Open items for a real draft
 

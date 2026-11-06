@@ -1,0 +1,56 @@
+== law tools both_l1_s4 Fri Nov  6 08:54:26 PST 2026
+models/law_pressure/both_l1_s4/final.pt: final-LN scale 1.2461
+  d=1 done in 29s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 32s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 35s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 43s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 47s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 46s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 46s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/both_l1_s4/final.pt: tables built in 280s
+models/law_pressure/both_l1_s4/final.pt: mean distances [6.79, 31.4, 5.98, 9.15] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.45413; gains own +0.14569, other_h1 +0.00007, other_h2 +0.00389, other_h3 -0.00008, perm -0.00205, tt +0.12895; own coef {'c1': 0.17547284734649793, 'c2': 0.24430552359157776} [28s]
+  head 1 (RECALL): base KL 0.22202; gains own +0.01036, other_h0 +0.00014, other_h2 +0.00018, other_h3 +0.00058, perm -0.00001, tt +0.18759; own coef {'c1': 0.1272054106361818, 'c2': 0.2992666472828003} [23s]
+  head 2 (LOCAL): base KL 0.41095; gains own +0.09653, other_h0 +0.00002, other_h1 +0.00140, other_h3 +0.00308, perm +0.00020, tt -0.05012; own coef {'c1': 0.20686010356776366, 'c2': 0.22419703724976264} [26s]
+  head 3 (LOCAL): base KL 0.31228; gains own +0.07099, other_h0 +0.00065, other_h1 -0.00057, other_h2 -0.00111, perm +0.00022, tt +0.07963; own coef {'c1': 0.3947645029852169, 'c2': 0.3786414255604196} [25s]
+  head 0: pure-pair corr own +0.272, perm +0.016, tt +0.999, other_h1 -0.010, other_h2 -0.027, other_h3 +0.044
+  head 1: pure-pair corr own +0.087, perm +0.038, tt +1.000, other_h0 -0.028, other_h2 +0.008, other_h3 +0.030
+  head 2: pure-pair corr own +0.241, perm -0.018, tt +0.999, other_h0 +0.059, other_h1 +0.044, other_h3 +0.031
+  head 3: pure-pair corr own +0.252, perm -0.001, tt +0.999, other_h0 -0.002, other_h1 +0.007, other_h2 -0.046
+models/law_pressure/both_l1_s4/final.pt: done in 107s
+== end both_l1_s4 Fri Nov  6 09:00:56 PST 2026
+== law tools restore/both_l1_s4 Fri Nov  6 09:00:56 PST 2026
+models/law_pressure/restore/both_l1_s4/final.pt: final-LN scale 1.2288
+  d=1 done in 35s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 40s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 43s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 44s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 46s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 44s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 45s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+models/law_pressure/restore/both_l1_s4/final.pt: tables built in 299s
+models/law_pressure/restore/both_l1_s4/final.pt: mean distances [6.87, 31.49, 5.95, 9.15] -> ['LOCAL', 'RECALL', 'LOCAL', 'LOCAL']
+  head 0 (LOCAL): base KL 0.45852; gains own +0.15068, other_h1 -0.00001, other_h2 +0.00410, other_h3 -0.00004, perm -0.00239, tt +0.13635; own coef {'c1': 0.17630701489177006, 'c2': 0.2459220289758142} [27s]
+  head 1 (RECALL): base KL 0.22237; gains own +0.01115, other_h0 +0.00014, other_h2 +0.00019, other_h3 +0.00063, perm +0.00000, tt +0.18799; own coef {'c1': 0.14769382959745314, 'c2': 0.3045055681354333} [23s]
+  head 2 (LOCAL): base KL 0.41912; gains own +0.10128, other_h0 -0.00001, other_h1 +0.00140, other_h3 +0.00306, perm -0.00027, tt -0.04958; own coef {'c1': 0.20485795110795318, 'c2': 0.22356654731778697} [26s]
+  head 3 (LOCAL): base KL 0.31505; gains own +0.07181, other_h0 +0.00057, other_h1 -0.00038, other_h2 -0.00093, perm +0.00019, tt +0.08030; own coef {'c1': 0.3948075552598847, 'c2': 0.37108660131573085} [25s]
+  head 0: pure-pair corr own +0.267, perm +0.017, tt +0.999, other_h1 -0.011, other_h2 -0.027, other_h3 +0.041
+  head 1: pure-pair corr own +0.110, perm +0.025, tt +1.000, other_h0 -0.018, other_h2 +0.012, other_h3 +0.024
+  head 2: pure-pair corr own +0.241, perm -0.016, tt +0.999, other_h0 +0.051, other_h1 +0.040, other_h3 +0.016
+  head 3: pure-pair corr own +0.263, perm +0.002, tt +0.999, other_h0 -0.001, other_h1 +0.009, other_h2 -0.046
+models/law_pressure/restore/both_l1_s4/final.pt: done in 105s
+== end restore/both_l1_s4 Fri Nov  6 09:07:42 PST 2026

@@ -79,3 +79,9 @@ Decision: logs/decisions.md item 10.
   manipulation check passes (in-batch correlation ratio 0.11); held-out law BROKEN (strength 0.099 vs the twin's
   0.325); cost +0.29% (LOW) -> cell FREE BREAK; after 3000 steps without the penalty the law recovers 0.05 of what was
   removed. Seeds 2-4 training (about 1 h 50 min per seed).
+- 2026-11-06 08:53: confirmatory training done (16 models, log logs/runs/law_pressure_confirm.out). The CPU law tools
+  stopped at both_l1_s3 on the disk rule (< 10 GB free); 9 of 16 models had arms.json. The usefulness tables of those
+  9 were deleted (regenerable, 0.87 GB each; only fit_arms.py and extra_arms_self.py read them; arms.json kept), and
+  the 7 missing models were rerun with the same two commands in three parallel CPU streams, each deleting its tables
+  after its fit (logs/runs/law_pressure_lawtools_rest_{a,b,c}.out). Partial verdicts at that point: seed 2 manipulation
+  check passes (ratio 0.15), law PARTLY BROKEN (strength 0.126 vs 0.326), cost -0.13% (LOW), recovery 0.14.
