@@ -216,3 +216,12 @@ is at positions whose consensus top token appeared earlier). Evidence (logs/cove
 copy_diagnostic.py): that class is mostly common tokens (RECALL attention on the target 3-7% in every seed); head 1 made
 fully exact inside the program closes 0.035 of 0.412 nats to the consensus; any other single head at most 0.010; all
 parts exact 0.129. The shared behaviour is not located in any one part.
+
+## Study B, exploratory: token main effects carry the law's surviving output gain (2026-11-06)
+
+Hypothesis: in the penalised models the own-usefulness arm keeps its output gain (0.90-1.03 of the twin's) because the
+gain rides on key-token main effects, which the pure-pair correlation removes by double-centring. Evidence
+(analysis/law_pressure/main_effects.py, logs/law_pressure_results.md, exploratory): on the d = 1 type table the
+additive and key-effect correlations with own usefulness fall from 0.32-0.46 to -0.10-0.08, below the pure-pair part
+(0.04-0.20). Refuted; the part of attention that keeps the gain is not located (candidates: strongly attended tail,
+distances 2-7, position).

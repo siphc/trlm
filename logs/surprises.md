@@ -175,3 +175,8 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - 2026-11-06 (main track): consensus.py's class "top token appeared earlier in the window", read since mech_v3 as
   "copying", is mostly common tokens; RECALL's attention on the target is 3-7% there in every seed
   (logs/coverage.md, oracle swaps).
+- 2026-11-06 (study B): under the law penalty the two held-out measures of the law, which agree in normal models, come
+  apart: the d = 1 type-table correlation of scores with own usefulness falls in every part (raw, main effects,
+  pure-pair; RECALL heads to about 0), while the own-usefulness arm fitted to real attention patterns keeps its
+  coefficient and its output gain (0.90-1.03 of the twin's). Cost below 0.4%; recovery after 3,000 plain steps
+  0.05-0.14 (logs/law_pressure_results.md).

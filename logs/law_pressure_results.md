@@ -106,8 +106,9 @@ penalty: seed 2, head 0, RECALL -> LOCAL.
   arm keeps its gain and its coefficient. The penalty is a pooled instance-level correlation, double-centred within
   each query's seven keys. It appears to remove the part of the law that varies with the particular (key, query)
   pair, and leave the part that the output test uses.
-- **Untested hypothesis:** that part is carried by the token main effects (some keys' votes are useful almost
-  regardless of the query), which the pure-pair correlation removes by double-centring. See the exploratory section.
+- **One explanation was tested and refuted** (exploratory): token main effects do not carry the surviving part; they
+  lose their link to usefulness too. Which part of attention carries it is open (the tail of strongly attended pairs,
+  distances 2-7, or position).
 - **Limits.**
   - One lambda (1).
   - Tiny one-layer models, four seeds, MPS only.
@@ -116,5 +117,45 @@ penalty: seed 2, head 0, RECALL -> LOCAL.
 
 ## Exploratory (not pre-registered, written after the verdicts)
 
-*Main effects vs pair-specific part* (analysis/law_pressure/main_effects.py; results in
-analysis/out/law_pressure/main_effects/): pending, filled in below when the run finishes.
+*Main effects vs pair-specific part* (analysis/law_pressure/main_effects.py; per model
+analysis/out/law_pressure/main_effects/<run>.json; logs logs/runs/law_pressure_main_effects_*.out).
+
+**Hypothesis:** the surviving output gain is carried by token main effects (keys whose vote is useful whatever the
+query), which the pure-pair correlation removes by double-centring.
+
+**Method.** On the same d = 1 type table (key, query cells with N_1 >= 20, weighted by N_1), the exact score and own
+usefulness are each split into an additive part (a_k + b_q, weighted least squares) and a residual. Four weighted
+correlations:
+- raw;
+- additive part with additive part;
+- key effects with key effects, over keys weighted by count;
+- residual with residual (the pre-registered pure-pair correlation, reproduced).
+
+The key effect is the weighted mean of the additive fit over the key's cells. So it includes a count-weighted mean of
+the query effects; it is an approximation of a_k.
+
+Mean over the 8 heads of each kind (the twin's classification):
+
+| kind | model | raw | additive | key effects | pure-pair | additive share of score variance |
+|---|---|---|---|---|---|---|
+| LOCAL | twin | 0.408 | 0.459 | 0.435 | 0.393 | 0.80 |
+| LOCAL | penalised | 0.095 | 0.081 | 0.036 | 0.204 | 0.91 |
+| RECALL | twin | 0.285 | 0.318 | 0.342 | 0.269 | 0.80 |
+| RECALL | penalised | 0.023 | 0.020 | -0.095 | 0.044 | 0.84 |
+
+**Refuted.**
+- The main-effect parts lose their link to usefulness even more completely than the pair-specific part.
+- In the penalised models the key effects are uncorrelated with usefulness, or negatively correlated (seed means
+  0.003, -0.077, -0.020, -0.023, against 0.29-0.45 in the twins).
+- So on the exact d = 1 type table the scores no longer track own usefulness in any part, yet the own-usefulness arm,
+  fitted to attention patterns on real windows, keeps its coefficient and its output gain.
+
+**Remaining candidates (untested):**
+- **The tail.** The arm is fitted by pattern cross-entropy, which weights the pairs a head actually attends to. The
+  type-table correlations weight every frequent pair by its count. The penalty, a correlation pooled over all
+  instances, could remove the link on the bulk of pairs while keeping high scores on the few high-usefulness pairs
+  that carry the attention. That fits goal 1's finding that usefulness leads only for strongly attended pairs.
+- **Distances 2-7.** The arm's c2 feature uses them; the type-table analysis covers d = 1 only.
+- **Position.** The type table averages scores over query positions.
+
+These would be next only at the human's request. This line has used its exploratory step (logs/dead_ends.md).

@@ -1,0 +1,60 @@
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s1/final.pt: final-LN scale 1.2153
+  d=1 done in 46s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 50s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 52s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 52s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 53s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 53s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 54s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s1/final.pt: tables built in 363s
+both_l0_s1 0 {'raw': 0.38, 'additive': 0.476, 'key': 0.525, 'pure': 0.227, 'share_additive_Y': 0.826}
+both_l0_s1 1 {'raw': 0.359, 'additive': 0.438, 'key': 0.309, 'pure': 0.306, 'share_additive_Y': 0.864}
+both_l0_s1 2 {'raw': 0.378, 'additive': 0.392, 'key': 0.404, 'pure': 0.364, 'share_additive_Y': 0.739}
+both_l0_s1 3 {'raw': 0.494, 'additive': 0.577, 'key': 0.578, 'pure': 0.404, 'share_additive_Y': 0.742}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l1_s1/final.pt: final-LN scale 1.2630
+  d=1 done in 45s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 50s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 52s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 52s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 53s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 53s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 53s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l1_s1/final.pt: tables built in 362s
+both_l1_s1 0 {'raw': -0.107, 'additive': -0.119, 'key': -0.161, 'pure': -0.094, 'share_additive_Y': 0.817}
+both_l1_s1 1 {'raw': 0.116, 'additive': 0.134, 'key': 0.044, 'pure': 0.101, 'share_additive_Y': 0.775}
+both_l1_s1 2 {'raw': 0.163, 'additive': 0.149, 'key': 0.048, 'pure': 0.195, 'share_additive_Y': 0.686}
+both_l1_s1 3 {'raw': 0.105, 'additive': 0.106, 'key': 0.08, 'pure': 0.195, 'share_additive_Y': 0.933}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s4/final.pt: final-LN scale 1.2111
+  d=1 done in 34s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 38s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 40s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 41s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 41s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 41s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 42s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s4/final.pt: tables built in 279s
+both_l0_s4 0 {'raw': 0.457, 'additive': 0.513, 'key': 0.495, 'pure': 0.371, 'share_additive_Y': 0.801}
+both_l0_s4 1 {'raw': 0.179, 'additive': 0.233, 'key': 0.377, 'pure': 0.151, 'share_additive_Y': 0.795}
+both_l0_s4 2 {'raw': 0.395, 'additive': 0.436, 'key': 0.438, 'pure': 0.416, 'share_additive_Y': 0.801}
+both_l0_s4 3 {'raw': 0.333, 'additive': 0.33, 'key': 0.304, 'pure': 0.436, 'share_additive_Y': 0.796}

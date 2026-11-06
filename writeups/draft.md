@@ -172,7 +172,8 @@ output test.
 *Caveats.*
 - One lambda; four seeds, one of them failing the manipulation check; MPS only.
 - The continuation is short and at a low learning rate.
-- Which part of usefulness carries the surviving gain is an exploratory question (logs/law_pressure_results.md).
+- Which part of attention carries the surviving gain is open. Token main effects were tested and ruled out
+  (exploratory; logs/law_pressure_results.md).
 
 ## Open items for a real draft
 

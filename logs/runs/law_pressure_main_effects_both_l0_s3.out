@@ -1,0 +1,40 @@
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s3/final.pt: final-LN scale 1.1033
+  d=1 done in 47s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 50s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 52s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 53s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 53s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 53s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 54s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l0_s3/final.pt: tables built in 365s
+both_l0_s3 0 {'raw': 0.415, 'additive': 0.536, 'key': 0.506, 'pure': 0.336, 'share_additive_Y': 0.84}
+both_l0_s3 1 {'raw': 0.391, 'additive': 0.419, 'key': 0.405, 'pure': 0.436, 'share_additive_Y': 0.85}
+both_l0_s3 2 {'raw': 0.179, 'additive': 0.208, 'key': 0.322, 'pure': 0.169, 'share_additive_Y': 0.796}
+both_l0_s3 3 {'raw': 0.407, 'additive': 0.421, 'key': 0.378, 'pure': 0.377, 'share_additive_Y': 0.714}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l1_s3/final.pt: final-LN scale 1.1773
+  d=1 done in 45s
+  d=1: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 7, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=2 done in 49s
+  d=2: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 6, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=3 done in 51s
+  d=3: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 5, 'max_rel_diff_cells_ge_1e6': 7.770394176555788e-07}
+  d=4 done in 53s
+  d=4: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 4, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=5 done in 53s
+  d=5: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 3, 'max_rel_diff_cells_ge_1e6': 0.0}
+  d=6 done in 53s
+  d=6: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 2, 'max_rel_diff_cells_ge_1e6': 8.822387691004694e-07}
+  d=7 done in 53s
+  d=7: N check {'max_abs_diff': 1.0, 'cells_diff_gt_0.5': 1, 'max_rel_diff_cells_ge_1e6': 0.0}
+/Users/svi/Desktop/trlm/models/law_pressure/both_l1_s3/final.pt: tables built in 361s
+both_l1_s3 0 {'raw': 0.116, 'additive': 0.14, 'key': 0.136, 'pure': 0.137, 'share_additive_Y': 0.907}
+both_l1_s3 1 {'raw': 0.059, 'additive': 0.051, 'key': 0.05, 'pure': 0.133, 'share_additive_Y': 0.934}
+both_l1_s3 2 {'raw': -0.21, 'additive': -0.227, 'key': -0.348, 'pure': -0.193, 'share_additive_Y': 0.841}
+both_l1_s3 3 {'raw': 0.113, 'additive': 0.109, 'key': 0.083, 'pure': 0.148, 'share_additive_Y': 0.887}
