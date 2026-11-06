@@ -1,0 +1,10 @@
+..................................................................       [100%]
+=============================== warnings summary ===============================
+src/train/test_sanity_readable.py::test_topk_kl_reference_and_gradient
+  /Users/svi/Desktop/trlm/src/train/test_sanity_readable.py:138: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+  Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:821.)
+    assert abs(float(got) - ref) < 1e-10
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+66 passed, 1 warning in 1110.54s (0:18:30)
+exit 0

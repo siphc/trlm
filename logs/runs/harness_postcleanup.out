@@ -1,0 +1,37 @@
+  25/200 windows  KL so far 0.56123
+  50/200 windows  KL so far 0.54551
+  75/200 windows  KL so far 0.54896
+  100/200 windows  KL so far 0.54738
+  125/200 windows  KL so far 0.54737
+  150/200 windows  KL so far 0.54837
+  175/200 windows  KL so far 0.54812
+  200/200 windows  KL so far 0.54966
+.......                                                                  [100%]
+7 passed in 585.02s (0:09:45)
+{
+  "timestamp": "2026-11-06T15:07:50",
+  "commit": "eed4635",
+  "dirty": true,
+  "program_sha": "80a57be3dfcf0f25",
+  "program": "program",
+  "model": "attn_s0",
+  "split": "dev_fast",
+  "n_windows": 200,
+  "kl": 0.549659,
+  "kl_sem": 0.003475,
+  "top1": 0.63459,
+  "ce_program": 2.51087,
+  "ce_model": 2.53457,
+  "ce_bigram": 3.52753,
+  "loss_recovered": 1.02387,
+  "lint_ok": true,
+  "loc": 1875,
+  "numeric_literals": 232,
+  "largest_literal": 5,
+  "claims_passed": 7,
+  "claims_total": 7,
+  "sandbox": "enforced (sandbox-exec: models/, data/ except the train corpus, logs/, analysis/ unreadable; no network)",
+  "seconds": 1875.9,
+  "note": "post-cleanup check (plan step 0f)"
+}
+exit 0
