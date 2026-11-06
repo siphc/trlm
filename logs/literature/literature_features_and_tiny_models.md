@@ -25,7 +25,7 @@ quoted by the sources; full papers not read end to end.
     virtual weights, and the helpful set still exceeds the original parameter count.
   - QK and token-to-feature weights are less effective and less helpful than weights into logits.
   - **Relation to our results:** the same wall from another side. Our distillation curve needed about 1.78M fitted
-    entries to reach about the seed floor (logs/compression_experiments.md); their helpful virtual weights exceed the
+    entries to reach about the seed floor (logs/main_track/compression_experiments.md); their helpful virtual weights exceed the
     model's own parameter count.
 - **Bushnaq, Braun, Clive-Griffin, Bussmann, Hu, Ivanitskiy, Linsefors, Sharkey, Oct 2026, "Interpreting Language Model
   Parameters"** (adVersarial Parameter Decomposition, VPD; https://arxiv.org/abs/2610.20748).

@@ -1,4 +1,4 @@
-"""Study B's pre-registered outcomes (logs/prereg_law_pressure.md, FINAL): per confirmatory seed the manipulation check,
+"""Study B's pre-registered outcomes (logs/study_B_law_pressure/prereg_law_pressure.md, FINAL): per confirmatory seed the manipulation check,
 the held-out law (INTACT / PARTLY BROKEN / BROKEN), the cost (LOW / MODERATE / HIGH) and the cell of the outcome table;
 the verdict for arm both; the same classification for arms attn and vote (comparisons); the restoring force.
 
@@ -27,7 +27,7 @@ CELLS = {("INTACT", "LOW"): "GAMED", ("INTACT", "HIGH"): "PAID WITHOUT BREAKING"
 
 
 def final_committed():
-    log = subprocess.run(["git", "log", "--format=%s", "--", "logs/prereg_law_pressure.md"], cwd=REPO,
+    log = subprocess.run(["git", "log", "--follow", "--format=%s", "--", "logs/study_B_law_pressure/prereg_law_pressure.md"], cwd=REPO,
                          capture_output=True, text=True).stdout
     return "FINAL pre-registration" in log
 

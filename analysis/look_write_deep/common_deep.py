@@ -1,8 +1,8 @@
 """Shared pieces for the deep study of "where a head looks comes from what it writes" (logs/decisions.md item 8;
-plan: logs/deep_study.md). Works for attention-only TinyLM models with any number of blocks, including the one-block
+plan: logs/look_write/deep_study.md). Works for attention-only TinyLM models with any number of blocks, including the one-block
 models of the main track (for calibration against analysis/look_write/).
 
-Definitions (see logs/prereg_deep_look_write.md):
+Definitions (see logs/look_write/prereg_deep_look_write.md):
 - Bigram-stage error at position i: R_i = e_{y_i} - P1(. | t_i)  (P1: the program's corpus bigram rule).
   F = sum_i <logits_i, R_i>.  g_i^(l) = dF / d(residual after block l) at position i (all paths; "TOTAL").
 - A head's write from key j: o_h(j) = v_h(j) W_O^h (the vector it adds to the residual stream when it attends fully

@@ -1,5 +1,5 @@
-"""Study A, "fixed_votes" (logs/plan_attention_law_and_readability.md section 4; pre-registration
-logs/prereg_fixed_votes.md): a one-block attention model whose heads vote with fixed corpus tables.
+"""Study A, "fixed_votes" (logs/plans/plan_attention_law_and_readability.md section 4; pre-registration
+logs/study_A_fixed_votes/prereg_fixed_votes.md): a one-block attention model whose heads vote with fixed corpus tables.
 
     logits_i = beta_follow * log P1(. | t_i)  +  sum_h beta_h * sum_{j <= i} a^h_ij * T_h(t_j, .)
 

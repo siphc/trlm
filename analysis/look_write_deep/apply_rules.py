@@ -1,4 +1,4 @@
-"""Apply the decision rules R1-R3 (logs/deep_study.md, fixed before any calibration output) to the one-layer
+"""Apply the decision rules R1-R3 (logs/look_write/deep_study.md, fixed before any calibration output) to the one-layer
 calibration (200M-token passes; arms_ltotal.json and arms_total.json of attn_s1..s4, the 8 confirmatory heads).
 
   R1  primary readout: ltotal, unless total's median own-arm gain exceeds ltotal's by more than 10%

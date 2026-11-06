@@ -83,7 +83,7 @@ Intermediate checkpoints of a long cosine run sit at a high learning rate, so th
 
 1. LR check (3 runs at the smallest budget below): peak LR in {5e-4, 1e-3, 2e-3}. Pick the best dev loss.
 2. Budget runs: `mlp` seed 0 at token budgets in a geometric ladder, for example 12.5M, 50M, 200M, 800M tokens, each with its own full cosine schedule. Cap at one epoch over the training split. Measure the real token count of one epoch first and adjust the ladder.
-3. Choose the smallest budget whose final dev loss is within 1% of the best run. Write the choice and the full table to `logs/pilot.md`.
+3. Choose the smallest budget whose final dev loss is within 1% of the best run. Write the choice and the full table to `logs/setup/pilot.md`.
 4. Apply that budget to all 10 models, including `attn`. If `attn` is still improving noticeably at that budget, record it but keep the budget equal for comparability.
 
 Before the pilot, run a two-minute throughput test on CPU and on Colab. Report tokens per second and extrapolate the cost of each pilot run and of the 10 final runs.

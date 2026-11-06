@@ -1,4 +1,4 @@
-"""Readable training (side study, logs/readable_training.md; configs/side_readable.yaml): an auxiliary loss that pulls
+"""Readable training (side study, logs/study_C_readable/readable_training.md; configs/side_readable.yaml): an auxiliary loss that pulls
 a model toward the readable program v1.3, computed on a few windows per step from a fixed, precomputed target pool
 (analysis/readable_training/build_pool.py).
 
@@ -9,7 +9,7 @@ a model toward the readable program v1.3, computed on a few windows per step fro
                           and its corpus vote table (analysis/readable_training/vote_targets.py)
 Head 3 and the direct path are unconstrained.
 
-Non-readable canonicaliser controls (study C part B, logs/prereg_canonical_addendum.md; readable_target "model:<path>"):
+Non-readable canonicaliser controls (study C part B, logs/study_C_readable/prereg_canonical_addendum.md; readable_target "model:<path>"):
 the same losses, on the same pool windows and with the same k values, with a frozen trained model (attn_s0) in place
 of the program: arm O against its top-k_out next-token log-probs, arm I against its own heads 0, 1, 2's attention
 (top-k_h keys) and their vote (OV) tables, row-standardised as the corpus targets are (same column and row weights).

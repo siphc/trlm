@@ -1,4 +1,4 @@
-# Addendum results (logs/prereg_look_follows_write_addendum.md), one-layer models
+# Addendum results (logs/look_write/prereg_look_follows_write_addendum.md), one-layer models
 
 ## A. Ceiling with the self position (`tt_self`)
 
@@ -108,7 +108,7 @@ with r (m = 0.69 already at step 718), so these checkpoints cannot separate the 
 together; what is established is that attention is predictable from the vote and the data, at every stage after step
 229.
 
-## Addendum 2: growth test (logs/prereg_look_follows_write_addendum2.md)
+## Addendum 2: growth test (logs/look_write/prereg_look_follows_write_addendum2.md)
 
 attn_s1..s4, the 8 confirmatory heads; analysis/look_write_deep/growth.py; analysis/out/look_write_deep/growth*.json.
 

@@ -1,4 +1,4 @@
-"""The measurement suite for one model (pre-registration: logs/prereg_readable_training.md, "Tools").
+"""The measurement suite for one model (pre-registration: logs/study_C_readable/prereg_readable_training.md, "Tools").
 
   .venv/bin/python -m analysis.readable_training.suite <model id or final.pt> [--seed S] [--harness] [--lock] [--refit]
 

@@ -1,5 +1,5 @@
 """Shared pieces for the pre-registered test "where a head looks comes from what it writes"
-(logs/prereg_look_follows_write.md). Written independently of analysis/investigations/qk/ (removed in the clean-up; git tag pre-cleanup).
+(logs/look_write/prereg_look_follows_write.md). Written independently of analysis/investigations/qk/ (removed in the clean-up; git tag pre-cleanup).
 
 Conventions
 - Models: one-block attention-only TinyLM (src/train/model.py), fp32 weights, everything here in float64 numpy

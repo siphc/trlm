@@ -42,7 +42,7 @@ TOPIC_PRIOR = 100.0
 USE_MAX_D = 7                    # usefulness tables for earlier tokens 1..7 back
 USE_PRIOR = 20.0                 # shrinkage of the usefulness averages towards 0 (pseudo-count), as in round 2
 # FOLLOW_SMOOTHING: Dirichlet strength, class-blur weight, unigram background. Fitted once, context-free, to the
-# model's average prediction after each token (exact identity; logs/mechanism_cards.md, knowledge baseline).
+# model's average prediction after each token (exact identity; logs/main_track/mechanism_cards.md, knowledge baseline).
 DIRICHLET, BLUR, BACKGROUND = 44.029, 0.036311, 0.023787
 
 

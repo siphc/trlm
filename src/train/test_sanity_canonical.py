@@ -1,4 +1,4 @@
-"""Sanity tests for study C part B's non-readable canonicaliser controls (logs/prereg_canonical_addendum.md): arms O
+"""Sanity tests for study C part B's non-readable canonicaliser controls (logs/study_C_readable/prereg_canonical_addendum.md): arms O
 and I with a frozen trained model (attn_s0) as the target, computed online (src/train/readable.py, readable_target).
 Run before any part-B run: .venv/bin/python -m pytest -q src/train/test_sanity_canonical.py
 

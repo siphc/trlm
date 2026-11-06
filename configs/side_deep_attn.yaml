@@ -8,7 +8,7 @@ variant: attn
 n_blocks: [2, 4]
 seeds: [0, 1, 2, 3, 4]            # seed 0 = development seed; seeds 1-4 confirmatory (pre-registered)
 budget_tokens: 527482880          # one epoch, as the main track
-peak_lr: 2.0e-3                   # frozen value unless the 4-block LR check (logs/deep_study.md) says otherwise
+peak_lr: 2.0e-3                   # frozen value unless the 4-block LR check (logs/look_write/deep_study.md) says otherwise
 residual_proj_init: "0.02 / sqrt(2 * n_blocks)"   # src/train/model.py convention (counts 2 writes per block)
 paths: models/deep/attn{n_blocks}L_s{seed}
 command: python -m src.train.runs deep --n_blocks {2|4} --seeds 0,1,2,3,4 --device mps

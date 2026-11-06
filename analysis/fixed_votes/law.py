@@ -1,4 +1,4 @@
-"""Study A measurements on one fixed-vote model (logs/prereg_fixed_votes.md): M1 vote strengths and vote-removal
+"""Study A measurements on one fixed-vote model (logs/study_A_fixed_votes/prereg_fixed_votes.md): M1 vote strengths and vote-removal
 shifts (R4), M3 law fit and output test, M4 pure-pair correlation, M5 distance profile, M6 coupling.
 
     OMP_NUM_THREADS=2 nice -n 20 .venv/bin/python -m analysis.fixed_votes.law models/fixed_votes/base_s1/final.pt

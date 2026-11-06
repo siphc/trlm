@@ -8,12 +8,12 @@ named in brackets; nothing here is new analysis. Not published anywhere. Each se
 | part | state | results file |
 |---|---|---|
 | 1. look-follows-write law | done (pre-registered, 1-, 2-, 4-block) | writeups/look_follows_write_predraft.md and its sources |
-| 1b. fixed-vote models (study A) | development and exploratory only, no verdicts | logs/fixed_votes_results.md |
-| 2. program and coverage | done | logs/coverage.md, logs/mech_v3_report.md |
-| 3. the lock | done | logs/token_geometry_results.md, logs/coverage.md |
-| 4. readable training (study C part A) | done, both arms GOODHARTED | logs/readable_training_results.md |
-| 5. seed convergence (study C part B) | addendum DRAFT, awaiting G0/G1 | logs/prereg_canonical_addendum.md |
-| 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 pending | logs/law_pressure_results.md |
+| 1b. fixed-vote models (study A) | development and exploratory only, no verdicts | logs/study_A_fixed_votes/fixed_votes_results.md |
+| 2. program and coverage | done | logs/main_track/coverage.md, logs/main_track/mech_v3_report.md |
+| 3. the lock | done | logs/main_track/token_geometry_results.md, logs/main_track/coverage.md |
+| 4. readable training (study C part A) | done, both arms GOODHARTED | logs/study_C_readable/readable_training_results.md |
+| 5. seed convergence (study C part B) | addendum DRAFT, awaiting G0/G1 | logs/study_C_readable/prereg_canonical_addendum.md |
+| 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 pending | logs/study_B_law_pressure/law_pressure_results.md |
 
 ## Summary (as of 2026-11-06)
 
@@ -48,14 +48,14 @@ attention still goes where the head's own vote helps, as measured by the output 
 
 **Claim.** The pair-specific part of a head's attention tracks how much that head's own vote from the attended token
 would reduce the next-token error relative to a bigram. Details: writeups/look_follows_write_predraft.md
-[logs/look_follows_write_results.md, logs/look_follows_write_addendum_results.md, logs/deep_look_write_results.md].
+[logs/look_write/look_follows_write_results.md, logs/look_write/look_follows_write_addendum_results.md, logs/look_write/deep_look_write_results.md].
 - **One layer.** The law holds in every local head of four held-out seeds:
   - pure-pair correlation 0.34-0.44; another head's vote at most 0.08;
   - it recovers 0.26-0.46 of the exact token-token term's output gain.
 - **Training.** Attention and vote co-adapt; usefulness leads only for the pairs that become strongly attended.
 - **Deeper models.** The law holds for last-layer heads and is refuted for heads whose output is read by later layers.
 
-**Fixed votes (study A, development only)** [logs/fixed_votes_results.md]. Each head's vote is fixed to a named corpus
+**Fixed votes (study A, development only)** [logs/study_A_fixed_votes/fixed_votes_results.md]. Each head's vote is fixed to a named corpus
 table and only attention is learned.
 - **Attention adapts to the table.** Changing one head's table from skip2 to skip3 moved its attention peak from
   distance 1 to 2.
@@ -72,7 +72,7 @@ table and only attention is learned.
 
 ## 2. The program and its coverage
 
-v1.3 [logs/mech_v3_report.md] combines:
+v1.3 [logs/main_track/mech_v3_report.md] combines:
 - a direct-path bigram (FOLLOW);
 - three readable heads: LOCAL-0, RECALL and LOCAL-2, with attention rules that include the law and votes from corpus
   tables;
@@ -80,7 +80,7 @@ v1.3 [logs/mech_v3_report.md] combines:
 
 It is 0.55 nats from attn_s0 on dev, and 0.54-0.56 from attn_s1..s4 with the same scalars.
 
-**Coverage** (decision 14) [logs/coverage.md] = (KL_bigram − KL_program) / (KL_bigram − KL_floor). The floor is the
+**Coverage** (decision 14) [logs/main_track/coverage.md] = (KL_bigram − KL_program) / (KL_bigram − KL_floor). The floor is the
 probability average of the other four seeds. Values: 0.720-0.737 per seed, mean 0.728 (against the trigram: 0.692).
 Against a single sibling seed instead of the average it would read 0.849. That is why the average is the honest floor.
 
@@ -90,12 +90,12 @@ Against a single sibling seed instead of the average it would read 0.849. That i
 
 ## 3. The lock
 
-**Within attn_s0** [logs/token_geometry_results.md]:
+**Within attn_s0** [logs/main_track/token_geometry_results.md]:
 - The model's exact tables help only with its exact attention (KL 0.921 with readable attention), and its exact
   attention helps only with its exact tables (0.523 with corpus tables).
 - Both exact: 0.115. The program: 0.551.
 
-**Against the seed consensus** [logs/coverage.md, "Where the remaining gap is"]:
+**Against the seed consensus** [logs/main_track/coverage.md, "Where the remaining gap is"]:
 - Exact attention plus exact table for one head inside the program closes 0.035 (RECALL) or at most 0.010 (any other
   head) of the 0.412 nats.
 - An exact vote table alone makes things worse for every head.
@@ -113,7 +113,7 @@ be described on its own. The discovery loop, which improves one component at a t
 
 ## 4. Output agreement and mechanism agreement come apart under training pressure
 
-**Setup** (study C part A, pre-registered, seeds 1-4, lambda 0.3) [logs/readable_training_results.md]. Each new model
+**Setup** (study C part A, pre-registered, seeds 1-4, lambda 0.3) [logs/study_C_readable/readable_training_results.md]. Each new model
 is trained with an extra loss toward v1.3 and compared with its untreated twin.
 
 | | arm O: outputs toward the program | arm I: heads 0-2 toward the rules and corpus tables |
@@ -138,12 +138,12 @@ separately trainable. This is the lock, shown causally in both directions.
 
 ## 5. Does a shared target remove the arbitrariness between training runs?
 
-**Part A** [logs/readable_training_results.md]: the four treated seeds' mean pairwise KL falls from 0.417 to 0.303
+**Part A** [logs/study_C_readable/readable_training_results.md]: the four treated seeds' mean pairwise KL falls from 0.417 to 0.303
 (arm O) and 0.310 (arm I).
 - In arm O this matches the movement toward the program (convergence ratio 0.97).
 - In arm I the seeds come closer to each other (−26%) while hardly coming closer to the program (−7%; ratio 3.60).
 
-**Part B** [logs/prereg_canonical_addendum.md, DRAFT]. Is this a property of a readable target? Same losses, with
+**Part B** [logs/study_C_readable/prereg_canonical_addendum.md, DRAFT]. Is this a property of a readable target? Same losses, with
 attn_s0 (an unreadable trained model) as the target, at matched cost; a pressure-curve point (arm O at lambda 1);
 mechanistic convergence of attention patterns and value codes.
 - *Expected (recorded before outputs):* at the output level the unreadable target removes more per unit of cost; at
@@ -154,7 +154,7 @@ mechanistic convergence of attention patterns and value codes.
 
 ## 6. The law under pressure (study B)
 
-Pre-registered [logs/prereg_law_pressure.md; results logs/law_pressure_results.md]. Seeds 1-4 are trained with a
+Pre-registered [logs/study_B_law_pressure/prereg_law_pressure.md; results logs/study_B_law_pressure/law_pressure_results.md]. Seeds 1-4 are trained with a
 penalty on the in-batch correlation between attention scores and the usefulness of the head's own vote (lambda 1),
 each against an unpenalised twin, then both are continued for 3,000 steps without the penalty.
 - **Verdict MIXED.** Cells: FREE BREAK (seed 1), PARTLY BROKEN at low cost (seeds 2 and 4), INCONCLUSIVE (seed 3, whose
@@ -173,7 +173,7 @@ output test.
 - One lambda; four seeds, one of them failing the manipulation check; MPS only.
 - The continuation is short and at a low learning rate.
 - Which part of attention carries the surviving gain is open. Token main effects were tested and ruled out
-  (exploratory; logs/law_pressure_results.md).
+  (exploratory; logs/study_B_law_pressure/law_pressure_results.md).
 
 ## Open items for a real draft
 

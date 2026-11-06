@@ -1,4 +1,4 @@
-"""Study C part B measurements (logs/prereg_canonical_addendum.md): how much of the variation between training runs a
+"""Study C part B measurements (logs/study_C_readable/prereg_canonical_addendum.md): how much of the variation between training runs a
 shared target removes, per unit of cross-entropy cost, for the readable target (program v1.3; arms O and I) and the
 non-readable one (attn_s0; controls Octl and Ictl), in behaviour and in mechanism.
 
@@ -36,7 +36,7 @@ from analysis.readable_training.common import REPO
 OUT = os.path.join(REPO, "analysis", "out", "canonical")
 SEEDS = (1, 2, 3, 4)
 ROLES = (0, 1, 2)
-# pre-registered thresholds (logs/prereg_canonical_addendum.md, "Decision rules")
+# pre-registered thresholds (logs/study_C_readable/prereg_canonical_addendum.md, "Decision rules")
 EFF_RATIO = 1.5            # one target counts as more efficient only if E differs by this factor ...
 Z_MIN = 2.0                # ... and by at least 2 jackknife standard errors of the log ratio
 C_MIN = 0.0025             # below a mean relative cost of 0.25% efficiency is not computed (cost is noise-level)

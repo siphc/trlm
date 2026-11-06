@@ -104,7 +104,7 @@ new component).
   The heads are not large opposing copy votes that net out; most of what heads 0 and 2 do from earlier tokens is
   simply not skip-gram voting.
 
-## 2026-10-13 attn_s0 — discovery round 2 (workflow mech-v2-investigations; details in logs/mech_v2_investigations.md)
+## 2026-10-13 attn_s0 — discovery round 2 (workflow mech-v2-investigations; details in logs/main_track/mech_v2_investigations.md)
 
 Paired KL differences from analysis/vote_fit.py (all strengths refitted; 32 fit / 64 eval TRAIN windows unless noted).
 Adoption bar: gain >= 0.005 and >= 3 SE.
@@ -135,7 +135,7 @@ Adoption bar: gain >= 0.005 and >= 3 SE.
 - **The model's exact attention for heads 0/2 with skip-gram votes** (ceiling): only -0.0063 +- 0.0013. The votes, not
   the attention, are the bottleneck.
 
-## 2026-10-17 deep study: "where a head looks comes from what it writes" beyond the output layer (logs/deep_look_write_results.md)
+## 2026-10-17 deep study: "where a head looks comes from what it writes" beyond the output layer (logs/look_write/deep_look_write_results.md)
 
 - **The law for heads whose writes are read by later layers.** Pre-registered on 2- and 4-block attention-only models
   (seeds 1-4): layer-0 heads (F1, 11 heads) REFUTED (D1 5/11; median own gain 0.007, 15% of the oracle; controls 45% of
@@ -153,7 +153,7 @@ Adoption bar: gain >= 0.005 and >= 3 SE.
 - **Recursive generalisation of a head's key set (growth G3).** Not robust: the effect disappears when the current
   attention level is matched (2 of 8 heads).
 
-## 2026-10-17 mechanism program round 3, from v1.2 (analysis/program_gap/, logs/mech_v3_report.md)
+## 2026-10-17 mechanism program round 3, from v1.2 (analysis/program_gap/, logs/main_track/mech_v3_report.md)
 
 Paired KL differences from analysis/vote_fit.py (all strengths refitted; 32 fit / 64 eval TRAIN windows). Bar: >= 0.005
 and >= 3 SE.
@@ -196,7 +196,7 @@ and >= 3 SE.
 
 Hypothesis: with every head's vote fixed to a named corpus table (cost +1.3% CE), describing attention by readable
 rules (distance, spelling, own-vote usefulness) gives a readable model better than program v1.3. Evidence
-(logs/fixed_votes.md, analysis/fixed_votes/readable_all.py, seed 0): the fully readable program is 0.27 nats from its
+(logs/study_A_fixed_votes/fixed_votes.md, analysis/fixed_votes/readable_all.py, seed 0): the fully readable program is 0.27 nats from its
 fixed-vote model, 0.77 from attn_s0 (v1.3: 0.55), CE 2.70 vs 2.44 for attn_s0 (v1.3 matches the model). The missing
 part is the token-pair structure of learned attention (the non-readable token-token term reaches 0.09). Status:
 development only; the confirmatory runs test the law, not this route.
@@ -204,7 +204,7 @@ development only; the confirmatory runs test the law, not this route.
 ## Training a model toward program v1.3 (readable-training side study, confirmatory, 2026-11-06)
 
 Hypothesis (H-genuine): a loss pulling a new model toward v1.3, at its outputs (arm O) or its attention and votes
-(arm I), makes v1.3 a faithful description of that model. Evidence (logs/readable_training_results.md, seeds 1-4,
+(arm I), makes v1.3 a faithful description of that model. Evidence (logs/study_C_readable/readable_training_results.md, seeds 1-4,
 lambda 0.3, cost about 1% CE): arm O brings the harness KL from 0.54-0.56 to 0.39-0.40 but the heads do not move toward
 the rules; arm I makes the heads look and vote like the rules but the harness KL stays 0.50-0.52. Verdict GOODHARTED in
 both arms (tau <= 0.2 in 3 of 4 seeds). Output and mechanism agreement are separately trainable.
@@ -212,7 +212,7 @@ both arms (tau <= 0.2 in 3 of 4 seeds). Output and mechanism agreement are separ
 ## Copying as the main remaining gap (main track, 2026-11-06)
 
 Hypothesis: the program's miss against the five-seed consensus is mostly copying that RECALL gets wrong (58% of the miss
-is at positions whose consensus top token appeared earlier). Evidence (logs/coverage.md, analysis/program_gap/
+is at positions whose consensus top token appeared earlier). Evidence (logs/main_track/coverage.md, analysis/program_gap/
 copy_diagnostic.py): that class is mostly common tokens (RECALL attention on the target 3-7% in every seed); head 1 made
 fully exact inside the program closes 0.035 of 0.412 nats to the consensus; any other single head at most 0.010; all
 parts exact 0.129. The shared behaviour is not located in any one part.
@@ -221,7 +221,7 @@ parts exact 0.129. The shared behaviour is not located in any one part.
 
 Hypothesis: in the penalised models the own-usefulness arm keeps its output gain (0.90-1.03 of the twin's) because the
 gain rides on key-token main effects, which the pure-pair correlation removes by double-centring. Evidence
-(analysis/law_pressure/main_effects.py, logs/law_pressure_results.md, exploratory): on the d = 1 type table the
+(analysis/law_pressure/main_effects.py, logs/study_B_law_pressure/law_pressure_results.md, exploratory): on the d = 1 type table the
 additive and key-effect correlations with own usefulness fall from 0.32-0.46 to -0.10-0.08, below the pure-pair part
 (0.04-0.20). Refuted; the part of attention that keeps the gain is not located (candidates: strongly attended tail,
 distances 2-7, position).

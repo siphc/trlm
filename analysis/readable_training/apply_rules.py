@@ -1,4 +1,4 @@
-"""Apply the pre-registered decision rules (logs/prereg_readable_training.md) and record their values in
+"""Apply the pre-registered decision rules (logs/study_C_readable/prereg_readable_training.md) and record their values in
 analysis/out/readable_training/rules.json. Rule R1 is applied by build_pool.py coverage.
 
   .venv/bin/python -m analysis.readable_training.apply_rules r2      # c = L_att / L_vote on attn_s0 (held-out pool)

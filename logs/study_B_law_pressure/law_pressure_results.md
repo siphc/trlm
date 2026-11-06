@@ -2,7 +2,7 @@
 
 Written 2026-11-06 from analysis/out/law_pressure/verdicts.json (analysis/law_pressure/verdicts.py), measures.json (the
 in-batch correlations) and report.json (analysis/law_pressure/report.py, per-head numbers, reported not tested).
-Pre-registration: logs/prereg_law_pressure.md (FINAL, 2026-10-20). Running log: logs/law_pressure.md. Training log
+Pre-registration: logs/study_B_law_pressure/prereg_law_pressure.md (FINAL, 2026-10-20). Running log: logs/study_B_law_pressure/law_pressure.md. Training log
 logs/runs/law_pressure_confirm.out; law tools logs/runs/law_pressure_confirm_lawtools.out and
 law_pressure_lawtools_rest_{a,b,c}.out. Gate G3 (the human's review) is pending.
 

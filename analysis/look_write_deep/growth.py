@@ -1,4 +1,4 @@
-"""Growth test (logs/prereg_look_follows_write_addendum2.md): does the vote form before the attention, and is attention
+"""Growth test (logs/look_write/prereg_look_follows_write_addendum2.md): does the vote form before the attention, and is attention
 acquired where the vote is useful? One-layer models attn_s1..s4, their confirmatory LOCAL heads.
 
 Needs the echo-test outputs (analysis/out/look_write_deep/attn_sK@<ckpt>/traj_tables.npz from echo_traj.py).

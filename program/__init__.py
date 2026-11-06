@@ -18,7 +18,7 @@ The whole algorithm, top-down (one module per mechanism):
                   phrase.py  PHRASE   continue the last two or three tokens as a known phrase (corpus 3/4-grams)
                   and turn the summed votes into probabilities with a softmax.
 
-Model head 3 is not modelled in this version (logs/mechanism_cards.md: no vote rule tried so far explains it).
+Model head 3 is not modelled in this version (logs/main_track/mechanism_cards.md: no vote rule tried so far explains it).
 
 CLAIM (tests/test_program.py): on held-out text the five mechanisms together are within 0.62 nats of the model,
 and each is needed: switching one off raises KL by at least 0.05 nats (FOLLOW by at least 1.0).

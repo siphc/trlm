@@ -3,14 +3,14 @@
 FINAL, 2026-10-18; the DRAFT was committed 2026-10-17 (fce083b) before any output of this study existed. This version
 adds the values fixed by the decision rules R1-R7 (from development outputs only), what has been seen, and the
 deviations. It is committed before any confirmatory model (seeds 1-4) is trained. Decision: logs/decisions.md item 9.
-Configuration: configs/side_readable.yaml. Running log: logs/readable_training.md.
+Configuration: configs/side_readable.yaml. Running log: logs/study_C_readable/readable_training.md.
 
 ## What has been seen before writing this
 
 - Program v1.3 (commit 573c4ac) is 0.5497 nats from attn_s0 on dev_fast, and 0.540-0.561 from attn_s1..s4 with
-  unchanged scalars (logs/mech_v3_report.md). Another seed of the same network is 0.38-0.42 from attn_s0 (TRAIN).
+  unchanged scalars (logs/main_track/mech_v3_report.md). Another seed of the same network is 0.38-0.42 from attn_s0 (TRAIN).
 - In attn_s0, exact per-head tables help only with exact attention and vice versa; swapping one head's corpus table
-  into the exact model costs 0.17-0.73 nats (logs/token_geometry_results.md).
+  into the exact model costs 0.17-0.73 nats (logs/main_track/token_geometry_results.md).
 - Nothing about models trained with a readability loss.
 
 ## Values fixed by the rules (analysis/out/readable_training/rules.json)
@@ -30,7 +30,7 @@ Confirmatory runs: arms O and I at lambda 0.3, seeds 1-4, one epoch, 8 auxiliary
 
 ## What has been seen (development only)
 
-- **Grid** (seed 0, 100M tokens; logs/readable_training.md): arm O lowers KL(model || program) from 0.61 to 0.25 as
+- **Grid** (seed 0, 100M tokens; logs/study_C_readable/readable_training.md): arm O lowers KL(model || program) from 0.61 to 0.25 as
   lambda grows, at a cost of up to +8.9%; at lambda 3-10 attention moves away from the rules (pattern KL 1.7-1.9 vs 0.87).
   Arm I lowers attention-pattern KL from 0.87 to 0.06 and raises the vote correlation from 0.27 to 0.71, while KL to the
   program stays at 0.51-0.58; at lambda 0.1-0.3 it lowers dev cross-entropy by 2-3% at 100M tokens. The positive
@@ -183,4 +183,4 @@ models' own samples as a fifth OOD set; no use of the test split.
   against M. Based on development outputs only; the confirmatory runs had started, no confirmatory output had been read.
   The verdict with M at 0.3 is reported next to the amended one.
 - Clarifications of ambiguous wording (noise floor, undefined ratios, flag counting, the positive control's twin and
-  others) are listed in logs/readable_training.md, phase 4; all are implemented in analysis/readable_training/verdicts.py.
+  others) are listed in logs/study_C_readable/readable_training.md, phase 4; all are implemented in analysis/readable_training/verdicts.py.

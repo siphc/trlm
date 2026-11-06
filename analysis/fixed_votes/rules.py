@@ -1,4 +1,4 @@
-"""Study A decision rules (logs/prereg_fixed_votes.md), values written to analysis/out/fixed_votes/rules.json.
+"""Study A decision rules (logs/study_A_fixed_votes/prereg_fixed_votes.md), values written to analysis/out/fixed_votes/rules.json.
 
   .venv/bin/python -m analysis.fixed_votes.rules r2 --device mps   # seconds per fixed-vote step (R2; R3 if > 0.25 s)
   .venv/bin/python -m analysis.fixed_votes.rules r1                # peak LR from the three 50M-token runs

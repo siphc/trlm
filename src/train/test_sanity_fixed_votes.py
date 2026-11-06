@@ -1,4 +1,4 @@
-"""Sanity tests for study A's fixed-vote models (src/train/fixed_votes.py; pre-registration logs/prereg_fixed_votes.md).
+"""Sanity tests for study A's fixed-vote models (src/train/fixed_votes.py; pre-registration logs/study_A_fixed_votes/prereg_fixed_votes.md).
 Run before any long run: .venv/bin/python -m pytest -q src/train/test_sanity_fixed_votes.py
 
 The model tests use a small synthetic tables file; the training tests (resume, load, single-batch fit) use the real

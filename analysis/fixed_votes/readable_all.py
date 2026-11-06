@@ -1,4 +1,4 @@
-"""EXPLORATORY (logs/prereg_fixed_votes.md, "Exploratory": a readable description and its KL to the model). In a
+"""EXPLORATORY (logs/study_A_fixed_votes/prereg_fixed_votes.md, "Exploratory": a readable description and its KL to the model). In a
 fixed-vote model the votes are named corpus tables and the strengths are five numbers, so replacing every head's
 attention with a readable rule gives a fully readable program. This script fits, per head, goal 1's base rule
 (distance buckets, self x query shape, key shape) with and without the head's own-usefulness features (corpus

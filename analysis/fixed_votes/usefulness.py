@@ -1,4 +1,4 @@
-"""Study A, measurement M2 (logs/prereg_fixed_votes.md): the model-free usefulness of every fixed vote table, computed
+"""Study A, measurement M2 (logs/study_A_fixed_votes/prereg_fixed_votes.md): the model-free usefulness of every fixed vote table, computed
 from the TRAIN stream before any fixed-vote model is trained. It is the look-follows-write law's prediction.
 
     U_T,d(k, q) = (S - N B) / (N + 20)

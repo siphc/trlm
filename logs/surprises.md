@@ -107,7 +107,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   reading between LOCAL-0 and LOCAL-2 is not the model's split.
 - Not cancellation: the heads do not carry large opposing copy votes that net out (analysis/cancellation.py).
 
-## 2026-10-13 discovery round 2 (attn_s0; logs/mech_v2_investigations.md)
+## 2026-10-13 discovery round 2 (attn_s0; logs/main_track/mech_v2_investigations.md)
 
 - Heads 0, 2 and 3 are each about 90% additive "read a token, write a fixed vector" devices, yet corpus skip-grams with
   the real attention explain only 6-16% of what each writes; all corpus tables together 31% for heads 0+2.
@@ -123,7 +123,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   set then includes current-token votes, which the earlier-token ablation leaves untouched. Fix before relying on it
   for replacement candidates.
 
-## 2026-10-14 look-follows-write replication (logs/look_follows_write_results.md)
+## 2026-10-14 look-follows-write replication (logs/look_write/look_follows_write_results.md)
 
 - In one head (attn_s1/h3) the exact token-token query-key term makes the output worse when added to a generic
   attention rule (-0.052 +- 0.011), while own-vote usefulness helps (+0.092). Same for near-threshold head s2/h0 (-0.113).
@@ -148,7 +148,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - Head pairs cancel each other's effects in one-layer models (all 5 seeds), never in 2- and 4-block models, even within a
   layer of the same width.
 
-## 2026-10-17 mechanism program round 3 (logs/mech_v3_report.md)
+## 2026-10-17 mechanism program round 3 (logs/main_track/mech_v3_report.md)
 
 - **Seeds of the same network are far apart.** On 64 TRAIN windows, attn_s1..s4 are 0.38-0.42 nats from attn_s0
   (KL(attn_s0 || seed k)); the average of seeds 1-4 is 0.25 away; mlp_s0 0.58. The program (v1.2) is 0.56 away, so a
@@ -167,16 +167,16 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 
 - 2026-10-18 (readable training): the seed-0 one-epoch runs, already in hand when the FINAL pre-registration was written,
   sit just below its manipulation check (trained closure 0.28 and 0.274 vs 0.3); noticed only when the verdicts script
-  was tested, after the confirmatory runs had started and before any confirmatory output (logs/readable_training.md).
+  was tested, after the confirmatory runs had started and before any confirmatory output (logs/study_C_readable/readable_training.md).
 - 2026-11-06 (readable training, confirmatory): (1) the positive control (256-window pool) memorises (gap 0.158) yet its
   agreement transfers out of distribution as well as on dev (tau_OOD 1.20), so tau_OOD cannot detect pool gaming here;
   (2) arm I's heads look and vote like the program's rules but the lock tightens in seeds 1-2 (+19-23%); (3) arm I
-  makes seeds 26% more alike while moving them only 7% toward the program (logs/readable_training_results.md).
+  makes seeds 26% more alike while moving them only 7% toward the program (logs/study_C_readable/readable_training_results.md).
 - 2026-11-06 (main track): consensus.py's class "top token appeared earlier in the window", read since mech_v3 as
   "copying", is mostly common tokens; RECALL's attention on the target is 3-7% there in every seed
-  (logs/coverage.md, oracle swaps).
+  (logs/main_track/coverage.md, oracle swaps).
 - 2026-11-06 (study B): under the law penalty the two held-out measures of the law, which agree in normal models, come
   apart: the d = 1 type-table correlation of scores with own usefulness falls in every part (raw, main effects,
   pure-pair; RECALL heads to about 0), while the own-usefulness arm fitted to real attention patterns keeps its
   coefficient and its output gain (0.90-1.03 of the twin's). Cost below 0.4%; recovery after 3,000 plain steps
-  0.05-0.14 (logs/law_pressure_results.md).
+  0.05-0.14 (logs/study_B_law_pressure/law_pressure_results.md).

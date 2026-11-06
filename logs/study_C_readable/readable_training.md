@@ -1,7 +1,7 @@
 # Side study: can a language model be trained to be readable? (running log)
 
 Decision: logs/decisions.md item 9. Configuration: configs/side_readable.yaml. Pre-registration:
-logs/prereg_readable_training.md (DRAFT committed 2026-10-17, before any study output).
+logs/study_C_readable/prereg_readable_training.md (DRAFT committed 2026-10-17, before any study output).
 
 ## Plan (approved 2026-10-17)
 
@@ -17,7 +17,7 @@ check with tools that were not trained on whether the agreement is genuine or Go
 | 3 | development grid (seed 0, 100M tokens) and seed-0 one-epoch runs; rules R1-R7; FINAL pre-registration | G2: dose-response and lambda |
 | 4 | confirmatory runs: arms O and I, seeds 1-4, one epoch (overnight, charger) | |
 | 5 | measurement suite on the new models | |
-| 6 | verdicts, results (logs/readable_training_results.md), dead ends, surprises | G3 |
+| 6 | verdicts, results (logs/study_C_readable/readable_training_results.md), dead ends, surprises | G3 |
 
 Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measurement at nice 20.
 
@@ -131,7 +131,7 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
 ## Phase 4: confirmatory runs (2026-10-18)
 
 - Gate G2 approved by the human on 2026-10-18 (after the plan for the next studies, decision 10; these runs are part A
-  of study C in logs/plan_attention_law_and_readability.md). Started `scripts/readable/confirm_queue.sh` (arms O and I
+  of study C in logs/plans/plan_attention_law_and_readability.md). Started `scripts/readable/confirm_queue.sh` (arms O and I
   at lambda 0.3, seeds 1-4, one epoch each, MPS) with the battery watchdog; the suite (`--lock --harness --refit`) runs
   on each model in the background as it finishes (logs/runs/readable_suite_*.log).
 - **Clarifications of the FINAL pre-registration, written before any confirmatory output** (implemented in
@@ -170,7 +170,7 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   (analysis/out/readable_training/dev_*). **Next:** when all eight suites have lock, harness and refit, run
   `python -m analysis.readable_training.seed_distances O_s1=models/readable/O_l0.3_s1/final.pt ...` with names
   `readable_O_l0.3_s1` etc. (the names verdicts.py expects), then `python -m analysis.readable_training.verdicts`,
-  write logs/readable_training_results.md (verdicts with M at 0.2, plus the as-written and literal-floor variants),
+  write logs/study_C_readable/readable_training_results.md (verdicts with M at 0.2, plus the as-written and literal-floor variants),
   gate G3. If the queue stopped (battery or crash), re-run the same nohup commands; finished runs are skipped.
 - 2026-10-18 11:07: the human unplugged the laptop; all project processes were stopped (queue, training, caffeinate,
   watchdog). arm O seed 1 was at step ~28,050 of 32,195; its resume state (models/readable/O_l0.3_s1/latest.pt) is
@@ -185,9 +185,9 @@ Compute: laptop MPS only (about 9 h of training) and about 30 CPU-hours of measu
   (13:57, about 13 minutes of training left). **To finish:** on the charger, `nohup caffeinate -dimsu
   scripts/readable/confirm_queue.sh >> logs/runs/readable_confirm.out 2>&1 &` and the watchdog command above (finished
   runs are skipped; the last suite starts by itself), then `nohup scripts/readable/finish.sh > /dev/null 2>&1 &`
-  (seed distances and verdicts once all eight suites are complete), then write logs/readable_training_results.md and
+  (seed distances and verdicts once all eight suites are complete), then write logs/study_C_readable/readable_training_results.md and
   ask for gate G3.
 - 2026-11-06: seed 4 arm I finished training and its suite; finish.sh ran the seed distances and verdicts (01:19,
   logs/runs/readable_verdicts.out). Both arms GOODHARTED (M 0.2 and literal floor; INCONCLUSIVE with M 0.3), via tau
   <= 0.2 in 3 of 4 seeds; positive control trips flag (i) but not tau_OOD <= 0.2, so the suite is declared insensitive.
-  Results: logs/readable_training_results.md. Gate G3 pending (the human reviews in the morning).
+  Results: logs/study_C_readable/readable_training_results.md. Gate G3 pending (the human reviews in the morning).

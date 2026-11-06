@@ -1,5 +1,5 @@
 """Independent verifier: D1-D5 per confirmatory head and family verdicts, written from the text of
-logs/prereg_deep_look_write.md only (not from summarize_deep.py).
+logs/look_write/prereg_deep_look_write.md only (not from summarize_deep.py).
 
 Inputs: analysis/out/look_write_deep/<model>/{arms_ltotal.json, classes.json}, rules.json.
 Optional independent recomputation from bgu.npz (--tables): near-duplicate lists, primary-vs-DV table correlation at

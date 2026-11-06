@@ -1,4 +1,4 @@
-"""Sanity tests for readable training (side study, logs/readable_training.md; pre-registration "Verification").
+"""Sanity tests for readable training (side study, logs/study_C_readable/readable_training.md; pre-registration "Verification").
 Run before any long run: .venv/bin/python -m pytest -q src/train/test_sanity_readable.py
 
 Most tests use a small synthetic pool and synthetic vote targets in a temporary folder; the tiny-pool overfit test

@@ -1,4 +1,4 @@
-"""Study A's pre-registered tests (logs/prereg_fixed_votes.md, FINAL) from the law.json of each confirmatory model
+"""Study A's pre-registered tests (logs/study_A_fixed_votes/prereg_fixed_votes.md, FINAL) from the law.json of each confirmatory model
 (analysis/fixed_votes/law.py): H1 (the law describes learned attention), H2 (stronger than in normal models), H3
 (changing head 3's table moves where it looks), plus the separately reported quantities.
 
@@ -27,7 +27,7 @@ TT_MIN = 0.01
 
 
 def final_committed():
-    log = subprocess.run(["git", "log", "--format=%s", "--", "logs/prereg_fixed_votes.md"], cwd=REPO,
+    log = subprocess.run(["git", "log", "--follow", "--format=%s", "--", "logs/study_A_fixed_votes/prereg_fixed_votes.md"], cwd=REPO,
                          capture_output=True, text=True).stdout
     return "FINAL pre-registration" in log
 

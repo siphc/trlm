@@ -1,4 +1,4 @@
-"""Shared pieces of the side study "can a language model be trained to be readable?" (logs/readable_training.md).
+"""Shared pieces of the side study "can a language model be trained to be readable?" (logs/study_C_readable/readable_training.md).
 
 Settings come from configs/side_readable.yaml. The target pool lives in data/readable/pool/ (not in git).
 """

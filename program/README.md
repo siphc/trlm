@@ -18,7 +18,7 @@ does (cross-entropy gap between a corpus bigram and the model recovered: 102%) (
 v1.2 0.571). For scale: the corpus bigram alone is 1.20 nats from the model; the earlier distillation program
 (tables fitted to the model, git tag `distillation-v11`) reached 0.452; and **another training run of the same
 network (seeds 1-4) is 0.38-0.42 nats from this one**, the average of four such runs 0.25 (TRAIN windows,
-`logs/mech_v3_report.md`). Part of the remaining gap is therefore specific to this training run and cannot be explained
+`logs/main_track/mech_v3_report.md`). Part of the remaining gap is therefore specific to this training run and cannot be explained
 by any description that would fit every run equally; the program is equally far from all five runs.
 
 ## The algorithm, top-down
@@ -108,7 +108,7 @@ together remove 1.12 nats, while their single-removal rises sum to only 0.47.
 - **Head 3** (clause context: it carries a phrase across linking words such as `' and'`, `' of'`, `' to'`).
   Readers built from corpus statistics gained nothing (`logs/dead_ends.md`). It works as a team with heads 0
   and 2 (their unexplained parts partly cancel), and PHRASE already covers its phrase knowledge
-  (`logs/mech_v2_investigations.md`).
+  (`logs/main_track/mech_v2_investigations.md`).
 - **What the local heads write** is a learned 32-dimensional code per token; corpus tables describe at most
   about 31% of it for heads 0 and 2.
 - **Inside split words**: completing a word whose first pieces have been seen is the largest single share of
@@ -118,6 +118,6 @@ together remove 1.12 nats, while their single-removal rises sum to only 0.47.
   a local head's pair-specific attention follows the usefulness of its own vote, specifically to that head, in
   every one-layer seed (about a third of the token-token attention term; attention and vote co-adapt during
   training), and in the output layer of deeper models but not in heads that write for later layers
-  (`logs/look_follows_write_results.md`, `logs/deep_look_write_results.md`). The program's version is limited by how
+  (`logs/look_write/look_follows_write_results.md`, `logs/look_write/deep_look_write_results.md`). The program's version is limited by how
   well its votes match the heads'.
-- The remaining KL by part and position class is in `logs/mechanism_cards.md` and `logs/mech_v1_report.md`.
+- The remaining KL by part and position class is in `logs/main_track/mechanism_cards.md` and `logs/main_track/mech_v1_report.md`.

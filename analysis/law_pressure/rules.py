@@ -1,4 +1,4 @@
-"""Study B decision rules (logs/prereg_law_pressure.md), values written to analysis/out/law_pressure/rules.json.
+"""Study B decision rules (logs/study_B_law_pressure/prereg_law_pressure.md), values written to analysis/out/law_pressure/rules.json.
 
   .venv/bin/python -m analysis.law_pressure.rules r2 --device mps   # penalised vs plain step time -> law_windows
   .venv/bin/python -m analysis.law_pressure.rules r1                # lambda* from the development grid

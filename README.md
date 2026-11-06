@@ -30,27 +30,27 @@ candidate mechanisms they tested), `out/` (outputs; large caches are not in git)
 
 - Models: `attn_s0..s4` and `mlp_s0..s4` (one block), side-study models with 2 and 4 blocks.
 - Program: mechanism program v1.3, dev_fast KL 0.5497 on `attn_s0` (corpus bigram alone: 1.20; another seed of the
-  same network: 0.38-0.42 on TRAIN windows). Reports: `logs/mech_v1_report.md`, `logs/mech_v2_investigations.md`,
-  `logs/mech_v3_report.md`.
+  same network: 0.38-0.42 on TRAIN windows). Reports: `logs/main_track/mech_v1_report.md`, `logs/main_track/mech_v2_investigations.md`,
+  `logs/main_track/mech_v3_report.md`.
 - Study "where a head looks follows from what it writes": complete and independently verified; pre-draft in
   `writeups/look_follows_write_predraft.md`.
-- Token geometry: `logs/token_geometry_results.md`.
+- Token geometry: `logs/main_track/token_geometry_results.md`.
 - Goal reframed (logs/decisions.md item 9): the main track aims at best-case understanding with an honest coverage
-  measure. New side study, "can a language model be trained to be readable?": `logs/readable_training.md`,
-  pre-registration `logs/prereg_readable_training.md`, config `configs/side_readable.yaml`.
+  measure. New side study, "can a language model be trained to be readable?": `logs/study_C_readable/readable_training.md`,
+  pre-registration `logs/study_C_readable/prereg_readable_training.md`, config `configs/side_readable.yaml`.
 - Next (decision 10): three studies on attention and readability, planned in
-  `logs/plan_attention_law_and_readability.md` (fixed-vote models, training against the look-follows-write law,
+  `logs/plans/plan_attention_law_and_readability.md` (fixed-vote models, training against the look-follows-write law,
   readability and the arbitrariness between training runs). Readable-training confirmatory runs started 2026-10-18
-  (gate G2; test M amended, decision 11). Studies A (`logs/fixed_votes.md`, `logs/prereg_fixed_votes.md`) and B
-  (`logs/law_pressure.md`, `logs/prereg_law_pressure.md`): development done on the laptop, FINAL pre-registrations
+  (gate G2; test M amended, decision 11). Studies A (`logs/study_A_fixed_votes/fixed_votes.md`, `logs/study_A_fixed_votes/prereg_fixed_votes.md`) and B
+  (`logs/study_B_law_pressure/law_pressure.md`, `logs/study_B_law_pressure/prereg_law_pressure.md`): development done on the laptop, FINAL pre-registrations
   committed 2026-10-20. Gate G2 (decision 13, 2026-11-06): study B runs in full on the laptop GPU
-  (`scripts/law_pressure/`); results `logs/law_pressure_results.md` (verdict MIXED at cost below 0.4%, restoring
+  (`scripts/law_pressure/`); results `logs/study_B_law_pressure/law_pressure_results.md` (verdict MIXED at cost below 0.4%, restoring
   force SLOW; the pair-specific law breaks, the own-usefulness output gain stays; G3 pending). Study A's confirmatory
   runs are not run; its development and exploratory results are in
-  `logs/fixed_votes_results.md` (no verdicts). Readable-training results:
-  `logs/readable_training_results.md` (both arms GOODHARTED: output and mechanism agreement come apart; G3 passed).
+  `logs/study_A_fixed_votes/fixed_votes_results.md` (no verdicts). Readable-training results:
+  `logs/study_C_readable/readable_training_results.md` (both arms GOODHARTED: output and mechanism agreement come apart; G3 passed).
 - Running write-up draft (updated at each milestone, not published): `writeups/draft.md`. Study C part B: addendum
-  DRAFT `logs/prereg_canonical_addendum.md` (awaiting G0/G1).
-- **Coverage (decision 14, `logs/coverage.md`):** v1.3 covers 0.728 of the way from the bigram (KL 1.33) to the seed
+  DRAFT `logs/study_C_readable/prereg_canonical_addendum.md` (awaiting G0/G1).
+- **Coverage (decision 14, `logs/main_track/coverage.md`):** v1.3 covers 0.728 of the way from the bigram (KL 1.33) to the seed
   floor (the average of the other four seeds, KL 0.256), equally for every seed; the gap left is 0.29 nats of shared
   behaviour, mostly copying. Next: the copying diagnostic, then study C part B.

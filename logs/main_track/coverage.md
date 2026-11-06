@@ -32,7 +32,7 @@ From the consensus side: KL(five-seed average || program) 0.411 +- 0.005; KL(ave
   although it was fitted to attn_s0: it describes shared behaviour, nothing seed-specific.
 - The remaining 0.29 nats (0.547 - 0.256) are behaviour the other seeds share with seed k and the program lacks. The
   largest known part is copying: 58% of the program's miss against the five-seed consensus is at positions whose
-  consensus top token appeared earlier in the window (analysis/out/program_gap/consensus.json; logs/mech_v3_report.md
+  consensus top token appeared earlier in the window (analysis/out/program_gap/consensus.json; logs/main_track/mech_v3_report.md
   1c). That is the next target (plan: copying diagnostic, then candidates).
 - Not a harness metric: the harness's primary metric stays KL(model || program) on dev.
 

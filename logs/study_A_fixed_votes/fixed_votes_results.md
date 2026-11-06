@@ -1,8 +1,8 @@
 # Results: fixed-vote models (study A; development and exploratory only)
 
 Written 2026-11-06. **No verdicts.** At gate G2 the human decided not to run the confirmatory runs (seeds 1-4;
-logs/decisions.md item 13), so H1-H3 of logs/prereg_fixed_votes.md are never scored. Everything below is seed 0
-(development) or exploratory analysis written after the FINAL. Details and every number: logs/fixed_votes.md.
+logs/decisions.md item 13), so H1-H3 of logs/study_A_fixed_votes/prereg_fixed_votes.md are never scored. Everything below is seed 0
+(development) or exploratory analysis written after the FINAL. Details and every number: logs/study_A_fixed_votes/fixed_votes.md.
 
 **Assumptions.** One seed per arm. The `base` model votes with four fixed corpus tables (next, copy, topic, skip2);
 `shift` replaces skip2 by skip3. Only attention, the bigram strength and four vote strengths are learned. Peak LR

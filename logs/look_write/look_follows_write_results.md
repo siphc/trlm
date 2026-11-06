@@ -1,6 +1,6 @@
 # Results: "where a head looks comes from what it writes" (2026-10-14)
 
-Pre-registration: `logs/prereg_look_follows_write.md` (committed before seeds 1-4 were analysed). Independent
+Pre-registration: `logs/look_write/prereg_look_follows_write.md` (committed before seeds 1-4 were analysed). Independent
 re-implementation and full numbers: `analysis/look_write/` (RESULTS.md, results.json). Seed 0 serves as the
 cross-check against discovery round 2.
 

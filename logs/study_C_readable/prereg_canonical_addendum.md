@@ -3,8 +3,8 @@
 DRAFT, 2026-11-06. Written before any part-B output exists: no model of part B has been trained, and the new
 measurement (mechanistic convergence) has been run only on the untreated twins attn_s1..s4, for a pipeline check.
 Decision: logs/decisions.md item 14 (C part B with both controls, chosen by the human). Design source:
-logs/plan_attention_law_and_readability.md, section 3, part B. Part A: logs/prereg_readable_training.md (FINAL) and
-logs/readable_training_results.md. Everything not stated here is as in part A (configs/side_readable.yaml, rules R1-R7).
+logs/plans/plan_attention_law_and_readability.md, section 3, part B. Part A: logs/study_C_readable/prereg_readable_training.md (FINAL) and
+logs/study_C_readable/readable_training_results.md. Everything not stated here is as in part A (configs/side_readable.yaml, rules R1-R7).
 
 **Gates.** G0/G1 (this design, the code and its tests) -> development on seed 5 -> FINAL addendum with the rule-B1
 values -> G2 -> confirmatory runs -> results -> G3.

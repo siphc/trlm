@@ -1,6 +1,6 @@
 # Token geometry and the program's gap (2026-10-17; analysis only, model weights used as data)
 
-Two measurements requested after mechanism program v1.3 (logs/mech_v3_report.md): (1) how much of the models' shared
+Two measurements requested after mechanism program v1.3 (logs/main_track/mech_v3_report.md): (1) how much of the models' shared
 token geometry named token properties explain; (2) how much of the program's gap is in what the heads write (per-token
 tables) versus where they look (attention). Code: analysis/token_geometry/. Outputs: analysis/out/token_geometry/.
 TRAIN windows only.

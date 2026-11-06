@@ -1,4 +1,4 @@
-"""Addendum D (logs/prereg_look_follows_write_addendum.md): does the look-follows-write relation appear before the
+"""Addendum D (logs/look_write/prereg_look_follows_write_addendum.md): does the look-follows-write relation appear before the
 model is calibrated? One-layer models attn_s1..s4, checkpoints CKPTS.
 
 Per checkpoint c, with that checkpoint's own weights:

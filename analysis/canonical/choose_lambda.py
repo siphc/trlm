@@ -1,4 +1,4 @@
-"""Rule B1 of logs/prereg_canonical_addendum.md: each control's lambda, chosen on development seed 5 (one epoch) so
+"""Rule B1 of logs/study_C_readable/prereg_canonical_addendum.md: each control's lambda, chosen on development seed 5 (one epoch) so
 that its relative cross-entropy cost matches its arm's confirmatory cost (arm O or I at lambda 0.3, mean over seeds
 1-4 against the twins attn_s1..s4).
 

@@ -1,4 +1,4 @@
-"""The coverage measure (logs/decisions.md item 14; logs/coverage.md): how much of the way from a simple baseline to
+"""The coverage measure (logs/decisions.md item 14; logs/main_track/coverage.md): how much of the way from a simple baseline to
 the seed floor the program gets, per seed. Analysis only; TRAIN windows (analysis/mech_eval.EVAL_SEED, as
 ensemble_target.py and seed_floor.py).
 

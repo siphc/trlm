@@ -3,15 +3,15 @@
 FINAL, 2026-10-20. The DRAFT was committed 2026-10-18 (b1d0897) before any model was trained with the penalty. This
 version adds the values fixed by the decision rules (development outputs only, seed 0), what has been seen, and the
 deviations. It is committed before any confirmatory model (seeds 1-4) is trained; the confirmatory runs wait for the
-human's gate G2. Decisions: logs/decisions.md items 10 and 12. Plan: logs/plan_attention_law_and_readability.md
+human's gate G2. Decisions: logs/decisions.md items 10 and 12. Plan: logs/plans/plan_attention_law_and_readability.md
 section 5. Code: src/train/law_pressure.py (penalty), src/train/train.py (hook, default off), src/train/runs.py
 (`law_dev`, `law`, `law_restore`), src/train/test_sanity_law_pressure.py (11 tests), analysis/law_pressure/rules.py,
 analysis/law_pressure/verdicts.py (the outcomes below; refuses to run before this commit). Running log:
-logs/law_pressure.md.
+logs/study_B_law_pressure/law_pressure.md.
 
 ## What has been seen before writing the DRAFT
 
-- The law in normal models (logs/look_follows_write_results.md and addendum): per local head, the pair-specific part of
+- The law in normal models (logs/look_write/look_follows_write_results.md and addendum): per local head, the pair-specific part of
   attention follows the usefulness of the head's own vote, aggregated over the corpus (pure-pair correlation 0.34-0.44,
   other heads' at most 0.08; own usefulness gains 0.06-0.18 nats in the output test); about 0.24 attention score per
   logit of usefulness. Averaged over all four heads (as the law strength below): 0.326-0.351 in attn_s0..s4, mean

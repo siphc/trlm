@@ -51,7 +51,7 @@ are code checks only and set nothing.
   then theta = 2/3 x that median, rounded down to a multiple of 0.05.
 - R3, D5 references: c1, c2 = medians of the own-arm coefficients of those 8 heads (primary readout).
 - R4, sample: 200M tokens of aligned TRAIN windows (default_rng(7) order), fit and eval windows excluded, batch 32.
-- The deep pre-registration (logs/prereg_deep_look_write.md) is committed after R1-R3 are applied and after the
+- The deep pre-registration (logs/look_write/prereg_deep_look_write.md) is committed after R1-R3 are applied and after the
   development seeds (2L s0, 4L s0) are classified and self-tested, and before any arm is fitted on seeds 1-4.
 
 ## 2026-10-14 development seed attn2L_s0
@@ -79,7 +79,7 @@ are code checks only and set nothing.
 
 - Trained: attn2L_s0 (2.2751), attn4L_s0 (2.1273), attn2L_s1 (2.2665); attn2L_s2 training. Still to train: attn2L_s3,
   attn2L_s4, attn4L_s1..s4 (~6-7 h on the charger).
-- Done in the analysis: addendum A, B, C (logs/look_follows_write_addendum_results.md); dev seeds classified and
+- Done in the analysis: addendum A, B, C (logs/look_write/look_follows_write_addendum_results.md); dev seeds classified and
   self-tested; attn2L_s1 classified and self-tested (5 confirmatory heads); 20M-token code-check passes on attn_s1..s3.
 - Running on the CPU: the code-check pass on attn_s4, then the one-layer arm fits (ltotal, total), then addendum D (echo
   trajectory, 20 checkpoint passes at 5M tokens).
@@ -89,10 +89,10 @@ are code checks only and set nothing.
 - Next steps once training is done (MPS free):
   1. 200M-token passes on attn_s1..s4 (MPS), fit_arms_deep with both readouts, then apply R1-R3 (above) to fix the
      primary readout, theta and the D5 references.
-  2. Classify and self-test the remaining confirmatory models; fill the placeholders in logs/prereg_deep_look_write.md
+  2. Classify and self-test the remaining confirmatory models; fill the placeholders in logs/look_write/prereg_deep_look_write.md
      and commit it (before any arm is fitted on seeds 1-4).
   3. 200M-token passes and fit_arms_deep on attn2L_s1..s4 and attn4L_s1..s4; summarize_deep.py; code_test.py on the
-     held-out heads; an independent re-run of one model per depth; write logs/deep_look_write_results.md.
+     held-out heads; an independent re-run of one model per depth; write logs/look_write/deep_look_write_results.md.
 
 ## Stopped 2026-10-15 10:57 (by request)
 
@@ -153,17 +153,17 @@ shared work among heads as "groups of attention heads", not as superposition.
 - pass_bgu batched over heads (equal to the per-head version to 2e-7); MPS throughput: 4 blocks ~287 s per 10M tokens.
 - Calibration (attn_s1..s4, 200M tokens): R1 -> LTOTAL (median own gain 0.104 vs TOTAL 0.049); R2 -> theta 0.20 (median
   own/oracle ratio 0.372); R3 -> c1 0.243, c2 0.271 (analysis/out/look_write_deep/rules.json).
-- logs/prereg_deep_look_write.md committed FINAL (9c149a1; descriptive correction 8ab4a9f) before any confirmatory fit.
+- logs/look_write/prereg_deep_look_write.md committed FINAL (9c149a1; descriptive correction 8ab4a9f) before any confirmatory fit.
 - Running unattended: scripts/deep_study/confirmatory_passes.sh (8 models, ~8.5 h MPS) and scripts/deep_study/confirmatory_fits.sh (fits as
   passes finish, then summarize_deep, code_test, capacity on seeds 1-4). Remaining by hand: independent re-run of one
-  model per depth, write-up (logs/deep_look_write_results.md).
+  model per depth, write-up (logs/look_write/deep_look_write_results.md).
 
 ## 2026-10-17 study complete
 
-- Confirmatory results: logs/deep_look_write_results.md (F2 last layer MIXED, F1 and F3 REFUTED, D4 and D5 fail; code
+- Confirmatory results: logs/look_write/deep_look_write_results.md (F2 last layer MIXED, F1 and F3 REFUTED, D4 and D5 fail; code
   test K1a/K2 hold, K1b/K3/K4 fail; capacity: one-layer heads anti-correlated, 2L/4L not).
 - Independent verification by a separate agent (re-implemented verdict logic from the pre-registration text, bit-identical
   re-run of attn2L_s1's fits, code audit with float64 and finite-difference checks): no error that changes any per-head
   number or verdict. One rounding fix in the results doc (F3 median own gain 0.012). Bootstrap over eval windows:
   F1 REFUTED 99.3%, F2 MIXED 100%, F3 REFUTED 100%.
-- No processes left running. The side study is closed; work returns to the mechanism program (logs/mech_v3_report.md).
+- No processes left running. The side study is closed; work returns to the mechanism program (logs/main_track/mech_v3_report.md).

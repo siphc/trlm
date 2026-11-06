@@ -1,4 +1,4 @@
-"""Predictions D1-D5 and the per-family verdicts of logs/prereg_deep_look_write.md, from the arms files.
+"""Predictions D1-D5 and the per-family verdicts of logs/look_write/prereg_deep_look_write.md, from the arms files.
 
     .venv/bin/python -m analysis.look_write_deep.summarize_deep --theta 0.2 --c1 0.2426 --c2 0.2710 [--primary ltotal]
         [--models attn2L_s1 attn2L_s2 ... attn4L_s4]

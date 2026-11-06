@@ -30,22 +30,22 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
    `program.setup(corpus)` once before scoring (the program itself still does no file I/O and the lint is unchanged);
    the sandbox allows reading that one file only. Dev/test text and models stay unreadable. configs/frozen.yaml v3.
 8. **Side study: does "where a head looks comes from what it writes" hold in deeper models?** (2026-10-14, human
-   decisions on the agent's proposal; plan in logs/deep_study.md). Train own multi-layer attention-only models (2 and 4
+   decisions on the agent's proposal; plan in logs/look_write/deep_study.md). Train own multi-layer attention-only models (2 and 4
    blocks, otherwise the frozen v3 settings) on the laptop only (MPS); no public models and no causal frozen-vote runs
    for now; the study comes before further work on the readable copy; a per-token corpus code (e.g. a low-rank
    factorisation of corpus PMI) is allowed as an analysis test only, not as a program component. configs/frozen.yaml
    is unchanged: the main track stays at 1 block; the side study is recorded in configs/side_deep_attn.yaml.
 9. **Goal reframed; side study "can a language model be trained to be readable?"** (2026-10-17, human decisions on the
    agent's proposal after reading Hubinger's "A transparency and interpretability tech tree"; plan in
-   logs/readable_training.md). (a) Main track: a readable replacement with KL near zero is not reachable for a model
+   logs/study_C_readable/readable_training.md). (a) Main track: a readable replacement with KL near zero is not reachable for a model
    trained without regard to readability (another seed of the same network is 0.38-0.42 nats from attn_s0; the
-   remaining gap is in per-head tables locked to the model's own attention, logs/token_geometry_results.md). The main
+   remaining gap is in per-head tables locked to the model's own attention, logs/main_track/token_geometry_results.md). The main
    track's goal becomes best-case understanding (most important pieces, why they formed) with an honest coverage
    measure of what is not explained. (b) Side study: train new 1-block attention-only models with an extra loss pulling
    them toward the readable program, and check with tools that were not trained on whether the agreement is genuine or
    Goodharted. Choices: both arms (O: the program's next-token predictions; I: heads' attention follows the program's
    rules and their votes follow its corpus tables), laptop MPS only, target = program v1.3 frozen (scalars as fitted
-   to attn_s0). Pre-registered (logs/prereg_readable_training.md), with human gates G0-G3. configs/frozen.yaml is
+   to attn_s0). Pre-registered (logs/study_C_readable/prereg_readable_training.md), with human gates G0-G3. configs/frozen.yaml is
    unchanged; the side study is recorded in configs/side_readable.yaml.
 10. **Three next studies** (2026-10-18, after the readable-training development results and a literature check showed
     that output/mechanism decoupling alone is not new): (A) `fixed_votes`: models whose head votes are fixed corpus
@@ -54,11 +54,11 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     (B) `law_pressure`: training against the look-follows-write law (can it be Goodharted?); (C) `canonical`: does
     readability pressure remove the arbitrariness between training runs (part A = the readable-training confirmatory
     runs as pre-registered; part B = a pressure curve and a non-readable canonicaliser control). Plan:
-    logs/plan_attention_law_and_readability.md.
+    logs/plans/plan_attention_law_and_readability.md.
 11. **Readable training, test M amended** (2026-10-18, gate G2 approved the same day): the manipulation check's
     threshold is lowered from 0.3 to 0.2 trained closure, before any confirmatory output is read, because both seed-0
     development runs sit at 0.27-0.28 while their trained tools moved far beyond noise. The as-written verdict is
-    reported as well. Amendment section in logs/prereg_readable_training.md.
+    reported as well. Amendment section in logs/study_C_readable/prereg_readable_training.md.
 12. **Studies A and B approved; their runs move to a cloud GPU** (2026-10-19): the human approved gates G0 and G1 for
     study A (fixed votes) and study B (training against the law): DRAFT pre-registrations, training code and tests. The
     human has USD 200 of AWS credits and 2-3 days; the plan is one g6.8xlarge instance (1 NVIDIA L4, 32 vCPUs,
@@ -77,10 +77,10 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     to the model's own prediction" (explaining away) runs on the seed-0 models (CPU). Study A's confirmatory runs may
     be reopened only if that analysis shows something that needs seeds to confirm, and then as a new decision.
 14. **Readable training closed; priorities; the coverage measure** (2026-11-06): the human read
-    logs/readable_training_results.md and passed gate G3 (both arms GOODHARTED as written). The to-do list was compiled
+    logs/study_C_readable/readable_training_results.md and passed gate G3 (both arms GOODHARTED as written). The to-do list was compiled
     into one order (plan approved by the human): close out study B and study A's exploratory analysis; main track
     step 1, the honest coverage measure of item 9 = (KL_bigram - KL_program) / (KL_bigram - KL_floor) with the floor
-    the probability average of the other four seeds (logs/coverage.md; v1.3: 0.728); step 2, a diagnostic of the
+    the probability average of the other four seeds (logs/main_track/coverage.md; v1.3: 0.728); step 2, a diagnostic of the
     copying positions where the seeds agree but the program does not, then candidates by the usual adoption rule; a
     running write-up draft (writeups/draft.md); then study C part B with a pressure curve and two non-readable
     controls at matched cost, one for arm O (attn_s0's predictions as target) and one for arm I (attn_s0's attention

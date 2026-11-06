@@ -17,17 +17,17 @@ then B, then C part B. One Apple-silicon GPU (MPS): training runs one at a time;
 - `README.md` (repository map), `AGENTS.md` (the brief), `logs/decisions.md` (human decisions 1-10; 9 and 10 matter
   most here), `logs/README.md` (index of reports).
 - **Goal reframed (decision 9).** A readable replacement with KL near zero is not reachable for a model trained without
-  regard to readability: another seed of the same network is 0.38-0.42 nats from attn_s0 (logs/mech_v3_report.md),
-  and the remaining gap sits in per-head tables locked to the model's own attention (logs/token_geometry_results.md).
+  regard to readability: another seed of the same network is 0.38-0.42 nats from attn_s0 (logs/main_track/mech_v3_report.md),
+  and the remaining gap sits in per-head tables locked to the model's own attention (logs/main_track/token_geometry_results.md).
   The readable program v1.3 (`program/`, dev_fast KL 0.5497 to attn_s0) is the target the side studies use.
 - **The look-follows-write law** (study complete and independently verified; `writeups/look_follows_write_predraft.md`,
-  `logs/look_follows_write_results.md`, `logs/look_follows_write_addendum_results.md`, `logs/deep_look_write_results.md`):
+  `logs/look_write/look_follows_write_results.md`, `logs/look_write/look_follows_write_addendum_results.md`, `logs/look_write/deep_look_write_results.md`):
   in one-layer attention-only models, the pair-specific part of a local head's attention follows the usefulness of the
   head's OWN vote for the next token beyond a corpus bigram (pure-pair correlation 0.34-0.44, other heads' votes <= 0.08,
   coupling about 0.25 attention-score units per logit, about a third of the exact token-token attention term). Attention
   and vote co-adapt during training (no clear order; usefulness predicts which pairs become strongly attended). In
   deeper models it holds for heads that write to the output (last layer) and fails for heads read by later layers.
-- **The readable-training side study** (`logs/readable_training.md` running log, `logs/prereg_readable_training.md`
+- **The readable-training side study** (`logs/study_C_readable/readable_training.md` running log, `logs/study_C_readable/prereg_readable_training.md`
   FINAL pre-registration committed f323a8e, `configs/side_readable.yaml`, code `src/train/readable.py`,
   `analysis/readable_training/`): new 1-block models trained with an extra loss toward program v1.3, arm O (output
   level) and arm I (internal level: attention toward the program's rules, votes toward corpus tables), lambda 0.3 each.
@@ -81,7 +81,7 @@ reproducible across training runs; and "the program describes this model as well
 another" is a natural yardstick for fidelity. Seed 0 (development): arm O at lambda 0.3 reached KL 0.396 to the program
 at +0.8% cross-entropy.
 
-**Part A (ready; pre-registered in logs/prereg_readable_training.md).** Needs the human's G2 approval.
+**Part A (ready; pre-registered in logs/study_C_readable/prereg_readable_training.md).** Needs the human's G2 approval.
 1. `nohup caffeinate -dimsu scripts/readable/confirm_queue.sh > logs/runs/readable_confirm.out 2>&1 &` and
    `nohup scripts/readable/watchdog.sh scripts/readable/confirm_queue.sh > /dev/null 2>&1 &`: arms O and I at lambda 0.3,
    seeds 1-4, one epoch each (about 45 and 65 min per model), with the suite (`--lock --harness --refit`) on each model
@@ -92,9 +92,9 @@ at +0.8% cross-entropy.
    closures, transfer coefficients, out-of-distribution transfer, Goodhart flags and per-arm verdicts exactly as defined
    in the FINAL pre-registration, plus the separately reported quantities (cost, seed convergence, attn_s0 specificity,
    lock). Helper: `analysis/readable_training/apply_rules.tool_values`. It must refuse to run before the FINAL commit.
-4. Results: `logs/readable_training_results.md`; gate G3.
+4. Results: `logs/study_C_readable/readable_training_results.md`; gate G3.
 
-**Part B (new; write an addendum pre-registration `logs/prereg_canonical_addendum.md` before any part-B output).**
+**Part B (new; write an addendum pre-registration `logs/study_C_readable/prereg_canonical_addendum.md` before any part-B output).**
 1. A pressure curve: arm O at lambda 1 for seeds 1-4 (seed 0's one-epoch cost at lambda 1 is unknown; at 100M tokens it
    cost +3.1%).
 2. **A non-readable canonicaliser at matched cost** (the key control). Pulling every seed toward any common fixed
@@ -155,7 +155,7 @@ attention works, which is little understood in the field. A readable model is a 
    exact token-token term, other heads' usefulness and a shuffled table as controls, and the ceiling (the model's exact
    token-token attention term). Pre-register thresholds from goal 1's tests (own usefulness >= half of the
    pre-registered ceiling's output gain, controls <= a quarter of own, pure-pair correlation >= 0.25; against the
-   stricter `tt_self` ceiling of goal 1's addendum own usefulness recovered 26-46%). Done: logs/prereg_fixed_votes.md.
+   stricter `tt_self` ceiling of goal 1's addendum own usefulness recovered 26-46%). Done: logs/study_A_fixed_votes/prereg_fixed_votes.md.
 3. **Intervention (the causal test).** Train variants that change one head's table (swapping tables between heads
    changes nothing, since heads differ only by their table; a shuffled table would likely be switched off; the DRAFT
    uses head 3 voting PMI_3 instead of PMI_2, which moves the predicted distance from 1 to 2) and test that the attention

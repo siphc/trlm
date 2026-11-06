@@ -1,6 +1,6 @@
 # Study B, training against the look-follows-write law: running log
 
-Question, design and tests: logs/prereg_law_pressure.md. Plan: logs/plan_attention_law_and_readability.md section 5.
+Question, design and tests: logs/study_B_law_pressure/prereg_law_pressure.md. Plan: logs/plans/plan_attention_law_and_readability.md section 5.
 Decision: logs/decisions.md item 10.
 
 | phase | content | human gate |

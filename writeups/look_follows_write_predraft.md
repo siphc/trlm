@@ -57,9 +57,9 @@ attention.
 context 256, d_model 128, 4 heads of size 32 per layer, learned absolute positions, pre-LayerNorm, tied embeddings, no
 MLP, one epoch, seeds 0-4 (configs/frozen.yaml). One-layer models attn_s0..s4 (dev loss 2.49-2.54). Deeper models
 (side study, same settings): 2 blocks attn2L_s0..s4 (dev loss 2.27-2.33) and 4 blocks attn4L_s0..s4 (2.13-2.15)
-[logs/deep_study.md]. None of the deeper models forms induction heads: on a repeated random sequence, the loss on the second copy
+[logs/look_write/deep_study.md]. None of the deeper models forms induction heads: on a repeated random sequence, the loss on the second copy
 is 13.4 nats (2 blocks) and 15.3 (4 blocks) against 14.8 and 15.3 on the first copy; an induction circuit would bring it
-to a few nats [logs/deep_study.md].
+to a few nats [logs/look_write/deep_study.md].
 
 **Seeds.** Seed 0 is the development seed at every depth; seeds 1-4 are confirmatory.
 
@@ -73,14 +73,14 @@ confirmatory head also needs earlier-token attention mass >= 0.15.
 UOV_h,d(k, q) = E[OV_h(k, next) | k sits d tokens before q] - E_{v ~ P1(.|q)}[OV_h(k, v)], where OV_h(k, v) is the
 logit head h adds to v when attending fully to k (in logit units, final LayerNorm at its typical scale), the first
 expectation runs over all corpus positions with k at distance d before q (the next token is the one after q), and
-P1(.|q) is a corpus bigram ("what q alone predicts"). Shrinkage (S - N B)/(N + 20) [logs/prereg_look_follows_write.md].
+P1(.|q) is a corpus bigram ("what q alone predicts"). Shrinkage (S - N B)/(N + 20) [logs/look_write/prereg_look_follows_write.md].
 
 **Bigram-stage usefulness, deeper models (BGU).** u = o_h(j) . g_i, with o_h(j) the head's write from key j and g_i the
 gradient of sum_i <logits_i, e_{y_i} - P1(.|t_i)> with respect to the residual stream after the head's layer, averaged
 per (k, q, d) over a 200M-token sample. Readouts: DV (direct path only), LTOTAL (later blocks exact, final LayerNorm
 linearised at its typical scale; equals DV in one layer), TOTAL (exact gradient). LTOTAL was fixed as primary on the
 one-layer calibration before any confirmatory fit (median own gain 0.104 vs 0.049 for TOTAL)
-[logs/prereg_deep_look_write.md].
+[logs/look_write/prereg_deep_look_write.md].
 
 **Tests (identical for every head).**
 - *Base rule:* a generic log-linear attention rule (distance buckets, self x query shape, key shape), fitted to the
@@ -104,7 +104,7 @@ fit [logs/prereg_*.md; commits 9c149a1, 8ab4a9f].
 
 In attn_s0, a two-scalar usefulness term added to each local head's attention rule beat the exact token-token QK term in
 output KL (head 0: 0.266 vs 0.318; head 2: 0.222 vs 0.264; head 3: 0.229 vs 0.226), with a coefficient of about 0.3 per
-nat for every head and distance; another head's vote predicted nothing [logs/mech_v2_investigations.md].
+nat for every head and distance; another head's vote predicted nothing [logs/main_track/mech_v2_investigations.md].
 
 ### 4.2 One-layer replication (pre-registered; seeds 1-4, 8 LOCAL heads)
 
@@ -134,7 +134,7 @@ nat for every head and distance; another head's vote predicted nothing [logs/mec
 With the exact token-token term also applied at the self position (the strictest ceiling), the ceiling gains become
 0.20-0.39 nats per confirmatory head and positive everywhere, and own usefulness reaches **0.26-0.46 of it (A2 predicted >= 0.5: 0
 of 8)**. The gap is the joint, token-specific weighting of earlier keys relative to the current token; usefulness
-explains about a third of it [logs/look_follows_write_addendum_results.md].
+explains about a third of it [logs/look_write/look_follows_write_addendum_results.md].
 
 ### 4.4 Far-looking heads (addendum C)
 
@@ -178,7 +178,7 @@ is not supported; "is predictable from the vote and the data at every stage afte
 | F3 middle layers | 22 | 8 | 15 | 7 | 4 | REFUTED | 0.012 | 0.15 | 0.23 | 0.19 |
 | (one-layer calibration) | 8 | | | | | | 0.104 | 0.37 | 0.40 | 0.02 |
 
-[logs/deep_look_write_results.md; D1: own gain >= 0.20 x oracle gain; D2: controls <= 0.25 x own; D3: own pure-pair
+[logs/look_write/deep_look_write_results.md; D1: own gain >= 0.20 x oracle gain; D2: controls <= 0.25 x own; D3: own pure-pair
 correlation >= 0.25 and above all other heads]
 
 - **Headline fails:** the law does not generalise to deeper heads as a whole.
@@ -207,7 +207,7 @@ for heads in the same layer. One-layer heads partly cancel each other; deeper mo
 An independent agent re-implemented the verdict logic from the pre-registration text alone (all 49 deep heads match
 field by field), re-ran one model's fits (8,472 values bit-identical), and audited the code numerically (float64
 re-implementation within 1.8e-6; finite differences within 1e-7). Resampling the evaluation windows 2,000 times
-reproduces the family verdicts in 99.3-100% of draws [logs/deep_look_write_results.md, Verification].
+reproduces the family verdicts in 99.3-100% of draws [logs/look_write/deep_look_write_results.md, Verification].
 
 ## 5. Use: a readable replacement program
 
@@ -215,7 +215,7 @@ The law, computed from corpus counts and the program's own votes instead of the 
 local readers of a readable NumPy program that reproduces attn_s0 from corpus statistics and a few hundred named
 scalars. Each reader's attention gains 0.35-0.55 per nat of usefulness of its own vote: +0.0070 +- 0.0005 nats on fresh
 windows (dev KL 0.578 -> 0.571), and an older hand-made attention term (key informativeness) halved its weight, absorbed
-by the law [logs/look_follows_write_results.md]. The gain is small next to the exact model's (0.06-0.18 nats per head)
+by the law [logs/look_write/look_follows_write_results.md]. The gain is small next to the exact model's (0.06-0.18 nats per head)
 because the program's votes only partly match the heads' votes; the law moves the problem of explaining attention onto
 the problem of explaining votes.
 
@@ -243,7 +243,7 @@ the residual stream's size scale usefulness in different architectures; not test
 - Interpretability of attention (Anthropic 2025a, b; Hayes, Li & Andreas 2026, who write programs reproducing attention
   patterns): our law explains part of the QK circuit from the OV circuit and data. A side observation: fitting an
   attention rule more closely to a head's pattern can make the output worse, so pattern similarity alone is a weak test
-  of a head explanation [logs/mech_v2_investigations.md].
+  of a head explanation [logs/main_track/mech_v2_investigations.md].
 - Cammarata (2026) argues that established routes capture residual error first; the usefulness measure is a
   quantitative version of that idea applied to attention. The capacity result is in the direction his essay predicts
   (with fewer units, broader and more shared work), exploratory.
@@ -289,8 +289,8 @@ the residual stream's size scale usefulness in different architectures; not test
 
 | part | pre-registration | results | code |
 |---|---|---|---|
-| one-layer replication | logs/prereg_look_follows_write.md | logs/look_follows_write_results.md, analysis/look_write/RESULTS.md | analysis/look_write/ |
-| addenda A-D | logs/prereg_look_follows_write_addendum.md | logs/look_follows_write_addendum_results.md | analysis/look_write/, analysis/look_write_deep/echo_traj.py |
-| growth test | logs/prereg_look_follows_write_addendum2.md | same file, "Addendum 2" | analysis/look_write_deep/growth.py |
-| deep study | logs/prereg_deep_look_write.md | logs/deep_look_write_results.md | analysis/look_write_deep/ |
-| study log | | logs/deep_study.md | |
+| one-layer replication | logs/look_write/prereg_look_follows_write.md | logs/look_write/look_follows_write_results.md, analysis/look_write/RESULTS.md | analysis/look_write/ |
+| addenda A-D | logs/look_write/prereg_look_follows_write_addendum.md | logs/look_write/look_follows_write_addendum_results.md | analysis/look_write/, analysis/look_write_deep/echo_traj.py |
+| growth test | logs/look_write/prereg_look_follows_write_addendum2.md | same file, "Addendum 2" | analysis/look_write_deep/growth.py |
+| deep study | logs/look_write/prereg_deep_look_write.md | logs/look_write/deep_look_write_results.md | analysis/look_write_deep/ |
+| study log | | logs/look_write/deep_study.md | |

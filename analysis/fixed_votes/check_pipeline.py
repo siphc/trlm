@@ -1,4 +1,4 @@
-"""Study A pipeline checks (logs/prereg_fixed_votes.md, "Pipeline checks before any confirmatory analysis").
+"""Study A pipeline checks (logs/study_A_fixed_votes/prereg_fixed_votes.md, "Pipeline checks before any confirmatory analysis").
 
   (a) goal 1's fitting code still reproduces its stored results: attn_s1 head 0, arms base, own and tt, against
       analysis/out/look_write/attn_s1/arms.json (within 0.002 nats);

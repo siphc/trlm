@@ -1,7 +1,7 @@
 # Phase 4 report: the 10 final models
 
 Assumptions: training on the laptop's Apple M4 GPU (MPS, fp32), frozen.yaml v2 (human-approved); budget one epoch
-(527,482,880 tokens) at peak LR 2e-3 for every model (logs/pilot.md); seeds 0-4 per variant (init and data order).
+(527,482,880 tokens) at peak LR 2e-3 for every model (logs/setup/pilot.md); seeds 0-4 per variant (init and data order).
 
 | model | dev_full loss | wall time |
 |---|---|---|

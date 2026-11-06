@@ -1,6 +1,6 @@
 # Study A, fixed-vote models: running log
 
-Question, design and tests: logs/prereg_fixed_votes.md. Plan: logs/plan_attention_law_and_readability.md section 4.
+Question, design and tests: logs/study_A_fixed_votes/prereg_fixed_votes.md. Plan: logs/plans/plan_attention_law_and_readability.md section 4.
 Decision: logs/decisions.md item 10.
 
 | phase | content | human gate |
@@ -131,5 +131,5 @@ Decision: logs/decisions.md item 10.
     without the band; its pre-registered gain comes entirely from the band.
   - So the bigram baseline was not what hid most of the ceiling. Taking each head's best arm (any baseline, with or
     without the band), own usefulness recovers 10-58% of the token-token ceiling (topic 0.10-0.12, copy 0.33-0.39 via
-    the band, skip 0.35-0.43, next 0.50-0.58). Results summary: logs/fixed_votes_results.md.
+    the band, skip 0.35-0.43, next 0.50-0.58). Results summary: logs/study_A_fixed_votes/fixed_votes_results.md.
 - 2026-11-06: the explain_<kind>_h<h>_d<d>.npy tables (2.6 GB, disk tight) were deleted after the run; explain_away.py regenerates them (about 1 h per model).

@@ -1,4 +1,4 @@
-"""Capacity comparison (exploratory; logs/deep_study.md): do heads share and cancel less work when a model has more of
+"""Capacity comparison (exploratory; logs/look_write/deep_study.md): do heads share and cancel less work when a model has more of
 them? Per model, on train_windows(64, 2025):
 
 - single-head earlier-token ablation (common_deep.forward ablate_ctx: z_h(i) = a_ii v_i + mean earlier part):

@@ -1,4 +1,4 @@
-"""EXPLORATORY (logs/prereg_fixed_votes.md, "Exploratory": usefulness relative to the model's own prediction instead of
+"""EXPLORATORY (logs/study_A_fixed_votes/prereg_fixed_votes.md, "Exploratory": usefulness relative to the model's own prediction instead of
 the bigram; decision 13). Does the look-follows-write law describe more of a fixed-vote model's attention when the
 baseline is what the model already predicts (explaining away by the other heads), as in the gradient late in training?
 

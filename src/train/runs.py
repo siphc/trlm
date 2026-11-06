@@ -3,7 +3,7 @@ skipped when its result.json exists, so a disconnected session just re-runs the 
 
   python -m src.train.runs pilot_lr                 # 3 runs, mlp seed 0, smallest budget
   python -m src.train.runs pilot_budget             # budget ladder at the best LR
-  python -m src.train.runs pilot_report             # writes logs/pilot.md
+  python -m src.train.runs pilot_report             # writes logs/setup/pilot.md
   python -m src.train.runs final --budget_tokens N  # 10 models -> models/final/{variant}_s{seed}
   python -m src.train.runs deep_lr                  # side study: 4-block attn, seed 0, 50M tokens, LR 1e-3 vs 2e-3
   python -m src.train.runs deep --n_blocks 2 --seeds 0,1,2,3,4 [--peak_lr 2e-3]
@@ -56,7 +56,7 @@ CONTROL_TARGET = "model:models/final/attn_s0/final.pt"   # study C part B: the n
 
 def readable_kw(arm: str, lam: float, c: float) -> dict:
     """TrainConfig settings for one readable-training run (configs/side_readable.yaml; c from rule R2). Octl and Ictl
-    are arms O and I with attn_s0 as the target instead of the program (logs/prereg_canonical_addendum.md)."""
+    are arms O and I with attn_s0 as the target instead of the program (logs/study_C_readable/prereg_canonical_addendum.md)."""
     if arm in ("Octl", "Ictl"):
         return {**readable_kw(arm[0], lam, c), "readable_target": CONTROL_TARGET}
     if arm == "none":                                  # control: aux metrics logged, no pressure
@@ -135,7 +135,7 @@ def main() -> None:
     elif args.cmd == "pilot_report":
         report(args.root)
     elif args.cmd == "final":
-        assert args.budget_tokens and args.peak_lr, "final needs --budget_tokens and --peak_lr from logs/pilot.md"
+        assert args.budget_tokens and args.peak_lr, "final needs --budget_tokens and --peak_lr from logs/setup/pilot.md"
         only = set(args.only.split(",")) if args.only else None
         for variant in ("attn", "mlp"):
             for seed in range(5):
@@ -261,7 +261,7 @@ def report(root: str) -> None:
                      f"{r['elapsed']:.0f} | {r['device']} |")
     lines += ["", f"Chosen budget (smallest within {WITHIN:.0%} of best): **{chosen:,} tokens** at peak LR {lr:g}", ""]
     os.makedirs("logs", exist_ok=True)
-    with open("logs/pilot.md", "w") as f:
+    with open("logs/setup/pilot.md", "w") as f:
         f.write("\n".join(lines))
     print("\n".join(lines))
 

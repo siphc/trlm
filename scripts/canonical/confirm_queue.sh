@@ -1,11 +1,11 @@
 #!/bin/sh
-# Study C part B confirmatory runs (logs/prereg_canonical_addendum.md FINAL): per seed 1-4, one epoch each (MPS):
+# Study C part B confirmatory runs (logs/study_C_readable/prereg_canonical_addendum.md FINAL): per seed 1-4, one epoch each (MPS):
 # arm O at lambda 1 (pressure curve), Octl and Ictl at their rule-B1 lambdas; the suite (align, fidelity, internals,
 # harness) on each model as it finishes (CPU, nice 20, background). Then seed distances per treatment and
 # analysis/canonical/convergence.py. Resumable. Refuses to run unless the FINAL addendum is committed.
 cd "$(dirname "$0")/../.." || exit 1
 PY=.venv/bin/python
-git log --format=%s -- logs/prereg_canonical_addendum.md | grep -q "FINAL" || { echo "FINAL addendum not committed"; exit 1; }
+git log --follow --format=%s -- logs/study_C_readable/prereg_canonical_addendum.md | grep -q "FINAL" || { echo "FINAL addendum not committed"; exit 1; }
 while pgrep -f "law_pressure/confirm_queue.sh|canonical/dev_queue.sh" > /dev/null; do sleep 300; done
 LO=$($PY -c "import json; print('%g' % json.load(open('analysis/out/canonical/rules.json'))['B1']['Octl']['lambda'])")
 LI=$($PY -c "import json; print('%g' % json.load(open('analysis/out/canonical/rules.json'))['B1']['Ictl']['lambda'])")

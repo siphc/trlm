@@ -1,6 +1,6 @@
 # Results: "where a head looks comes from what it writes" (pre-registered replication, 2026-10-14)
 
-Pre-registration: `logs/prereg_look_follows_write.md` (thresholds and definitions unchanged). Code: this folder
+Pre-registration: `logs/look_write/prereg_look_follows_write.md` (thresholds and definitions unchanged). Code: this folder
 (written independently of `analysis/investigations/qk/`, which I read only after computing seed 0). All numbers come
 from runs of this code. Full numbers: `results.json`. Generated tables: `tables.md` (also pasted below).
 

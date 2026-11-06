@@ -2,8 +2,8 @@
 
 Written 2026-11-06 from analysis/out/readable_training/verdicts.json and seed_distances.json (verdicts.py and
 seed_distances.py, run by scripts/readable/finish.sh, log logs/runs/readable_verdicts.out). Pre-registration:
-logs/prereg_readable_training.md (FINAL, plus the amendment of test M, decision 11); clarifications 1-9 in
-logs/readable_training.md, phase 4, all written before any confirmatory output. Gate G3 (the human's review) is pending.
+logs/study_C_readable/prereg_readable_training.md (FINAL, plus the amendment of test M, decision 11); clarifications 1-9 in
+logs/study_C_readable/readable_training.md, phase 4, all written before any confirmatory output. Gate G3 (the human's review) is pending.
 
 **Assumptions stated up front.** The target is program v1.3, frozen. Each new model is compared with its untreated
 twin attn_s{k} (same initialisation and batch order). sigma_T is the spread of tool T over attn_s1..s4 (rule R4). All

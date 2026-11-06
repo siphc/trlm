@@ -1,5 +1,5 @@
-"""Pre-registered tests and verdicts of the confirmatory runs (logs/prereg_readable_training.md, FINAL; clarifications in
-logs/readable_training.md, phase 4, written before any confirmatory output).
+"""Pre-registered tests and verdicts of the confirmatory runs (logs/study_C_readable/prereg_readable_training.md, FINAL; clarifications in
+logs/study_C_readable/readable_training.md, phase 4, written before any confirmatory output).
 
     .venv/bin/python -m analysis.readable_training.verdicts [--partial]
 
@@ -28,7 +28,7 @@ M_MIN_AS_WRITTEN = 0.3
 
 
 def final_committed():
-    log = subprocess.run(["git", "log", "--format=%s", "--", "logs/prereg_readable_training.md"], cwd=REPO,
+    log = subprocess.run(["git", "log", "--follow", "--format=%s", "--", "logs/study_C_readable/prereg_readable_training.md"], cwd=REPO,
                          capture_output=True, text=True).stdout
     return "FINAL pre-registration" in log
 

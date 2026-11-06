@@ -1,5 +1,5 @@
-"""Study B, "law_pressure" (logs/plan_attention_law_and_readability.md section 5; pre-registration
-logs/prereg_law_pressure.md): a training penalty against the look-follows-write law.
+"""Study B, "law_pressure" (logs/plans/plan_attention_law_and_readability.md section 5; pre-registration
+logs/study_B_law_pressure/prereg_law_pressure.md): a training penalty against the look-follows-write law.
 
 For every head h and every pair (query i, key j = i - d, d = 1..7) of the training batch, queries i = 7..T-1:
     s_ij  the raw attention score q_i . k_j / sqrt(d_head)

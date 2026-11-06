@@ -1,4 +1,4 @@
-"""Vote targets for arm I (pre-registration: logs/prereg_readable_training.md, "Training signal").
+"""Vote targets for arm I (pre-registration: logs/study_C_readable/prereg_readable_training.md, "Training signal").
 
 For each constrained model head, the corpus table its vote (OV) row should correlate with, the column weights (unigram)
 and the row weights (half how often the rule reads the token as an earlier token, half its unigram frequency):

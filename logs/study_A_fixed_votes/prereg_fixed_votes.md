@@ -4,21 +4,21 @@ FINAL, 2026-10-20. The DRAFT was committed 2026-10-18 (a7a9c5f) before any fixed
 usefulness tables (the law's model-free prediction) were computed. This version adds the values fixed by the decision
 rules (development outputs only, seed 0), what has been seen, and the deviations. It is committed before any
 confirmatory model (seeds 1-4) is trained; the confirmatory runs wait for the human's gate G2. Decisions:
-logs/decisions.md items 10 and 12. Plan: logs/plan_attention_law_and_readability.md section 4. Code:
+logs/decisions.md items 10 and 12. Plan: logs/plans/plan_attention_law_and_readability.md section 4. Code:
 src/train/fixed_votes.py (model), src/train/test_sanity_fixed_votes.py (9 tests), analysis/fixed_votes/ (usefulness.py
 M2, law.py M1 and M3-M6, rules.py, verdicts.py: the tests below, refuses to run before this commit; check_pipeline.py).
-Running log: logs/fixed_votes.md.
+Running log: logs/study_A_fixed_votes/fixed_votes.md.
 
 ## What has been seen before writing the DRAFT
 
-- The look-follows-write law in normal one-layer attention-only models (logs/look_follows_write_results.md): in 7 of 8
+- The look-follows-write law in normal one-layer attention-only models (logs/look_write/look_follows_write_results.md): in 7 of 8
   local heads of attn_s1..s4, own-vote usefulness recovers at least half of the output gain of the exact token-token
   attention term (P1); another head's or a shuffled vote gives at most a quarter of that (P2, 8/8, at most 0.10); the
   pure-pair correlation is 0.34-0.44 for the own vote and at most 0.08 for other heads' (P3, 8/8); about 0.24 attention
   score per logit of usefulness (P4). For far-looking heads, usefulness at distances 1-7 recovers only 6-38%
   (long range not tested). One head had a negative ceiling (the ratio is then undefined). Against the stricter
   ceiling `tt_self` (the token-token term at every key including the current token; addendum,
-  logs/look_follows_write_addendum_results.md) own usefulness recovers 26-46% of the gain.
+  logs/look_write/look_follows_write_addendum_results.md) own usefulness recovers 26-46% of the gain.
 - The fixed tables (data/fixed_votes/tables.npz, sha 135ef9807fb12aba): row means 0 and unigram-weighted RMS 1 by
   construction; value ranges next -1.5..9.2, copy -0.6..9.6, topic -27..25 (rare tokens), skip2 -2.2..10.3,
   skip3 -3.0..13.0. Not clipped.

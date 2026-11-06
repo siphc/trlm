@@ -1,14 +1,14 @@
 # Pre-registration: does "where a head looks comes from what it writes" hold in deeper models?
 
-FINAL, 2026-10-17. Values fixed by the decision rules R1-R3 of logs/deep_study.md (committed before any calibration
+FINAL, 2026-10-17. Values fixed by the decision rules R1-R3 of logs/look_write/deep_study.md (committed before any calibration
 output) applied to the one-layer calibration (analysis/out/look_write_deep/rules.json). Committed before any arm is
 fitted on the confirmatory seeds. The confirmatory 200M-token sample passes (tables only) had started when this was
 committed; none of their outputs had been read.
 
 ## What has been seen before writing this
 
-- One-layer models (attn_s0..s4): the pre-registered replication (logs/look_follows_write_results.md) and the addendum
-  (logs/look_follows_write_addendum_results.md). Head-specificity held in all 8 confirmatory heads. Against the full
+- One-layer models (attn_s0..s4): the pre-registered replication (logs/look_write/look_follows_write_results.md) and the addendum
+  (logs/look_write/look_follows_write_addendum_results.md). Head-specificity held in all 8 confirmatory heads. Against the full
   token-token attention term (`tt_self`), own-vote usefulness reaches about a third of the output gain (0.26-0.46).
 - Calibration on attn_s1..s4 with this study's pipeline (200M-token samples, the 8 confirmatory heads): median own
   gain 0.104 with the LTOTAL readout (= DV for one block) and 0.049 with TOTAL; own/oracle gain ratios 0.37 median

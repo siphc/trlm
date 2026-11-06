@@ -1,5 +1,5 @@
 """Per-token code test (analysis only; logs/decisions.md item 8): is a local head's vote table the best low-rank
-compression of a corpus statistic? Formula fixed in advance (logs/prereg_deep_look_write.md, section K).
+compression of a corpus statistic? Formula fixed in advance (logs/look_write/prereg_deep_look_write.md, section K).
 
 Corpus statistics (whole TRAIN stream, pair counts analysis/out/candidates/qk/N_d.npy):
     n(k, v) = sum_{d=1..7} N_{d+1}(k, v)                       v sits d + 1 after k (what follows a key read d back)

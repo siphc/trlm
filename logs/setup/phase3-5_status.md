@@ -11,7 +11,7 @@ Date: 2026-10-12, 15:45. Written when the laptop was running on battery (19%, di
 4. Program tables are fitted by regression to the model's log-probs and indexed by token text and by named
    word classes (each literal ≤ 64 numbers). Word classes come from train-data statistics, not from a model.
 
-## Phase 3 — pilot (done, `logs/pilot.md`)
+## Phase 3 — pilot (done, `logs/setup/pilot.md`)
 
 Budget: **one epoch, 527,482,880 tokens, peak LR 2e-3** (largest rung wins; 200M is 2.5% worse). The LR grid's
 top edge wins; an extra 4e-3 point is only 0.48% better at 200M, so it was not adopted.

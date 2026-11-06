@@ -1,6 +1,6 @@
 # Addendum to the pre-registration (2026-10-14): one-layer loose ends and the echo test
 
-Written after the one-layer replication (logs/look_follows_write_results.md) and before running any of the analyses
+Written after the one-layer replication (logs/look_write/look_follows_write_results.md) and before running any of the analyses
 below. The original verdict (SUPPORTED literally, 7/8; MIXED strictly, 6/8) stands as recorded. Everything here is
 an addendum, labelled as such in the results.
 

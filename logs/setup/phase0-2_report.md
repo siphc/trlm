@@ -75,4 +75,4 @@ in KL.
 ## Open items measured (section 14)
 
 - One epoch = **527.5M tokens**, so the pilot ladder's 800M rung is capped at one epoch (527.5M).
-- Throughput: see `logs/throughput.md`.
+- Throughput: see `logs/setup/throughput.md`.

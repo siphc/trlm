@@ -1,5 +1,5 @@
 """Sanity tests for study B's penalty against the look-follows-write law (src/train/law_pressure.py; pre-registration
-logs/prereg_law_pressure.md). Run before any long run: .venv/bin/python -m pytest -q src/train/test_sanity_law_pressure.py
+logs/study_B_law_pressure/prereg_law_pressure.md). Run before any long run: .venv/bin/python -m pytest -q src/train/test_sanity_law_pressure.py
 Needs data/fixed_votes/tables.npz (FOLLOW's bigram rule) and models/final/attn_s1.
 """
 from __future__ import annotations

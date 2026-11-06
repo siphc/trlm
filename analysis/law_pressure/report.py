@@ -1,4 +1,4 @@
-"""Study B, reported (not tested) per-head numbers for logs/law_pressure_results.md: "where the work goes" (prereg,
+"""Study B, reported (not tested) per-head numbers for logs/study_B_law_pressure/law_pressure_results.md: "where the work goes" (prereg,
 "Deviations and clarifications"). Reads goal 1's law tools output (analysis/out/look_write/law_pressure_<run>/arms.json)
 for the twins, the penalised models and both continuations, seeds 1-4.
 

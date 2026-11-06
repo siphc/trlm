@@ -1,6 +1,6 @@
 # look_write: pre-registered test of "where a head looks comes from what it writes"
 
-Pre-registration: `logs/prereg_look_follows_write.md`. Results: `RESULTS.md` (narrative, definitions, verdict),
+Pre-registration: `logs/look_write/prereg_look_follows_write.md`. Results: `RESULTS.md` (narrative, definitions, verdict),
 `results.json` (all numbers), `tables.md` (generated tables). Written independently of
 `analysis/investigations/qk/` (only the seed-independent pair counts `analysis/out/candidates/qk/N_d.npy` are
 read, as a check against our own recount).

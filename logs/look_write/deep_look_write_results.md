@@ -1,6 +1,6 @@
 # Results: does "where a head looks comes from what it writes" hold in deeper models? (2026-10-17)
 
-Pre-registration: logs/prereg_deep_look_write.md (FINAL, commits 9c149a1 and 8ab4a9f, before any confirmatory fit).
+Pre-registration: logs/look_write/prereg_deep_look_write.md (FINAL, commits 9c149a1 and 8ab4a9f, before any confirmatory fit).
 Rules: primary readout LTOTAL, theta 0.20, D5 references c1 0.243 and c2 0.271 (analysis/out/look_write_deep/rules.json).
 Models: attention-only, 2 and 4 blocks, seeds 1-4 (confirmatory). Outputs: analysis/out/look_write_deep/summary_ltotal.json,
 <model>/arms_ltotal.json, code_test.json, <model>/capacity.json. Independent verification: see the last section.

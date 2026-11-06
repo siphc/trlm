@@ -1,7 +1,7 @@
 # Addendum 2 to the pre-registration (2026-10-16): the growth test
 
 Written while the echo test (addendum D) was running and before any of its outputs or any growth number had been
-seen. Motivation: Cammarata's essay "Neural Networks Are Already Clean" (quotes in logs/deep_study.md) proposes that
+seen. Motivation: Cammarata's essay "Neural Networks Are Already Clean" (quotes in logs/look_write/deep_study.md) proposes that
 "established routes have a head start in capturing residual error". For attention heads this predicts that a head's
 vote (what it writes) forms first, and its attention grows onto the keys where that vote already captures error.
 
