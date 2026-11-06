@@ -208,3 +208,11 @@ Hypothesis (H-genuine): a loss pulling a new model toward v1.3, at its outputs (
 lambda 0.3, cost about 1% CE): arm O brings the harness KL from 0.54-0.56 to 0.39-0.40 but the heads do not move toward
 the rules; arm I makes the heads look and vote like the rules but the harness KL stays 0.50-0.52. Verdict GOODHARTED in
 both arms (tau <= 0.2 in 3 of 4 seeds). Output and mechanism agreement are separately trainable.
+
+## Copying as the main remaining gap (main track, 2026-11-06)
+
+Hypothesis: the program's miss against the five-seed consensus is mostly copying that RECALL gets wrong (58% of the miss
+is at positions whose consensus top token appeared earlier). Evidence (logs/coverage.md, analysis/program_gap/
+copy_diagnostic.py): that class is mostly common tokens (RECALL attention on the target 3-7% in every seed); head 1 made
+fully exact inside the program closes 0.035 of 0.412 nats to the consensus; any other single head at most 0.010; all
+parts exact 0.129. The shared behaviour is not located in any one part.

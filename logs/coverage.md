@@ -35,3 +35,35 @@ From the consensus side: KL(five-seed average || program) 0.411 +- 0.005; KL(ave
   consensus top token appeared earlier in the window (analysis/out/program_gap/consensus.json; logs/mech_v3_report.md
   1c). That is the next target (plan: copying diagnostic, then candidates).
 - Not a harness metric: the harness's primary metric stays KL(model || program) on dev.
+
+## Where the remaining gap is: oracle swaps (analysis/program_gap/copy_diagnostic.py, 2026-11-06)
+
+Swaps of attn_s0's exact parts into the program (all strengths refitted to attn_s0 as in
+analysis/token_geometry/tables_vs_attention.py; fit train_windows(16, 2024), evaluation train_windows(32, 2000)),
+scored against attn_s0 and against the five-seed consensus ENS5. Change in KL against the refitted program A (A: 0.551 to
+attn_s0, 0.412 to ENS5); paired SE over 32 windows. Outputs: analysis/out/program_gap/copy_diagnostic.json and
+copy_diagnostic_all_heads.json.
+
+| head made exact inside the program | attention only (to s0 / to ENS5) | vote table only | both |
+|---|---|---|---|
+| head 0 (LOCAL-0) | -0.001 / +0.001 | +0.001 / +0.004 | -0.025 / -0.008 |
+| head 1 (RECALL) | -0.027 / -0.023 | +0.006 / +0.020 | -0.071 / -0.035 |
+| head 2 (LOCAL-2) | -0.001 / +0.001 | +0.002 / +0.007 | -0.032 / -0.006 |
+| head 3 | -0.001 / -0.000 | -0.003 / -0.001 | -0.035 / -0.010 |
+| all parts exact (D) | | | -0.436 / -0.129 |
+
+SEs 0.001-0.005 (D: 0.012 / 0.007). The direct-path table in place of FOLLOW alone makes the program far worse (+0.52).
+
+- **Copying is not the main gap.** The class "the consensus top token appeared earlier in the window" (59% of
+  positions in this sample, 59% of the miss to ENS5) is mostly common tokens, not copying: every seed's RECALL head
+  puts only 3-7% of its attention on earlier occurrences of that token there (the program 4-6%; seeds agree with each
+  other at r = 0.60 over positions, the program with them at 0.37-0.47). Making head 1 fully exact closes 0.035 of the
+  0.412 miss to the consensus.
+- **No single part carries the gap.** Each head made exact, attention and table together, closes 0.006-0.035 nats
+  against the consensus; their sum is about 0.06, while all parts exact close 0.129. Exact attention alone helps only
+  for head 1, and an exact table alone makes things worse for every head (the lock, again at the level of single
+  parts). What the seeds share and the program lacks is a property of how the parts work together, not of a part that
+  could be described on its own.
+- Consequence for the plan: no copying candidate has room above the adoption bar (the oracle ceiling against the
+  consensus is 0.035 for RECALL and at most 0.010 for any other head). The copying line stops here (no candidates
+  built).

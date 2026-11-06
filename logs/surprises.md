@@ -172,3 +172,6 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   agreement transfers out of distribution as well as on dev (tau_OOD 1.20), so tau_OOD cannot detect pool gaming here;
   (2) arm I's heads look and vote like the program's rules but the lock tightens in seeds 1-2 (+19-23%); (3) arm I
   makes seeds 26% more alike while moving them only 7% toward the program (logs/readable_training_results.md).
+- 2026-11-06 (main track): consensus.py's class "top token appeared earlier in the window", read since mech_v3 as
+  "copying", is mostly common tokens; RECALL's attention on the target is 3-7% there in every seed
+  (logs/coverage.md, oracle swaps).
