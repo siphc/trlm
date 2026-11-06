@@ -75,3 +75,7 @@ Decision: logs/decisions.md item 10.
   gain 0.040, dev_full 2.6627 (+0.03%); with arm attn (pure-pair 0.179, own gain 0.050): when only the votes may move
   the law weakens less, when only attention may move it weakens as much as with both. The development models'
   usefulness tables were deleted after their fits (regenerable, 0.9 GB each); arms.json kept.
+- 2026-11-06 04:40, confirmatory, partial (`verdicts.py --partial`, seed 1 of 4; no verdict until all four): seed 1
+  manipulation check passes (in-batch correlation ratio 0.11); held-out law BROKEN (strength 0.099 vs the twin's
+  0.325); cost +0.29% (LOW) -> cell FREE BREAK; after 3000 steps without the penalty the law recovers 0.05 of what was
+  removed. Seeds 2-4 training (about 1 h 50 min per seed).
