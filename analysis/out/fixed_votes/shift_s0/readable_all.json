@@ -1,0 +1,29 @@
+{
+ "model": "models/fixed_votes/shift_s0/final.pt",
+ "windows": "train_windows(32, 2025)",
+ "fixed_vote_model": {
+  "ce": 2.5449180603027344,
+  "kl_attn_s0_to_this": 0.6608140636797535
+ },
+ "attn_s0_ce": 2.441883087158203,
+ "programs": {
+  "base": {
+   "readable": true,
+   "kl_model_to_program": 0.3791848995178423,
+   "kl_attn_s0_to_program": 0.8818453424098525,
+   "ce": 2.9703145027160645
+  },
+  "own": {
+   "readable": true,
+   "kl_model_to_program": 0.2746404753709171,
+   "kl_attn_s0_to_program": 0.8167002617864818,
+   "ce": 2.770104169845581
+  },
+  "tt": {
+   "readable": false,
+   "kl_model_to_program": 0.10416980844969125,
+   "kl_attn_s0_to_program": 0.7365502911342492,
+   "ce": 2.6621501445770264
+  }
+ }
+}

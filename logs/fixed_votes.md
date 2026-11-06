@@ -87,3 +87,18 @@ Decision: logs/decisions.md item 10.
   shift_s0) 0.686 (attn_s1: 0.421; program v1.3: 0.550). The fixed-vote model is a different model of similar quality,
   not an approximation of attn_s0. Proposed next (exploratory, not started): all four heads replaced by readable rules
   at once (KL to the fixed-vote model, CE), and usefulness relative to the model's own prediction (explaining away).
+- **2026-11-06, exploratory: a fully readable program from the fixed-vote model** (`analysis/fixed_votes/readable_all.py`:
+  every head's attention replaced at once by goal 1's base rule, with or without own-usefulness features, fitted per
+  head on train_windows(32, 2024); measured on train_windows(32, 2025); attn_s0 CE there 2.442):
+
+  | program (base_s0 / shift_s0) | readable | KL(fixed-vote model || program) | KL(attn_s0 || program) | CE |
+  |---|---|---|---|---|
+  | fixed-vote model itself | no | 0 / 0 | 0.610 / 0.661 | 2.465 / 2.545 |
+  | tables + base rule | yes | 0.360 / 0.379 | 0.805 / 0.882 | 2.875 / 2.970 |
+  | tables + base rule + own usefulness | yes | **0.268 / 0.275** | **0.768 / 0.817** | **2.704 / 2.770** |
+  | tables + exact token-token term (ceiling) | no | 0.091 / 0.104 | 0.672 / 0.737 | 2.569 / 2.662 |
+
+  Reading: the readable program is worse than program v1.3 (0.55 from attn_s0, CE equal to the model's) on both
+  counts; usefulness closes about a third of the gap between the base rule and the token-token ceiling. Fixing the
+  votes makes the write side readable at 1-1.3% cost, but rule-based attention loses most of what learned attention
+  adds. Recorded in logs/dead_ends.md as the readable-model route through fixed votes (development data only).

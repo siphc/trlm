@@ -191,3 +191,12 @@ and >= 3 SE.
 - **RECALL key flags on v1.3** (capitalised, capitalised unspaced, quote, end of story, topicality in head 1's
   attention): head 1 pattern KL 0.570 -> 0.476, but held-out output KL 0.5474 -> 0.5543 (worse); branch
   `cand-recall-keyflags`. Not an attention sink: head 1's end-of-story value write is at the 18th percentile of size.
+
+## Readable model through fixed votes (study A, development, 2026-11-06)
+
+Hypothesis: with every head's vote fixed to a named corpus table (cost +1.3% CE), describing attention by readable
+rules (distance, spelling, own-vote usefulness) gives a readable model better than program v1.3. Evidence
+(logs/fixed_votes.md, analysis/fixed_votes/readable_all.py, seed 0): the fully readable program is 0.27 nats from its
+fixed-vote model, 0.77 from attn_s0 (v1.3: 0.55), CE 2.70 vs 2.44 for attn_s0 (v1.3 matches the model). The missing
+part is the token-pair structure of learned attention (the non-readable token-token term reaches 0.09). Status:
+development only; the confirmatory runs test the law, not this route.
