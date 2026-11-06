@@ -86,3 +86,21 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     controls at matched cost, one for arm O (attn_s0's predictions as target) and one for arm I (attn_s0's attention
     patterns and vote tables as target), both chosen by the human, under an addendum pre-registration with gates
     G0-G3. Deferred: the mlp variant, the black-box track; AWS unused unless part B needs it.
+15. **Side studies closed; new main line; repository clean-up** (2026-11-06, after the human reviewed study B's
+    results, a literature check and the agent's directions; plan approved by the human):
+    - **Study B: gate G3 passed** on logs/study_B_law_pressure/law_pressure_results.md as written (verdict MIXED,
+      restoring force SLOW). No further study B work.
+    - **Study C part B shelved:** the addendum stays a DRAFT, code and tests are kept, nothing is run.
+    - **Main deliverable changed.** The goal is to truly understand a language model "by any means", including insight
+      from the weights. The deliverable becomes a measured, complete account of each model on a ladder of tiny
+      language models (character-level TinyStories, from a few hundred parameters upward, one change per rung), not a
+      weight-free program. The weight-free program track ends at v1.3 as the top reference point; AGENTS.md section 8
+      binds only that track.
+    - **New side models** outside configs/frozen.yaml are allowed for the ladder (configs/side_ladder.yaml);
+      frozen.yaml is unchanged.
+    - **The ladder's design** (data, rungs, completeness criteria fixed before any account is judged) gets its own
+      human gate before any rung is trained.
+    - **Also approved, in parallel on the CPU:** a map of what the seeds know that the program does not, by kind of
+      language.
+    - **Repository clean-up:** finished or abandoned code deleted (recoverable from git tag `pre-cleanup`);
+      logs/ organised into one folder per study.

@@ -1,9 +1,9 @@
 # look_write: pre-registered test of "where a head looks comes from what it writes"
 
 Pre-registration: `logs/look_write/prereg_look_follows_write.md`. Results: `RESULTS.md` (narrative, definitions, verdict),
-`results.json` (all numbers), `tables.md` (generated tables). Written independently of
-`analysis/investigations/qk/` (only the seed-independent pair counts `analysis/out/candidates/qk/N_d.npy` are
-read, as a check against our own recount).
+`results.json` (all numbers), `tables.md` (generated tables). Written independently of the removed
+`analysis/investigations/qk/` (git tag pre-cleanup); only the whole-stream pair counts `data/corpus_pairs/N_d.npy`
+(`analysis/corpus_pairs.py`) are read, as a check against our own recount.
 
 Tables are cached under `analysis/out/look_write/<model>/` (that folder carries its own `.gitignore`).
 Every step is one process at a time, `OMP_NUM_THREADS=2`, corpus in chunks of 10M positions.

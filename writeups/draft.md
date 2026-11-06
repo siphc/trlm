@@ -12,8 +12,9 @@ named in brackets; nothing here is new analysis. Not published anywhere. Each se
 | 2. program and coverage | done | logs/main_track/coverage.md, logs/main_track/mech_v3_report.md |
 | 3. the lock | done | logs/main_track/token_geometry_results.md, logs/main_track/coverage.md |
 | 4. readable training (study C part A) | done, both arms GOODHARTED | logs/study_C_readable/readable_training_results.md |
-| 5. seed convergence (study C part B) | addendum DRAFT, awaiting G0/G1 | logs/study_C_readable/prereg_canonical_addendum.md |
-| 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 pending | logs/study_B_law_pressure/law_pressure_results.md |
+| 5. seed convergence (study C part B) | part A result only; part B shelved (decision 15) | logs/study_C_readable/prereg_canonical_addendum.md |
+| 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 passed | logs/study_B_law_pressure/law_pressure_results.md |
+| 7. a ladder of tiny language models | planned; design doc and human gate first (decision 15) | logs/plans/ |
 
 ## Summary (as of 2026-11-06)
 
@@ -143,7 +144,7 @@ separately trainable. This is the lock, shown causally in both directions.
 - In arm O this matches the movement toward the program (convergence ratio 0.97).
 - In arm I the seeds come closer to each other (−26%) while hardly coming closer to the program (−7%; ratio 3.60).
 
-**Part B** [logs/study_C_readable/prereg_canonical_addendum.md, DRAFT]. Is this a property of a readable target? Same losses, with
+**Part B** [logs/study_C_readable/prereg_canonical_addendum.md, DRAFT; shelved by decision 15, not run]. Is this a property of a readable target? Same losses, with
 attn_s0 (an unreadable trained model) as the target, at matched cost; a pressure-curve point (arm O at lambda 1);
 mechanistic convergence of attention patterns and value codes.
 - *Expected (recorded before outputs):* at the output level the unreadable target removes more per unit of cost; at
@@ -174,6 +175,14 @@ output test.
 - The continuation is short and at a low learning rate.
 - Which part of attention carries the surviving gain is open. Token main effects were tested and ruled out
   (exploratory; logs/study_B_law_pressure/law_pressure_results.md).
+
+## 7. Where understanding breaks: a ladder of tiny language models (planned)
+
+Parts 2-4 measure a ceiling: a readable account of a 0.35M-parameter model reaches 0.728 coverage, and closing the rest
+costs about as many fitted numbers as the model has. Anthropic's 2026 one-layer study reaches the same wall from the
+feature side, and ARC's AlgZoo has not fully understood a 432-parameter model (logs/literature/). The next part trains
+character-level TinyStories models from a few hundred parameters upward, one change per rung, and asks which is the
+largest model that can be understood completely and what breaks first (decision 15; design doc and gate first).
 
 ## Open items for a real draft
 
