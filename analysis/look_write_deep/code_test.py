@@ -1,7 +1,7 @@
 """Per-token code test (analysis only; logs/decisions.md item 8): is a local head's vote table the best low-rank
 compression of a corpus statistic? Formula fixed in advance (logs/look_write/prereg_deep_look_write.md, section K).
 
-Corpus statistics (whole TRAIN stream, pair counts analysis/out/candidates/qk/N_d.npy):
+Corpus statistics (whole TRAIN stream, pair counts data/corpus_pairs/N_d.npy (analysis/corpus_pairs.py)):
     n(k, v) = sum_{d=1..7} N_{d+1}(k, v)                       v sits d + 1 after k (what follows a key read d back)
     e(k, v) = sum_{d=1..7} sum_q N_d(k, q) P1(v | q)            the same, predicted by the bigram from the token at d
     C_res(k, v) = log[(n + 20 e_hat) / ((n(k) + 20) e_hat)]     e_hat = e / sum_v e   (bigram-residual; primary)
@@ -26,8 +26,9 @@ import numpy as np
 
 from analysis.look_write import common as C1
 from analysis.look_write_deep import common_deep as C
+from analysis import corpus_pairs
 
-QK = os.path.join(C.REPO, "analysis", "out", "candidates", "qk")
+QK = corpus_pairs.DIR
 PRIOR = 20.0
 
 

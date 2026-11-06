@@ -34,6 +34,7 @@ import torch
 from analysis.fixed_votes import law as FL
 from analysis.look_write import common as C
 from analysis.look_write.fit_arms import Rule, double_centre, fit_rule, pair_features, wcorr
+from analysis import corpus_pairs
 
 KINDS = ("bigram", "model", "minus_h")
 T_WIN = 256
@@ -111,7 +112,7 @@ def run(path, n_tokens, log=print):
     lp_ref = FL.logprobs(m, ev_w)
     rf, re = Rule(fit_w, shapes), Rule(ev_w, shapes)
     Y = C.pure_pair_scores(FL.fv_weights(m))
-    N1 = np.load(os.path.join(C.REPO, "analysis", "out", "candidates", "qk", "N_1.npy")).astype(np.float64)
+    N1 = np.load(corpus_pairs.path(1)).astype(np.float64)
     kidx, qidx = np.nonzero(N1 >= C.MIN_COUNT)
     wts = N1[kidx, qidx]
     res = {"model": path, "tokens": n_tokens, "tables": names, "beta": beta, "heads": {}}

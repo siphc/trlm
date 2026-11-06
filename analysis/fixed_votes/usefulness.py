@@ -26,6 +26,7 @@ import numpy as np
 from analysis.look_write import common as C
 from analysis.look_write.uov_tables import corpus_pass
 from src.train.fixed_votes import TABLE_NAMES, TABLES
+from analysis import corpus_pairs
 
 OUT = os.path.join(C.REPO, "analysis", "out", "fixed_votes", "usefulness")
 BAND, BAND_TOKENS = (8, 63), 100_000_000
@@ -57,7 +58,7 @@ def main():
                 np.save(os.path.join(OUT, f"Up_{name}_d{d}.npy"),
                         ((Sp[t] - N * Bp[t]) / (N + C.SHRINK)).astype(np.float32))
         if d == 1:
-            ref = np.load(os.path.join(C.REPO, "analysis", "out", "candidates", "qk", "N_1.npy"))
+            ref = np.load(corpus_pairs.path(1))
             meta["N_1_max_abs_diff_vs_candidates_qk"] = float(np.abs(ref.astype(np.float64) - N).max())
         print(f"d={d}: {time.time() - t0:.0f}s; mean usefulness "
               + ", ".join(f"{n} {profile[n][d]:+.4f}" for n in TABLE_NAMES), flush=True)

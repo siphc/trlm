@@ -1,6 +1,6 @@
 """Checks before any result: (1) the substitution forward pass reproduces the model's logits when given the model's
 own pattern, for every head and every model; (2) the numpy score formula used for the pure-pair scores matches the
-model's attention scores; (3) N_1 recount on the first 25M TRAIN tokens against analysis/out/candidates/qk/N_1.npy.
+model's attention scores; (3) N_1 recount on the first 25M TRAIN tokens against data/corpus_pairs/N_1.npy (analysis/corpus_pairs.py).
 
 Run: OMP_NUM_THREADS=2 .venv/bin/python -m analysis.look_write.selftest
 """
@@ -13,6 +13,7 @@ import os
 import numpy as np
 
 from analysis.look_write import common as C
+from analysis import corpus_pairs
 
 
 def check_substitution(model_id, wins):
@@ -55,7 +56,7 @@ def check_n1(n_tokens=25_000_000):
     c = load_corpus()
     x = np.asarray(c[:n_tokens]).astype(np.int64)
     n1 = np.bincount(x[:-1] * C.V + x[1:], minlength=C.V * C.V).reshape(C.V, C.V).astype(np.float64)
-    ref = np.load(os.path.join(C.REPO, "analysis", "out", "candidates", "qk", "N_1.npy")).astype(np.float64)
+    ref = np.load(corpus_pairs.path(1)).astype(np.float64)
     frac = (n_tokens - 1) / len(c)
     mask = ref >= 200
     rel = n1[mask] / (ref[mask] * frac)

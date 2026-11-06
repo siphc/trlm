@@ -27,6 +27,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, REPO)
 
 from analysis.look_write import common as C1  # noqa: E402  (shared constants and helpers of the one-layer study)
+from analysis import corpus_pairs
 
 OUT = os.path.join(REPO, "analysis", "out", "look_write_deep")
 V, T, EPS, SHRINK, D_MAX = C1.V, C1.T, C1.EPS, C1.SHRINK, C1.D_MAX
@@ -225,9 +226,9 @@ def pair_key(d, k, q):
 
 def build_slots(model_tag, fit_w, eval_w, n_sample_tokens, min_expected=20.0):
     """The (d, k, q) pairs whose tables are needed: every pair at d = 1 with expected sample count >= min_expected
-    (from the whole-stream counts analysis/out/candidates/qk/N_1.npy scaled to the sample), plus every pair that
+    (from the whole-stream counts data/corpus_pairs/N_1.npy (analysis/corpus_pairs.py) scaled to the sample), plus every pair that
     occurs at d = 1..7 in the fit or eval windows. Returns the sorted key array."""
-    N1 = np.load(os.path.join(REPO, "analysis", "out", "candidates", "qk", "N_1.npy")).astype(np.float64)
+    N1 = np.load(corpus_pairs.path(1)).astype(np.float64)
     frac = n_sample_tokens / 527_489_811
     k1, q1 = np.nonzero(N1 * frac >= min_expected)
     keys = [pair_key(1, k1, q1)]

@@ -6,7 +6,7 @@
 
 The control replaces OV_h by OV_h[perm] (rows permuted over k with default_rng(0)) everywhere (S and B).
 N is recounted in the same pass over exactly the same positions (j = 0 .. L-d-2) and compared with
-analysis/out/candidates/qk/N_d.npy. One weighted np.bincount per (head, d, chunk), chunks of 10M positions.
+data/corpus_pairs/N_d.npy (analysis/corpus_pairs.py). One weighted np.bincount per (head, d, chunk), chunks of 10M positions.
 All positions of the stream are used (pairs may straddle the end-of-story token 0, as attention does).
 
 Writes analysis/out/look_write/<model>/{uov,uovp}_h<h>_d<d>.npy (float32, [k, q]) and meta.json.
@@ -24,6 +24,7 @@ import time
 import numpy as np
 
 from analysis.look_write import common as C
+from analysis import corpus_pairs
 
 
 def corpus_pass(ov, pi, ds, corpus, log=print, max_tokens=None):
@@ -84,7 +85,7 @@ def build(model_id, band=None, max_tokens=None):
         ncheck = {}
         for d in range(1, C.D_MAX + 1):
             S, Sp, N = corpus_pass(ov, pi, [d], corpus)
-            ref = np.load(os.path.join(C.REPO, "analysis", "out", "candidates", "qk", f"N_{d}.npy"))
+            ref = np.load(corpus_pairs.path(d))
             diff = np.abs(ref.astype(np.float64) - N)
             ncheck[d] = {"max_abs_diff": float(diff.max()), "cells_diff_gt_0.5": int((diff > 0.5).sum()),
                          "max_rel_diff_cells_ge_1e6": float((diff / np.maximum(N, 1))[N >= 1e6].max(initial=0))}

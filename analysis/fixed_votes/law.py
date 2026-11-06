@@ -30,6 +30,7 @@ from analysis.look_write.fit_arms import (Rule, band_feature, double_centre, ent
                                           pattern_ce, tt_feature, wcorr)
 from analysis.fixed_votes.usefulness import BAND, OUT as U_DIR
 from src.train.fixed_votes import TABLE_NAMES
+from analysis import corpus_pairs
 
 OUT = os.path.join(C.REPO, "analysis", "out", "fixed_votes")
 
@@ -170,7 +171,7 @@ def run(path, log=print):
         del arms
     # M4: pure-pair correlation at d = 1
     Y = C.pure_pair_scores(w)
-    N1 = np.load(os.path.join(C.REPO, "analysis", "out", "candidates", "qk", "N_1.npy")).astype(np.float64)
+    N1 = np.load(corpus_pairs.path(1)).astype(np.float64)
     kidx, qidx = np.nonzero(N1 >= C.MIN_COUNT)
     wts = N1[kidx, qidx]
     cache = {}
