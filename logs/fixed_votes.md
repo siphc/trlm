@@ -102,3 +102,33 @@ Decision: logs/decisions.md item 10.
   counts; usefulness closes about a third of the gap between the base rule and the token-token ceiling. Fixing the
   votes makes the write side readable at 1-1.3% cost, but rule-based attention loses most of what learned attention
   adds. Recorded in logs/dead_ends.md as the readable-model route through fixed votes (development data only).
+- **2026-11-06, exploratory: explaining away** (`analysis/fixed_votes/explain_away.py`, decision 13; usefulness
+  accumulated over the first 10M tokens of the TRAIN stream; each head's base rule plus one usefulness table (c1 at
+  d = 1, c2 at d = 2..7, no band) fitted on train_windows(32, 2024), substituted in the model on train_windows(32,
+  2025); gain = KL improvement over the base rule alone). Baselines for usefulness: `bigram` (as pre-registered, this
+  slice), `model` (the full model's prediction, which includes head h's own vote), `minus_h` (the model without head
+  h's vote: what the bigram and the other heads already predict). `own_nb`: the pre-registered full-stream table, no
+  band (pipeline check: equals law.json's own arm for next and skip2/skip3, which have no band effect).
+
+  | model, head | own (law.json, band) | own_nb | bigram | model | minus_h | tt ceiling | pure-pair: bigram / model / minus_h |
+  |---|---|---|---|---|---|---|---|
+  | base, next | 0.0090 | 0.0090 | 0.0085 | 0.0022 | **0.0184** | 0.0368 | 0.357 / 0.166 / **0.454** |
+  | base, copy | 0.0130 | -0.0002 | -0.0001 | -0.0000 | -0.0000 | 0.0394 | -0.041 / -0.073 / 0.010 |
+  | base, topic | 0.0106 | 0.0074 | 0.0061 | 0.0010 | 0.0062 | 0.0909 | 0.198 / 0.026 / 0.214 |
+  | base, skip2 | 0.0367 | 0.0367 | 0.0319 | 0.0025 | 0.0356 | 0.0849 | 0.396 / 0.123 / 0.423 |
+  | shift, next | 0.0206 | 0.0207 | 0.0205 | 0.0041 | **0.0266** | 0.0458 | 0.483 / 0.197 / **0.511** |
+  | shift, copy | 0.0169 | -0.0002 | -0.0001 | 0.0000 | 0.0002 | 0.0429 | -0.020 / -0.050 / 0.016 |
+  | shift, topic | 0.0079 | 0.0040 | 0.0038 | 0.0011 | 0.0054 | 0.0787 | 0.261 / 0.135 / 0.237 |
+  | shift, skip3 | 0.0269 | 0.0270 | 0.0233 | 0.0043 | 0.0264 | 0.0768 | 0.430 / 0.282 / 0.455 |
+
+  Reading:
+  - Against the full model's prediction (`model`) the law nearly vanishes (gains 0.001-0.004, pure-pair 0.03-0.28):
+    once a head's own vote is in the baseline, what it already supplies no longer counts as useful. This is the
+    expected fixed point, not evidence against the law.
+  - The explaining-away baseline (`minus_h`) helps only the head that looks at d = 1: next doubles in base (0.009 ->
+    0.018, half the tt ceiling) and rises by a quarter in shift (0.021 -> 0.027, 0.58 of the ceiling). For skip2,
+    skip3 and topic it matches the bigram baseline within 0.001. The copy head is described by no usefulness table
+    without the band; its pre-registered gain comes entirely from the band.
+  - So the bigram baseline was not what hid most of the ceiling. Taking each head's best arm (any baseline, with or
+    without the band), own usefulness recovers 10-58% of the token-token ceiling (topic 0.10-0.12, copy 0.33-0.39 via
+    the band, skip 0.35-0.43, next 0.50-0.58). Results summary: logs/fixed_votes_results.md.

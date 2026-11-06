@@ -1,0 +1,19 @@
+models/fixed_votes/base_s0/final.pt: beta [0.697, 0.684, 1.508, 1.782], removal shifts [0.0601, 0.0805, 0.2488, 0.4806]
+  head 0 (next): base KL 0.05132; gains own +0.00901, other_copy +0.00031, other_topic +0.00014, other_skip2 +0.00041, perm +0.00001, tt +0.03683, tt_self +0.04715 [45s]
+  head 1 (copy): base KL 0.06076; gains own +0.01303, other_next +0.00037, other_topic +0.00642, other_skip2 +0.00041, perm -0.00000, tt +0.03944, tt_self +0.03940 [46s]
+  head 2 (topic): base KL 0.12274; gains own +0.01059, other_next +0.00008, other_copy +0.00653, other_skip2 +0.00517, perm +0.00031, tt +0.09089, tt_self +0.08943 [45s]
+  head 3 (skip2): base KL 0.10543; gains own +0.03666, other_next +0.00083, other_copy +0.00317, other_topic +0.00027, alt_skip3 +0.00079, perm +0.00151, tt +0.08489, tt_self +0.08939 [45s]
+  head 0 (next): pure-pair corr next +0.361, copy -0.023, topic +0.008, skip2 +0.021, skip3 -0.026, perm_own -0.031
+  head 1 (copy): pure-pair corr next -0.021, copy -0.035, topic +0.033, skip2 +0.054, skip3 +0.023, perm_own +0.010
+  head 2 (topic): pure-pair corr next +0.040, copy +0.131, topic +0.203, skip2 +0.047, skip3 +0.048, perm_own +0.013
+  head 3 (skip2): pure-pair corr next -0.042, copy -0.054, topic +0.014, skip2 +0.433, skip3 +0.112, perm_own -0.166
+models/fixed_votes/shift_s0/final.pt: beta [0.827, 0.661, 1.333, 1.666], removal shifts [0.0988, 0.0857, 0.2115, 0.3583]
+  head 0 (next): base KL 0.07080; gains own +0.02063, other_copy +0.00040, other_topic +0.00022, other_skip3 -0.00010, perm -0.00005, tt +0.04577, tt_self +0.06141 [41s]
+  head 1 (copy): base KL 0.06514; gains own +0.01694, other_next +0.00035, other_topic +0.00938, other_skip3 +0.00553, perm -0.00001, tt +0.04286, tt_self +0.04308 [53s]
+  head 2 (topic): base KL 0.10867; gains own +0.00791, other_next +0.00006, other_copy +0.00517, other_skip3 +0.01125, perm +0.00033, tt +0.07865, tt_self +0.07737 [244s]
+  head 3 (skip3): base KL 0.09463; gains own +0.02690, other_next +0.00041, other_copy -0.00030, other_topic +0.00053, alt_skip2 +0.00103, perm +0.00166, tt +0.07684, tt_self +0.07757 [52s]
+  head 0 (next): pure-pair corr next +0.481, copy -0.078, topic -0.035, skip2 -0.028, skip3 +0.009, perm_own -0.013
+  head 1 (copy): pure-pair corr next -0.006, copy -0.014, topic +0.054, skip2 +0.037, skip3 +0.048, perm_own +0.009
+  head 2 (topic): pure-pair corr next +0.023, copy +0.122, topic +0.257, skip2 +0.059, skip3 +0.007, perm_own +0.005
+  head 3 (skip3): pure-pair corr next -0.059, copy -0.029, topic +0.091, skip2 +0.060, skip3 +0.437, perm_own +0.015
+study A development law fits done Tue Oct 20 11:03:48 PDT 2026

@@ -1,0 +1,10 @@
+d=0: 48s; mean usefulness next +0.0982, copy +0.0045, topic -0.0241, skip2 +0.0108, skip3 -0.0018
+d=1: 60s; mean usefulness next +0.1844, copy -0.0664, topic +0.0670, skip2 +0.8393, skip3 +0.2766
+d=2: 70s; mean usefulness next +0.0401, copy -0.0142, topic +0.1352, skip2 +0.2608, skip3 +0.6998
+d=3: 79s; mean usefulness next +0.0364, copy -0.0037, topic +0.1698, skip2 +0.1522, skip3 +0.3012
+d=4: 84s; mean usefulness next +0.0261, copy +0.0030, topic +0.2024, skip2 +0.1215, skip3 +0.2176
+d=5: 68s; mean usefulness next +0.0179, copy +0.0045, topic +0.2219, skip2 +0.0888, skip3 +0.1691
+d=6: 71s; mean usefulness next +0.0082, copy +0.0104, topic +0.2316, skip2 +0.0656, skip3 +0.1276
+d=7: 70s; mean usefulness next +0.0096, copy +0.0198, topic +0.2425, skip2 +0.0531, skip3 +0.1069
+predicted peaks (d = 1..7): {'next': 1, 'copy': 7, 'topic': 7, 'skip2': 1, 'skip3': 2}
+band (8, 63): 590s; mean usefulness {'next': 0.0045324108948292165, 'copy': 0.04152635765261229, 'topic': 0.16083455841015729, 'skip2': 0.02133666347201618, 'skip3': 0.04128148034441119}

@@ -1,0 +1,9 @@
+models/fixed_votes/scratch/init_s0/final.pt: beta [0.1, 0.1, 0.1, 0.1], removal shifts [0.0001, 0.0023, 0.0113, 0.0031]
+  head 0 (next): base KL 0.00000; gains own -0.00000, other_copy -0.00000, other_topic -0.00000, other_skip2 -0.00000, perm +0.00000, tt +0.00000, tt_self +0.00000 [411s]
+  head 1 (copy): base KL 0.00000; gains own +0.00000, other_next +0.00000, other_topic +0.00000, other_skip2 +0.00000, perm +0.00000, tt +0.00000, tt_self +0.00000 [697s]
+  head 2 (topic): base KL 0.00000; gains own -0.00000, other_next -0.00000, other_copy -0.00000, other_skip2 -0.00000, perm -0.00000, tt +0.00000, tt_self +0.00000 [629s]
+  head 3 (skip2): base KL 0.00000; gains own +0.00000, other_next +0.00000, other_copy +0.00000, other_topic +0.00000, alt_skip3 +0.00000, perm -0.00000, tt +0.00000, tt_self +0.00000 [305s]
+  head 0 (next): pure-pair corr next +0.003, copy -0.012, topic -0.011, skip2 +0.009, skip3 +0.008, perm_own -0.019
+  head 1 (copy): pure-pair corr next -0.005, copy +0.012, topic -0.009, skip2 -0.014, skip3 -0.004, perm_own -0.014
+  head 2 (topic): pure-pair corr next +0.018, copy -0.012, topic -0.036, skip2 -0.009, skip3 -0.027, perm_own +0.006
+  head 3 (skip2): pure-pair corr next +0.015, copy +0.008, topic +0.001, skip2 +0.023, skip3 -0.001, perm_own +0.010
