@@ -76,3 +76,13 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     development results with no verdict weight. Instead the pre-registered exploratory analysis "usefulness relative
     to the model's own prediction" (explaining away) runs on the seed-0 models (CPU). Study A's confirmatory runs may
     be reopened only if that analysis shows something that needs seeds to confirm, and then as a new decision.
+14. **Readable training closed; priorities; the coverage measure** (2026-11-06): the human read
+    logs/readable_training_results.md and passed gate G3 (both arms GOODHARTED as written). The to-do list was compiled
+    into one order (plan approved by the human): close out study B and study A's exploratory analysis; main track
+    step 1, the honest coverage measure of item 9 = (KL_bigram - KL_program) / (KL_bigram - KL_floor) with the floor
+    the probability average of the other four seeds (logs/coverage.md; v1.3: 0.728); step 2, a diagnostic of the
+    copying positions where the seeds agree but the program does not, then candidates by the usual adoption rule; a
+    running write-up draft (writeups/draft.md); then study C part B with a pressure curve and two non-readable
+    controls at matched cost, one for arm O (attn_s0's predictions as target) and one for arm I (attn_s0's attention
+    patterns and vote tables as target), both chosen by the human, under an addendum pre-registration with gates
+    G0-G3. Deferred: the mlp variant, the black-box track; AWS unused unless part B needs it.
