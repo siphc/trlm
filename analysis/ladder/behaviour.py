@@ -2,6 +2,7 @@
 
 Each claim in an account's CLAIMS may carry
     "tests": [{"statement": "...", "measure": f, "op": "<=" or ">=", "threshold": x}, ...]
+(or each test as a tuple (statement, measure, op, threshold))
 where f(probe) returns one number measured on the MODEL (not the account). probe gives, on dev_full:
     probe.X       (n, T) input symbols
     probe.attn    (n, H, T, T) attention weights per head (query rows, key columns)
@@ -14,6 +15,12 @@ and these costs, each KL(model || changed model) in nats per symbol:
     probe.cost_positions(P)            the model rerun with its position embedding replaced by P (T, d)
 The test code is the same for every seed (one account structure); it may read the account's per-seed constants
 (the account file of that seed is the one loaded).
+
+Decision 20: "measure" is normally a string naming a measurement of this module (MEASURES), so the account carries
+only the claim, not the measuring code. Forms: "<name> <args>" or "<name> <args> / <name> <args>" (a ratio,
+infinite when the denominator is at most 0.01 nats, i.e. when the reference part does not matter). Arguments that
+are not sites or numbers name a constant of the account (a list of symbol ids). A callable is still accepted and
+counts as account code.
 
 A test passes if it holds on all five trained seeds and fails on the rung's untrained model (initialised with seed 0,
 measured with seed 0's account file), so a test that every model passes cannot count. P4 passes if every claim has at
@@ -97,6 +104,73 @@ def attention(model, X: np.ndarray) -> np.ndarray:
     return s.softmax(-1).numpy()
 
 
+def _mean_for_current_symbol(X: np.ndarray, a: np.ndarray, V: int) -> np.ndarray:
+    flat = a.reshape(X.size, -1)
+    total = np.zeros((V, flat.shape[1]))
+    np.add.at(total, X.ravel(), flat)
+    return (total / np.maximum(np.bincount(X.ravel(), minlength=V), 1)[:, None])[X].reshape(a.shape)
+
+
+def m_resample(p, site):
+    """KL cost of resample-ablating the site ("direct" or "head<h>")."""
+    return p.cost_resample(site)
+
+
+def m_positions_mean(p):
+    """KL cost of replacing every position vector by their mean."""
+    P = p.positions
+    return p.cost_positions(0 * P + P.mean(0))
+
+
+def m_context(p, site):
+    """KL cost of replacing a head's output by its mean for the current symbol (what the head adds through context)."""
+    h = int(site[4:])
+    z = p.z.copy()
+    z[:, :, h] = _mean_for_current_symbol(p.X, p.z[:, :, h], p.logp.shape[-1])
+    return p.cost_replaced(z=z)
+
+
+def m_content_share(p, site):
+    """Share of the variance of a head's log attention weights that the (query symbol, key symbol) pair explains.
+    Queries t >= 32 (every 4th), keys 16 .. t, log weights centred per query."""
+    h = int(site[4:])
+    q, k, logw = [], [], []
+    for t in range(32, p.X.shape[1], 4):
+        row = np.log(p.attn[:, h, t, 16:t + 1] + 1e-30)
+        logw.append((row - row.mean(1, keepdims=True)).ravel())
+        q.append(np.repeat(p.X[:, t], t - 15))
+        k.append(p.X[:, 16:t + 1].ravel())
+    q, k, logw = (np.concatenate(a) for a in (q, k, logw))
+    pair = q * p.logp.shape[-1] + k
+    mean = np.bincount(pair, logw) / np.maximum(np.bincount(pair), 1)
+    return float(1 - ((logw - mean[pair]) ** 2).mean() / (logw ** 2).mean())
+
+
+def m_attention_ratio(p, site, symbols):
+    """A head's attention weight on the given symbols divided by their share of the keys (queries t >= 16)."""
+    h = int(site[4:])
+    b = np.isin(p.X, symbols)
+    mass = (p.attn[:, h, 16:] * b[:, None, :]).sum(-1).mean()
+    share = np.mean([b[:, :t + 1].mean() for t in range(16, p.X.shape[1])])
+    return float(mass / share)
+
+
+MEASURES = {"resample": m_resample, "positions_mean": m_positions_mean, "context": m_context,
+            "content_share": m_content_share, "attention_ratio": m_attention_ratio}
+MIN_REFERENCE = 0.01
+
+
+def measure(spec, probe, account) -> float:
+    if callable(spec):
+        return float(spec(probe))
+    if " / " in spec:
+        a, b = (measure(x, probe, account) for x in spec.split(" / "))
+        return a / b if b > MIN_REFERENCE else float("inf")
+    name, *args = spec.split()
+    vals = [a if a == "direct" or a.startswith("head") else getattr(account, a) for a in args]
+    return float(MEASURES[name](probe, *vals))
+
+
 def untrained(model):
     torch.manual_seed(0)
     return TinyLM(model.cfg)
@@ -110,10 +184,13 @@ def run(rung: str, arm: str, account_pattern: str) -> dict:
     measured = {}   # (claim name, test index) -> tag -> (statement, op, threshold, value)
     for tag, (model, path) in models.items():
         probe = Probe(model, W)
-        for c in load_account(path).CLAIMS:
+        acc = load_account(path)
+        for c in acc.CLAIMS:
             for i, t in enumerate(c.get("tests", [])):
+                if isinstance(t, tuple):   # (statement, measure, op, threshold)
+                    t = dict(zip(("statement", "measure", "op", "threshold"), t))
                 measured.setdefault((c["name"], i), {})[tag] = (t["statement"], t["op"], float(t["threshold"]),
-                                                                float(t["measure"](probe)))
+                                                                measure(t["measure"], probe, acc))
     names = [c["name"] for c in load_account(account_pattern.format(seed=0)).CLAIMS]
     ok = True
     for name in names:

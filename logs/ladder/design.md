@@ -110,8 +110,9 @@ every window.
   probability average of the other four seeds of the same rung and arm), as in logs/main_track/coverage.md. The
   account must predict the model at least as well as its sibling seeds do together; detail beyond that belongs to one
   training run, not to how the model works. The 0.01 minimum keeps P1 achievable when the seeds are nearly identical.
-- **P2, size** (decision 19). For each seed, R1 of the account is at most R1 of the weights reference, with the
-  weights quantised to the P1 bar max(KL_floor, 0.01) (see R1 below).
+- **P2, size** (decisions 19 and 21). For each seed, R1 of the account is at most R1 of the text weights reference:
+  each weight tensor written as an array literal in the account format, at the fewest decimals per tensor that keep
+  KL at or below the P1 bar max(KL_floor, 0.01), plus the reference forward pass (analysis/ladder/length.py).
 - *(The original P2, coverage, is now reported as R0.)* Coverage (KL_bigram − KL_account) / (KL_bigram − KL_floor), against the rung's
   character bigram (train split); P1 implies coverage at least 1 when KL_floor ≥ 0.01.
 - **P3, mechanistic faithfulness** (decision 17 added the replacement test). Each claim is tested in one of two ways,
@@ -143,6 +144,8 @@ every window.
   - The code is the same for every seed and may read the account's named per-seed constants.
   - A test passes if it holds on all five trained seeds and fails on the rung's untrained model (init seed 0).
   - Every behavioural statement in the description has a test; the human checks the mapping at R3.
+  - Decision 20: generic measurements live in analysis/ladder/behaviour.py; the account states each test in one line
+    (statement, named measurement or ratio of two, comparison, threshold), and only that line counts toward R1.
 
 ### Reported measures
 

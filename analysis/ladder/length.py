@@ -15,7 +15,10 @@ the harness's forbidden names or NumPy file functions. So every number an accoun
 
     .venv/bin/python -m analysis.ladder.length --rung L1 --arm ln --seed 0 [--account ladder/L1_ln/account.py]
 
-P2 (decision 19): the account passes if its bits are at most the reference's total bits.
+P2 (decisions 19, 21): the account passes if its bits are at most the TEXT reference's total bits: every weight
+tensor written as an array literal in the account format (fmt below: no plus sign), at the fewest decimals per
+tensor (lowered greedily from 4, largest tensor first) with KL(model || rounded model) at most the P1 bar, plus the
+compressed reference_forward.py. The binary reference above is still reported.
 """
 from __future__ import annotations
 
@@ -120,6 +123,46 @@ def weights_reference(rung: str, arm: str, seed: int, split: str = "dev_full", b
             "total_bits": rows[-1]["weight_bits"] + code_bits if ok else None}
 
 
+def fmt(x: float, p: int) -> str:
+    s = f"{x:.{p}f}"
+    return s[1:] if s.startswith("-") and float(s) == 0 else s
+
+
+def literal(v: np.ndarray, p: int) -> str:
+    if v.ndim == 1:
+        return "np.array([" + ", ".join(fmt(x, p) for x in v) + "])"
+    return "np.array([\n" + "".join("    [" + ", ".join(fmt(x, p) for x in r) + "],\n" for r in v) + "])"
+
+
+def text_reference(rung: str, arm: str, seed: int, bar: float, split: str = "dev_full") -> dict:
+    model = load(rung, arm, seed)
+    W = {k: v.numpy().astype(np.float64) for k, v in model.state_dict().items()}
+    Wn = windows(rung, split)
+    X = Wn[:, :-1].astype(np.int64)
+    lp_m = model_logprobs(model, Wn)
+
+    def kl(dec):
+        Wr = {k: np.round(v, dec[k]) for k, v in W.items()}
+        lq = np.concatenate([forward(X[i:i + 200], Wr, model.cfg.n_heads) for i in range(0, len(X), 200)])
+        return float(kl_pos(lp_m, lq).mean())
+
+    dec = {k: 4 for k in W}
+    k_now = kl(dec)
+    for k in sorted(W, key=lambda k: -W[k].size):
+        while dec[k] > 0:
+            trial = {**dec, k: dec[k] - 1}
+            k_trial = kl(trial)
+            if k_trial > bar:
+                break
+            dec, k_now = trial, k_trial
+    src = "import numpy as np\nW = {}\n" + "".join(f"W[{k!r}] = {literal(np.round(v, dec[k]), dec[k])}\n"
+                                                   for k, v in W.items())
+    weight_bits = compressed_bits(strip_source(src).encode())
+    code_bits = source_bits(os.path.join(os.path.dirname(__file__), "reference_forward.py"))
+    return {"bar": bar, "decimals": dec, "kl": k_now, "found": k_now <= bar, "weight_bits": weight_bits,
+            "code_bits": code_bits, "total_bits": weight_bits + code_bits}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rung", required=True)
@@ -129,8 +172,9 @@ def main() -> None:
     ap.add_argument("--bar", type=float, help="KL bar for the reference (default: the P1 bar)")
     a = ap.parse_args()
     bar = a.bar if a.bar is not None else p1_bar(a.rung, a.arm, a.seed)
-    ref = weights_reference(a.rung, a.arm, a.seed, bar=bar)
-    out = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "weights_reference": ref}
+    ref = text_reference(a.rung, a.arm, a.seed, bar)
+    out = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "text_reference": ref,
+           "binary_reference": weights_reference(a.rung, a.arm, a.seed, bar=bar)}
     if a.account:
         bits = source_bits(a.account)
         out["account"] = {"path": os.path.relpath(a.account, REPO), "bits": bits,

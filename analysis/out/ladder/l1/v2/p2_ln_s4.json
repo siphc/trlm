@@ -1,0 +1,72 @@
+{
+ "rung": "L1",
+ "arm": "ln",
+ "seed": 4,
+ "text_reference": {
+  "bar": 0.08430550079286657,
+  "decimals": {
+   "wte.weight": 1,
+   "wpe.weight": 1,
+   "blocks.0.ln1.weight": 0,
+   "blocks.0.attn.qkv.weight": 1,
+   "blocks.0.attn.out.weight": 0,
+   "ln_f.weight": 1
+  },
+  "kl": 0.08260112793973039,
+  "found": true,
+  "weight_bits": 6336,
+  "code_bits": 3952,
+  "total_bits": 10288
+ },
+ "binary_reference": {
+  "bar": 0.08430550079286657,
+  "n_params": 644,
+  "code_bits": 3952,
+  "ladder": [
+   {
+    "bits_per_weight": 1,
+    "kl": 101.91363819622245,
+    "weight_bits": 1024
+   },
+   {
+    "bits_per_weight": 2,
+    "kl": 18.429347043319375,
+    "weight_bits": 1208
+   },
+   {
+    "bits_per_weight": 3,
+    "kl": 8.535503739498257,
+    "weight_bits": 1552
+   },
+   {
+    "bits_per_weight": 4,
+    "kl": 1.8234107221158047,
+    "weight_bits": 2304
+   },
+   {
+    "bits_per_weight": 5,
+    "kl": 0.44147009777717416,
+    "weight_bits": 2808
+   },
+   {
+    "bits_per_weight": 6,
+    "kl": 0.10827258161150606,
+    "weight_bits": 3512
+   },
+   {
+    "bits_per_weight": 7,
+    "kl": 0.04445475526684443,
+    "weight_bits": 4248
+   }
+  ],
+  "found": true,
+  "bits_per_weight": 7,
+  "total_bits": 8200
+ },
+ "account": {
+  "path": "ladder/L1_ln/account_s4.py",
+  "bits": 9880,
+  "rule_errors": []
+ },
+ "P2": true
+}

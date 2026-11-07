@@ -207,3 +207,9 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   it compresses (logs/ladder/L1.md).
 - 2026-11-06, ladder L1 noln: the outlier seed flips. In ln, seed 3 is far from the others (floor 0.32). In noln,
   seed 0 is (0.23 against 0.03-0.04), and only seed 0 has a direct path that ignores position.
+- 2026-11-06, ladder L1 (account v2): at the seed-floor resolution, L1 is a function of the current symbol. On all
+  five ln seeds, replacing the head by its mean for the current symbol costs 0.003-0.072 nats, and dropping position
+  costs 0.001-0.026, both below every floor. The head attends by content and favours boundary symbols, but what it
+  adds is mostly a per-symbol constant.
+- 2026-11-06, ladder L1: the embedding needs about 0.1 precision. Steps of 0.2 cost 0.035-0.145 nats; refitting on a
+  0.25 grid still leaves 0.088-0.131.

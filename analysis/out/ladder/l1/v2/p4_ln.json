@@ -6,7 +6,7 @@
   "direct path": {
    "tests": [
     {
-     "statement": "removing the direct path costs at least 1 nat",
+     "statement": "direct path matters",
      "op": ">=",
      "threshold": 1.0,
      "values": {
@@ -28,7 +28,7 @@
      "pass": true
     },
     {
-     "statement": "position costs at most 5% of the direct path",
+     "statement": "position hardly matters",
      "op": "<=",
      "threshold": 0.05,
      "values": {
@@ -55,7 +55,7 @@
   "head": {
    "tests": [
     {
-     "statement": "attention is set by content (at least 95% of the variance)",
+     "statement": "attention is set by content",
      "op": ">=",
      "threshold": 0.95,
      "values": {
@@ -77,7 +77,7 @@
      "pass": true
     },
     {
-     "statement": "the head favours boundary symbols (at least 1.2 times their share)",
+     "statement": "head favours boundary symbols",
      "op": ">=",
      "threshold": 1.2,
      "values": {
@@ -99,7 +99,7 @@
      "pass": true
     },
     {
-     "statement": "removing the head costs at least 0.05 nats",
+     "statement": "head matters",
      "op": ">=",
      "threshold": 0.05,
      "values": {
@@ -121,7 +121,7 @@
      "pass": true
     },
     {
-     "statement": "context is at most a quarter of the head's effect",
+     "statement": "head hardly uses context",
      "op": "<=",
      "threshold": 0.25,
      "values": {

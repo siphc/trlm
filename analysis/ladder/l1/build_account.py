@@ -6,12 +6,13 @@ v2 is written for decision 19: it must be shorter than the quantised weights (P2
 in its description carries a test that holds on all five seeds and fails on the untrained model (P4).
 
 The constants come from the model's weights:
-- EMBED: the token embedding, rounded to 1 decimal.
+- EMBED: the token embedding.
 - POS: the mean of the 64 position vectors, so position is dropped. Replacing every position vector by the mean
   costs 0.001-0.026 nats on the five ln seeds, below every seed floor.
 - WQ, WK, WV: the head's query, key and value maps with the ln1 gain folded in; WQ also carries 1/sqrt(d_head).
 - WO: the output map. OUT_GAIN: the final LayerNorm gain.
-- WQ, WK, WV, WO and OUT_GAIN are rounded to 2 decimals.
+- Each constant is rounded to the fewest decimals (2 down to 0) that keep KL at or below the P1 bar, the same greedy
+  rule as the text weights reference (decision 21; choose_decimals).
 BOUNDARY is part of the structure, the same on every seed: the ids of the space, EOS, newline, the punctuation and
 quote marks, and the capital letters. The v1 account is in build_account_v1.py.
 """
@@ -25,12 +26,13 @@ import numpy as np
 from analysis.ladder.common import REPO, load
 from analysis.ladder.dump import symbol_names
 
+MIN_HEAD_FAITH = 0.96
 BOUNDARY_NAMES = ["␣", "EOS", "\\n", ".", "!", "?", ",", '"', "'"]
 
 
 def fmt(x: float, p: int) -> str:
     s = f"{x:.{p}f}"
-    return "0." + "0" * p if s.startswith("-") and float(s) == 0 else s
+    return s[1:] if s.startswith("-") and float(s) == 0 else s
 
 
 def arr(M, p: int, indent: str = "    ") -> str:
@@ -51,15 +53,19 @@ def constants(model) -> dict:
             "LAYERNORM": model.cfg.layernorm}
 
 
-def render(c: dict, arm: str, seed: int) -> str:
+def render(c: dict, arm: str, seed: int, dec: dict) -> str:
     names = symbol_names()
-    embed = "np.array([\n" + "".join(f"    [{', '.join(fmt(x, 1) for x in r)}],  # {nm}\n"
+    embed = "np.array([\n" + "".join(f"    [{', '.join(fmt(x, dec['EMBED']) for x in r)}],  # {nm}\n"
                                      for r, nm in zip(c["EMBED"], names)) + "])"
-    boundary = [i for i, nm in enumerate(names) if nm in BOUNDARY_NAMES or (len(nm) == 1 and nm.isupper())]
-    return TEMPLATE.format(arm=arm, seed=seed, embed=embed, pos=arr(c["POS"], 2), wq=arr(c["WQ"], 2),
-                           wk=arr(c["WK"], 2), wv=arr(c["WV"], 2), wo=arr(c["WO"], 2), gain=arr(c["OUT_GAIN"], 2),
-                           layernorm=c["LAYERNORM"], boundary=boundary,
-                           boundary_names=" ".join(names[i] for i in boundary))
+    marks = [i for i, nm in enumerate(names) if nm in BOUNDARY_NAMES]
+    caps = [i for i, nm in enumerate(names) if len(nm) == 1 and nm.isupper()]
+    assert caps == list(range(caps[0], caps[-1] + 1)), "capitals are contiguous in symbol-id order"
+    boundary = f"{marks} + list(range({caps[0]}, {caps[-1] + 1}))"
+    return TEMPLATE.format(arm=arm, seed=seed, embed=embed, pos=arr(c["POS"], dec["POS"]), wq=arr(c["WQ"], dec["WQ"]),
+                           wk=arr(c["WK"], dec["WK"]), wv=arr(c["WV"], dec["WV"]), wo=arr(c["WO"], dec["WO"]),
+                           gain=arr(c["OUT_GAIN"], dec["OUT_GAIN"]),
+                           boundary=boundary,
+                           boundary_names=" ".join(names[i] for i in marks) + f" and the capitals {names[caps[0]]}-{names[caps[-1]]}")
 
 
 TEMPLATE = '''"""Account of L1 ({arm} arm), seed {seed} (v2). L1 is a one-block, one-head, attention-only character model with
@@ -91,9 +97,7 @@ below (value claim).
 """
 import numpy as np
 
-LAYERNORM = {layernorm}
-
-# EMBED[s]: symbol s's 4 numbers (the model's embedding to 1 decimal), in symbol-id order.
+# EMBED[s]: symbol s's 4 numbers (the model's embedding), in symbol-id order.
 EMBED = {embed}
 
 POS = {pos}  # the mean position vector, added everywhere
@@ -109,8 +113,6 @@ BOUNDARY = {boundary}  # {boundary_names}
 
 
 def norm(x):
-    if not LAYERNORM:
-        return x
     x = x - x.mean(-1, keepdims=True)
     return x / np.sqrt((x * x).mean(-1, keepdims=True) + 1e-5)
 
@@ -134,59 +136,59 @@ def predict(X):
     return logit - np.log(np.exp(logit).sum(-1, keepdims=True))
 
 
-# Behaviour tests (P4): each measures the model through the probe (analysis/ladder/behaviour.py).
-
-def ratio(a, b):
-    return a / b if b > 0.01 else np.inf  # undefined when the reference part does not matter
-
-
-def mean_for_current_symbol(X, z):
-    flat = z.reshape(X.size, -1)
-    total = np.zeros((len(EMBED), flat.shape[1]))
-    np.add.at(total, X.ravel(), flat)
-    return (total / np.maximum(np.bincount(X.ravel(), minlength=len(EMBED)), 1)[:, None])[X].reshape(z.shape)
-
-
-def content_share(p):
-    # queries t >= 32 (every 4th), keys 16 .. t; log weights centred per query
-    q, k, logw = [], [], []
-    for t in range(32, p.X.shape[1], 4):
-        row = np.log(p.attn[:, 0, t, 16:t + 1] + 1e-30)
-        logw.append((row - row.mean(1, keepdims=True)).ravel())
-        q.append(np.repeat(p.X[:, t], t - 15))
-        k.append(p.X[:, 16:t + 1].ravel())
-    q, k, logw = (np.concatenate(a) for a in (q, k, logw))
-    pair = q * len(EMBED) + k
-    mean = np.bincount(pair, logw) / np.maximum(np.bincount(pair), 1)
-    return 1 - ((logw - mean[pair]) ** 2).mean() / (logw ** 2).mean()
-
-
-def boundary_ratio(p):
-    b = np.isin(p.X, BOUNDARY)
-    mass = (p.attn[:, 0, 16:] * b[:, None, :]).sum(-1).mean()
-    share = np.mean([b[:, :t + 1].mean() for t in range(16, p.X.shape[1])])
-    return mass / share
-
-
+# Behaviour tests (P4): named measurements of the model (analysis/ladder/behaviour.py; decision 20).
 CLAIMS = [
     {{"name": "direct path", "site": "direct", "key": lambda X: X, "tests": [
-        {{"statement": "removing the direct path costs at least 1 nat",
-         "measure": lambda p: p.cost_resample("direct"), "op": ">=", "threshold": 1.0}},
-        {{"statement": "position costs at most 5% of the direct path",
-         "measure": lambda p: ratio(p.cost_positions(0 * p.positions + p.positions.mean(0)), p.cost_resample("direct")),
-         "op": "<=", "threshold": 0.05}}]}},
+        ("direct path matters", "resample direct", ">=", 1.0),
+        ("position hardly matters", "positions_mean / resample direct", "<=", 0.05)]}},
     {{"name": "head", "site": "head0", "value": head, "tests": [
-        {{"statement": "attention is set by content (at least 95% of the variance)",
-         "measure": content_share, "op": ">=", "threshold": 0.95}},
-        {{"statement": "the head favours boundary symbols (at least 1.2 times their share)",
-         "measure": boundary_ratio, "op": ">=", "threshold": 1.2}},
-        {{"statement": "removing the head costs at least 0.05 nats",
-         "measure": lambda p: p.cost_resample("head0"), "op": ">=", "threshold": 0.05}},
-        {{"statement": "context is at most a quarter of the head's effect",
-         "measure": lambda p: ratio(p.cost_replaced(z=mean_for_current_symbol(p.X, p.z)), p.cost_resample("head0")),
-         "op": "<=", "threshold": 0.25}}]}},
+        ("attention is set by content", "content_share head0", ">=", 0.95),
+        ("head favours boundary symbols", "attention_ratio head0 BOUNDARY", ">=", 1.2),
+        ("head matters", "resample head0", ">=", 0.05),
+        ("head hardly uses context", "context head0 / resample head0", "<=", 0.25)]}},
 ]
 '''
+
+
+def choose_decimals(model, c: dict, bar: float) -> dict:
+    """Fewest decimals per constant (from 2 down to 0, largest constant first) with KL(model || account) on dev_full
+    at most the P1 bar: the same greedy rule as the text weights reference (decision 21); in addition the head claim
+    (replacement test) must keep faithfulness >= MIN_HEAD_FAITH, a margin over P3's 0.95."""
+    import torch
+
+    from analysis.ladder.common import kl_pos, model_logprobs, windows
+    from analysis.ladder.l1.fit_account import Account
+
+    from analysis.ladder.scrub import finish, parts, scrubbed
+
+    W = windows("L1", "dev_full")
+    X = W[:, :-1].astype(np.int64)
+    lp_m = model_logprobs(model, W)
+    x0, z = parts(model, X)
+    lp64 = finish(model, x0, z)
+    k_resample = kl_pos(lp64, scrubbed(model, x0, z, {"head0": None}, np.random.default_rng(0))).mean()
+
+    def ok(dec):
+        acc = Account({**c, **{k: np.round(c[k], d) for k, d in dec.items()}}, 0)
+        with torch.no_grad():
+            lp, zh = [], []
+            for i in range(0, len(W), 200):
+                x = torch.as_tensor(X[i:i + 200])
+                lp.append(torch.log_softmax(acc(x), -1).numpy())
+                zh.append(acc.head(x).numpy())
+        kl = float(kl_pos(lp_m, np.concatenate(lp)).mean())
+        zr = z.copy()
+        zr[:, :, 0] = np.concatenate(zh)
+        faith = 1 - kl_pos(lp64, finish(model, x0, zr)).mean() / k_resample
+        return kl <= bar and faith >= MIN_HEAD_FAITH
+
+    keys = sorted(["EMBED", "POS", "WQ", "WK", "WV", "WO", "OUT_GAIN"], key=lambda k: -np.size(c[k]))
+    dec = {k: 2 for k in keys}
+    assert ok(dec), "the account fails the bar at 2 decimals"
+    for k in keys:
+        while dec[k] > 0 and ok({**dec, k: dec[k] - 1}):
+            dec[k] -= 1
+    return dec
 
 
 def main() -> None:
@@ -194,12 +196,16 @@ def main() -> None:
     ap.add_argument("--arm", default="ln")
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
-    c = constants(load("L1", a.arm, a.seed).double())
+    from analysis.ladder.length import p1_bar
+
+    model = load("L1", a.arm, a.seed).double()
+    c = constants(model)
+    dec = choose_decimals(model, c, p1_bar("L1", a.arm, a.seed))
     path = os.path.join(REPO, "ladder", f"L1_{a.arm}", f"account_s{a.seed}.py")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
-        f.write(render(c, a.arm, a.seed))
-    print(path)
+        f.write(render(c, a.arm, a.seed, dec))
+    print(path, dec)
 
 
 if __name__ == "__main__":

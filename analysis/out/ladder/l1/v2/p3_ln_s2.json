@@ -17,17 +17,17 @@
   },
   "head": {
    "site": "head0",
-   "kl_scrubbed": 0.0020387522608269195,
+   "kl_scrubbed": 0.008245240108099345,
    "kl_resampled": 1.3722761949141755,
-   "faithfulness": 0.9985143280424285,
+   "faithfulness": 0.9939915593240943,
    "test": "replace",
    "pass": true
   }
  },
  "joint": {
-  "kl_scrubbed": 0.004586961694874101,
+  "kl_scrubbed": 0.010964758791443527,
   "kl_resampled": 2.386154061012747,
-  "faithfulness": 0.998077675800645,
+  "faithfulness": 0.9954048403786678,
   "pass": true
  },
  "P3": true

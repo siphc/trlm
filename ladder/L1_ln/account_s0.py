@@ -27,9 +27,7 @@ below (value claim).
 """
 import numpy as np
 
-LAYERNORM = True
-
-# EMBED[s]: symbol s's 4 numbers (the model's embedding to 1 decimal), in symbol-id order.
+# EMBED[s]: symbol s's 4 numbers (the model's embedding), in symbol-id order.
 EMBED = np.array([
     [-1.5, 0.3, -2.7, -2.2],  # EOS
     [1.3, -0.6, -1.2, -0.7],  # UNK
@@ -112,41 +110,39 @@ EMBED = np.array([
     [2.8, 0.5, -0.2, 0.3],  # ™
 ])
 
-POS = np.array([-0.59, -1.28, 0.89, 0.61])  # the mean position vector, added everywhere
+POS = np.array([-0.6, -1.3, 0.9, 0.6])  # the mean position vector, added everywhere
 
 # The head's maps (residual -> head space and back). The ln1 gain is folded into WQ, WK and WV, and 1/sqrt(4) into WQ.
 WQ = np.array([
-    [-1.69, 1.47, 0.30, -1.81],
-    [0.58, -0.09, 0.70, -1.52],
-    [0.60, -0.02, 0.66, -1.68],
-    [0.00, -1.64, 0.27, 0.47],
+    [-1.7, 1.5, 0.3, -1.8],
+    [0.6, -0.1, 0.7, -1.5],
+    [0.6, 0.0, 0.7, -1.7],
+    [0.0, -1.6, 0.3, 0.5],
 ])
 WK = np.array([
-    [-0.09, 0.96, -3.96, 0.01],
-    [-0.27, 0.28, -2.80, 4.04],
-    [-0.23, 0.27, -2.96, 3.20],
-    [-1.70, -0.50, 4.73, 0.34],
+    [-0.1, 1.0, -4.0, 0.0],
+    [-0.3, 0.3, -2.8, 4.0],
+    [-0.2, 0.3, -3.0, 3.2],
+    [-1.7, -0.5, 4.7, 0.3],
 ])
 WV = np.array([
-    [1.00, 0.81, -1.26, 1.17],
-    [0.01, -0.04, -0.01, 0.02],
-    [-1.24, 3.01, 0.02, -0.57],
-    [-7.71, -3.38, 1.23, 1.09],
+    [1.0, 0.8, -1.3, 1.2],
+    [0.0, 0.0, 0.0, 0.0],
+    [-1.2, 3.0, 0.0, -0.6],
+    [-7.7, -3.4, 1.2, 1.1],
 ])
 WO = np.array([
-    [-0.09, -0.01, 0.15, -0.20],
-    [-0.07, 0.00, 0.18, 0.30],
-    [-0.13, 0.01, -0.75, 0.44],
-    [0.23, 0.00, -0.07, -0.18],
+    [-0.1, 0.0, 0.2, -0.2],
+    [-0.1, 0.0, 0.2, 0.3],
+    [-0.1, 0.0, -0.7, 0.4],
+    [0.2, 0.0, -0.1, -0.2],
 ])
-OUT_GAIN = np.array([2.72, 8.57, 0.99, -1.35])  # final LayerNorm gain
+OUT_GAIN = np.array([2.7, 8.6, 1.0, -1.4])  # final LayerNorm gain
 
-BOUNDARY = [0, 2, 3, 4, 5, 6, 7, 9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]  # EOS \n ␣ ! " ' , . ? A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+BOUNDARY = [0, 2, 3, 4, 5, 6, 7, 9, 18] + list(range(19, 45))  # EOS \n ␣ ! " ' , . ? and the capitals A-Z
 
 
 def norm(x):
-    if not LAYERNORM:
-        return x
     x = x - x.mean(-1, keepdims=True)
     return x / np.sqrt((x * x).mean(-1, keepdims=True) + 1e-5)
 
@@ -170,55 +166,14 @@ def predict(X):
     return logit - np.log(np.exp(logit).sum(-1, keepdims=True))
 
 
-# Behaviour tests (P4): each measures the model through the probe (analysis/ladder/behaviour.py).
-
-def ratio(a, b):
-    return a / b if b > 0.01 else np.inf  # undefined when the reference part does not matter
-
-
-def mean_for_current_symbol(X, z):
-    flat = z.reshape(X.size, -1)
-    total = np.zeros((len(EMBED), flat.shape[1]))
-    np.add.at(total, X.ravel(), flat)
-    return (total / np.maximum(np.bincount(X.ravel(), minlength=len(EMBED)), 1)[:, None])[X].reshape(z.shape)
-
-
-def content_share(p):
-    # queries t >= 32 (every 4th), keys 16 .. t; log weights centred per query
-    q, k, logw = [], [], []
-    for t in range(32, p.X.shape[1], 4):
-        row = np.log(p.attn[:, 0, t, 16:t + 1] + 1e-30)
-        logw.append((row - row.mean(1, keepdims=True)).ravel())
-        q.append(np.repeat(p.X[:, t], t - 15))
-        k.append(p.X[:, 16:t + 1].ravel())
-    q, k, logw = (np.concatenate(a) for a in (q, k, logw))
-    pair = q * len(EMBED) + k
-    mean = np.bincount(pair, logw) / np.maximum(np.bincount(pair), 1)
-    return 1 - ((logw - mean[pair]) ** 2).mean() / (logw ** 2).mean()
-
-
-def boundary_ratio(p):
-    b = np.isin(p.X, BOUNDARY)
-    mass = (p.attn[:, 0, 16:] * b[:, None, :]).sum(-1).mean()
-    share = np.mean([b[:, :t + 1].mean() for t in range(16, p.X.shape[1])])
-    return mass / share
-
-
+# Behaviour tests (P4): named measurements of the model (analysis/ladder/behaviour.py; decision 20).
 CLAIMS = [
     {"name": "direct path", "site": "direct", "key": lambda X: X, "tests": [
-        {"statement": "removing the direct path costs at least 1 nat",
-         "measure": lambda p: p.cost_resample("direct"), "op": ">=", "threshold": 1.0},
-        {"statement": "position costs at most 5% of the direct path",
-         "measure": lambda p: ratio(p.cost_positions(0 * p.positions + p.positions.mean(0)), p.cost_resample("direct")),
-         "op": "<=", "threshold": 0.05}]},
+        ("direct path matters", "resample direct", ">=", 1.0),
+        ("position hardly matters", "positions_mean / resample direct", "<=", 0.05)]},
     {"name": "head", "site": "head0", "value": head, "tests": [
-        {"statement": "attention is set by content (at least 95% of the variance)",
-         "measure": content_share, "op": ">=", "threshold": 0.95},
-        {"statement": "the head favours boundary symbols (at least 1.2 times their share)",
-         "measure": boundary_ratio, "op": ">=", "threshold": 1.2},
-        {"statement": "removing the head costs at least 0.05 nats",
-         "measure": lambda p: p.cost_resample("head0"), "op": ">=", "threshold": 0.05},
-        {"statement": "context is at most a quarter of the head's effect",
-         "measure": lambda p: ratio(p.cost_replaced(z=mean_for_current_symbol(p.X, p.z)), p.cost_resample("head0")),
-         "op": "<=", "threshold": 0.25}]},
+        ("attention is set by content", "content_share head0", ">=", 0.95),
+        ("head favours boundary symbols", "attention_ratio head0 BOUNDARY", ">=", 1.2),
+        ("head matters", "resample head0", ">=", 0.05),
+        ("head hardly uses context", "context head0 / resample head0", "<=", 0.25)]},
 ]

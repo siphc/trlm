@@ -142,3 +142,22 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
       - Every behavioural statement in the description has a test. The human checks this mapping at R3.
     - **Understood** now means one account structure meets P1, P2, P3 and P4 on all five seeds. The first L1 account
       fails P2 (33-36k bits against about 9-12k).
+20. **Behaviour tests: the claim counts, the measuring tool does not** (2026-11-06, after L1 account v2 passed P1, P3
+    and P4 but failed P2 at 15.4k bits against 8.2-9.1k, 7.6k of it test code; the human's choice).
+    - Generic measurements live in analysis/ladder/behaviour.py, shared by every account, like scrub.py. Examples:
+      the cost of resample-ablating a site, of replacing the positions by their mean, or of replacing a head by its
+      mean for the current symbol; a head's content share; attention on a named symbol set against that set's share
+      of the keys.
+    - An account states each test in one line: the statement, the measurement by name (or a ratio of two), the
+      comparison and the threshold. That line counts toward R1.
+    - A test that needs a measurement the tool lacks adds it to the tool. The tool stays generic: it never names an
+      account's constants, except a symbol set the account defines and the test names.
+21. **The P2 reference is written as text, like an account** (2026-11-06, after L1 v2; the human's choice).
+    - The trigger: L1's embedding needs about 0.1 precision. In text that costs about 13 bits per number, against
+      about 7 for the binary-packed reference, so a readable account paid about twice per number before any
+      structure counted.
+    - The reference now writes each weight tensor as a NumPy array literal in the account format: no plus signs,
+      at the fewest decimals per tensor that keep KL(model || rounded model) at or below the P1 bar.
+    - Decimals are lowered greedily from 4, largest tensor first. The reference counts the stripped, compressed
+      source of the literals plus reference_forward.py.
+    - The binary reference stays as a reported number.
