@@ -161,3 +161,39 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     - Decimals are lowered greedily from 4, largest tensor first. The reference counts the stripped, compressed
       source of the literals plus reference_forward.py.
     - The binary reference stays as a reported number.
+22. **No copied maps; a context test for heads** (2026-11-07, after the human read L1 account v2 and found that it
+    copies the head's matrices, so it does not explain attention; the human's choice).
+    - **Tables (lint, analysis/ladder/length.py).** Every module-level NumPy array of an account is declared in
+      AXES = {name: (axis, ...)}. An axis is one of:
+      - "symbol" (size V);
+      - "position" (size up to the context);
+      - "dim" (a hidden dimension, d_model or d_head);
+      - a category list the account defines in CATEGORIES, {name: [labels]};
+      - a component list it defines in COMPONENTS, {name: one-line meaning}.
+
+      At most one axis per array may be "dim". So per-symbol vectors are allowed (EMBED, what a symbol writes, a
+      gain), and maps between hidden spaces are not (the query, key, value and output matrices).
+    - **Component axes.** These carry factorised scores, such as an attention score built from per-symbol query and
+      key loadings. Each component needs a stated meaning. Whether the meaning is real is judged at R3.
+    - **Head value claims** may give the head's write to the residual stream (shape (n, T, d_model); the claim states
+      "space": "residual"). So the output map folds into per-symbol values.
+    - **Context faithfulness (added to P3 for every head claim).**
+      1 − KL(model || head patched by the claim) / KL(model || head replaced by its mean for the current symbol)
+      must be at least 0.95. The account must explain what the head does with context, not only its per-symbol
+      average, even where that is below the seed floor.
+    - **P2 is removed** (the human's amendment). R1 and the text and binary references are still reported.
+      Per-symbol score tables cost more bits than four 4×4 maps, so with the table rule P2 would reward copying
+      again or block the attempt.
+    - **Understood** now means: one account structure meets P1, P3 (with context faithfulness) and P4 on all five
+      seeds, and passes the table rule.
+    - L1 account v2 fails the table rule (WQ, WK, WV, WO).
+    - **Against running in circles** (the human's concern: decisions 18-22 were all made at L1, each after an account
+      passed in a way that did not read as understanding):
+      - The criteria are frozen for the L1 attention account. No further changes until the stopping point below.
+      - Stopping point: 10 committed account versions for L1 ln, or earlier if a version passes everything.
+      - Outcomes, fixed now:
+        1. **Pass on all seeds:** L1 ln is understood. The human reads it (R3). Then L1 noln and L2 follow under the
+           same criteria.
+        2. **No pass by the stopping point:** L1 is recorded as the first rung where the table form fails. The
+           record says which condition fails, on which seeds, and why. The next decision is about the method (what
+           kind of account), not the criteria.

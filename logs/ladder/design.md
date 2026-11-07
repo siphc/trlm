@@ -77,6 +77,11 @@ An account may use anything, including the weights ("by any means"). It has two 
   constants are named and say where they come from.
 - **Description:** what each part computes, in words.
 
+**Tables** (decision 22, checked by analysis/ladder/length.py):
+- Every module-level array is declared in AXES. Its axes are symbol, position, dim, a CATEGORIES list or a
+  COMPONENTS list (each component with a stated meaning).
+- At most one axis per array is "dim": per-symbol vectors are allowed, maps between hidden spaces are not.
+
 **Rules for the code** (clarified at tooling, 2026-11-06; checked by analysis/ladder/length.py): imports from the
 harness's stdlib allowlist and NumPy only, and no file reads, so every number the account uses is written in its source
 and R1 counts it. It may define `setup(train_stream)` to compute corpus statistics from the train symbol stream (free,
@@ -94,8 +99,8 @@ rule fails it.
 
 ## Completeness criteria (fixed at the gate)
 
-A rung (and arm) is **understood** if one account structure meets the pass conditions P1, P2, P3 and P4 (decision 19)
-for all five
+A rung (and arm) is **understood** if one account structure meets the pass conditions P1, P3 and P4 and the table rule
+(decisions 19, 22; P2 was removed by decision 22 and its size comparison is reported under R1) for all five
 seeds, with only its named constants refitted per seed. The pass conditions can all be measured by anyone, without
 our human, so other groups can apply them to their own models. The remaining measures are reported, not passed or
 failed.
@@ -110,7 +115,7 @@ every window.
   probability average of the other four seeds of the same rung and arm), as in logs/main_track/coverage.md. The
   account must predict the model at least as well as its sibling seeds do together; detail beyond that belongs to one
   training run, not to how the model works. The 0.01 minimum keeps P1 achievable when the seeds are nearly identical.
-- **P2, size** (decisions 19 and 21). For each seed, R1 of the account is at most R1 of the text weights reference:
+- **P2, size** (decisions 19 and 21; REMOVED as a pass condition by decision 22, reported only). For each seed, R1 of the account is at most R1 of the text weights reference:
   each weight tensor written as an array literal in the account format, at the fewest decimals per tensor that keep
   KL at or below the P1 bar max(KL_floor, 0.01), plus the reference forward pass (analysis/ladder/length.py).
 - *(The original P2, coverage, is now reported as R0.)* Coverage (KL_bigram − KL_account) / (KL_bigram − KL_floor), against the rung's
@@ -135,6 +140,8 @@ every window.
     position, and the model is run on as usual. It needs no donors, so it scales with rung size.
   - **The score**, for both: faithfulness = 1 − KL(model || patched model) / KL(model || resample-ablated model), where
     the resample ablation replaces the same site with its activation at a donor drawn at random with no constraint.
+  - **Context faithfulness** (decision 22), for every head claim:
+    1 − KL(model || head patched) / KL(model || head replaced by its mean for the current symbol) ≥ 0.95.
   - **Pass:** faithfulness is at least **0.95** with all claims applied together, and at least 0.95 for each claim
     applied alone. Claims are scored at the granularity the account uses; a coarse summary claim does not replace the
     detailed claims under it. A value claim that reproduces the site by copying weights passes P3 but fails P2.
