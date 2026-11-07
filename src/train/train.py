@@ -51,35 +51,10 @@ class TrainConfig:
     log_every: int = 50
     eval_every: int = 500
     resume_every_sec: float = 300.0
-    # side study "can a language model be trained to be readable?" (logs/decisions.md item 9; src/train/readable.py).
-    # readable_arm "" leaves training unchanged.
-    readable_arm: str = ""            # "", "O" (output level) or "I" (internal level)
-    readable_pool: str = "data/readable/pool"
-    readable_pool_limit: int = 0      # use only the first N pool windows (positive control); 0 = all
-    readable_targets: str = "data/readable/vote_targets.npz"
-    lambda_out: float = 0.0
-    lambda_att: float = 0.0
-    lambda_vote: float = 0.0
-    aux_windows: int = 16             # auxiliary pool windows per step
-    readable_ramp: float = 0.0        # fraction of the steps over which the lambdas ramp up linearly (rule R5)
-    # study C part B (logs/study_C_readable/prereg_canonical_addendum.md): "" = the program's targets from the pool; "model:<path>" =
-    # a frozen trained model's outputs (arm O) or attention and vote tables (arm I), computed online on the same pool
-    # windows (the non-readable canonicaliser controls)
-    readable_target: str = ""
-    # study A "fixed_votes" (logs/decisions.md item 10; src/train/fixed_votes.py): heads vote with fixed corpus tables,
-    # one table name per head. "" trains the usual TinyLM.
-    fixed_tables: str = ""
-    fixed_tables_path: str = "data/fixed_votes/tables.npz"
-    # study B "law_pressure" (logs/decisions.md item 10; src/train/law_pressure.py): a penalty against the
-    # look-follows-write law. law_arm "" leaves training unchanged.
-    law_arm: str = ""                 # "", "both", "attn" or "vote"
-    lambda_law: float = 0.0
-    law_ramp: float = 0.05            # fraction of the steps over which lambda_law ramps up linearly
-    law_windows: int = 0              # compute the penalty on the first N windows of each batch; 0 = all (rule R2)
-    law_p1_path: str = "data/fixed_votes/tables.npz"   # FOLLOW's bigram rule ('follow')
     init_from: str = ""               # start from these weights (fresh optimizer and schedule); "" = random init
-    # side ladder of tiny models (logs/ladder/design.md, decision 16): data "char" reads src/train/data_char.py and
-    # takes the sizes below; data "bpe" is the main track and ignores them.
+    # the ladder of tiny models (decision 16; configs/side_ladder.yaml): data "char" reads src/train/data_char.py and
+    # takes the sizes below; data "bpe" is the main track and ignores them. The side studies' training options
+    # (readable, fixed votes, law pressure) were removed with decision 23 (git tag pre-proofs).
     data: str = "bpe"                 # "bpe" or "char"
     d_model: int = 128
     n_heads: int = 4
@@ -118,11 +93,6 @@ def data_access(cfg: TrainConfig):
 
 
 def build_model(cfg: TrainConfig) -> nn.Module:
-    if cfg.fixed_tables:
-        from src.train.fixed_votes import FixedVoteConfig, FixedVoteLM
-
-        assert not cfg.readable_arm, "fixed-vote models take no readable-training loss"
-        return FixedVoteLM(FixedVoteConfig(tables=cfg.fixed_tables), cfg.fixed_tables_path)
     if cfg.data == "char":
         return TinyLM(ladder_model_config(cfg))
     return TinyLM(model_config(cfg.variant, cfg.n_blocks))
@@ -194,17 +164,6 @@ def train(cfg: TrainConfig) -> dict:
     stream, eval_set = data_access(cfg)
     sampler = BatchSampler(stream, cfg.seed, cfg.batch_windows, cfg.context_length)
     dev_fast = eval_set("dev_fast")
-    aux = None
-    if cfg.readable_arm:
-        from src.train.readable import ReadableAux
-
-        aux = ReadableAux(cfg, device)
-        aux.check_or_write(cfg.out)
-    law = None
-    if cfg.law_arm:
-        from src.train.law_pressure import LawPenalty
-
-        law = LawPenalty(cfg, device)
 
     step = 0
     latest = os.path.join(cfg.out, "latest.pt")
@@ -242,15 +201,8 @@ def train(cfg: TrainConfig) -> dict:
         with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
             logits = model(x[:, :-1])
         loss = F.cross_entropy(logits.float().reshape(-1, logits.size(-1)), x[:, 1:].reshape(-1))
-        total = loss
-        if aux is not None:
-            aux_loss, aux_info = aux.loss(model, step)
-            total = loss + aux_loss
-        if law is not None:
-            law_loss, law_info = law.loss(model, x, step)
-            total = total + law_loss
         opt.zero_grad(set_to_none=True)
-        scaler.scale(total).backward()
+        scaler.scale(loss).backward()
         scaler.unscale_(opt)
         gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), cfg.grad_clip)
         scaler.step(opt)
@@ -260,14 +212,8 @@ def train(cfg: TrainConfig) -> dict:
         if step % cfg.log_every == 0 or step == cfg.total_steps:
             row = {"step": step, "tokens": step * cfg.tokens_per_step, "lr": lr,
                    "train_loss": loss.item(), "grad_norm": float(gnorm), "elapsed": time.time() - t0}
-            if aux is not None:
-                row.update({k: float(v) for k, v in aux_info.items()})
-            if law is not None:
-                row.update({k: float(v) for k, v in law_info.items()})
             if step % cfg.eval_every == 0 or step == cfg.total_steps:
                 row["dev_fast_loss"] = evaluate(model, dev_fast, device)
-                if aux is not None:
-                    row.update(aux.metrics(model))
             logf.write(json.dumps(row) + "\n")
             logf.flush()
             if "dev_fast_loss" in row:
@@ -284,15 +230,12 @@ def train(cfg: TrainConfig) -> dict:
 
     save_resume()
     dev_full = evaluate(model, eval_set("dev_full"), device)
-    extra = {"readable": aux.summary()} if aux is not None else {}
-    if law is not None:
-        extra["law_pressure"] = law.summary()
     save_weights(model, os.path.join(cfg.out, "final.pt"),
-                 {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full, **extra})
+                 {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full})
     result = {"variant": cfg.variant, "seed": cfg.seed, "n_blocks": cfg.n_blocks, "budget_tokens": cfg.budget_tokens,
               "data": cfg.data, "d_model": model.cfg.d_model if hasattr(model, "cfg") else None,
               "peak_lr": cfg.peak_lr, "steps": step, "tokens": step * cfg.tokens_per_step,
-              "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device), **extra}
+              "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device)}
     with open(os.path.join(cfg.out, "result.json"), "w") as f:
         json.dump(result, f, indent=2)
     logf.close()
@@ -303,10 +246,8 @@ def train(cfg: TrainConfig) -> dict:
 def load_model(path: str, device: str = "cpu") -> TinyLM:
     """Load an fp32 model from a weights checkpoint (final.pt / ckpt_step*.pt)."""
     st = torch.load(path, map_location=device, weights_only=False)
-    if st["model_config"].get("arch") == "fixed_votes":
-        from src.train.fixed_votes import load
-
-        return load(st, device)
+    assert st["model_config"].get("arch") != "fixed_votes", \
+        "fixed-vote models (study A) need src/train/fixed_votes.py from git tag pre-proofs"
     model = TinyLM(ModelConfig(**st["model_config"]))
     model.load_state_dict(st["model"])
     return model.float().eval()
