@@ -1,0 +1,34 @@
+{
+ "rung": "L1",
+ "arm": "noln",
+ "seed": 2,
+ "split": "dev_full",
+ "draws": 3,
+ "claims": {
+  "direct path: symbol and first-position flag": {
+   "site": "direct",
+   "kl_scrubbed": 4.97217180131761,
+   "kl_resampled": 8.79894690889257,
+   "faithfulness": 0.43491285345834585,
+   "test": "swap",
+   "no_donor_share": 7.031250000000266e-05,
+   "n_key_values": 114,
+   "pass": false
+  },
+  "head: one-dimensional search for markers": {
+   "site": "head0",
+   "kl_scrubbed": 3.5916574319205843,
+   "kl_resampled": 10.498323245107066,
+   "faithfulness": 0.6578827544108492,
+   "test": "replace",
+   "pass": false
+  }
+ },
+ "joint": {
+  "kl_scrubbed": 3.54441010730695,
+  "kl_resampled": 10.466624970681382,
+  "faithfulness": 0.6613607426237793,
+  "pass": false
+ },
+ "P3": false
+}

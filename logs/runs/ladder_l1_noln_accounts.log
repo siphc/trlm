@@ -1,0 +1,5 @@
+noln s0: KL 0.0107 floor 0.2287 P1 True | direct 0.9761 head 0.9893 joint 0.9896 P3 True
+noln s1: KL 0.4745 floor 0.0370 P1 False | direct 0.3360 head 0.5643 joint 0.5758 P3 False
+noln s2: KL 0.2573 floor 0.0394 P1 False | direct 0.4349 head 0.6579 joint 0.6614 P3 False
+noln s3: KL 0.4520 floor 0.0313 P1 False | direct 0.4106 head 0.6408 joint 0.6408 P3 False
+noln s4: KL 0.3222 floor 0.0312 P1 False | direct 0.4087 head 0.6409 joint 0.6460 P3 False

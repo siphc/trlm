@@ -86,7 +86,9 @@ def weights_reference(rung: str, arm: str, seed: int, split: str = "dev_full") -
     X = Wn[:, :-1].astype(np.int64)
     lp_m = model_logprobs(model, Wn)
     exact = forward(X[:50], W, model.cfg.n_heads)
-    assert np.abs(exact - lp_m[:50]).max() < 1e-4, "reference_forward does not reproduce the model"
+    # checked against the model in float64 (float32 rounding alone exceeds 1e-4 on extreme log-probs, e.g. -71)
+    lp_64 = model_logprobs(load(rung, arm, seed).double(), Wn[:50])
+    assert np.abs(exact - lp_64).max() < 1e-4, "reference_forward does not reproduce the model"
     code_bits = source_bits(os.path.join(os.path.dirname(__file__), "reference_forward.py"))
     rows = []
     for b in range(1, 17):
