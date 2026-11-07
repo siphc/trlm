@@ -44,7 +44,10 @@ PILOT_EXTRA = (EPOCH_SYMBOLS - 1) // 64 // 64 * 64 * 64
 PILOT_ROOT = "models/ladder_pilot"
 ROOT = "models/ladder"
 # Filled in from logs/ladder/pilot.md after the pilot (rung -> (peak LR, budget in symbols)); empty until then.
-CHOSEN: dict[str, tuple[float, int]] = {}
+CHOSEN: dict[str, tuple[float, int]] = {
+    # L1 pilot (logs/ladder/pilot.md): LR 3e-2 best at 25M (after the edge step); 25M within 1% of the best (400M)
+    "L1": (3e-2, 25_000_000), "L2": (3e-2, 25_000_000), "L3": (3e-2, 25_000_000),
+}
 
 
 def config(rung: str, arm: str, seed: int, peak_lr: float, budget: int, out: str, device: str) -> TrainConfig:

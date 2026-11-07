@@ -180,3 +180,19 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   pure-pair; RECALL heads to about 0), while the own-usefulness arm fitted to real attention patterns keeps its
   coefficient and its output gain (0.90-1.03 of the twin's). Cost below 0.4%; recovery after 3,000 plain steps
   0.05-0.14 (logs/study_B_law_pressure/law_pressure_results.md).
+
+## Ladder, first runs (2026-11-06)
+
+- **The smallest rung is worse than the character bigram.** L1 (d 4, one head, 644 parameters, ln arm) reaches
+  2.549-2.603 nats per character on dev_full c64 against the bigram's 2.299; it is closer to the unigram (KL 0.48-0.54)
+  than to the bigram (KL 0.61-0.89). The 4-dimensional tied embedding cannot hold a bigram table.
+- **Without LayerNorm, L1 is better:** seed 0 noln 2.507 against ln 2.550. With d 4, LayerNorm's centring removes one of
+  the four dimensions.
+- **The L1 ln seeds fall into two groups:** 2.549-2.553 (seeds 0-2) and 2.593-2.603 (seeds 3-4); seed 3's KL to the
+  average of the others is 0.32 against 0.07-0.09 for the rest.
+- **The L1 pilot is not monotone in budget:** at LR 1e-2, 25M symbols 2.592, 100M 2.621, 400M 2.601; at LR 3e-2,
+  2.550, 2.550, 2.527. Both pilot rungs chose the top of the LR grid (1e-2), so an edge step was added; L1's best is
+  3e-2 (9e-2 is worse).
+- **L1's embedding must be nearly exact for P1.** Rounding every embedding entry to 2 decimals costs KL 0.0003, to 1
+  decimal 0.016; replacing symbols by k-means centroids costs 0.36 (k 32) to 1.9; replacing the position embedding by
+  its mean costs 0.026 (500 dev_full windows, seed 0). P1's 0.01 is 7-30 times below L1's seed floor (0.066-0.32).
