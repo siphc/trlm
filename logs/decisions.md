@@ -104,3 +104,13 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
       language.
     - **Repository clean-up:** finished or abandoned code deleted (recoverable from git tag `pre-cleanup`);
       logs/ organised into one folder per study.
+16. **Ladder design gate passed** (2026-11-06, after the human reviewed logs/ladder/design.md and the agent's
+    proposal for criteria the wider field can use): the design is FINAL as written.
+    - **Rung list** approved as drafted (L1-L10, branch M).
+    - **LayerNorm:** rungs L1-L3 trained in two arms, `ln` and `noln`, five seeds each, with the decision rule in the
+      design (the human's proposal).
+    - **Pass conditions:** P1 KL ≤ 0.01 nats per symbol; P2 coverage ≥ 0.95; P3 causal scrubbing of every claim,
+      faithfulness ≥ 0.95 jointly and per claim. All five seeds, one account structure.
+    - **Reported, not passed or failed:** R1 description length against the quantised-weights reference (the headline
+      curve); R2 the ARC-style mechanistic estimate against sampling at equal compute; R3 the human's readability
+      scores (AGENTS.md section 12).
