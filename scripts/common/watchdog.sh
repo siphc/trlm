@@ -9,7 +9,7 @@ while pgrep -f "$PAT" > /dev/null; do
   pct=$(echo "$b" | grep -o '[0-9]*%' | tr -d '%')
   if echo "$b" | grep -q "discharging" && [ "${pct:-100}" -lt 25 ]; then
     echo "$(date) battery ${pct}% discharging: stopping $PAT" >> logs/runs/battery_watchdog.log
-    pkill -f "$PAT"; pkill -f "src.train.runs"
+    pkill -f "$PAT"; pkill -f "src.train.runs"; pkill -f "src.train.ladder_runs"
     exit 0
   fi
   sleep 60

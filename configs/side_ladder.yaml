@@ -1,0 +1,19 @@
+# Side models (logs/decisions.md items 15-16; logs/ladder/design.md): the ladder of tiny character-level models.
+# NOT the main track (configs/frozen.yaml unchanged). Rungs and runs are defined in src/train/ladder_runs.py.
+version: 1
+data: char                      # src/train/data_char.py: 79 symbols, train-minus-dev stream, dev slice as main track
+architecture: TinyLM (src/train/model.py), one block, attention only, tied embeddings, learned positions, no biases
+layernorm_arms: {ln: pre-LN + final LN, noln: identity}   # both arms at L1-L3 only
+rungs:
+  L1: {d_model: 4, n_heads: 1, context: 64}
+  L2: {d_model: 8, n_heads: 1, context: 64}
+  L3: {d_model: 8, n_heads: 2, context: 64}
+  L4: {d_model: 16, n_heads: 2, context: 64}
+  L5: {d_model: 32, n_heads: 4, context: 64}
+  L6: {d_model: 64, n_heads: 4, context: 64}
+  L7: {d_model: 128, n_heads: 4, context: 64}
+  L8: {d_model: 128, n_heads: 4, context: 256}
+seeds: [0, 1, 2, 3, 4]
+optimizer: AdamW (0.9, 0.95), weight decay 0.1 (Linear only), clip 1.0, 1% warmup, cosine to 10%, batch 64 windows
+pilot: {rungs: [L1, L5], lrs: [1.0e-3, 3.0e-3, 1.0e-2], budgets: [25M, 100M, 400M], within: 0.01}
+paths: models/ladder/{rung}_{arm}_s{seed}

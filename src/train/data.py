@@ -191,11 +191,12 @@ class BatchSampler:
     Step s takes positions [s*B, (s+1)*B) of the concatenated per-epoch permutations.
     """
 
-    def __init__(self, stream: np.ndarray, seed: int, batch_windows: int):
+    def __init__(self, stream: np.ndarray, seed: int, batch_windows: int, ctx: int = CTX):
         self.stream = stream
         self.seed = seed
         self.B = batch_windows
-        self.n = n_windows(len(stream))
+        self.ctx = ctx                  # window length minus one; CTX for the main track, smaller on the ladder
+        self.n = (len(stream) - 1) // ctx
         self._perm_cache: dict[int, np.ndarray] = {}
 
     def _perm(self, epoch: int) -> np.ndarray:
@@ -215,7 +216,8 @@ class BatchSampler:
 
     def batch(self, step: int) -> np.ndarray:
         idx = self.indices(step)
-        return np.stack([np.asarray(window(self.stream, int(i)), dtype=np.int64) for i in idx])
+        c = self.ctx
+        return np.stack([np.asarray(self.stream[int(i) * c:int(i) * c + c + 1], dtype=np.int64) for i in idx])
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ Architecture (frozen in configs/frozen.yaml):
          -> LN_f -> logits = h @ W_E^T   (tied input/output embedding)
 
 No bias terms anywhere (nn.Linear(bias=False), nn.LayerNorm(bias=False)).
+Side ladder (logs/ladder/design.md): ModelConfig.layernorm = False replaces every LayerNorm by the identity.
 """
 from __future__ import annotations
 
@@ -28,6 +29,7 @@ class ModelConfig:
     mlp: bool = False
     d_hidden: int = 512
     init_std: float = 0.02
+    layernorm: bool = True   # False: every LayerNorm is the identity (the ladder's `noln` arm, logs/ladder/design.md)
 
     @property
     def d_head(self) -> int:
@@ -74,13 +76,17 @@ class MLP(nn.Module):
         return self.fc_out(F.relu(self.fc_in(x)))
 
 
+def norm(cfg: ModelConfig) -> nn.Module:
+    return nn.LayerNorm(cfg.d_model, bias=False) if cfg.layernorm else nn.Identity()
+
+
 class Block(nn.Module):
     def __init__(self, cfg: ModelConfig):
         super().__init__()
-        self.ln1 = nn.LayerNorm(cfg.d_model, bias=False)
+        self.ln1 = norm(cfg)
         self.attn = Attention(cfg)
         if cfg.mlp:
-            self.ln2 = nn.LayerNorm(cfg.d_model, bias=False)
+            self.ln2 = norm(cfg)
             self.mlp = MLP(cfg)
         else:
             self.ln2 = None
@@ -101,7 +107,7 @@ class TinyLM(nn.Module):
         self.wte = nn.Embedding(cfg.vocab_size, cfg.d_model)
         self.wpe = nn.Embedding(cfg.context_length, cfg.d_model)
         self.blocks = nn.ModuleList([Block(cfg) for _ in range(cfg.n_blocks)])
-        self.ln_f = nn.LayerNorm(cfg.d_model, bias=False)
+        self.ln_f = norm(cfg)
         self.apply(self._init)
 
     def _init(self, m: nn.Module) -> None:

@@ -1,0 +1,13 @@
+[2s] stories: train-minus-dev 2,099,719, dev 20,000
+[6s] alphabet: 79 symbols; UNK covers 97 character types, 8,465 occurrences
+[12s] train: 1,884,121,742 symbols
+[13s] dev: 17,971,180 symbols
+{
+ "unigram_c64": 3.0760617268712664,
+ "bigram_c64": 2.2990388540759255,
+ "trigram_c64": 1.703452169085059,
+ "unigram_c256": 3.074946252897306,
+ "bigram_c256": 2.296686317934444,
+ "trigram_c256": 1.6919805026857901
+}
+[26s] done

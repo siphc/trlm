@@ -1,0 +1,114 @@
+{
+ "L1_ln": {
+  "wte": 316,
+  "wpe": 256,
+  "blocks.0.ln1": 4,
+  "blocks.0.attn": 64,
+  "ln_f": 4,
+  "total": 644
+ },
+ "L1_noln": {
+  "wte": 316,
+  "wpe": 256,
+  "blocks.0.attn": 64,
+  "total": 636
+ },
+ "L2_ln": {
+  "wte": 632,
+  "wpe": 512,
+  "blocks.0.ln1": 8,
+  "blocks.0.attn": 256,
+  "ln_f": 8,
+  "total": 1416
+ },
+ "L2_noln": {
+  "wte": 632,
+  "wpe": 512,
+  "blocks.0.attn": 256,
+  "total": 1400
+ },
+ "L3_ln": {
+  "wte": 632,
+  "wpe": 512,
+  "blocks.0.ln1": 8,
+  "blocks.0.attn": 256,
+  "ln_f": 8,
+  "total": 1416
+ },
+ "L3_noln": {
+  "wte": 632,
+  "wpe": 512,
+  "blocks.0.attn": 256,
+  "total": 1400
+ },
+ "L4_ln": {
+  "wte": 1264,
+  "wpe": 1024,
+  "blocks.0.ln1": 16,
+  "blocks.0.attn": 1024,
+  "ln_f": 16,
+  "total": 3344
+ },
+ "L4_noln": {
+  "wte": 1264,
+  "wpe": 1024,
+  "blocks.0.attn": 1024,
+  "total": 3312
+ },
+ "L5_ln": {
+  "wte": 2528,
+  "wpe": 2048,
+  "blocks.0.ln1": 32,
+  "blocks.0.attn": 4096,
+  "ln_f": 32,
+  "total": 8736
+ },
+ "L5_noln": {
+  "wte": 2528,
+  "wpe": 2048,
+  "blocks.0.attn": 4096,
+  "total": 8672
+ },
+ "L6_ln": {
+  "wte": 5056,
+  "wpe": 4096,
+  "blocks.0.ln1": 64,
+  "blocks.0.attn": 16384,
+  "ln_f": 64,
+  "total": 25664
+ },
+ "L6_noln": {
+  "wte": 5056,
+  "wpe": 4096,
+  "blocks.0.attn": 16384,
+  "total": 25536
+ },
+ "L7_ln": {
+  "wte": 10112,
+  "wpe": 8192,
+  "blocks.0.ln1": 128,
+  "blocks.0.attn": 65536,
+  "ln_f": 128,
+  "total": 84096
+ },
+ "L7_noln": {
+  "wte": 10112,
+  "wpe": 8192,
+  "blocks.0.attn": 65536,
+  "total": 83840
+ },
+ "L8_ln": {
+  "wte": 10112,
+  "wpe": 32768,
+  "blocks.0.ln1": 128,
+  "blocks.0.attn": 65536,
+  "ln_f": 128,
+  "total": 108672
+ },
+ "L8_noln": {
+  "wte": 10112,
+  "wpe": 32768,
+  "blocks.0.attn": 65536,
+  "total": 108416
+ }
+}

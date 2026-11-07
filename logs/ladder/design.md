@@ -23,7 +23,7 @@ For scale:
   - The alphabet is counted on the train split minus the dev slice.
   - Characters seen fewer than 1,000 times map to one UNK symbol.
   - End-of-story is symbol 0, appended after each story, as in the main track.
-  - Expected alphabet: about 70-80 symbols (measured in step 2b and recorded).
+  - Measured alphabet: 79 symbols (77 characters, EOS, UNK); UNK covers 97 rare character types, 8,465 occurrences.
 - **Streams.** Story order is shuffled and the stories concatenated into one stream, cut into windows that cross
   story boundaries (as in the main track). Pre-encoded once to uint8 (about 1.9 GB for train).
 - **Fixed evaluation sets:** `dev_fast` (200 windows) and `dev_full` (2,000 windows), from the dev slice.
@@ -76,6 +76,12 @@ An account may use anything, including the weights ("by any means"). It has two 
 - **Code:** a readable NumPy program, `ladder/<rung>/account.py`. It exposes `predict(symbols) -> log-probs`; its
   constants are named and say where they come from.
 - **Description:** what each part computes, in words.
+
+**Rules for the code** (clarified at tooling, 2026-11-06; checked by analysis/ladder/length.py): imports from the
+harness's stdlib allowlist and NumPy only, and no file reads, so every number the account uses is written in its source
+and R1 counts it. It may define `setup(train_stream)` to compute corpus statistics from the train symbol stream (free,
+as decision 7 for the main track). Interface: `predict(X)` with X (n, T) returns (n, T, V) log-probs; `CLAIMS` lists
+the claims for P3.
 
 At the bottom rungs, the account is expected to come from reading every weight table whole:
 - QK and OV per head;

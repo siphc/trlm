@@ -78,6 +78,12 @@ class TrainConfig:
     law_windows: int = 0              # compute the penalty on the first N windows of each batch; 0 = all (rule R2)
     law_p1_path: str = "data/fixed_votes/tables.npz"   # FOLLOW's bigram rule ('follow')
     init_from: str = ""               # start from these weights (fresh optimizer and schedule); "" = random init
+    # side ladder of tiny models (logs/ladder/design.md, decision 16): data "char" reads src/train/data_char.py and
+    # takes the sizes below; data "bpe" is the main track and ignores them.
+    data: str = "bpe"                 # "bpe" or "char"
+    d_model: int = 128
+    n_heads: int = 4
+    layernorm: bool = True
 
     @property
     def tokens_per_step(self) -> int:
@@ -93,12 +99,32 @@ def model_config(variant: str, n_blocks: int = 1) -> ModelConfig:
     return ModelConfig(mlp=(variant == "mlp"), n_blocks=n_blocks)
 
 
+def ladder_model_config(cfg: TrainConfig) -> ModelConfig:
+    from src.train import data_char
+
+    return ModelConfig(vocab_size=data_char.vocab_size(), context_length=cfg.context_length, n_blocks=cfg.n_blocks,
+                       d_model=cfg.d_model, n_heads=cfg.n_heads, mlp=(cfg.variant == "mlp"),
+                       layernorm=cfg.layernorm)
+
+
+def data_access(cfg: TrainConfig):
+    """(train stream, eval-set loader) for the configured data."""
+    if cfg.data == "char":
+        from src.train import data_char
+
+        return data_char.load_stream("train"), lambda name: data_char.load_eval(name, cfg.context_length)
+    assert cfg.data == "bpe" and cfg.context_length == 256 and cfg.layernorm
+    return load_stream("train"), load_eval
+
+
 def build_model(cfg: TrainConfig) -> nn.Module:
     if cfg.fixed_tables:
         from src.train.fixed_votes import FixedVoteConfig, FixedVoteLM
 
         assert not cfg.readable_arm, "fixed-vote models take no readable-training loss"
         return FixedVoteLM(FixedVoteConfig(tables=cfg.fixed_tables), cfg.fixed_tables_path)
+    if cfg.data == "char":
+        return TinyLM(ladder_model_config(cfg))
     return TinyLM(model_config(cfg.variant, cfg.n_blocks))
 
 
@@ -165,8 +191,9 @@ def train(cfg: TrainConfig) -> dict:
     model = build_model(cfg).to(device)
     opt = torch.optim.AdamW(param_groups(model, cfg.weight_decay), lr=cfg.peak_lr, betas=cfg.betas)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
-    sampler = BatchSampler(load_stream("train"), cfg.seed, cfg.batch_windows)
-    dev_fast = load_eval("dev_fast")
+    stream, eval_set = data_access(cfg)
+    sampler = BatchSampler(stream, cfg.seed, cfg.batch_windows, cfg.context_length)
+    dev_fast = eval_set("dev_fast")
     aux = None
     if cfg.readable_arm:
         from src.train.readable import ReadableAux
@@ -256,13 +283,14 @@ def train(cfg: TrainConfig) -> dict:
             last_resume_save = time.time()
 
     save_resume()
-    dev_full = evaluate(model, load_eval("dev_full"), device)
+    dev_full = evaluate(model, eval_set("dev_full"), device)
     extra = {"readable": aux.summary()} if aux is not None else {}
     if law is not None:
         extra["law_pressure"] = law.summary()
     save_weights(model, os.path.join(cfg.out, "final.pt"),
                  {"step": step, "tokens": step * cfg.tokens_per_step, "dev_full_loss": dev_full, **extra})
     result = {"variant": cfg.variant, "seed": cfg.seed, "n_blocks": cfg.n_blocks, "budget_tokens": cfg.budget_tokens,
+              "data": cfg.data, "d_model": model.cfg.d_model if hasattr(model, "cfg") else None,
               "peak_lr": cfg.peak_lr, "steps": step, "tokens": step * cfg.tokens_per_step,
               "dev_full_loss": dev_full, "elapsed": time.time() - t0, "device": str(device), **extra}
     with open(os.path.join(cfg.out, "result.json"), "w") as f:
