@@ -14,7 +14,8 @@ named in brackets; nothing here is new analysis. Not published anywhere. Each se
 | 4. readable training (study C part A) | done, both arms GOODHARTED | logs/study_C_readable/readable_training_results.md |
 | 5. seed convergence (study C part B) | part A result only; part B shelved (decision 15) | logs/study_C_readable/prereg_canonical_addendum.md |
 | 6. the law under pressure (study B) | done: MIXED, restoring force SLOW; G3 passed | logs/study_B_law_pressure/law_pressure_results.md |
-| 7. a ladder of tiny language models | planned; design doc and human gate first (decision 15) | logs/plans/ |
+| 7. a ladder of tiny language models: accounts | closed (decisions 16-23): every pass condition was met by restatement | logs/ladder_accounts/ |
+| 8. worst-case properties with proofs | planned; design doc and human gate first (decision 23) | logs/proofs/ |
 
 ## Summary (as of 2026-11-06)
 
@@ -176,13 +177,44 @@ output test.
 - Which part of attention carries the surviving gain is open. Token main effects were tested and ruled out
   (exploratory; logs/study_B_law_pressure/law_pressure_results.md).
 
-## 7. Where understanding breaks: a ladder of tiny language models (planned)
+## 7. A ladder of tiny language models, and why "understood" could not be certified
 
-Parts 2-4 measure a ceiling: a readable account of a 0.35M-parameter model reaches 0.728 coverage, and closing the rest
-costs about as many fitted numbers as the model has. Anthropic's 2026 one-layer study reaches the same wall from the
-feature side, and ARC's AlgZoo has not fully understood a 432-parameter model (logs/literature/). The next part trains
-character-level TinyStories models from a few hundred parameters upward, one change per rung, and asks which is the
-largest model that can be understood completely and what breaks first (decision 15; design doc and gate first).
+Parts 2-4 measure a ceiling: a readable account of a 0.35M-parameter model reaches 0.728 coverage. Closing the rest
+costs about as many fitted numbers as the model has. So we trained character-level TinyStories models from 644
+parameters (L1) to 84k (L7), one change per rung, five seeds each (logs/ladder/trained.md). We asked whether the
+smallest can be understood completely, by pass conditions fixed before any account was scored
+(logs/ladder_accounts/design.md).
+
+**What L1 does on stories** (all five seeds; logs/ladder_accounts/L1.md):
+- **Position:** it ignores position. Replacing every position vector by their mean costs 0.001-0.026 nats.
+- **The direct path:** its prediction is a bigram squeezed into 4 tied dimensions. The best model of that shape
+  fitted to the true bigram reaches 2.638 nats on dev; L1 reaches 2.550, the true bigram 2.299.
+- **The head:**
+  - it attends by content and favours spaces, capitals and punctuation;
+  - it acts mostly as a fixed correction for the current character;
+  - replacing it by its mean for that character costs 0.003-0.072 nats, below every seed floor.
+- **Context:** what the head does with context differs by seed. For example, in seed 0 a space looks back for the
+  last capital or sentence end. That context effect does not reduce to character classes.
+
+**Why the line closed** (decisions 18-23):
+- Each set of pass conditions was met by restating the model's computation in a new shape: per-character score
+  tables, then the head's own 4×4 matrices, and next, tables indexed by character and position.
+- Each pass satisfied fidelity and causal-faithfulness tests without explaining how attention works. Only a human
+  reader caught it.
+- A residual measured on data is an average-case claim, so even a good one is not a guarantee.
+
+## 8. Worst-case properties with proofs (planned)
+
+The next part states properties that must hold on every input:
+- **locality:** how much characters k or more positions back can change the output;
+- **forbidden output:** the largest probability of a character pair never seen in training.
+
+Each property is bounded from above by a proof and from below by an input found by search. For L1, the proof can use
+the fact that the head's output is always an average of per-character value vectors. The 79^64 possible windows then
+collapse into a region in 4 dimensions.
+
+The question is how proof length and bound tightness change up the ladder, and whether proofs that use mechanistic
+insight beat generic verification (decision 23; logs/proofs/design.md, with a human gate first).
 
 ## Open items for a real draft
 

@@ -53,20 +53,30 @@ Reorganised 2026-11-06: one folder per study; the moves are commit 46d6101. Raw 
   arms GOODHARTED; G3 passed.
 - Part B: `prereg_canonical_addendum.md`, a DRAFT, shelved.
 
-**`ladder/`: the main line from decision 15.** `design.md` (DRAFT, awaiting the human's gate): data, rungs and
-completeness criteria for the ladder of tiny language models.
+**`proofs/`: the main line from decision 23.** Worst-case properties with proofs on the ladder's models:
+`design.md` (the properties and soundness rules; human gate before any bound is computed), then results per rung.
+
+**`ladder/`: the ladder's models.** `pilot.md` (learning rates and budgets), `trained.md` (dev losses of every
+trained rung), `param_counts.json`, `dumps/` (readable weight dumps).
+
+**`ladder_accounts/`: the account study (decisions 16-22; closed by decision 23).** `README.md` (question, findings,
+why it closed), `design.md` (criteria with every amendment), `L1.md` (accounts v1 and v2, the attention study),
+`compress_probe.md`, `iterations.csv`.
 
 **`plans/`.**
 - `plan_attention_law_and_readability.md`: the plan behind studies A, B and C.
 - `plan_cleanup_and_ladder.md`: the clean-up and the ladder of tiny models (decision 15).
+- `plan_proofs.md`: the second clean-up and the proofs line (decision 23).
+- `original_brief.md`: the original AGENTS.md, verbatim (until 2026-11-07).
 
 **`literature/`.** `literature_features_and_tiny_models.md`: feature decompositions of small transformers and the
 tiny-model challenges (AlgZoo).
 
 **`blackbox/`.** `blackbox_track.md`: started, not continued.
 
-## Before the clean-up
+## Before the clean-ups
 
 Code removed on 2026-11-06 is at git tag `pre-cleanup`. Reports may still cite such files, for example
 `analysis/candidates/...` in `dead_ends.md`. Recover them with `git checkout pre-cleanup -- <path>`. Deleted caches
-are listed in `runs/cleanup_deleted_caches.txt`.
+are listed in `runs/cleanup_deleted_caches.txt`. Code removed on 2026-11-07 (the ladder account tools, and the
+closed main-track and side studies' analysis and training code) is at git tag `pre-proofs`.

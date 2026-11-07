@@ -197,3 +197,21 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
         2. **No pass by the stopping point:** L1 is recorded as the first rung where the table form fails. The
            record says which condition fails, on which seeds, and why. The next decision is about the method (what
            kind of account), not the criteria.
+23. **The account line closes; the main line becomes worst-case properties with proofs** (2026-11-07, after the
+    discussion that followed decision 22; the human's choice; plan in /Users/svi/.claude/plans, mirrored in
+    logs/plans/plan_proofs.md).
+    - **Why.** Over decisions 18-22, every pass condition for "understood" was met by restating the computation in a
+      new shape: per-symbol score tables (v1), copied 4×4 maps (v2), and next, tables indexed by symbol and position.
+      Only the human's reading caught it. A residual measured on dev data is an average-case claim, so it is not
+      robust; alignment needs guarantees on every input.
+    - **Decision 22's frozen attempt** ended at the pause with no pass. Under its own pre-registered outcomes, that
+      is outcome 2: the next decision is about method.
+    - **The new result type:**
+      - a property of a model, stated for all inputs;
+      - an upper bound from a proof and a lower bound from an input found by search;
+      - exact when the two meet; otherwise the gap shows where understanding is missing.
+    - **The properties:** locality δ(k) (context sensitivity is δ(1)) and forbidden output φ. They are defined in the
+      design doc logs/proofs/design.md, which passes a human gate before any bound is computed.
+    - **Clean-up** (step 0): the ladder account machinery and the closed studies' code were removed. They are at git
+      tag pre-proofs. AGENTS.md was rewritten for the new mission; the original brief is
+      logs/plans/original_brief.md.

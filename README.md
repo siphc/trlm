@@ -1,25 +1,35 @@
-# trlm: understanding tiny TinyStories language models
+# trlm: worst-case guarantees for tiny TinyStories language models
 
-We train tiny language models on TinyStories and try to understand them completely. The original brief (`AGENTS.md`)
-asks for a human-readable NumPy program that reproduces a model's next-token distribution without its weights. The
-human's decisions since then are in `logs/decisions.md`, numbered; read them before acting.
+We train tiny language models on TinyStories and try to prove things about them that hold on **every** input:
+- an upper bound from a proof;
+- a lower bound from an input found by search;
+- exact when the two meet.
 
-## Result so far
+The question is how far such proofs scale with model size, and whether mechanistic insight makes them shorter and
+tighter than generic verification. Agents start with `AGENTS.md`. The human's decisions are in `logs/decisions.md`,
+numbered.
 
-- **The models.** One block, attention only, 4 heads, d_model 128, a 2,000-token vocabulary: about 0.35M parameters.
-- **The readable program** (`program/`, v1.3): built from corpus counts and a few hundred named scalars, it is
-  0.55 nats from its target model attn_s0. That covers 0.728 of the way from the bigram to the seed floor, the
-  average of four other training runs (`logs/main_track/coverage.md`).
-- **The rest is locked.** No single part of the program carries the remaining gap. The model's attention and its vote
-  tables help only together (`logs/main_track/token_geometry_results.md`).
-- **Fitting tables to the model** (the earlier distillation track) needed about 1.78M numbers to reach the floor
-  (`logs/main_track/compression_experiments.md`).
-- **Side findings:**
-  - where a head looks follows from what it writes (`logs/look_write/`);
-  - training toward the program separates output agreement from mechanism agreement (`logs/study_C_readable/`);
-  - penalising the look-follows-write law breaks its pair-specific form at no cost (`logs/study_B_law_pressure/`).
-- **Next line:** a ladder of tiny character-level models, from a few hundred parameters upward, to find the largest
-  model that can be understood completely and what breaks first (plan in `logs/plans/`).
+## Where things stand (2026-11-07)
+
+- **The models.** A ladder of character-level models, one change per rung, five seeds each:
+  - L1 (644 parameters) to L7 (84k) are trained, attention only, one block;
+  - L1-L3 also without LayerNorm;
+  - dev losses in `logs/ladder/trained.md`.
+- **What L1 does on typical text** (the account study, `logs/ladder_accounts/`):
+  - it ignores position;
+  - its prediction is a bigram squeezed into 4 tied dimensions;
+  - its head acts mostly as a fixed correction for the current character;
+  - context changes its output by 0.003-0.07 nats on dev stories.
+- **Why proofs.** Pass conditions for "the model is understood" were met every time by restating the computation in
+  a new shape, and residuals measured on data are not guarantees (decision 23).
+- **Next.** The proofs design doc (`logs/proofs/design.md`), a human gate, then L1. The properties:
+  - **locality:** how much characters k or more positions back can change the output;
+  - **forbidden output:** the largest probability of a symbol pair never seen in training.
+- **Earlier work, kept as reference points:**
+  - **the main track:** a weight-free readable program (`program/`, v1.3) reaches 0.728 of the way from the bigram
+    to the seed floor on a 355k-parameter model (`logs/main_track/`);
+  - **side studies:** the look-follows-write law (`logs/look_write/`) and three training studies
+    (`logs/study_*`).
 
 Running write-up for outside readers (not published): `writeups/draft.md`.
 
@@ -27,59 +37,49 @@ Running write-up for outside readers (not published): `writeups/draft.md`.
 
 | line | state | where |
 |---|---|---|
-| readable program for attn_s0 (main track) | ended at v1.3, kept as the reference point | `program/`, `logs/main_track/` |
-| where a head looks follows from what it writes | done, verified | `logs/look_write/`, `writeups/look_follows_write_predraft.md` |
-| study A, fixed-vote models | development only, no verdicts | `logs/study_A_fixed_votes/` |
-| study B, training against the law | done: MIXED, restoring force SLOW | `logs/study_B_law_pressure/` |
-| study C part A, readable training | done: both arms GOODHARTED | `logs/study_C_readable/` |
-| study C part B, seed convergence | shelved (DRAFT, code and tests ready) | `logs/study_C_readable/prereg_canonical_addendum.md` |
+| worst-case properties with proofs | active: design next | `logs/proofs/`, `analysis/proofs/` |
+| ladder models | L1-L7 trained; L8 and the MLP branch not yet | `logs/ladder/`, `src/train/ladder_runs.py` |
+| ladder accounts | closed (decision 23) | `logs/ladder_accounts/` |
+| readable program for attn_s0 (main track) | ended at v1.3, reference point | `program/`, `logs/main_track/` |
+| look-follows-write law | done, verified | `logs/look_write/` |
+| studies A, B, C | closed or shelved | `logs/study_A_fixed_votes/`, `logs/study_B_law_pressure/`, `logs/study_C_readable/` |
 | black-box track | started, not continued | `logs/blackbox/`, `blackbox/` |
-| ladder of tiny models | next | `logs/plans/` |
 
 ## Folders
 
 | path | what |
 |---|---|
-| `AGENTS.md` | the original brief: mission, frozen decisions, rules for the program, phases |
-| `configs/` | `frozen.yaml` (main track, read-only) and the side studies' configs |
-| `program/` | the readable program for attn_s0 (start with `program/README.md`); claim tests in `program/tests/` |
-| `harness/` | the scorer (read-only): fidelity, lint, sandbox, claim tests |
-| `src/train/` | tokenizer, model, training loop, the side studies' training losses, all sanity tests |
-| `analysis/` | analysis code, one package per study (each has a short README); shared libraries at top level |
-| `scripts/` | `iterate.py` (harness run plus commit), `fit_scalars.py`, `seed_transfer.py`, `score_on_seeds.sh`, `setup_blackbox.py`; `common/watchdog.sh` (battery watchdog); `canonical/` (study C part B queues) |
-| `logs/` | decisions, dead ends, surprises at top level; one folder per study (index: `logs/README.md`); raw run output in `logs/runs/` |
-| `writeups/` | drafts for readers outside the project |
-| `baselines/`, `blackbox/`, `notebooks/` | n-gram baseline programs, the black-box model server, the Colab training notebook |
-| `data/`, `models/` | token streams, evaluation sets, corpus pair counts, checkpoints (not in git) |
+| `AGENTS.md` | mission and standing rules for agents (the original brief: `logs/plans/original_brief.md`) |
+| `analysis/proofs/` | proof tools |
+| `analysis/ladder/` | ladder model access: load, eval windows, KL, seed floor, weight dumps, NumPy forward pass |
+| `src/train/` | model, training loop, BPE and character data, ladder rungs, main-track runs, sanity tests |
+| `scripts/` | `ladder/` (training queues), `common/watchdog.sh` (battery watchdog) |
+| `harness/`, `program/` | the main track's scorer and program v1.3 (read-only) |
+| `configs/` | `frozen.yaml` (main track, read-only), `side_ladder.yaml` (the ladder), the closed studies' configs |
+| `logs/` | decisions, dead ends, surprises; one folder per study (index `logs/README.md`); raw run output in `runs/` |
+| `writeups/` | drafts for outside readers |
+| `baselines/`, `blackbox/`, `notebooks/` | n-gram baseline programs, the black-box model server, the Colab notebook |
+| `data/`, `models/` | data and checkpoints (not in git) |
 
-**Shared analysis libraries** (`analysis/*.py`):
-- `fitlib.py`, `mech_eval.py`: windows, models, corpus statistics;
-- `tools.py`, `attention_fit.py`, `vote_fit.py`: model internals, attention and vote fits;
-- `corpus_pairs.py`: whole-stream pair counts;
-- `rules_common.py`: the side studies' decision-rule helpers;
-- `worst.py`, `head_effects.py`, `consistency.py`, `claims_measure.py`: the brief's discovery and consistency tools;
-- `taxonomy.py`, `cocluster.py`, `gen_categories.py`, `gen_vocab.py`: generate `program/categories.py` and
-  `program/vocab.py`.
+**Removed code** is at git tags:
+- `pre-cleanup` (2026-11-06): discovery rounds, distillation era, run queues, cloud kit;
+- `pre-proofs` (2026-11-07): ladder accounts, main-track analysis libraries, side-study code.
 
-`analysis/scratch/` is untracked scratch from the distillation era and is not maintained.
-
-**Removed code.** Code from finished or abandoned work (the discovery rounds' candidates, the distillation-era
-modules, the finished run queues, the cloud kit) was removed on 2026-11-06. It is at git tag `pre-cleanup`:
-`git checkout pre-cleanup -- <path>`. The regenerable caches deleted at the same time are listed in
-`logs/runs/cleanup_deleted_caches.txt`.
+Recover with `git checkout <tag> -- <path>`. Some stored results cite removed code, e.g.
+`analysis/out/look_write_deep/verify/`, which needs `analysis/look_write/` from `pre-proofs`.
 
 ## How to run
 
 ```bash
-# score the program on dev (appends a row to logs/iterations.csv)
+# sanity tests (model, training, ladder data) and the ladder tool tests
+.venv/bin/python -m pytest src/train analysis/ladder
+# dev loss, baselines and seed floor of one ladder model
+.venv/bin/python -m analysis.ladder.eval --rung L1 --arm ln --seed 0
+# train ladder rungs (see the scripts for devices)
+scripts/ladder/rungs_L1_L3.sh
+# the main track's program, scored by the harness
 .venv/bin/python -m harness.eval_fidelity --program program --model attn_s0 --split dev_fast
-# sanity tests (model, training, side-study losses)
-.venv/bin/python -m pytest src/train
-# train one model (frozen settings)
-.venv/bin/python -m src.train.runs --help
-# corpus pair counts used by the law tools (about 15 s)
-.venv/bin/python -m analysis.corpus_pairs
 ```
 
-Long runs go on the laptop GPU (MPS), on the charger with the lid open. Use
-`nohup caffeinate -dimsu <queue> &` and `scripts/common/watchdog.sh <queue pattern>`. Check free disk first.
+Long runs go on the charger with the lid open. Use `nohup caffeinate -dimsu <queue> &` and
+`scripts/common/watchdog.sh <queue pattern>`. Check free disk first.
