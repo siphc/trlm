@@ -47,6 +47,8 @@ ROOT = "models/ladder"
 CHOSEN: dict[str, tuple[float, int]] = {
     # L1 pilot (logs/ladder/pilot.md): LR 3e-2 best at 25M (after the edge step); 25M within 1% of the best (400M)
     "L1": (3e-2, 25_000_000), "L2": (3e-2, 25_000_000), "L3": (3e-2, 25_000_000),
+    # L5 pilot: LR 1e-2 (3e-2 ties at 25M: 1.6672 vs 1.6670); 400M within 1% of the best (one epoch, 1.6106)
+    "L4": (1e-2, 400_000_000), "L5": (1e-2, 400_000_000), "L6": (1e-2, 400_000_000), "L7": (1e-2, 400_000_000),
 }
 
 

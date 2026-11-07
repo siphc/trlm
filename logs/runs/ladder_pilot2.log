@@ -1,0 +1,39 @@
+=== models/ladder_pilot/L5_ln_lr3e-2_b25M
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 1.7650 dev_fast 1.7951 (13s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 1.6976 dev_fast 1.7347 (26s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 1.6280 dev_fast 1.6939 (42s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 1.6322 dev_fast 1.6932 (43s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 32, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 1.6671519012451173, "elapsed": 43.409481048583984, "device": "mps"}
+# Ladder pilot (logs/ladder/design.md, Training)
+
+Seed 0, arm ln. LR check at the smallest budget; budget ladder at the best LR, each run with its own full cosine schedule. Dev loss is the mean cross-entropy on dev_full (nats per symbol).
+
+## L1
+
+| peak LR | budget (symbols) | dev_full loss | steps | seconds |
+|---|---|---|---|---|
+| 0.001 | 25,000,000 | 2.6856 | 6,103 | 22 |
+| 0.003 | 25,000,000 | 2.6283 | 6,103 | 21 |
+| 0.01 | 25,000,000 | 2.5924 | 6,103 | 21 |
+| 0.03 | 25,000,000 | 2.5497 | 6,103 | 11 |
+| 0.09 | 25,000,000 | 2.6157 | 6,103 | 11 |
+| 0.03 | 100,000,000 | 2.5500 | 24,414 | 50 |
+| 0.03 | 400,000,000 | 2.5268 | 97,656 | 211 |
+
+**Chosen for L1:** peak LR 0.03, budget 25,000,000 symbols (smallest within 1% of the best, 2.5268).
+
+## L5
+
+| peak LR | budget (symbols) | dev_full loss | steps | seconds |
+|---|---|---|---|---|
+| 0.001 | 25,000,000 | 1.8606 | 6,103 | 30 |
+| 0.003 | 25,000,000 | 1.7424 | 6,103 | 28 |
+| 0.01 | 25,000,000 | 1.6670 | 6,103 | 41 |
+| 0.03 | 25,000,000 | 1.6672 | 6,103 | 43 |
+| 0.01 | 100,000,000 | 1.6413 | 24,414 | 217 |
+| 0.01 | 400,000,000 | 1.6175 | 97,656 | 791 |
+| 0.01 | 1,884,119,040 | 1.6106 | 459,990 | 2906 |
+
+**Chosen for L5:** peak LR 0.01, budget 400,000,000 symbols (smallest within 1% of the best, 1.6106).
+
+PILOT_DONE

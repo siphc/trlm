@@ -1,0 +1,181 @@
+=== models/ladder/L1_ln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5582 dev_fast 2.5759 (4s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5278 dev_fast 2.5623 (8s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5144 dev_fast 2.5548 (12s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5250 dev_fast 2.5549 (12s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5497489433288574, "elapsed": 11.998390913009644, "device": "cpu"}
+=== models/ladder/L1_ln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5694 dev_fast 2.5769 (5s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5635 dev_fast 2.5604 (10s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5588 dev_fast 2.5479 (15s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5294 dev_fast 2.5477 (16s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5491139907836913, "elapsed": 15.682729959487915, "device": "cpu"}
+=== models/ladder/L1_ln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5717 dev_fast 2.5853 (5s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5441 dev_fast 2.5645 (10s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5263 dev_fast 2.5566 (15s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5580 dev_fast 2.5576 (15s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5530954132080077, "elapsed": 15.41225790977478, "device": "cpu"}
+=== models/ladder/L1_ln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.6207 dev_fast 2.6350 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5931 dev_fast 2.6194 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.6523 dev_fast 2.6145 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5708 dev_fast 2.6137 (17s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.6025325088500977, "elapsed": 17.155406713485718, "device": "cpu"}
+=== models/ladder/L1_ln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5946 dev_fast 2.6118 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5910 dev_fast 2.6065 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5676 dev_fast 2.5996 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5906 dev_fast 2.5995 (18s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5934474945068358, "elapsed": 17.71642518043518, "device": "cpu"}
+=== models/ladder/L1_noln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5442 dev_fast 2.5604 (5s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5128 dev_fast 2.5236 (10s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.4820 dev_fast 2.5100 (15s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5056 dev_fast 2.5088 (16s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5073937072753907, "elapsed": 15.673394918441772, "device": "cpu"}
+=== models/ladder/L1_noln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5816 dev_fast 2.5881 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5659 dev_fast 2.5651 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5462 dev_fast 2.5597 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5438 dev_fast 2.5596 (17s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.54720076751709, "elapsed": 17.373339891433716, "device": "cpu"}
+=== models/ladder/L1_noln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5952 dev_fast 2.6214 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5595 dev_fast 2.5788 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5421 dev_fast 2.5631 (16s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5666 dev_fast 2.5630 (17s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.554035411834717, "elapsed": 16.717736959457397, "device": "cpu"}
+=== models/ladder/L1_noln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5879 dev_fast 2.6079 (5s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5295 dev_fast 2.5666 (10s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5757 dev_fast 2.5555 (14s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5377 dev_fast 2.5561 (15s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5458561363220213, "elapsed": 14.558854103088379, "device": "cpu"}
+=== models/ladder/L1_noln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.5757 dev_fast 2.6004 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.5446 dev_fast 2.5673 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.5059 dev_fast 2.5616 (15s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.5349 dev_fast 2.5595 (16s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 4, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.5482875900268556, "elapsed": 15.631146907806396, "device": "cpu"}
+=== models/ladder/L2_ln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2889 dev_fast 2.3202 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2412 dev_fast 2.2598 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2233 dev_fast 2.2483 (18s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2081 dev_fast 2.2482 (18s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.239132751464844, "elapsed": 18.01574683189392, "device": "cpu"}
+=== models/ladder/L2_ln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2727 dev_fast 2.2923 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2637 dev_fast 2.2564 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2446 dev_fast 2.2433 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2237 dev_fast 2.2429 (17s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2463270530700683, "elapsed": 16.965996026992798, "device": "cpu"}
+=== models/ladder/L2_ln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.3023 dev_fast 2.3412 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2672 dev_fast 2.2777 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2397 dev_fast 2.2586 (19s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2671 dev_fast 2.2595 (19s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.255213150024414, "elapsed": 19.525520086288452, "device": "cpu"}
+=== models/ladder/L2_ln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.3047 dev_fast 2.3104 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2745 dev_fast 2.2853 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.3213 dev_fast 2.2664 (18s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2409 dev_fast 2.2636 (18s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2586535797119143, "elapsed": 17.874573945999146, "device": "cpu"}
+=== models/ladder/L2_ln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2753 dev_fast 2.2911 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2801 dev_fast 2.2711 (12s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2083 dev_fast 2.2532 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2611 dev_fast 2.2538 (17s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.253121082305908, "elapsed": 17.408501148223877, "device": "cpu"}
+=== models/ladder/L2_noln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.3901 dev_fast 2.4217 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.3012 dev_fast 2.3207 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2598 dev_fast 2.2933 (16s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2625 dev_fast 2.2923 (17s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.285755790710449, "elapsed": 16.69626212120056, "device": "cpu"}
+=== models/ladder/L2_noln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2783 dev_fast 2.2949 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2686 dev_fast 2.2691 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2538 dev_fast 2.2509 (16s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2341 dev_fast 2.2528 (17s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.24611283493042, "elapsed": 16.704159021377563, "device": "cpu"}
+=== models/ladder/L2_noln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.4349 dev_fast 2.4446 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.3143 dev_fast 2.3265 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2697 dev_fast 2.3003 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2958 dev_fast 2.3007 (17s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2905274429321287, "elapsed": 17.055155038833618, "device": "cpu"}
+=== models/ladder/L2_noln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.4236 dev_fast 2.4283 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.3289 dev_fast 2.3511 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.3474 dev_fast 2.3212 (19s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2975 dev_fast 2.3250 (19s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.3198158683776855, "elapsed": 19.490787029266357, "device": "cpu"}
+=== models/ladder/L2_noln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2623 dev_fast 2.2894 (6s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2337 dev_fast 2.2479 (11s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1814 dev_fast 2.2351 (17s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2360 dev_fast 2.2363 (18s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.231808448791504, "elapsed": 17.6686589717865, "device": "cpu"}
+=== models/ladder/L3_ln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2568 dev_fast 2.2709 (8s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2175 dev_fast 2.2316 (15s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1832 dev_fast 2.2101 (22s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.1823 dev_fast 2.2138 (22s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2136582527160646, "elapsed": 22.33163809776306, "device": "cpu"}
+=== models/ladder/L3_ln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2870 dev_fast 2.3008 (8s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2588 dev_fast 2.2560 (15s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2447 dev_fast 2.2384 (22s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2194 dev_fast 2.2368 (23s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2344937934875486, "elapsed": 22.608668088912964, "device": "cpu"}
+=== models/ladder/L3_ln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2980 dev_fast 2.3148 (8s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2401 dev_fast 2.2581 (15s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2393 dev_fast 2.2399 (23s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2482 dev_fast 2.2428 (23s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.235453342437744, "elapsed": 23.116914987564087, "device": "cpu"}
+=== models/ladder/L3_ln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.3072 dev_fast 2.3174 (8s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2641 dev_fast 2.2677 (15s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2785 dev_fast 2.2454 (22s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2175 dev_fast 2.2436 (23s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.244111888885498, "elapsed": 22.721848726272583, "device": "cpu"}
+=== models/ladder/L3_ln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2665 dev_fast 2.2902 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2497 dev_fast 2.2505 (14s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1626 dev_fast 2.2219 (22s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2192 dev_fast 2.2228 (23s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2188550453186036, "elapsed": 22.91029191017151, "device": "cpu"}
+=== models/ladder/L3_noln_s0
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2415 dev_fast 2.2637 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.1964 dev_fast 2.2328 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1705 dev_fast 2.2130 (20s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.1588 dev_fast 2.2102 (20s)
+{"variant": "attn", "seed": 0, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.200273540496826, "elapsed": 20.00761914253235, "device": "cpu"}
+=== models/ladder/L3_noln_s1
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2387 dev_fast 2.2528 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.2272 dev_fast 2.2398 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2149 dev_fast 2.2215 (20s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2039 dev_fast 2.2216 (20s)
+{"variant": "attn", "seed": 1, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.2134433212280276, "elapsed": 20.224185705184937, "device": "cpu"}
+=== models/ladder/L3_noln_s2
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2475 dev_fast 2.2316 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.1805 dev_fast 2.2143 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1674 dev_fast 2.1876 (20s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.1998 dev_fast 2.1897 (20s)
+{"variant": "attn", "seed": 2, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.187552642822266, "elapsed": 20.395318746566772, "device": "cpu"}
+=== models/ladder/L3_noln_s3
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2430 dev_fast 2.2426 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.1785 dev_fast 2.2044 (14s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.2261 dev_fast 2.1887 (20s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.1436 dev_fast 2.1869 (20s)
+{"variant": "attn", "seed": 3, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.180436305999756, "elapsed": 20.073635816574097, "device": "cpu"}
+=== models/ladder/L3_noln_s4
+step 2000/6103 tok 8,192,000 lr 2.37e-02 train 2.2390 dev_fast 2.2553 (7s)
+step 4000/6103 tok 16,384,000 lr 1.03e-02 train 2.1979 dev_fast 2.2172 (13s)
+step 6000/6103 tok 24,576,000 lr 3.02e-03 train 2.1353 dev_fast 2.2016 (19s)
+step 6103/6103 tok 24,997,888 lr 3.00e-03 train 2.2098 dev_fast 2.2025 (19s)
+{"variant": "attn", "seed": 4, "n_blocks": 1, "budget_tokens": 25000000, "data": "char", "d_model": 8, "peak_lr": 0.03, "steps": 6103, "tokens": 24997888, "dev_full_loss": 2.193033744812012, "elapsed": 19.527140140533447, "device": "cpu"}
+RUNGS_DONE
