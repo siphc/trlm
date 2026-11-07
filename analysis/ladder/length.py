@@ -5,7 +5,8 @@ normalises layout; numeric constants keep their value at the precision written),
 preset 9 | EXTREME (no container header), times 8.
 
 Weights reference: every tensor quantised uniformly over its own [min, max] to b bits per weight, for the fewest b
-in 1..16 with KL(model || quantised model) <= 0.01 nats per symbol on dev_full; its bits are the compressed codes
+in 1..16 with KL(model || quantised model) at most the P1 bar max(KL_floor, 0.01) on dev_full (decision 19; with
+--bar 0.01 the original reference); its bits are the compressed codes
 (uint8 or uint16), the per-tensor min and max as float32, and the compressed source of reference_forward.py.
 
 Account rules (checked here, not by the harness): imports from the harness's stdlib allowlist and NumPy only; none of
@@ -13,6 +14,8 @@ the harness's forbidden names or NumPy file functions. So every number an accoun
 (or computed in setup() from the train stream), and R1 counts it.
 
     .venv/bin/python -m analysis.ladder.length --rung L1 --arm ln --seed 0 [--account ladder/L1_ln/account.py]
+
+P2 (decision 19): the account passes if its bits are at most the reference's total bits.
 """
 from __future__ import annotations
 
@@ -79,7 +82,16 @@ def quantise(w: np.ndarray, b: int) -> tuple[np.ndarray, np.ndarray]:
     return codes.astype(np.uint8 if b <= 8 else np.uint16), lo + codes / levels * (hi - lo)
 
 
-def weights_reference(rung: str, arm: str, seed: int, split: str = "dev_full") -> dict:
+def p1_bar(rung: str, arm: str, seed: int) -> float:
+    from analysis.ladder.eval import P1_MIN_THRESHOLD, floor_logprobs
+
+    Wn = windows(rung, "dev_full")
+    fl = floor_logprobs(rung, arm, seed, Wn)
+    assert fl is not None, "seed floor needs all five seeds trained"
+    return max(float(kl_pos(model_logprobs(load(rung, arm, seed), Wn), fl).mean()), P1_MIN_THRESHOLD)
+
+
+def weights_reference(rung: str, arm: str, seed: int, split: str = "dev_full", bar: float = MAX_KL) -> dict:
     model = load(rung, arm, seed)
     W = {k: v.numpy().astype(np.float64) for k, v in model.state_dict().items()}
     Wn = windows(rung, split)
@@ -99,11 +111,11 @@ def weights_reference(rung: str, arm: str, seed: int, split: str = "dev_full") -
         payload = b"".join(c.tobytes() for c, _ in q.values()) + \
             np.array([[v.min(), v.max()] for v in W.values()], np.float32).tobytes()
         rows.append({"bits_per_weight": b, "kl": kl, "weight_bits": compressed_bits(payload)})
-        if kl <= MAX_KL:
+        if kl <= bar:
             break
-    ok = rows[-1]["kl"] <= MAX_KL
+    ok = rows[-1]["kl"] <= bar
     n_params = sum(v.size for v in W.values())
-    return {"n_params": int(n_params), "code_bits": code_bits, "ladder": rows, "found": ok,
+    return {"bar": bar, "n_params": int(n_params), "code_bits": code_bits, "ladder": rows, "found": ok,
             "bits_per_weight": rows[-1]["bits_per_weight"] if ok else None,
             "total_bits": rows[-1]["weight_bits"] + code_bits if ok else None}
 
@@ -114,11 +126,16 @@ def main() -> None:
     ap.add_argument("--arm", default="ln")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--account")
+    ap.add_argument("--bar", type=float, help="KL bar for the reference (default: the P1 bar)")
     a = ap.parse_args()
-    out = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "weights_reference": weights_reference(a.rung, a.arm, a.seed)}
+    bar = a.bar if a.bar is not None else p1_bar(a.rung, a.arm, a.seed)
+    ref = weights_reference(a.rung, a.arm, a.seed, bar=bar)
+    out = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "weights_reference": ref}
     if a.account:
-        out["account"] = {"path": os.path.relpath(a.account, REPO), "bits": source_bits(a.account),
+        bits = source_bits(a.account)
+        out["account"] = {"path": os.path.relpath(a.account, REPO), "bits": bits,
                           "rule_errors": rule_errors(a.account)}
+        out["P2"] = bool(ref["found"] and bits <= ref["total_bits"] and not out["account"]["rule_errors"])
     print(json.dumps(out, indent=1))
 
 

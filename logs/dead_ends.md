@@ -225,3 +225,16 @@ gain rides on key-token main effects, which the pure-pair correlation removes by
 additive and key-effect correlations with own usefulness fall from 0.32-0.46 to -0.10-0.08, below the pure-pair part
 (0.04-0.20). Refuted; the part of attention that keeps the gain is not located (candidates: strongly attended tail,
 distances 2-7, position).
+
+## Ladder L1: the embedding is not the corpus's best tied bigram (2026-11-06)
+
+Hypothesis: L1's embedding is (a linear image of) the best tied 4-dimension bigram fitted to the corpus (logits
+LN(E_a + p)·g·E_b, fitted to the train bigram). If true, an account could compute it in setup() for free.
+
+Evidence (scratch test, six corpus fits from random inits, CE 2.619-2.630):
+- For each seed and fit, the best frequency-weighted linear map (with offset) from the fit to the model's embedding
+  explains R² 0.15-0.55.
+- Substituting the mapped fit into the model costs KL 0.74-4.1 nats on 500 dev_full windows. Seed 3 is worst (R² at
+  most 0.18).
+
+Dead: the embedding is shaped jointly with the head, not by the bigram alone.

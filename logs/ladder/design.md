@@ -94,7 +94,8 @@ rule fails it.
 
 ## Completeness criteria (fixed at the gate)
 
-A rung (and arm) is **understood** if one account structure meets the pass conditions P1 and P3 for all five
+A rung (and arm) is **understood** if one account structure meets the pass conditions P1, P2, P3 and P4 (decision 19)
+for all five
 seeds, with only its named constants refitted per seed. The pass conditions can all be measured by anyone, without
 our human, so other groups can apply them to their own models. The remaining measures are reported, not passed or
 failed.
@@ -109,7 +110,9 @@ every window.
   probability average of the other four seeds of the same rung and arm), as in logs/main_track/coverage.md. The
   account must predict the model at least as well as its sibling seeds do together; detail beyond that belongs to one
   training run, not to how the model works. The 0.01 minimum keeps P1 achievable when the seeds are nearly identical.
-- *(Former P2, now reported as R0.)* Coverage (KL_bigram − KL_account) / (KL_bigram − KL_floor), against the rung's
+- **P2, size** (decision 19). For each seed, R1 of the account is at most R1 of the weights reference, with the
+  weights quantised to the P1 bar max(KL_floor, 0.01) (see R1 below).
+- *(The original P2, coverage, is now reported as R0.)* Coverage (KL_bigram − KL_account) / (KL_bigram − KL_floor), against the rung's
   character bigram (train split); P1 implies coverage at least 1 when KL_floor ≥ 0.01.
 - **P3, mechanistic faithfulness** (decision 17 added the replacement test). Each claim is tested in one of two ways,
   chosen by the account, and passes by that test.
@@ -133,7 +136,13 @@ every window.
     the resample ablation replaces the same site with its activation at a donor drawn at random with no constraint.
   - **Pass:** faithfulness is at least **0.95** with all claims applied together, and at least 0.95 for each claim
     applied alone. Claims are scored at the granularity the account uses; a coarse summary claim does not replace the
-    detailed claims under it. A value claim that reproduces the site by copying weights passes P3 but shows in R1.
+    detailed claims under it. A value claim that reproduces the site by copying weights passes P3 but fails P2.
+- **P4, behaviour** (decision 19).
+  - Each claim carries at least one behaviour test: code in the account that measures a stated behaviour of the model
+    (its attention, site activations or outputs on dev_full) and compares it with a stated threshold.
+  - The code is the same for every seed and may read the account's named per-seed constants.
+  - A test passes if it holds on all five trained seeds and fails on the rung's untrained model (init seed 0).
+  - Every behavioural statement in the description has a test; the human checks the mapping at R3.
 
 ### Reported measures
 
@@ -141,7 +150,8 @@ every window.
   docstrings removed (Python `tokenize`), compressed with `lzma` at preset 9, times 8. Numeric constants count at the
   precision they are written. Reported as a curve of KL against bits for every committed version of the account.
   - **Reference point:** the weights themselves, quantised uniformly per tensor to the fewest bits per weight that
-    keep KL(model || quantised model) at most 0.01 nats per symbol, then compressed the same way. An account that is
+    keep KL(model || quantised model) at most the P1 bar max(KL_floor, 0.01) (decision 19; it was 0.01), then
+    compressed the same way, plus the compressed reference forward pass. An account that is
     not shorter than this reference has not compressed the model, whatever else it scores.
   - This is the trade-off of Gross et al.'s compact proofs and ARC's surprise accounting.
 - **R2, ARC-style mechanistic estimate.** Estimate the model's mean dev loss from the account and corpus n-gram

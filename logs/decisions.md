@@ -125,3 +125,20 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     decimals; the human's proposal): P1 passes if KL(model || account) <= max(KL_floor, 0.01), KL_floor = KL(model ||
     probability average of the other four seeds). Coverage (the former P2) is reported, not passed. A rung is
     understood if one account structure meets P1 and P3 for all five seeds.
+19. **A size pass and behaviour tests** (2026-11-06, after the first L1 account was scored; the human's choice
+    "both"). The trigger: the account (logs/ladder/L1.md) passed P1 and P3 on all five L1 ln seeds while being 3 times
+    the size of the weights. Its stated mechanism also held for seed 0 only. Value claims (decision 17) let a
+    restatement of the computation pass P3. Two pass conditions are added; P1 and P3 are unchanged.
+    - **P2, size:** for each seed, R1 of the account file must be at most R1 of the weights reference. The reference
+      is now quantised to the P1 bar max(KL_floor, 0.01), the same fidelity the account must reach; it was 0.01.
+    - **P4, behaviour:**
+      - Each claim carries at least one behaviour test: code in the account that measures a stated behaviour of the
+        model and compares it with a stated threshold. Example: the mean attention entropy of space queries is at
+        most 1 nat.
+      - A test runs on the model, not the account: its attention, its site activations and its outputs on dev_full.
+      - The code is the same for every seed. It may read the account's named per-seed constants.
+      - It passes if it holds on all five seeds and fails on the same rung's untrained model (init seed 0), so a
+        vacuous test cannot pass.
+      - Every behavioural statement in the description has a test. The human checks this mapping at R3.
+    - **Understood** now means one account structure meets P1, P2, P3 and P4 on all five seeds. The first L1 account
+      fails P2 (33-36k bits against about 9-12k).
