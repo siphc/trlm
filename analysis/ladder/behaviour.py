@@ -7,7 +7,11 @@ where f(probe) returns one number measured on the MODEL (not the account). probe
     probe.attn    (n, H, T, T) attention weights per head (query rows, key columns)
     probe.x0      (n, T, d) the direct-path embedding
     probe.z       (n, T, H, d_head) each head's output before the output projection
-    probe.logp    (n, T, V) the model's log-probs
+    probe.logp    (n, T, V) the model's log-probs;  probe.positions (T, d) its position embedding
+and these costs, each KL(model || changed model) in nats per symbol:
+    probe.cost_resample(site)          the site ("direct" or "head<h>") resample-ablated (one donor draw, seed 0)
+    probe.cost_replaced(x0=, z=)       the direct path and/or the heads' outputs replaced by the given arrays
+    probe.cost_positions(P)            the model rerun with its position embedding replaced by P (T, d)
 The test code is the same for every seed (one account structure); it may read the account's per-seed constants
 (the account file of that seed is the one loaded).
 
@@ -27,8 +31,8 @@ import operator
 import numpy as np
 import torch
 
-from analysis.ladder.common import SEEDS, load, load_account, windows
-from analysis.ladder.scrub import parts
+from analysis.ladder.common import SEEDS, kl_pos, load, load_account, windows
+from analysis.ladder.scrub import finish, parts, scrubbed
 from src.train.model import TinyLM
 
 OPS = {"<=": operator.le, ">=": operator.ge}
@@ -52,9 +56,31 @@ class Probe:
     @property
     def logp(self) -> np.ndarray:
         if self._logp is None:
-            with torch.no_grad():
-                self._logp = torch.log_softmax(self._model(torch.as_tensor(self.X)), -1).numpy()
+            self._logp = finish(self._model, self.x0, self.z)
         return self._logp
+
+    def cost_resample(self, site: str) -> float:
+        return float(kl_pos(self.logp, scrubbed(self._model, self.x0, self.z, {site: None},
+                                                np.random.default_rng(0))).mean())
+
+    def cost_replaced(self, x0=None, z=None) -> float:
+        lp = finish(self._model, self.x0 if x0 is None else x0, self.z if z is None else z)
+        return float(kl_pos(self.logp, lp).mean())
+
+    @torch.no_grad()
+    def cost_positions(self, P: np.ndarray) -> float:
+        m = self._model
+        old = m.wpe.weight.clone()
+        m.wpe.weight.copy_(torch.as_tensor(P, dtype=old.dtype))
+        try:
+            lp = torch.log_softmax(m(torch.as_tensor(self.X)), -1).numpy()
+        finally:
+            m.wpe.weight.copy_(old)
+        return float(kl_pos(self.logp, lp).mean())
+
+    @property
+    def positions(self) -> np.ndarray:
+        return self._model.wpe.weight.detach().numpy().copy()
 
 
 @torch.no_grad()

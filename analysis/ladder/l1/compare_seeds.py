@@ -12,7 +12,7 @@ import numpy as np
 
 from analysis.ladder.common import load, windows
 from analysis.ladder.dump import attention, symbol_names
-from analysis.ladder.l1.build_account import frequencies, tables
+from analysis.ladder.l1.build_account_v1 import frequencies, tables
 
 
 def main() -> None:

@@ -12,7 +12,7 @@ import json
 import numpy as np
 
 from analysis.ladder.common import kl_pos, load, windows
-from analysis.ladder.l1.build_account import frequencies, ln, tables
+from analysis.ladder.l1.build_account_v1 import frequencies, ln, tables
 from analysis.ladder.scrub import finish, parts, scrubbed
 
 

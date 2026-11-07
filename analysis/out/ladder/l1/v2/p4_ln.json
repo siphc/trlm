@@ -1,0 +1,150 @@
+{
+ "rung": "L1",
+ "arm": "ln",
+ "account": "ladder/L1_ln/account_s{seed}.py",
+ "claims": {
+  "direct path": {
+   "tests": [
+    {
+     "statement": "removing the direct path costs at least 1 nat",
+     "op": ">=",
+     "threshold": 1.0,
+     "values": {
+      "s0": 2.1078099151417047,
+      "s1": 1.992973151809542,
+      "s2": 1.9135232669173066,
+      "s3": 5.182004875069858,
+      "s4": 1.6178800685066386,
+      "untrained": 0.0014638965124422968
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    },
+    {
+     "statement": "position costs at most 5% of the direct path",
+     "op": "<=",
+     "threshold": 0.05,
+     "values": {
+      "s0": 0.012318684992434962,
+      "s1": 0.0067909665314258415,
+      "s2": 0.0013225252181399722,
+      "s3": 0.00024319638796600502,
+      "s4": 0.005380460823184812,
+      "untrained": Infinity
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    }
+   ],
+   "pass": true
+  },
+  "head": {
+   "tests": [
+    {
+     "statement": "attention is set by content (at least 95% of the variance)",
+     "op": ">=",
+     "threshold": 0.95,
+     "values": {
+      "s0": 0.9728304756356981,
+      "s1": 0.9840983340606003,
+      "s2": 0.9890150986540058,
+      "s3": 0.9898200611671604,
+      "s4": 0.9789812618634227,
+      "untrained": 0.16749403293771126
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    },
+    {
+     "statement": "the head favours boundary symbols (at least 1.2 times their share)",
+     "op": ">=",
+     "threshold": 1.2,
+     "values": {
+      "s0": 2.700836614198163,
+      "s1": 1.245019275402938,
+      "s2": 1.4360673038566847,
+      "s3": 1.494975942084676,
+      "s4": 2.1347743617037875,
+      "untrained": 0.9999919240822153
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    },
+    {
+     "statement": "removing the head costs at least 0.05 nats",
+     "op": ">=",
+     "threshold": 0.05,
+     "values": {
+      "s0": 0.565406549581085,
+      "s1": 1.776042635436316,
+      "s2": 1.3684876393073582,
+      "s3": 4.308628483322838,
+      "s4": 0.06659627493166112,
+      "untrained": 2.5902441271468984e-07
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    },
+    {
+     "statement": "context is at most a quarter of the head's effect",
+     "op": "<=",
+     "threshold": 0.25,
+     "values": {
+      "s0": 0.12732827721729534,
+      "s1": 0.019259281453266004,
+      "s2": 0.008441278338818444,
+      "s3": 0.0006537405275524366,
+      "s4": 0.1971119581921048,
+      "untrained": Infinity
+     },
+     "holds": {
+      "s0": true,
+      "s1": true,
+      "s2": true,
+      "s3": true,
+      "s4": true,
+      "untrained": false
+     },
+     "pass": true
+    }
+   ],
+   "pass": true
+  }
+ },
+ "P4": true
+}

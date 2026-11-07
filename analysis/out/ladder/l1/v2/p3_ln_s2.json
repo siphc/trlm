@@ -1,0 +1,34 @@
+{
+ "rung": "L1",
+ "arm": "ln",
+ "seed": 2,
+ "split": "dev_full",
+ "draws": 3,
+ "claims": {
+  "direct path": {
+   "site": "direct",
+   "kl_scrubbed": 0.0019447630805271303,
+   "kl_resampled": 1.914977930610128,
+   "faithfulness": 0.9989844462176608,
+   "test": "swap",
+   "no_donor_share": 2.3437500000000888e-05,
+   "n_key_values": 68,
+   "pass": true
+  },
+  "head": {
+   "site": "head0",
+   "kl_scrubbed": 0.0020387522608269195,
+   "kl_resampled": 1.3722761949141755,
+   "faithfulness": 0.9985143280424285,
+   "test": "replace",
+   "pass": true
+  }
+ },
+ "joint": {
+  "kl_scrubbed": 0.004586961694874101,
+  "kl_resampled": 2.386154061012747,
+  "faithfulness": 0.998077675800645,
+  "pass": true
+ },
+ "P3": true
+}
