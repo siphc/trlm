@@ -1,26 +1,26 @@
 {
   "attn_1L": {
-    "short_run_dev_full_loss": 3.04070938873291,
+    "short_run_dev_full_loss": 3.0406671142578126,
     "unigram_dev_full_ce": 5.983575284491826,
     "bigram_dev_full_ce": 3.5157707504333793,
     "tokens": 24985600,
     "device": "mps",
-    "seconds": 225.45125031471252
+    "seconds": 107.88497114181519
   },
   "attn_2L": {
-    "short_run_dev_full_loss": 3.1376891937255857,
+    "short_run_dev_full_loss": 3.1370274124145507,
     "unigram_dev_full_ce": 5.983575284491826,
     "bigram_dev_full_ce": 3.5157707504333793,
     "tokens": 24985600,
     "device": "mps",
-    "seconds": 247.79278087615967
+    "seconds": 181.22275495529175
   },
   "attn_4L": {
-    "short_run_dev_full_loss": 3.17915087890625,
+    "short_run_dev_full_loss": 3.17942578125,
     "unigram_dev_full_ce": 5.983575284491826,
     "bigram_dev_full_ce": 3.5157707504333793,
     "tokens": 24985600,
     "device": "mps",
-    "seconds": 398.3179807662964
+    "seconds": 309.99441623687744
   }
 }

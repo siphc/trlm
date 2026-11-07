@@ -32,6 +32,9 @@ ARMS = {"ln": True, "noln": False}
 LN_ARM_RUNGS = ("L1", "L2", "L3")         # rungs trained in both LayerNorm arms (design, Models)
 PILOT_RUNGS = ("L1", "L5")                # the pilot's rungs; the budget applies to the rungs next to each
 PILOT_LRS = [1e-3, 3e-3, 1e-2]
+# If the best LR is the largest in the grid, the next step up is also run at the smallest budget (and so on while it
+# keeps winning); best_lr() then picks from every LR run. Added 2026-11-06 when both pilot rungs chose 1e-2.
+PILOT_LR_STEP = 3.0
 PILOT_BUDGETS = [25_000_000, 100_000_000, 400_000_000]
 WITHIN = 0.01                             # choose the smallest budget within 1% of the best dev loss
 EPOCH_SYMBOLS = 1_884_121_742             # data/char/meta.json n_symbols.train
@@ -67,9 +70,17 @@ def pilot_dir(rung: str, lr: float, budget: int) -> str:
     return f"{PILOT_ROOT}/{rung}_ln_lr{lr_name(lr)}_b{budget // 1_000_000}M"
 
 
+def lrs_run(rung: str) -> list[float]:
+    """The pilot LRs of a rung: the grid plus any edge steps already run."""
+    out = list(PILOT_LRS)
+    while os.path.exists(f"{pilot_dir(rung, round(out[-1] * PILOT_LR_STEP, 6), PILOT_BUDGETS[0])}/result.json"):
+        out.append(round(out[-1] * PILOT_LR_STEP, 6))
+    return out
+
+
 def best_lr(rung: str) -> float:
     rows = [(json.load(open(f"{pilot_dir(rung, lr, PILOT_BUDGETS[0])}/result.json"))["dev_full_loss"], lr)
-            for lr in PILOT_LRS]
+            for lr in lrs_run(rung)]
     return min(rows)[1]
 
 
@@ -96,9 +107,7 @@ def pilot_report() -> None:
              "full cosine schedule. Dev loss is the mean cross-entropy on dev_full (nats per symbol).", ""]
     for rung in PILOT_RUNGS:
         lines += [f"## {rung}", "", "| peak LR | budget (symbols) | dev_full loss | steps | seconds |", "|---|---|---|---|---|"]
-        rows = []
-        for lr in PILOT_LRS:
-            rows.append((lr, PILOT_BUDGETS[0]))
+        rows = [(lr, PILOT_BUDGETS[0]) for lr in lrs_run(rung)]
         try:
             lr_b = best_lr(rung)
         except FileNotFoundError:
@@ -140,6 +149,9 @@ def main() -> None:
         counts()
     elif a.cmd == "pilot_lr":
         for lr in PILOT_LRS:
+            run(config(a.rung, "ln", 0, lr, PILOT_BUDGETS[0], pilot_dir(a.rung, lr, PILOT_BUDGETS[0]), a.device))
+        while best_lr(a.rung) == lrs_run(a.rung)[-1]:
+            lr = round(lrs_run(a.rung)[-1] * PILOT_LR_STEP, 6)
             run(config(a.rung, "ln", 0, lr, PILOT_BUDGETS[0], pilot_dir(a.rung, lr, PILOT_BUDGETS[0]), a.device))
     elif a.cmd == "pilot_budget":
         lr = best_lr(a.rung)

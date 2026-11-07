@@ -76,6 +76,30 @@ def test_scrub_exact_constant_unique(tmp_path):
     assert r["claims"]["head"]["no_donor_share"] == 1.0 and not r["claims"]["head"]["pass"]
 
 
+def test_replacement_exact_and_zero(tmp_path):
+    """A value claim that computes the head's output exactly (here from the model's weights, as a check of the
+    plumbing) scores 1; one that returns zeros scores well below."""
+    m = common.load("L1", "ln", 0).double()
+    W = common.windows("L1", "dev_full")
+    _, z = scrub.parts(m, W[:, :-1].astype(np.int64))
+    p = str(tmp_path / "v.py")
+    claims_account(p, "np.zeros((n, T), int)")
+    acc = common.load_account(p)
+    exact = {"name": "head", "site": "head0", "value": lambda X: z[:, :, 0]}
+    zero = {"name": "head", "site": "head0", "value": lambda X: np.zeros_like(z[:, :, 0])}
+    for c, ok in ((exact, True), (zero, False)):
+        acc.CLAIMS[1] = c
+        orig = common.load_account
+        try:
+            scrub.load_account = lambda path: acc
+            r = scrub.run("L1", "ln", 0, p, "dev_full")
+        finally:
+            scrub.load_account = orig
+        f = r["claims"]["head"]["faithfulness"]
+        assert r["claims"]["head"]["test"] == "replace"
+        assert (f > 0.9999) if ok else (f < 0.9), f
+
+
 def test_donors_never_self_and_same_key():
     rng = np.random.default_rng(0)
     ids = rng.integers(0, 50, 5000)

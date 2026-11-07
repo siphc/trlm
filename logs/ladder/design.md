@@ -1,6 +1,6 @@
 # Ladder of tiny language models: design (FINAL, gate passed 2026-11-06)
 
-FINAL, 2026-11-06. Decision 15 and 16; plan logs/plans/plan_cleanup_and_ladder.md, step 2. The human passed the gate:
+FINAL, 2026-11-06. Decisions 15, 16 and 17; plan logs/plans/plan_cleanup_and_ladder.md, step 2. The human passed the gate:
 rung list as drafted; LayerNorm tested in two arms at the start; the completeness criteria below. Nothing has been
 trained and no account exists at the time of fixing. Changes to the criteria after this point need a new decision
 in logs/decisions.md, made before the affected rung's account is scored.
@@ -109,22 +109,29 @@ every window.
   KL from the model to the rung's character bigram (train split) and KL_floor is the rung's seed floor (the
   probability average of the other four seeds, as in logs/main_track/coverage.md). If KL_floor is below 0.005 nats
   per symbol, the seeds are nearly identical and P2 is not applied (P1 is then the stricter test).
-- **P3, mechanistic faithfulness, tested by causal scrubbing** (Chan et al., Redwood Research, 2022).
+- **P3, mechanistic faithfulness** (decision 17 added the replacement test). Each claim is tested in one of two ways,
+  chosen by the account, and passes by that test.
   - **What a claim is.** The account is written as a list of claims. Each claim names one *site* in the model (for
-    example head h's attention pattern at a query position, head h's output, the residual stream after the
-    embeddings) and a *key*: a function of the input window and the position, stated in the account's code, that
-    says which inputs the site treats as the same (for example "the previous two characters"). Every component of the
-    account carries at least one claim; the claims together cover every site that writes to the residual stream.
-  - **The test.** For each position of each dev window, the site's activation in the model is replaced by its
-    activation at a donor position: a randomly chosen (window, position) from `dev_full` with the same key value
-    (excluding the position itself). The model is then run on as usual.
-  - **The score.** faithfulness = 1 − KL(model || scrubbed model) / KL(model || resample-ablated model), where the
-    resample ablation replaces the same site with a donor drawn at random with no key constraint.
-  - **Pass:** faithfulness is at least **0.95** with all claims scrubbed together, and at least 0.95 for each claim
-    scrubbed alone. Keys are scored at the granularity the account uses; a coarse summary claim does not replace the
-    detailed claims under it.
-  - If no donor shares the key value (a rare key), the position keeps its own activation and is counted; if more
-    than 1% of positions lack a donor, the claim fails.
+    a one-block attention-only model: the embedding as it enters the final sum, or head h's output) and either
+    - a *key*: a function of the input window and the position, stated in the account's code, that says which inputs
+      the site treats as the same (for example "the previous two characters"): a "depends only on" claim; or
+    - a *value*: code in the account that computes the site's activation itself at every position: a "computes this"
+      claim.
+    Every component of the account carries at least one claim; the claims together cover every site that writes to
+    the residual stream, one claim per site.
+  - **Swap test, for key claims: causal scrubbing** (Chan et al., Redwood Research, 2022). For each position of each
+    dev window, the site's activation in the model is replaced by its activation at a donor position: a randomly
+    chosen (window, position) from `dev_full` with the same key value (excluding the position itself). The model is
+    then run on as usual (residual sum, final LayerNorm, unembedding). If no donor shares the key value, the position
+    keeps its own activation and is counted; if more than 1% of positions lack a donor, the claim fails. (The 1% rule
+    also marks claims that need exact long contexts, which are close to lookup tables.)
+  - **Replacement test, for value claims.** The site's activation is replaced by the account's computed value at every
+    position, and the model is run on as usual. It needs no donors, so it scales with rung size.
+  - **The score**, for both: faithfulness = 1 − KL(model || patched model) / KL(model || resample-ablated model), where
+    the resample ablation replaces the same site with its activation at a donor drawn at random with no constraint.
+  - **Pass:** faithfulness is at least **0.95** with all claims applied together, and at least 0.95 for each claim
+    applied alone. Claims are scored at the granularity the account uses; a coarse summary claim does not replace the
+    detailed claims under it. A value claim that reproduces the site by copying weights passes P3 but shows in R1.
 
 ### Reported measures
 

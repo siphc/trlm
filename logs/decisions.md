@@ -114,3 +114,9 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     - **Reported, not passed or failed:** R1 description length against the quantised-weights reference (the headline
       curve); R2 the ARC-style mechanistic estimate against sampling at equal compute; R3 the human's readability
       scores (AGENTS.md section 12).
+17. **P3 gets a replacement test** (2026-11-06, before any account was scored, after the agent showed that swap-test
+    donors run out: on dev_full, keys of the last three characters leave 0.95% of positions without a donor, and a
+    larger pool gains only about one character per 5x): a claim is either a key claim ("depends only on"), tested by
+    the swap test with donors from dev_full and the 1% rule as before, or a value claim ("computes this"), tested by
+    replacing the site's activation with the account's computed value. Same faithfulness score and thresholds. The
+    donor pool stays dev_full. logs/ladder/design.md updated.
