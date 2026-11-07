@@ -213,3 +213,11 @@ Record anything unexpected the moment it appears. Newest at the bottom.
   adds is mostly a per-symbol constant.
 - 2026-11-06, ladder L1: the embedding needs about 0.1 precision. Steps of 0.2 cost 0.035-0.145 nats; refitting on a
   0.25 grid still leaves 0.088-0.131.
+- 2026-11-07, clean-up check: the sanity short runs' recorded dev losses moved slightly when rerun:
+  - L5 8M symbols: 1.7571 → 1.7614;
+  - main-track short run: 3.3990 → 3.4008;
+  - deep short runs: changes of up to 0.0009.
+
+  The cause is the CPU thread count, not the clean-up. The pre-proofs code at the same 6 threads gives the same
+  value to every digit (L5: 1.761419563293457), and the train.py edit reproduces bit-for-bit at fixed threads. Exact
+  reproduction of a CPU run needs the same OMP_NUM_THREADS.
