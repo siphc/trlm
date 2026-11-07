@@ -5,9 +5,9 @@
     .venv/bin/python -m analysis.ladder.eval --rung L1 --arm ln --seed 0             # model and baselines only
     .venv/bin/python -m analysis.ladder.eval --check_l10                             # the harness cross-check
 
-P1: KL(model || account) <= 0.01 nats per symbol on dev_full.
-P2: (KL_bigram - KL_account) / (KL_bigram - KL_floor) >= 0.95, KL_floor = KL(model || probability average of the
-    other four seeds); not applied when KL_floor < 0.005.
+P1 (decision 18): KL(model || account) <= max(KL_floor, 0.01) nats per symbol on dev_full, KL_floor = KL(model ||
+    probability average of the other four seeds).
+Reported: coverage (KL_bigram - KL_account) / (KL_bigram - KL_floor) (the former P2).
 Appends a row to logs/ladder/iterations.csv when an account is scored.
 """
 from __future__ import annotations
@@ -24,12 +24,10 @@ from analysis.ladder.common import (REPO, SEEDS, account_logprobs, file_sha, git
                                     log_mean_exp, model_dir, model_logprobs, stat, windows)
 from src.train import data_char
 
-P1_MAX_KL = 0.01
-P2_MIN_COVERAGE = 0.95
-P2_MIN_FLOOR = 0.005
+P1_MIN_THRESHOLD = 0.01
 CSV = os.path.join(REPO, "logs", "ladder", "iterations.csv")
 FIELDS = ["timestamp", "commit", "account", "account_sha", "rung", "arm", "seed", "split", "n_windows", "kl",
-          "kl_se", "top1", "ce_model", "ce_account", "kl_bigram", "kl_trigram", "kl_floor", "coverage", "P1", "P2"]
+          "kl_se", "top1", "ce_model", "ce_account", "kl_bigram", "kl_trigram", "kl_floor", "coverage", "P1_threshold", "P1"]
 
 
 def floor_logprobs(rung: str, arm: str, seed: int, W: np.ndarray):
@@ -59,14 +57,12 @@ def score(rung: str, arm: str, seed: int, account: str | None, split: str = "dev
         r.update({"account": os.path.relpath(account, REPO), "account_sha": file_sha(account),
                   "kl": k["mean"], "kl_se": k["se"], "top1": float((lp_a.argmax(-1) == lp_m.argmax(-1)).mean()),
                   "ce_account": float(-np.take_along_axis(lp_a, tgt[..., None], -1).mean())})
-        r["P1"] = bool(k["mean"] <= P1_MAX_KL)
         if r["kl_floor"] is None:
-            r["coverage"], r["P2"] = None, "floor not available (other seeds untrained)"
-        elif r["kl_floor"] < P2_MIN_FLOOR:
-            r["coverage"], r["P2"] = None, "not applied (floor below 0.005)"
+            r["coverage"], r["P1_threshold"], r["P1"] = None, None, "floor not available (other seeds untrained)"
         else:
             r["coverage"] = (r["kl_bigram"] - k["mean"]) / (r["kl_bigram"] - r["kl_floor"])
-            r["P2"] = bool(r["coverage"] >= P2_MIN_COVERAGE)
+            r["P1_threshold"] = max(r["kl_floor"], P1_MIN_THRESHOLD)
+            r["P1"] = bool(k["mean"] <= r["P1_threshold"])
     return r
 
 

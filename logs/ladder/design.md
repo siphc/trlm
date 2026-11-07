@@ -1,6 +1,6 @@
 # Ladder of tiny language models: design (FINAL, gate passed 2026-11-06)
 
-FINAL, 2026-11-06. Decisions 15, 16 and 17; plan logs/plans/plan_cleanup_and_ladder.md, step 2. The human passed the gate:
+FINAL, 2026-11-06. Decisions 15-18; plan logs/plans/plan_cleanup_and_ladder.md, step 2. The human passed the gate:
 rung list as drafted; LayerNorm tested in two arms at the start; the completeness criteria below. Nothing has been
 trained and no account exists at the time of fixing. Changes to the criteria after this point need a new decision
 in logs/decisions.md, made before the affected rung's account is scored.
@@ -94,7 +94,7 @@ rule fails it.
 
 ## Completeness criteria (fixed at the gate)
 
-A rung (and arm) is **understood** if one account structure meets the three pass conditions P1-P3 for all five
+A rung (and arm) is **understood** if one account structure meets the pass conditions P1 and P3 for all five
 seeds, with only its named constants refitted per seed. The pass conditions can all be measured by anyone, without
 our human, so other groups can apply them to their own models. The remaining measures are reported, not passed or
 failed.
@@ -104,11 +104,13 @@ every window.
 
 ### Pass conditions
 
-- **P1, fidelity.** KL(model || account) is at most **0.01 nats per symbol**.
-- **P2, coverage.** (KL_bigram − KL_account) / (KL_bigram − KL_floor) is at least **0.95**, where KL_bigram is the
-  KL from the model to the rung's character bigram (train split) and KL_floor is the rung's seed floor (the
-  probability average of the other four seeds, as in logs/main_track/coverage.md). If KL_floor is below 0.005 nats
-  per symbol, the seeds are nearly identical and P2 is not applied (P1 is then the stricter test).
+- **P1, fidelity against the seed floor** (decision 18; it replaced the fixed 0.01 nats and the coverage condition).
+  KL(model || account) is at most **max(KL_floor, 0.01) nats per symbol**, where KL_floor = KL(model || the
+  probability average of the other four seeds of the same rung and arm), as in logs/main_track/coverage.md. The
+  account must predict the model at least as well as its sibling seeds do together; detail beyond that belongs to one
+  training run, not to how the model works. The 0.01 minimum keeps P1 achievable when the seeds are nearly identical.
+- *(Former P2, now reported as R0.)* Coverage (KL_bigram − KL_account) / (KL_bigram − KL_floor), against the rung's
+  character bigram (train split); P1 implies coverage at least 1 when KL_floor ≥ 0.01.
 - **P3, mechanistic faithfulness** (decision 17 added the replacement test). Each claim is tested in one of two ways,
   chosen by the account, and passes by that test.
   - **What a claim is.** The account is written as a list of claims. Each claim names one *site* in the model (for
@@ -176,7 +178,8 @@ every window.
    draft's "within 1% of the measured loss", which had no reference point.
 3. **Criteria:** the draft's human-readability pass condition (C3) is replaced by causal scrubbing (P3), so every pass
    condition is measurable by others; human readability is reported (R3); description length is added as the headline
-   measure (R1). Thresholds 0.01 nats per symbol and 0.95 kept.
+   measure (R1). Thresholds 0.01 nats per symbol and 0.95 kept. (Decision 18 later replaced P1's fixed 0.01 by the
+   seed floor and made coverage a reported measure.)
 4. **Rung list:** approved as drafted.
 
 ## Compute

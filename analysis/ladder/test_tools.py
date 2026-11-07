@@ -62,7 +62,7 @@ def test_eval_pasted_weights(tmp_path):
     pasted_account(p)
     assert length.rule_errors(p) == []
     r = ev.score("L1", "ln", 0, p, "dev_fast")
-    assert r["kl"] < 1e-8 and r["P1"] and r["top1"] > 0.999
+    assert r["kl"] < 1e-8 and r["top1"] > 0.999
 
 
 def test_scrub_exact_constant_unique(tmp_path):

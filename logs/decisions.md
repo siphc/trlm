@@ -120,3 +120,8 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     the swap test with donors from dev_full and the 1% rule as before, or a value claim ("computes this"), tested by
     replacing the site's activation with the account's computed value. Same faithfulness score and thresholds. The
     donor pool stays dev_full. logs/ladder/design.md updated.
+18. **P1 against the seed floor** (2026-11-06, before any account was scored, after the first L1 models showed that
+    0.01 nats is 7-30 times below their seed floor (0.066-0.32), so meeting it needs the embedding copied to about two
+    decimals; the human's proposal): P1 passes if KL(model || account) <= max(KL_floor, 0.01), KL_floor = KL(model ||
+    probability average of the other four seeds). Coverage (the former P2) is reported, not passed. A rung is
+    understood if one account structure meets P1 and P3 for all five seeds.
