@@ -1,4 +1,4 @@
-"""Sanity tests that must pass before any long run (AGENTS.md section 4).
+"""Sanity tests that must pass before any long run (original brief, logs/plans/original_brief.md, section 4).
 
 Run: python -m pytest -q src/train/test_sanity.py
 The short-run test trains a 10M-token model (~1 min on Apple MPS) and needs data/baselines built.

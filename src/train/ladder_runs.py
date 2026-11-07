@@ -1,4 +1,4 @@
-"""Drivers for the ladder of tiny language models (logs/ladder/design.md, decision 16; configs/side_ladder.yaml).
+"""Drivers for the ladder of tiny language models (logs/ladder_accounts/design.md, decision 16; configs/side_ladder.yaml).
 
 Every run is resumable and skipped when its result.json exists.
 
@@ -39,7 +39,7 @@ PILOT_BUDGETS = [25_000_000, 100_000_000, 400_000_000]
 WITHIN = 0.01                             # choose the smallest budget within 1% of the best dev loss
 EPOCH_SYMBOLS = 1_884_121_742             # data/char/meta.json n_symbols.train
 # If the largest budget beats the next smaller one by more than WITHIN, one more step (x4, capped at one epoch) is run,
-# as the main-track pilot's cap at one epoch (AGENTS.md section 5).
+# as the main-track pilot's cap at one epoch (original brief, logs/plans/original_brief.md, section 5).
 PILOT_EXTRA = (EPOCH_SYMBOLS - 1) // 64 // 64 * 64 * 64
 PILOT_ROOT = "models/ladder_pilot"
 ROOT = "models/ladder"
@@ -107,7 +107,7 @@ def counts() -> dict:
 
 
 def pilot_report() -> None:
-    lines = ["# Ladder pilot (logs/ladder/design.md, Training)", "",
+    lines = ["# Ladder pilot (logs/ladder_accounts/design.md, Training)", "",
              "Seed 0, arm ln. LR check at the smallest budget; budget ladder at the best LR, each run with its own "
              "full cosine schedule. Dev loss is the mean cross-entropy on dev_full (nats per symbol).", ""]
     for rung in PILOT_RUNGS:

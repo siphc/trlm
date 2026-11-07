@@ -1,4 +1,4 @@
-"""Readable dump of a ladder model (logs/ladder/design.md, Tools): every weight table at the bottom rungs, plus the
+"""Readable dump of a ladder model (logs/ladder_accounts/design.md, Tools): every weight table at the bottom rungs, plus the
 first measurements an account needs.
 
     .venv/bin/python -m analysis.ladder.dump --rung L1 --arm ln --seed 0 [--out logs/ladder/dumps]

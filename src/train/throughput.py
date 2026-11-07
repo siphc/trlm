@@ -1,7 +1,7 @@
 """Throughput test: run training steps on random tokens for a fixed wall time.
 
 Usage: python -m src.train.throughput --device cpu --seconds 120 --variant mlp
-Prints tokens/sec. Used to extrapolate pilot and final-run costs (AGENTS.md section 5).
+Prints tokens/sec. Used to extrapolate pilot and final-run costs (original brief, logs/plans/original_brief.md, section 5).
 """
 from __future__ import annotations
 

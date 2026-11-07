@@ -1,7 +1,7 @@
 # analysis/ladder: the ladder of tiny language models
 
 Question: what is the largest model of this family that can be understood completely, and what breaks first one step
-past it? Design and criteria: `logs/ladder/design.md` (FINAL, decision 16).
+past it? Design and criteria: `logs/ladder_accounts/design.md` (FINAL, decision 16).
 
 - `eval.py`: P1 (KL against the seed floor), coverage, baselines; `--check_l10` reproduces the harness.
 - `scrub.py`: P3, causal scrubbing of an account's `CLAIMS`.

@@ -1,4 +1,4 @@
-"""Character-level data for the ladder of tiny language models (logs/ladder/design.md, decision 16).
+"""Character-level data for the ladder of tiny language models (logs/ladder_accounts/design.md, decision 16).
 
 Run once:  .venv/bin/python -m src.train.data_char prepare        (about 10-20 min on the laptop CPU)
 

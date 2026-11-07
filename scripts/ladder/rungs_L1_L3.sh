@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rungs L1-L3 in both LayerNorm arms, seeds 0-4 (logs/ladder/design.md), on the CPU (faster than MPS at this size).
+# Rungs L1-L3 in both LayerNorm arms, seeds 0-4 (logs/ladder_accounts/design.md), on the CPU (faster than MPS at this size).
 set -e
 cd "$(dirname "$0")/../.."
 for R in L1 L2 L3; do for A in ln noln; do

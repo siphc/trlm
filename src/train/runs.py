@@ -1,4 +1,4 @@
-"""Drivers for the pilot (AGENTS.md section 5) and the 10 final runs. Every run is resumable and
+"""Drivers for the pilot (original brief, logs/plans/original_brief.md, section 5) and the 10 final runs. Every run is resumable and
 skipped when its result.json exists, so a disconnected session just re-runs the same command.
 
   python -m src.train.runs pilot_lr                 # 3 runs, mlp seed 0, smallest budget

@@ -104,7 +104,7 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
       language.
     - **Repository clean-up:** finished or abandoned code deleted (recoverable from git tag `pre-cleanup`);
       logs/ organised into one folder per study.
-16. **Ladder design gate passed** (2026-11-06, after the human reviewed logs/ladder/design.md and the agent's
+16. **Ladder design gate passed** (2026-11-06, after the human reviewed logs/ladder_accounts/design.md and the agent's
     proposal for criteria the wider field can use): the design is FINAL as written.
     - **Rung list** approved as drafted (L1-L10, branch M).
     - **LayerNorm:** rungs L1-L3 trained in two arms, `ln` and `noln`, five seeds each, with the decision rule in the
@@ -119,14 +119,14 @@ Earlier: frozen.yaml v2 (training on the laptop's MPS GPU), approved 2026-10-12.
     larger pool gains only about one character per 5x): a claim is either a key claim ("depends only on"), tested by
     the swap test with donors from dev_full and the 1% rule as before, or a value claim ("computes this"), tested by
     replacing the site's activation with the account's computed value. Same faithfulness score and thresholds. The
-    donor pool stays dev_full. logs/ladder/design.md updated.
+    donor pool stays dev_full. logs/ladder_accounts/design.md updated.
 18. **P1 against the seed floor** (2026-11-06, before any account was scored, after the first L1 models showed that
     0.01 nats is 7-30 times below their seed floor (0.066-0.32), so meeting it needs the embedding copied to about two
     decimals; the human's proposal): P1 passes if KL(model || account) <= max(KL_floor, 0.01), KL_floor = KL(model ||
     probability average of the other four seeds). Coverage (the former P2) is reported, not passed. A rung is
     understood if one account structure meets P1 and P3 for all five seeds.
 19. **A size pass and behaviour tests** (2026-11-06, after the first L1 account was scored; the human's choice
-    "both"). The trigger: the account (logs/ladder/L1.md) passed P1 and P3 on all five L1 ln seeds while being 3 times
+    "both"). The trigger: the account (logs/ladder_accounts/L1.md) passed P1 and P3 on all five L1 ln seeds while being 3 times
     the size of the weights. Its stated mechanism also held for seed 0 only. Value claims (decision 17) let a
     restatement of the computation pass P3. Two pass conditions are added; P1 and P3 are unchanged.
     - **P2, size:** for each seed, R1 of the account file must be at most R1 of the weights reference. The reference

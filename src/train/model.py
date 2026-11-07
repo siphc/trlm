@@ -7,7 +7,7 @@ Architecture (frozen in configs/frozen.yaml):
          -> LN_f -> logits = h @ W_E^T   (tied input/output embedding)
 
 No bias terms anywhere (nn.Linear(bias=False), nn.LayerNorm(bias=False)).
-Side ladder (logs/ladder/design.md): ModelConfig.layernorm = False replaces every LayerNorm by the identity.
+Side ladder (logs/ladder_accounts/design.md): ModelConfig.layernorm = False replaces every LayerNorm by the identity.
 """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ class ModelConfig:
     mlp: bool = False
     d_hidden: int = 512
     init_std: float = 0.02
-    layernorm: bool = True   # False: every LayerNorm is the identity (the ladder's `noln` arm, logs/ladder/design.md)
+    layernorm: bool = True   # False: every LayerNorm is the identity (the ladder's `noln` arm, logs/ladder_accounts/design.md)
 
     @property
     def d_head(self) -> int:

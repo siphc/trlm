@@ -1,4 +1,4 @@
-"""Sanity tests for the ladder of tiny models (logs/ladder/design.md, Tools). Run before any ladder training:
+"""Sanity tests for the ladder of tiny models (logs/ladder_accounts/design.md, Tools). Run before any ladder training:
 
     .venv/bin/python -m pytest src/train/test_sanity_ladder.py -q
 

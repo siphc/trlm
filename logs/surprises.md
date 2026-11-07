@@ -199,12 +199,12 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 
 - 2026-11-06, ladder: the seed floor (KL from a model to the average of its 4 sibling seeds) does not shrink with
   size. It is 0.14-0.17 nats at L4-L7 (seed 0, ln), against 0.07-0.11 at L1-L3 ln. Seeds of a rung agree on loss
-  (within about 0.05) but not on the distribution. P1 (decision 18) is loose at every rung (logs/ladder/compress_probe.md).
+  (within about 0.05) but not on the distribution. P1 (decision 18) is loose at every rung (logs/ladder_accounts/compress_probe.md).
 - 2026-11-06, ladder L1: a generic account passes P1 and P3 on all five L1 ln seeds. It restates the head's own form
   (content score table + rank-1 early-window discount, mean of values) and is 3 times the weights' size (R1). The
   seeds use the head differently: seed 0 has sharp space queries, seed 1 sharp capital queries, seeds 2-4 broad
   attention. So the pass conditions do not require that the account's stated meaning holds on every seed, nor that
-  it compresses (logs/ladder/L1.md).
+  it compresses (logs/ladder_accounts/L1.md).
 - 2026-11-06, ladder L1 noln: the outlier seed flips. In ln, seed 3 is far from the others (floor 0.32). In noln,
   seed 0 is (0.23 against 0.03-0.04), and only seed 0 has a direct path that ignores position.
 - 2026-11-06, ladder L1 (account v2): at the seed-floor resolution, L1 is a function of the current symbol. On all

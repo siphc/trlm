@@ -124,7 +124,7 @@ Also update writeups/draft.md: status table, section 6, and a new part 7, the la
 
 ## 2. The ladder of tiny language models (main line)
 
-**2a. Design doc first** (logs/ladder/design.md), human gate before any rung is trained.
+**2a. Design doc first** (logs/ladder_accounts/design.md), human gate before any rung is trained.
 - **Data:** character-level TinyStories. The alphabet is counted on the TRAIN split, with rare characters mapped to
   one UNK and an end-of-story symbol. Same dev slice as the main track, excluded from fitting.
 - **Models:** reuse src/train/model.py and train.py (TinyLM). Check that small d_model, few heads and a small vocab

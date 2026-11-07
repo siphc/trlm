@@ -1,4 +1,4 @@
-# Ladder pilot (logs/ladder/design.md, Training)
+# Ladder pilot (logs/ladder_accounts/design.md, Training)
 
 Seed 0, arm ln. LR check at the smallest budget; budget ladder at the best LR, each run with its own full cosine schedule. Dev loss is the mean cross-entropy on dev_full (nats per symbol).
 

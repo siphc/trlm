@@ -1,4 +1,4 @@
-# Side models (logs/decisions.md items 15-16; logs/ladder/design.md): the ladder of tiny character-level models.
+# Side models (logs/decisions.md items 15-16; logs/ladder_accounts/design.md): the ladder of tiny character-level models.
 # NOT the main track (configs/frozen.yaml unchanged). Rungs and runs are defined in src/train/ladder_runs.py.
 version: 1
 data: char                      # src/train/data_char.py: 79 symbols, train-minus-dev stream, dev slice as main track

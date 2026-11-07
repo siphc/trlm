@@ -1,4 +1,4 @@
-"""The weights-reference forward pass for R1 (logs/ladder/design.md): the shortest plain NumPy code that runs a
+"""The weights-reference forward pass for R1 (logs/ladder_accounts/design.md): the shortest plain NumPy code that runs a
 one-block attention-only TinyLM from its weight arrays. Its compressed source plus the compressed quantised weights
 is the description length an account must beat.
 
