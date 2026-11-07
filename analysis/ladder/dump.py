@@ -17,8 +17,7 @@ import os
 
 import numpy as np
 
-from analysis.ladder.common import REPO, kl_pos, load, model_logprobs, windows
-from analysis.ladder.scrub import finish, parts, scrubbed
+from analysis.ladder.common import REPO, finish, kl_pos, load, model_logprobs, parts, resampled, windows
 from src.train import data_char
 
 
@@ -112,7 +111,7 @@ def main() -> None:
     rng = np.random.default_rng(0)
     L += ["", "## How much each site matters (dev_full)", "", "| site | KL(model || site resample-ablated) |", "|---|---|"]
     for s in ["direct"] + [f"head{h}" for h in range(H)]:
-        L.append(f"| {s} | {kl_pos(lp, scrubbed(m, x0, z, {s: None}, rng)).mean():.4f} |")
+        L.append(f"| {s} | {kl_pos(lp, resampled(m, x0, z, s, rng)).mean():.4f} |")
     zero = np.zeros_like(z)
     L.append(f"| all heads zeroed | {kl_pos(lp, finish(m, x0, zero)).mean():.4f} |")
     L.append("")

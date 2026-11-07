@@ -1,15 +1,12 @@
-"""Shared pieces of the ladder tools (logs/ladder/design.md): models, accounts, KL.
+"""Shared pieces of the ladder tools: models, eval windows, KL, and the split of a one-block attention-only model
+into its direct path x0 and its heads' outputs z (parts, finish, resampled).
 
-An account is a Python file exposing
-    predict(X: np.ndarray) -> np.ndarray      X (n, T) int symbols; returns (n, T, V) log-probs, row t predicting the
-                                              symbol after X[:, : t + 1]
-and optionally setup(train_stream), called once with the train symbol stream (corpus statistics are free, as the
-main track's decision 7). Its numbers must be written in its source; analysis/ladder/length.py checks the rules.
+The ladder's account tools (accounts, swap and replacement tests, behaviour tests, size checks) were removed with
+decision 23; they are at git tag pre-proofs.
 """
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import os
 import subprocess
 
@@ -50,24 +47,40 @@ def model_logprobs(model, W: np.ndarray, bs: int = 200) -> np.ndarray:
     return np.concatenate(out)
 
 
-def load_account(path: str):
-    spec = importlib.util.spec_from_file_location(f"account_{abs(hash(path))}", path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    if hasattr(mod, "setup"):
-        mod.setup(data_char.load_stream("train"))
-    return mod
+@torch.no_grad()
+def parts(model, X: np.ndarray):
+    """x0 (n, T, d) and z (n, T, H, dh) as float64 arrays, for a one-block attention-only model (use it in float64)."""
+    x = torch.as_tensor(X, dtype=torch.int64)
+    n, T = x.shape
+    blk = model.blocks[0]
+    H, dh, d = model.cfg.n_heads, model.cfg.d_head, model.cfg.d_model
+    x0 = model.wte(x) + model.wpe(torch.arange(T))[None]
+    q, k, v = blk.attn.qkv(blk.ln1(x0)).split(d, dim=-1)
+    q, k, v = (a.view(n, T, H, dh).transpose(1, 2) for a in (q, k, v))
+    z = torch.nn.functional.scaled_dot_product_attention(q, k, v, is_causal=True).transpose(1, 2)
+    return x0.double().numpy(), z.double().numpy()
 
 
-def account_logprobs(mod, W: np.ndarray, bs: int = 200) -> np.ndarray:
-    out = []
-    for i in range(0, len(W), bs):
-        x = np.asarray(W[i:i + bs, :-1], np.int64)
-        y = np.asarray(mod.predict(x), np.float64)
-        assert y.shape == x.shape + (data_char.vocab_size(),), y.shape
-        assert np.allclose(np.logaddexp.reduce(y, -1), 0, atol=1e-6), "rows must be log-distributions"
-        out.append(y)
-    return np.concatenate(out)
+@torch.no_grad()
+def finish(model, x0: np.ndarray, z: np.ndarray) -> np.ndarray:
+    """Residual sum x0 + output projection of z, final LayerNorm, unembedding: log-probs (n, T, V)."""
+    n, T = x0.shape[:2]
+    h = torch.as_tensor(x0) + model.blocks[0].attn.out(torch.as_tensor(z).reshape(n, T, -1))
+    return torch.log_softmax(model.ln_f(h) @ model.wte.weight.T, -1).numpy()
+
+
+def resampled(model, x0: np.ndarray, z: np.ndarray, site: str, rng: np.random.Generator) -> np.ndarray:
+    """Log-probs with one site ("direct" or "head<h>") replaced by its value at a random other position."""
+    n, T = x0.shape[:2]
+    N = n * T
+    d = rng.permutation(N)
+    x0d, zd = x0.reshape(N, -1).copy(), z.reshape(N, z.shape[2], -1).copy()
+    if site == "direct":
+        x0d = x0d[d]
+    else:
+        h = int(site[4:])
+        zd[:, h] = zd[d, h]
+    return finish(model, x0d.reshape(x0.shape), zd.reshape(z.shape))
 
 
 def kl_pos(lp, lq) -> np.ndarray:
