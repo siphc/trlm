@@ -10,8 +10,12 @@ position, pre-LN attention head, final LN, tied unembedding) and simplifies one 
 - combinations.
 Not an account (no claims, no stated meaning); it measures how many numbers the behaviour at the floor needs.
 
+- "rank r": each head's QK and OV truncated to rank r (by SVD, then fitted).
+The first run (fixed list of versions, L1 seed 0) is in logs/ladder/compress_probe.md; main() now runs a greedy
+search for the fewest free numbers at or below the floor (see main's docstring), scored on dev_full[:1000].
+
     OMP_NUM_THREADS=4 .venv/bin/python -m analysis.ladder.compress_probe --rung L1 --arm ln --seed 0
-Writes analysis/out/ladder/compress_probe_<rung>_<arm>_s<seed>.json.
+Writes analysis/out/ladder/compress_search_<rung>_<arm>_s<seed>.json.
 """
 from __future__ import annotations
 
@@ -41,10 +45,30 @@ def kmeans(E: np.ndarray, w: np.ndarray, k: int, seed: int = 0) -> np.ndarray:
 
 
 class Version(torch.nn.Module):
-    def __init__(self, model, groups=None, offset=False, positions2=False):
+    def __init__(self, model, groups=None, offset=False, positions2=False, rank=None):
         super().__init__()
         W = {k: v.detach().double().clone() for k, v in model.state_dict().items()}
         self.H, self.ln = model.cfg.n_heads, model.cfg.layernorm
+        self.dh = model.cfg.d_head
+        self.rank = rank
+        if rank is not None:
+            # per head: QK = Wq^T Wk and OV = Wo Wv truncated to rank r by SVD (in the normalised-input basis)
+            d, H, dh = model.cfg.d_model, self.H, self.dh
+            Wq, Wk, Wv = W.pop("blocks.0.attn.qkv.weight").split(d, 0)
+            Wo = W.pop("blocks.0.attn.out.weight")
+            q_, k_, v_, o_ = [], [], [], []
+            for h in range(H):
+                sl = slice(h * dh, (h + 1) * dh)
+                U, S, Vt = torch.linalg.svd(Wq[sl].T @ Wk[sl])
+                q_.append((U[:, :rank] * S[:rank].sqrt()).T)
+                k_.append((Vt[:rank].T * S[:rank].sqrt()).T)
+                U, S, Vt = torch.linalg.svd(Wo[:, sl] @ Wv[sl])
+                o_.append(U[:, :rank] * S[:rank].sqrt())
+                v_.append(Vt[:rank] * S[:rank].sqrt()[:, None])
+            self.Wq = torch.nn.Parameter(torch.stack(q_))      # (H, r, d)
+            self.Wk = torch.nn.Parameter(torch.stack(k_))
+            self.Wv = torch.nn.Parameter(torch.stack(v_))
+            self.Wo = torch.nn.Parameter(torch.stack(o_))      # (H, d, r)
         self.groups = None
         if groups is not None:
             self.register_buffer("assign", torch.as_tensor(groups))
@@ -83,17 +107,28 @@ class Version(torch.nn.Module):
             return F.layer_norm(v, (d,), g) if self.ln else v
 
         u = norm(h, r["blocks_0_ln1_weight"] if self.ln else None)
-        q, k, v = (u @ r["blocks_0_attn_qkv_weight"].T).split(d, -1)
         H, dh = self.H, d // self.H
-        q, k, v = (a.view(n, T, H, dh).transpose(1, 2) for a in (q, k, v))
-        z = F.scaled_dot_product_attention(q, k, v, is_causal=True).transpose(1, 2).reshape(n, T, d)
-        out = norm(h + z @ r["blocks_0_attn_out_weight"].T, r["ln_f_weight"] if self.ln else None) @ E.T
+        if self.rank is None:
+            q, k, v = (u @ r["blocks_0_attn_qkv_weight"].T).split(d, -1)
+            q, k, v = (a.view(n, T, H, dh).transpose(1, 2) for a in (q, k, v))
+            z = F.scaled_dot_product_attention(q, k, v, is_causal=True).transpose(1, 2).reshape(n, T, d)
+            write = z @ r["blocks_0_attn_out_weight"].T
+        else:
+            q = torch.einsum("ntd,hrd->nhtr", u, self.Wq)
+            k = torch.einsum("ntd,hrd->nhtr", u, self.Wk)
+            v = torch.einsum("ntd,hrd->nhtr", u, self.Wv)
+            sc = q @ k.transpose(-1, -2) / np.sqrt(dh)
+            sc = sc.masked_fill(~torch.ones(T, T, dtype=torch.bool).tril(), float("-inf"))
+            z = sc.softmax(-1) @ v                                 # (n, H, T, r)
+            write = torch.einsum("nhtr,hdr->ntd", z, self.Wo)
+        out = norm(h + write, r["ln_f_weight"] if self.ln else None) @ E.T
         if self.offset is not None:
             out = out + self.offset
         return out
 
 
 def fit(model, version, rung, steps=3000, lr=3e-3, bs=64, seed=0):
+    """Fit `version` to the model's outputs: KL(model || version) on train windows, Adam, cosine to 10%."""
     ctx = model.cfg.context_length
     sampler = BatchSampler(data_char.load_stream("train"), 1000 + seed, bs, ctx)
     opt = torch.optim.Adam(version.parameters(), lr=lr)
@@ -112,41 +147,71 @@ def fit(model, version, rung, steps=3000, lr=3e-3, bs=64, seed=0):
     return version
 
 
+def evaluate_version(model, kw, Wn, lp, E, freq, steps):
+    kw = dict(kw)
+    if kw.get("groups"):
+        kw["groups"] = kmeans(E, np.sqrt(freq), kw["groups"])
+    else:
+        kw.pop("groups", None)
+    v = fit(model, Version(model, **kw), None, steps)
+    with torch.no_grad():
+        lpv = np.concatenate([torch.log_softmax(v(torch.as_tensor(Wn[i:i + 200, :-1].astype(np.int64))), -1).numpy()
+                              for i in range(0, len(Wn), 200)])
+    return v.n_free(), float(kl_pos(lp, lpv).mean())
+
+
 def main() -> None:
+    """Greedy search for the fewest free numbers at or below the floor: positions 2 first, then the attention rank
+    (halving from d_head), then the number of symbol groups (from 64 down, with the per-symbol offset); each step is
+    kept only if the fitted version stays at or below max(floor, 0.01)."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--rung", default="L1")
     ap.add_argument("--arm", default="ln")
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--steps", type=int, default=3000)
+    ap.add_argument("--steps", type=int, default=2000)
     a = ap.parse_args()
     torch.manual_seed(0)
     model = load(a.rung, a.arm, a.seed).double()
-    Wn = windows(a.rung, "dev_full")
+    Wn = windows(a.rung, "dev_full")[:1000]
     lp = model_logprobs(model, Wn)
     floor = float(kl_pos(lp, floor_logprobs(a.rung, a.arm, a.seed, Wn)).mean())
+    bar = max(floor, 0.01)
     alpha = data_char.load_alphabet()
     freq = np.array([2_099_719, alpha["unk_count"]] + alpha["counts"], np.float64)
     E = model.wte.weight.detach().numpy()
     n_params = sum(p.numel() for p in model.parameters())
-    res = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "n_params": n_params, "kl_floor": floor, "versions": []}
-    specs = [("model refit (sanity)", {}),
-             ("positions 2", {"positions2": True})]
-    for k in (4, 8, 16, 32):
-        specs += [(f"groups {k}, no offset", {"groups": k}), (f"groups {k} + offset", {"groups": k, "offset": True}),
-                  (f"groups {k} + offset, positions 2", {"groups": k, "offset": True, "positions2": True})]
-    for name, kw in specs:
-        if "groups" in kw:
-            kw = {**kw, "groups": kmeans(E, np.sqrt(freq), kw["groups"])}
-        v = fit(model, Version(model, **kw), a.rung, a.steps)
-        with torch.no_grad():
-            lpv = np.concatenate([torch.log_softmax(v(torch.as_tensor(Wn[i:i + 200, :-1].astype(np.int64))), -1)
-                                  .numpy() for i in range(0, len(Wn), 200)])
-        kl = float(kl_pos(lp, lpv).mean())
-        row = {"version": name, "free_numbers": v.n_free(), "kl": kl, "reaches_floor": kl <= max(floor, 0.01)}
-        res["versions"].append(row)
-        print(f"{name:40s} free {row['free_numbers']:4d} (model {n_params})  KL {kl:.4f}  floor {floor:.4f}", flush=True)
+    res = {"rung": a.rung, "arm": a.arm, "seed": a.seed, "n_params": n_params, "kl_floor": floor,
+           "windows": "dev_full[:1000]", "steps": a.steps, "tried": []}
+
+    def tryit(kw):
+        n, kl = evaluate_version(model, kw, Wn, lp, E, freq, a.steps)
+        row = {"version": {k: v for k, v in kw.items()}, "free_numbers": n, "kl": kl, "ok": kl <= bar}
+        res["tried"].append(row)
+        print(f"{json.dumps(row['version']):60s} free {n:6d} (model {n_params})  KL {kl:.4f}  bar {bar:.4f}",
+              flush=True)
+        return row["ok"]
+
+    best = {}
+    if tryit({"positions2": True}):
+        best["positions2"] = True
+    r = model.cfg.d_head
+    while r > 1 and tryit({**best, "rank": r // 2}):
+        r //= 2
+        best["rank"] = r
+    for k in (64, 48, 32, 24, 16, 12, 8):
+        if k >= model.cfg.vocab_size:
+            continue
+        if tryit({**best, "groups": k, "offset": True}):
+            best.update({"groups": k, "offset": True})
+        else:
+            break
+    found = [t for t in res["tried"] if t["ok"]]
+    res["best"] = min(found, key=lambda t: t["free_numbers"]) if found else None
+    if res["best"]:
+        res["ratio"] = n_params / res["best"]["free_numbers"]
+        print(f"best: {res['best']['free_numbers']} free numbers, ratio {res['ratio']:.2f}")
     os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, f"compress_probe_{a.rung}_{a.arm}_s{a.seed}.json"), "w") as f:
+    with open(os.path.join(OUT, f"compress_search_{a.rung}_{a.arm}_s{a.seed}.json"), "w") as f:
         json.dump(res, f, indent=1)
 
 

@@ -1,0 +1,53 @@
+=== L1 ln
+{"positions2": true}                                         free    396 (model 644)  KL 0.0140  bar 0.0903
+{"positions2": true, "rank": 2}                              free    364 (model 644)  KL 0.0174  bar 0.0903
+{"positions2": true, "rank": 1}                              free    348 (model 644)  KL 0.0445  bar 0.0903
+{"positions2": true, "rank": 1, "groups": 64, "offset": true} free    367 (model 644)  KL 0.0415  bar 0.0903
+{"positions2": true, "rank": 1, "groups": 48, "offset": true} free    303 (model 644)  KL 0.0514  bar 0.0903
+{"positions2": true, "rank": 1, "groups": 32, "offset": true} free    239 (model 644)  KL 0.0797  bar 0.0903
+{"positions2": true, "rank": 1, "groups": 24, "offset": true} free    207 (model 644)  KL 0.1129  bar 0.0903
+best: 239 free numbers, ratio 2.69
+=== L1 noln
+{"positions2": true}                                         free    388 (model 636)  KL 0.2340  bar 0.2288
+{"rank": 2}                                                  free    604 (model 636)  KL 0.0053  bar 0.2288
+{"rank": 1}                                                  free    588 (model 636)  KL 0.2027  bar 0.2288
+{"rank": 1, "groups": 64, "offset": true}                    free    607 (model 636)  KL 0.1865  bar 0.2288
+{"rank": 1, "groups": 48, "offset": true}                    free    543 (model 636)  KL 0.1865  bar 0.2288
+{"rank": 1, "groups": 32, "offset": true}                    free    479 (model 636)  KL 0.1980  bar 0.2288
+{"rank": 1, "groups": 24, "offset": true}                    free    447 (model 636)  KL 0.2424  bar 0.2288
+best: 479 free numbers, ratio 1.33
+=== L2 ln
+{"positions2": true}                                         free    920 (model 1416)  KL 0.1750  bar 0.0972
+{"rank": 4}                                                  free   1288 (model 1416)  KL 0.0048  bar 0.0972
+{"rank": 2}                                                  free   1224 (model 1416)  KL 0.0864  bar 0.0972
+{"rank": 1}                                                  free   1192 (model 1416)  KL 0.1416  bar 0.0972
+{"rank": 2, "groups": 64, "offset": true}                    free   1183 (model 1416)  KL 0.0846  bar 0.0972
+{"rank": 2, "groups": 48, "offset": true}                    free   1055 (model 1416)  KL 0.0965  bar 0.0972
+{"rank": 2, "groups": 32, "offset": true}                    free    927 (model 1416)  KL 0.1538  bar 0.0972
+best: 1055 free numbers, ratio 1.34
+=== L2 noln
+{"positions2": true}                                         free    904 (model 1400)  KL 0.1749  bar 0.0693
+{"rank": 4}                                                  free   1272 (model 1400)  KL 0.0009  bar 0.0693
+{"rank": 2}                                                  free   1208 (model 1400)  KL 0.0672  bar 0.0693
+{"rank": 1}                                                  free   1176 (model 1400)  KL 0.3649  bar 0.0693
+{"rank": 2, "groups": 64, "offset": true}                    free   1167 (model 1400)  KL 0.0646  bar 0.0693
+{"rank": 2, "groups": 48, "offset": true}                    free   1039 (model 1400)  KL 0.1087  bar 0.0693
+best: 1167 free numbers, ratio 1.20
+=== L3 ln
+{"positions2": true}                                         free    920 (model 1416)  KL 0.1854  bar 0.1109
+{"rank": 2}                                                  free   1288 (model 1416)  KL 0.0444  bar 0.1109
+{"rank": 1}                                                  free   1224 (model 1416)  KL 0.1628  bar 0.1109
+{"rank": 2, "groups": 64, "offset": true}                    free   1247 (model 1416)  KL 0.0445  bar 0.1109
+{"rank": 2, "groups": 48, "offset": true}                    free   1119 (model 1416)  KL 0.0614  bar 0.1109
+{"rank": 2, "groups": 32, "offset": true}                    free    991 (model 1416)  KL 0.1212  bar 0.1109
+best: 1119 free numbers, ratio 1.27
+=== L3 noln
+{"positions2": true}                                         free    904 (model 1400)  KL 0.2499  bar 0.1200
+{"rank": 2}                                                  free   1272 (model 1400)  KL 0.0359  bar 0.1200
+{"rank": 1}                                                  free   1208 (model 1400)  KL 0.1810  bar 0.1200
+{"rank": 2, "groups": 64, "offset": true}                    free   1231 (model 1400)  KL 0.0344  bar 0.1200
+{"rank": 2, "groups": 48, "offset": true}                    free   1103 (model 1400)  KL 0.0432  bar 0.1200
+{"rank": 2, "groups": 32, "offset": true}                    free    975 (model 1400)  KL 0.0912  bar 0.1200
+{"rank": 2, "groups": 24, "offset": true}                    free    911 (model 1400)  KL 0.1708  bar 0.1200
+best: 975 free numbers, ratio 1.44
+COMPRESS_DONE

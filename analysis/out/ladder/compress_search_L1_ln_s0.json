@@ -1,0 +1,93 @@
+{
+ "rung": "L1",
+ "arm": "ln",
+ "seed": 0,
+ "n_params": 644,
+ "kl_floor": 0.09033962172067762,
+ "windows": "dev_full[:1000]",
+ "steps": 2000,
+ "tried": [
+  {
+   "version": {
+    "positions2": true
+   },
+   "free_numbers": 396,
+   "kl": 0.013956376831270002,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 2
+   },
+   "free_numbers": 364,
+   "kl": 0.017416316565706715,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 1
+   },
+   "free_numbers": 348,
+   "kl": 0.044525743780342505,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 1,
+    "groups": 64,
+    "offset": true
+   },
+   "free_numbers": 367,
+   "kl": 0.04154174880157459,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 1,
+    "groups": 48,
+    "offset": true
+   },
+   "free_numbers": 303,
+   "kl": 0.05142656569726522,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 1,
+    "groups": 32,
+    "offset": true
+   },
+   "free_numbers": 239,
+   "kl": 0.07965218941764987,
+   "ok": true
+  },
+  {
+   "version": {
+    "positions2": true,
+    "rank": 1,
+    "groups": 24,
+    "offset": true
+   },
+   "free_numbers": 207,
+   "kl": 0.11285054909374674,
+   "ok": false
+  }
+ ],
+ "best": {
+  "version": {
+   "positions2": true,
+   "rank": 1,
+   "groups": 32,
+   "offset": true
+  },
+  "free_numbers": 239,
+  "kl": 0.07965218941764987,
+  "ok": true
+ },
+ "ratio": 2.694560669456067
+}

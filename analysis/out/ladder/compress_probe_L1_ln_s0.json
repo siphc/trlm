@@ -1,0 +1,93 @@
+{
+ "rung": "L1",
+ "arm": "ln",
+ "seed": 0,
+ "n_params": 644,
+ "kl_floor": 0.0900828422767381,
+ "versions": [
+  {
+   "version": "model refit (sanity)",
+   "free_numbers": 644,
+   "kl": 1.943752562851614e-08,
+   "reaches_floor": true
+  },
+  {
+   "version": "positions 2",
+   "free_numbers": 396,
+   "kl": 0.014577568685474262,
+   "reaches_floor": true
+  },
+  {
+   "version": "groups 4, no offset",
+   "free_numbers": 344,
+   "kl": 0.9402258729698837,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 4 + offset",
+   "free_numbers": 423,
+   "kl": 0.4167266035259678,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 4 + offset, positions 2",
+   "free_numbers": 175,
+   "kl": 0.4195475581365839,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 8, no offset",
+   "free_numbers": 360,
+   "kl": 0.7005283139044007,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 8 + offset",
+   "free_numbers": 439,
+   "kl": 0.27043247248123997,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 8 + offset, positions 2",
+   "free_numbers": 191,
+   "kl": 0.2759724504367211,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 16, no offset",
+   "free_numbers": 392,
+   "kl": 0.3543724168814825,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 16 + offset",
+   "free_numbers": 471,
+   "kl": 0.12867533979011603,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 16 + offset, positions 2",
+   "free_numbers": 223,
+   "kl": 0.13038610976474713,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 32, no offset",
+   "free_numbers": 456,
+   "kl": 0.12366143146000888,
+   "reaches_floor": false
+  },
+  {
+   "version": "groups 32 + offset",
+   "free_numbers": 535,
+   "kl": 0.03563604607530827,
+   "reaches_floor": true
+  },
+  {
+   "version": "groups 32 + offset, positions 2",
+   "free_numbers": 287,
+   "kl": 0.049084274413128584,
+   "reaches_floor": true
+  }
+ ]
+}
