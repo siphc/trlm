@@ -21,7 +21,7 @@ for s in range(5):
             f"head {c['head0']:.4f} joint {p3['joint']['faithfulness']:.4f} P3 {p3['P3']}")
     if os.path.exists(f"{out}/p2_{arm}_s{s}.json"):
         p2 = json.load(open(f"{out}/p2_{arm}_s{s}.json"))
-        line += f" | bits {p2['account']['bits']} ref {p2['text_reference']['total_bits']} P2 {p2['P2']}"
+        line += f" | bits {p2['account']['bits']} text ref {p2['text_reference']['total_bits']} rules {p2['rules_pass']} {p2['account']['table_errors'][:2]}"
     print(line)
 p4 = json.load(open(f"{out}/p4_{arm}.json"))
 for name, c in p4["claims"].items():

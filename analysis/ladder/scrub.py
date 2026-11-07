@@ -12,7 +12,10 @@ Exactly one claim per site; every site is claimed.
   value at a donor position, a random other (window, position) of dev_full with the same key. A position whose key
   value no other position shares keeps its own value; if more than 1% of positions lack a donor, the claim fails.
 - value claim: g(X) returns the site's activation itself, (n, T, d) for "direct" or (n, T, dh) for a head, computed by
-  the account. Replacement test: the site's value is replaced by g(X).
+  the account. Replacement test: the site's value is replaced by g(X). With "space": "residual" (decision 22), g(X)
+  returns a head's write to the residual stream, (n, T, d), in place of its output before the projection.
+- Context faithfulness (decision 22), for every head claim: 1 - KL(model || claim applied) / KL(model || head
+  replaced by its mean for the current symbol) must also be >= 0.95.
 The model is then finished as usual (residual sum, final LayerNorm, unembedding). The resample ablation draws the
 donor with no constraint.
     faithfulness = 1 - KL(model || patched) / KL(model || resample-ablated)
@@ -50,10 +53,21 @@ def parts(model, X: np.ndarray):
 
 
 @torch.no_grad()
-def finish(model, x0: np.ndarray, z: np.ndarray) -> np.ndarray:
+def finish(model, x0: np.ndarray, z: np.ndarray, extra: np.ndarray | None = None) -> np.ndarray:
+    """Residual sum (x0 + output projection of z, plus `extra` written straight to the residual), final LN,
+    unembedding."""
     n, T = x0.shape[:2]
     h = torch.as_tensor(x0) + model.blocks[0].attn.out(torch.as_tensor(z).reshape(n, T, -1))
+    if extra is not None:
+        h = h + torch.as_tensor(extra)
     return torch.log_softmax(model.ln_f(h) @ model.wte.weight.T, -1).numpy()
+
+
+def mean_for_current_symbol(X: np.ndarray, a: np.ndarray, V: int) -> np.ndarray:
+    flat = a.reshape(X.size, -1)
+    total = np.zeros((V, flat.shape[1]))
+    np.add.at(total, X.ravel(), flat)
+    return (total / np.maximum(np.bincount(X.ravel(), minlength=V), 1)[:, None])[X].reshape(a.shape)
 
 
 def key_ids(key: np.ndarray) -> np.ndarray:
@@ -81,11 +95,17 @@ def donors(ids: np.ndarray, rng: np.random.Generator) -> tuple[np.ndarray, np.nd
 
 def scrubbed(model, x0, z, sites: dict, rng) -> np.ndarray:
     """Finish the model with each site in `sites` patched: site -> ("key", ids) swap test, ("value", array)
-    replacement, or None for an unconstrained donor (the resample ablation)."""
+    replacement, ("write", array) replacement of a head's write to the residual (decision 22), or None for an
+    unconstrained donor (the resample ablation)."""
     n, T = x0.shape[:2]
     N = n * T
     x0d, zd = x0.reshape(N, -1).copy(), z.reshape(N, z.shape[2], -1).copy()
+    extra = None
     for site, how in sites.items():
+        if how is not None and how[0] == "write":
+            zd[:, int(site[4:])] = 0
+            extra = (0 if extra is None else extra) + np.asarray(how[1], np.float64).reshape(N, -1)
+            continue
         if how is not None and how[0] == "value":
             v = np.asarray(how[1], np.float64).reshape(N, -1)
             if site == "direct":
@@ -99,7 +119,8 @@ def scrubbed(model, x0, z, sites: dict, rng) -> np.ndarray:
         else:
             h = int(site[4:])
             zd[:, h] = zd[d, h]
-    return finish(model, x0d.reshape(x0.shape), zd.reshape(z.shape))
+    return finish(model, x0d.reshape(x0.shape), zd.reshape(z.shape),
+                  None if extra is None else extra.reshape(x0.shape))
 
 
 def run(rung: str, arm: str, seed: int, account: str, split: str = "dev_full") -> dict:
@@ -120,9 +141,11 @@ def run(rung: str, arm: str, seed: int, account: str, split: str = "dev_full") -
             how[c["site"]] = ("key", key_ids(c["key"](X)))
         else:
             v = np.asarray(c["value"](X), np.float64)
-            want = x0.shape if c["site"] == "direct" else z.shape[:2] + z.shape[3:]
+            residual = c.get("space") == "residual"
+            assert not residual or c["site"] != "direct", "space: residual is for head sites"
+            want = x0.shape if c["site"] == "direct" or residual else z.shape[:2] + z.shape[3:]
             assert v.shape == want, f"claim {c['name']}: value shape {v.shape}, site has {want}"
-            how[c["site"]] = ("value", v)
+            how[c["site"]] = ("write" if residual else "value", v)
     res = {"rung": rung, "arm": arm, "seed": seed, "split": split, "draws": DRAWS, "claims": {}}
 
     def faith(which: list[str]) -> dict:
@@ -139,11 +162,20 @@ def run(rung: str, arm: str, seed: int, account: str, split: str = "dev_full") -
         s = c["site"]
         r = faith([s])
         r["test"] = "swap" if how[s][0] == "key" else "replace"
+        if s != "direct":
+            # context faithfulness (decision 22): against the head replaced by its mean for the current symbol
+            h = int(s[4:])
+            zm = z.copy()
+            zm[:, :, h] = mean_for_current_symbol(X, z[:, :, h], lp.shape[-1])
+            k_mean = float(kl_pos(lp, finish(model, x0, zm)).mean())
+            r["kl_mean_for_symbol"] = k_mean
+            r["context_faithfulness"] = 1 - r["kl_scrubbed"] / k_mean if k_mean > 0 else 1.0
         if how[s][0] == "key":
             _, has = donors(how[s][1], np.random.default_rng(0))
             r["no_donor_share"] = float(1 - has.mean())
             r["n_key_values"] = int(how[s][1].max() + 1)
-        r["pass"] = bool(r["faithfulness"] >= MIN_FAITHFULNESS and r.get("no_donor_share", 0) <= MAX_NO_DONOR)
+        r["pass"] = bool(r["faithfulness"] >= MIN_FAITHFULNESS and r.get("no_donor_share", 0) <= MAX_NO_DONOR
+                         and r.get("context_faithfulness", 1.0) >= MIN_FAITHFULNESS)
         ok &= r["pass"]
         res["claims"][c["name"]] = {"site": s, **r}
     res["joint"] = faith(sites)

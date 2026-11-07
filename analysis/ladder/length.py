@@ -15,7 +15,8 @@ the harness's forbidden names or NumPy file functions. So every number an accoun
 
     .venv/bin/python -m analysis.ladder.length --rung L1 --arm ln --seed 0 [--account ladder/L1_ln/account.py]
 
-P2 (decisions 19, 21): the account passes if its bits are at most the TEXT reference's total bits: every weight
+Size against the text reference (decisions 19, 21; P2, a pass condition until decision 22 removed it, now reported):
+the account is compared with its bits are at most the TEXT reference's total bits: every weight
 tensor written as an array literal in the account format (fmt below: no plus sign), at the fewest decimals per
 tensor (lowered greedily from 4, largest tensor first) with KL(model || rounded model) at most the P1 bar, plus the
 compressed reference_forward.py. The binary reference above is still reported.
@@ -75,6 +76,78 @@ def rule_errors(path: str) -> list[str]:
         if isinstance(n, ast.Attribute) and n.attr in FORBIDDEN_NP_ATTRS and isinstance(n.value, ast.Name) \
                 and n.value.id in ("np", "numpy"):
             err.append(f"line {n.lineno}: np.{n.attr}")
+    return err
+
+
+MAX_INLINE_NUMBERS = 8   # numeric literals inside functions: at most this many numbers per list or tuple
+
+
+def _numeric_arrays(name, val, out):
+    if isinstance(val, dict):
+        for k, v in val.items():
+            _numeric_arrays(f"{name}[{k!r}]", v, out)
+        return
+    if isinstance(val, (list, tuple)):
+        try:
+            val = np.asarray(val)
+        except ValueError:
+            return
+    if isinstance(val, np.ndarray) and val.dtype.kind in "fiub" and val.size > 1:
+        out[name] = val
+
+
+def table_errors(path: str, V: int, ctx: int, dims: tuple[int, ...]) -> list[str]:
+    """Decision 22: every module-level numeric array is declared in AXES; axes are "symbol" (size V), "position"
+    (at most ctx), "dim" (one of `dims`), "member" (symbol ids), a CATEGORIES list or a COMPONENTS list (each with a
+    stated meaning); at most one "dim" axis per array. Numeric list literals inside functions hold at most
+    MAX_INLINE_NUMBERS numbers. The module is executed without setup()."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("account_tables", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    axes = getattr(mod, "AXES", {})
+    cats = getattr(mod, "CATEGORIES", {})
+    comps = getattr(mod, "COMPONENTS", {})
+    err = []
+    for k, meaning in comps.items():
+        if not isinstance(meaning, str) or not meaning.strip():
+            err.append(f"component {k}: no stated meaning")
+    arrays = {}
+    for name, val in vars(mod).items():
+        if name.startswith("_") or name in ("AXES", "CATEGORIES", "COMPONENTS", "CLAIMS") or callable(val):
+            continue
+        _numeric_arrays(name, val, arrays)
+    for name, val in arrays.items():
+        ax = axes.get(name)
+        if ax is None:
+            err.append(f"{name}: shape {val.shape} not declared in AXES")
+            continue
+        if len(ax) != val.ndim:
+            err.append(f"{name}: AXES gives {len(ax)} axes, array has {val.ndim}")
+            continue
+        if list(ax).count("dim") > 1:
+            err.append(f"{name}: more than one dim axis (a map between hidden spaces)")
+        for a, n in zip(ax, val.shape):
+            ok = {"symbol": n == V, "position": n <= ctx, "dim": n in dims, "member": True}.get(a)
+            if ok is None:
+                ok = (a in cats and n == len(cats[a])) or (a in comps and n == len(comps[a]))
+                if a not in cats and a not in comps:
+                    err.append(f"{name}: axis {a!r} is not symbol, position, dim, member, a category or a component")
+                    continue
+            if not ok:
+                err.append(f"{name}: axis {a!r} has size {n}")
+        if "member" in ax and not (val.dtype.kind in "iu" and val.min() >= 0 and val.max() < V):
+            err.append(f"{name}: member axis must hold symbol ids")
+    with open(path) as f:
+        tree = ast.parse(f.read())
+    for fn in ast.walk(tree):
+        if isinstance(fn, (ast.FunctionDef, ast.Lambda)):
+            for n in ast.walk(fn):
+                if isinstance(n, (ast.List, ast.Tuple)):
+                    k = sum(isinstance(e, ast.Constant) and isinstance(e.value, (int, float)) for e in ast.walk(n))
+                    if k > MAX_INLINE_NUMBERS:
+                        err.append(f"line {n.lineno}: {k} numbers in a literal inside a function")
     return err
 
 
@@ -179,7 +252,11 @@ def main() -> None:
         bits = source_bits(a.account)
         out["account"] = {"path": os.path.relpath(a.account, REPO), "bits": bits,
                           "rule_errors": rule_errors(a.account)}
-        out["P2"] = bool(ref["found"] and bits <= ref["total_bits"] and not out["account"]["rule_errors"])
+        model = load(a.rung, a.arm, a.seed)
+        out["account"]["table_errors"] = table_errors(a.account, model.cfg.vocab_size, model.cfg.context_length,
+                                                      (model.cfg.d_model, model.cfg.d_head))
+        out["size_vs_text_reference"] = bool(ref["found"] and bits <= ref["total_bits"])   # reported (decision 22)
+        out["rules_pass"] = not out["account"]["rule_errors"] and not out["account"]["table_errors"]
     print(json.dumps(out, indent=1))
 
 
