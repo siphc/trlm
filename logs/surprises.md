@@ -196,3 +196,7 @@ Record anything unexpected the moment it appears. Newest at the bottom.
 - **L1's embedding must be nearly exact for P1.** Rounding every embedding entry to 2 decimals costs KL 0.0003, to 1
   decimal 0.016; replacing symbols by k-means centroids costs 0.36 (k 32) to 1.9; replacing the position embedding by
   its mean costs 0.026 (500 dev_full windows, seed 0). P1's 0.01 is 7-30 times below L1's seed floor (0.066-0.32).
+
+- 2026-11-06, ladder: the seed floor (KL from a model to the average of its 4 sibling seeds) does not shrink with
+  size. It is 0.14-0.17 nats at L4-L7 (seed 0, ln), against 0.07-0.11 at L1-L3 ln. Seeds of a rung agree on loss
+  (within about 0.05) but not on the distribution. P1 (decision 18) is loose at every rung (logs/ladder/compress_probe.md).

@@ -1,0 +1,74 @@
+{
+ "rung": "L7",
+ "arm": "ln",
+ "seed": 0,
+ "n_params": 84096,
+ "kl_floor": 0.14042794313229567,
+ "windows": "dev_full[:1000]",
+ "steps": 2000,
+ "tried": [
+  {
+   "version": {
+    "positions2": true
+   },
+   "free_numbers": 76160,
+   "kl": 0.620281857880907,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 16
+   },
+   "free_numbers": 51328,
+   "kl": 0.008116450326804593,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 8
+   },
+   "free_numbers": 34944,
+   "kl": 0.09348463145969678,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 4
+   },
+   "free_numbers": 26752,
+   "kl": 0.2682387803328454,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 8,
+    "groups": 64,
+    "offset": true
+   },
+   "free_numbers": 33103,
+   "kl": 0.09668573555726233,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 8,
+    "groups": 48,
+    "offset": true
+   },
+   "free_numbers": 31055,
+   "kl": 0.1414631782056106,
+   "ok": false
+  }
+ ],
+ "best": {
+  "version": {
+   "rank": 8,
+   "groups": 64,
+   "offset": true
+  },
+  "free_numbers": 33103,
+  "kl": 0.09668573555726233,
+  "ok": true
+ },
+ "ratio": 2.5404344017158564
+}

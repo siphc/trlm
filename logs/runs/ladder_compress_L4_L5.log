@@ -1,0 +1,16 @@
+=== L4 ln
+{"positions2": true}                                         free   2352 (model 3344)  KL 0.3846  bar 0.1680
+{"rank": 4}                                                  free   2832 (model 3344)  KL 0.1116  bar 0.1680
+{"rank": 2}                                                  free   2576 (model 3344)  KL 0.2836  bar 0.1680
+{"rank": 4, "groups": 64, "offset": true}                    free   2671 (model 3344)  KL 0.1158  bar 0.1680
+{"rank": 4, "groups": 48, "offset": true}                    free   2415 (model 3344)  KL 0.1366  bar 0.1680
+{"rank": 4, "groups": 32, "offset": true}                    free   2159 (model 3344)  KL 0.3511  bar 0.1680
+best: 2415 free numbers, ratio 1.38
+=== L5 ln
+{"positions2": true}                                         free   6752 (model 8736)  KL 0.5748  bar 0.1544
+{"rank": 4}                                                  free   6688 (model 8736)  KL 0.1776  bar 0.1544
+{"groups": 64, "offset": true}                               free   8335 (model 8736)  KL 0.0045  bar 0.1544
+{"groups": 48, "offset": true}                               free   7823 (model 8736)  KL 0.0333  bar 0.1544
+{"groups": 32, "offset": true}                               free   7311 (model 8736)  KL 0.2825  bar 0.1544
+best: 7823 free numbers, ratio 1.12
+COMPRESS_DONE

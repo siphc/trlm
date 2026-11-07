@@ -68,3 +68,24 @@ Reading:
   freedom (about r² numbers per factor pair), so the true count is a little lower than shown. The 79-entry group
   assignment is not counted.
 - **L4-L7 (ln, seed 0) are running**, with logs in logs/runs/ladder_compress_L4_L5.log and _L6_L7.log.
+
+## Greedy search, L4-L7, ln, seed 0 (2026-11-06)
+
+Logs: logs/runs/ladder_compress_L4_L5.log and _L6_L7.log.
+
+| rung | params | floor (bar) | smallest version at the bar | free numbers | KL | params / free |
+|---|---|---|---|---|---|---|
+| L4 | 3344 | 0.168 | rank 4, groups 48 + offset | 2415 | 0.137 | 1.38 |
+| L5 | 8736 | 0.154 | groups 48 + offset (rank 4 fails, 0.178) | 7823 | 0.033 | 1.12 |
+| L6 | 25664 | 0.149 | rank 8, groups 48 + offset | 15567 | 0.124 | 1.65 |
+| L7 | 84096 | 0.140 | rank 8, groups 64 + offset | 33103 | 0.097 | 2.54 |
+
+Reading:
+- **The seed floor stays wide at every rung** (0.14-0.17 nats at L4-L7). Seeds of the same rung disagree about as
+  much as at L1-L3. P1 is therefore loose throughout.
+- **Positions 2 fails at every rung from L2 up**, by 0.38-0.62.
+- **Halving the per-head rank** is nearly free at L7 (32 to 16: 0.008). It costs more at the lower rungs.
+- **The ratio is not monotone in size.** It mostly reflects how much slack the bar leaves and how big the attention
+  matrices are relative to the embedding.
+- **These knobs are generic compression, not mechanism.** The probe gives a bound on how much those three knobs can
+  compress. It does not test whether any rung is understood.

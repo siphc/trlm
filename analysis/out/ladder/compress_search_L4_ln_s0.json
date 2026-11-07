@@ -1,0 +1,76 @@
+{
+ "rung": "L4",
+ "arm": "ln",
+ "seed": 0,
+ "n_params": 3344,
+ "kl_floor": 0.16801769076119885,
+ "windows": "dev_full[:1000]",
+ "steps": 2000,
+ "tried": [
+  {
+   "version": {
+    "positions2": true
+   },
+   "free_numbers": 2352,
+   "kl": 0.384628096734593,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 4
+   },
+   "free_numbers": 2832,
+   "kl": 0.11162911143440402,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 2
+   },
+   "free_numbers": 2576,
+   "kl": 0.28356878245340417,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 4,
+    "groups": 64,
+    "offset": true
+   },
+   "free_numbers": 2671,
+   "kl": 0.11581746957916508,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 4,
+    "groups": 48,
+    "offset": true
+   },
+   "free_numbers": 2415,
+   "kl": 0.1365554535593128,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 4,
+    "groups": 32,
+    "offset": true
+   },
+   "free_numbers": 2159,
+   "kl": 0.3510606014055991,
+   "ok": false
+  }
+ ],
+ "best": {
+  "version": {
+   "rank": 4,
+   "groups": 48,
+   "offset": true
+  },
+  "free_numbers": 2415,
+  "kl": 0.1365554535593128,
+  "ok": true
+ },
+ "ratio": 1.3846790890269152
+}

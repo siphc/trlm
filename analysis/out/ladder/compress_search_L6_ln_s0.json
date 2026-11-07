@@ -1,0 +1,76 @@
+{
+ "rung": "L6",
+ "arm": "ln",
+ "seed": 0,
+ "n_params": 25664,
+ "kl_floor": 0.1491342677612469,
+ "windows": "dev_full[:1000]",
+ "steps": 2000,
+ "tried": [
+  {
+   "version": {
+    "positions2": true
+   },
+   "free_numbers": 21696,
+   "kl": 0.623699482468492,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 8
+   },
+   "free_numbers": 17472,
+   "kl": 0.07103961095750463,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 4
+   },
+   "free_numbers": 13376,
+   "kl": 0.2636886937592585,
+   "ok": false
+  },
+  {
+   "version": {
+    "rank": 8,
+    "groups": 64,
+    "offset": true
+   },
+   "free_numbers": 16591,
+   "kl": 0.07153844588899089,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 8,
+    "groups": 48,
+    "offset": true
+   },
+   "free_numbers": 15567,
+   "kl": 0.12443895741747958,
+   "ok": true
+  },
+  {
+   "version": {
+    "rank": 8,
+    "groups": 32,
+    "offset": true
+   },
+   "free_numbers": 14543,
+   "kl": 0.48853818886464473,
+   "ok": false
+  }
+ ],
+ "best": {
+  "version": {
+   "rank": 8,
+   "groups": 48,
+   "offset": true
+  },
+  "free_numbers": 15567,
+  "kl": 0.12443895741747958,
+  "ok": true
+ },
+ "ratio": 1.648615661334875
+}
